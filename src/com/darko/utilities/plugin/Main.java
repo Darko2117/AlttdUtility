@@ -19,7 +19,6 @@ public class Main extends JavaPlugin{
 			Bukkit.getPluginManager().disablePlugin(this);
 		}
 	}	
-	private static Permission perms = null;
 	public Permission getApi(){
 		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("Vault");
 		if(plugin instanceof Permission){
@@ -27,7 +26,4 @@ public class Main extends JavaPlugin{
 		}else{
 			return null;
 		}}
-	public static Permission getPermissions() {
-        return perms;
-    }
 }
