@@ -1,0 +1,11 @@
+version: 1.0
+
+name: AlttdUtility
+description: A group of utilities made for Altitude
+
+author: Darko
+
+main: com.darko.utilities.plugin.Main
+commands:
+
+  cooldown:
