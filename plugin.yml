@@ -8,4 +8,6 @@ author: Darko
 main: com.darko.utilities.plugin.Main
 commands:
 
-  cooldown:
+  chair:
+  hat:
+  servermsg:
