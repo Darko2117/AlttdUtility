@@ -27,12 +27,6 @@ public class Main extends JavaPlugin{
 			System.out.println("-----> LuckPerms was found!");
 			getCommand("cooldown").setExecutor(new Cooldown());
 		}else{System.out.println("-----> LuckPerms was not found! /cooldown will be disabled.");}
-		
-		new BukkitRunnable() {
-		public void run() {
-		Integer i = 0;
-		while(true){System.out.println(i); i++;}
-		}}.runTask(this);
 	}
 }
 
