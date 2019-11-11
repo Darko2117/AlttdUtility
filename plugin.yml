@@ -1,4 +1,4 @@
-version: 1.0
+version: 6.9 hehe
 
 name: AlttdUtility
 description: A group of utilities made for Altitude
@@ -11,3 +11,4 @@ commands:
   chair:
   hat:
   servermsg:
+  cooldown:

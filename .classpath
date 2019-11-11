@@ -3,7 +3,9 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Users/Darko/Desktop/server/spigot-1.13.2.jar"/>
-	<classpathentry kind="lib" path="D:/Downloads/LuckPerms-Bukkit-4.4.1.jar"/>
-	<classpathentry kind="lib" path="D:/Downloads/Vault (1).jar"/>
+	<classpathentry kind="lib" path="C:/Users/Darko/Desktop/PluginAPI/GriefPrevention.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Darko/Desktop/PluginAPI/LuckPerms.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Darko/Desktop/PluginAPI/worldedit-bukkit-7.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Darko/Desktop/PluginAPI/worldguard-bukkit-7.0.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

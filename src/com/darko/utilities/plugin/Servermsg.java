@@ -26,8 +26,8 @@ import org.bukkit.entity.Player;
 	i = 0;
 	}while(text.indexOf("^n") != -1);}
 	player.sendMessage(ChatColor.translateAlternateColorCodes('&', text));
-	
-	}catch(Exception e){sender.sendMessage(ChatColor.RED + "You did something wrong bud");}
+	}catch(Exception e){sender.sendMessage(ChatColor.RED + "Usage is /servermsg <username> <message>");
+						sender.sendMessage(ChatColor.RED + "Color codes work and a new line is ^n");}
 	}else{sender.sendMessage(ChatColor.RED + "You do not have permission to do this.");
 	}
 	return false;
