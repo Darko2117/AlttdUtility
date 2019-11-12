@@ -2,18 +2,19 @@ package com.darko.utilities.plugin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class Main extends JavaPlugin{
 	
 	@Override
 	public void onEnable(){
 		System.out.println("Utility plugin started... Teri bring back " + ConsoleColors.GREEN_BOLD + "Sugar Cane" + ConsoleColors.RESET + " please thank you :)");
+		
 		Bukkit.getPluginManager().registerEvents(new onStairsRightClick(), this);
 		Bukkit.getPluginManager().registerEvents(new onPlayerDismount(this), this);
 		Bukkit.getPluginManager().registerEvents(new onPlayerQuit(), this);
 		Bukkit.getPluginManager().registerEvents(new onBlockBreak(), this);
-		Bukkit.getPluginManager().registerEvents(new onPlayerTeleport(), this);
+		Bukkit.getPluginManager().registerEvents(new onChunkLoad(this), this);
+		
 		getCommand("hat").setExecutor(new Hat());
 		getCommand("servermsg").setExecutor(new Servermsg());
 		GlobalVariables.SitFlag();

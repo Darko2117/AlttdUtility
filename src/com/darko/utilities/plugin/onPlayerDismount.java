@@ -14,11 +14,11 @@ public class onPlayerDismount implements Listener {
 	@EventHandler
 	public void onDismount(EntityDismountEvent e){
 	try{if(e.getDismounted().getCustomName().equals(GlobalVariables.ChairName)){
-		GlobalVariables.occupiedSeats.remove(e.getEntity().getUniqueId());
 		Entity ent = e.getDismounted();
 		new BukkitRunnable() {
 		public void run() {
 		ent.remove();
 		GlobalVariables.aliveSeats.remove(e.getEntity().getLocation());
+		GlobalVariables.occupiedSeats.remove(e.getEntity().getUniqueId());
 		}}.runTask(this.main);
 		}}catch(Exception ex){}}}

@@ -41,24 +41,25 @@ public class onStairsRightClick implements Listener {
 		GlobalVariables.chairEnabled.put(player.getUniqueId(), false);}
 	
 	Location blockloc = e.getClickedBlock().getLocation();
-	Material bannedMaterialsBelow[] = {Material.AIR, Material.LAVA, Material.FIRE};
-	Material allowedMaterialsAbove[] = {Material.AIR, Material.WALL_SIGN};
+	Material[] bannedMaterialsBelow = {Material.AIR, Material.LAVA, Material.FIRE};
+	Material[] allowedMaterialsAbove = {Material.AIR, Material.WALL_SIGN};
 	Boolean bannedMaterialFound = false;
+	Boolean allowedMaterialFould = false;
 	
 	
 	if(	e.getClickedBlock().getType().toString().contains("STAIRS") &&
 		GlobalVariables.chairEnabled.get(player.getUniqueId()) &&
 		!e.getClickedBlock().getState().getData().toString().contains("inverted") &&
 		!GlobalVariables.occupiedSeats.containsValue(e.getClickedBlock().getLocation())){
-	
+		
 	for(Integer i = 0; i < bannedMaterialsBelow.length; i++){
-		if(Bukkit.getWorld(player.getWorld().getName()).getBlockAt(blockloc.clone().subtract(0, 1, 0)).getType() == bannedMaterialsBelow[i]){
+		if(bannedMaterialsBelow[i].equals(Bukkit.getWorld(player.getWorld().getName()).getBlockAt(blockloc.clone().subtract(0, 1, 0)).getType())){
 		bannedMaterialFound = true;}}
 	for(Integer i = 0; i < allowedMaterialsAbove.length; i++){
-		if(Bukkit.getWorld(player.getWorld().getName()).getBlockAt(blockloc.clone().add(0, 1, 0)).getType() != allowedMaterialsAbove[i]){
-		bannedMaterialFound = true;}}
+		if(allowedMaterialsAbove[i].equals(Bukkit.getWorld(player.getWorld().getName()).getBlockAt(blockloc.clone().add(0, 1, 0)).getType())){
+			allowedMaterialFould = true;}}
 	
-	if(!bannedMaterialFound){
+	if(!bannedMaterialFound && allowedMaterialFould){
 	
 	Boolean ClaimPerms = false;
 	Boolean ClaimExists = false;
@@ -89,14 +90,11 @@ public class onStairsRightClick implements Listener {
 	
 	if((RegionPerms && !ClaimExists) || (RegionPerms && ClaimPerms)){
 	Location location = e.getClickedBlock().getLocation();
-	location.setX(location.getX() + 0.5);
-	location.setZ(location.getZ() + 0.5);
-	location.setY(location.getY() - 1.25);
 	Stairs stairs = (Stairs) e.getClickedBlock().getState().getData();
 	BlockFace facing = stairs.getFacing();
 	Vector direction = facing.getDirection();
 	location.setDirection(direction);
-	ArmorStand chair = (ArmorStand) Bukkit.getWorld(player.getWorld().getName()).spawnEntity(location, EntityType.ARMOR_STAND);
+	ArmorStand chair = (ArmorStand) Bukkit.getWorld(player.getWorld().getName()).spawnEntity(location.clone().add(0.5, -1.25, 0.5), EntityType.ARMOR_STAND);
 	chair.setInvulnerable(true);
 	chair.setCustomName(GlobalVariables.ChairName);
 	chair.setGravity(false);
@@ -114,7 +112,7 @@ public class onStairsRightClick implements Listener {
 	
 	}else if(!ClaimPerms && ClaimExists){player.sendMessage(ChatColor.RED + "You don't have " + claim.getOwnerName() + "'s permission to use that.");}
 	else if(!RegionPerms && !ClaimPerms){player.sendMessage(ChatColor.RED + "You can't sit in this region.");}
-	}else{player.sendMessage("found");}}
+	}else{player.sendMessage(ChatColor.RED + "Invalid block found above/below the stairs.");}}
 	OneClick++;
 	
 	}}else{OneClick = 0;}
