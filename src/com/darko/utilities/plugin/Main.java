@@ -14,6 +14,9 @@ public class Main extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new onPlayerQuit(), this);
 		Bukkit.getPluginManager().registerEvents(new onBlockBreak(), this);
 		Bukkit.getPluginManager().registerEvents(new onChunkLoad(this), this);
+		Bukkit.getPluginManager().registerEvents(new onPlayerTeleportCommand(), this);
+		Bukkit.getPluginManager().registerEvents(new onPlayerTeleport(), this);
+
 		
 		getCommand("hat").setExecutor(new Hat());
 		getCommand("servermsg").setExecutor(new Servermsg());

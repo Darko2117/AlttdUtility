@@ -30,7 +30,9 @@ public class Cooldown implements CommandExecutor {
 		
 		if(!rtp && !crate){player.sendMessage(ChatColor.YELLOW + "You don't have any cooldowns right now.");}
 		
-		}return false;}
+		}
+		
+		return false;}
 	
 	
 	

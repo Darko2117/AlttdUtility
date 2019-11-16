@@ -42,7 +42,7 @@ public class onStairsRightClick implements Listener {
 	
 	Location blockloc = e.getClickedBlock().getLocation();
 	Material[] bannedMaterialsBelow = {Material.AIR, Material.LAVA, Material.FIRE};
-	Material[] allowedMaterialsAbove = {Material.AIR, Material.WALL_SIGN};
+	Material[] allowedMaterialsAbove = {Material.AIR, Material.WALL_SIGN, Material.ITEM_FRAME};
 	Boolean bannedMaterialFound = false;
 	Boolean allowedMaterialFould = false;
 	
@@ -50,6 +50,7 @@ public class onStairsRightClick implements Listener {
 	if(	e.getClickedBlock().getType().toString().contains("STAIRS") &&
 		GlobalVariables.chairEnabled.get(player.getUniqueId()) &&
 		!e.getClickedBlock().getState().getData().toString().contains("inverted") &&
+		!player.isGliding() &&
 		!GlobalVariables.occupiedSeats.containsValue(e.getClickedBlock().getLocation())){
 		
 	for(Integer i = 0; i < bannedMaterialsBelow.length; i++){
