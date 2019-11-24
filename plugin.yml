@@ -5,7 +5,7 @@ description: A group of utilities made for Altitude
 
 author: Darko
 
-main: com.darko.utilities.plugin.Main
+main: com.darko.main.Main
 commands:
 
   chair:
