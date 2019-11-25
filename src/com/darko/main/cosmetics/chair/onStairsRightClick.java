@@ -74,8 +74,6 @@ public class onStairsRightClick implements Listener {
 	LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
 	RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
 	RegionQuery query = container.createQuery();
-	
-	
 	if(query.testState(blockloc1, localPlayer, GlobalVariables.SIT)){RegionPerms = true;}
 	
 	try{

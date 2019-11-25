@@ -11,6 +11,7 @@ import com.darko.main.cosmetics.chair.onPlayerQuit;
 import com.darko.main.cosmetics.chair.onPlayerTeleportCommand;
 import com.darko.main.cosmetics.chair.onStairsRightClick;
 import com.darko.main.cosmetics.hat.Hat;
+import com.darko.main.utilities.anvil.onAnvilClick;
 import com.darko.main.utilities.cooldown.Cooldown;
 import com.darko.main.utilities.other.ConsoleColors;
 import com.darko.main.utilities.other.GlobalVariables;
@@ -28,11 +29,13 @@ public class Main extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new onBlockBreak(), this);
 		Bukkit.getPluginManager().registerEvents(new onChunkLoad(this), this);
 		Bukkit.getPluginManager().registerEvents(new onPlayerTeleportCommand(), this);
+		Bukkit.getPluginManager().registerEvents(new onAnvilClick(), this);
 
-		
 		getCommand("hat").setExecutor(new Hat());
 		getCommand("servermsg").setExecutor(new Servermsg());
+		
 		GlobalVariables.SitFlag();
+		GlobalVariables.AnvilRepairFlag();
 		
 		if(GlobalVariables.GriefPreventionApi() != null && GlobalVariables.WorldGuardApi() != null){
 			System.out.println("-----> GriefPrevention & WorldGuard were found!");

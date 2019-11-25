@@ -29,7 +29,8 @@ public class GlobalVariables {
 	public static String ChairName = "There is a 16 character limit on a name tag";
 	public static String OldChairName = "There is a 16 character limit on a name tag so someone naming a pig this is impossible";
 	
-	public static StateFlag SIT;
+	public static StateFlag SIT, ANVIL_REPAIR;
+	
 	public static void SitFlag(){
 		FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
 	    try {
@@ -40,6 +41,18 @@ public class GlobalVariables {
 	     Flag<?> existing = registry.get("sit");
 	     if (existing instanceof StateFlag) {
 	     SIT = (StateFlag) existing;
+	     }else{}}}
+	
+	public static void AnvilRepairFlag(){
+		FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
+	    try {
+	     StateFlag flag = new StateFlag("anvilrepair", true);
+	     registry.register(flag);
+	     ANVIL_REPAIR = flag;
+	     }catch (FlagConflictException e) {
+	     Flag<?> existing = registry.get("anvilrepair");
+	     if (existing instanceof StateFlag) {
+	     ANVIL_REPAIR = (StateFlag) existing;
 	     }else{}}}
 	
 	public static GriefPrevention GriefPreventionApi(){
