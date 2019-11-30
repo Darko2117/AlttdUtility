@@ -37,6 +37,7 @@ public class Main extends JavaPlugin{
 		
 		GlobalVariables.SitFlag();
 		GlobalVariables.AnvilRepairFlag();
+		GlobalVariables.AnvilUseFlag();
 		
 		if(GlobalVariables.GriefPreventionApi() != null && GlobalVariables.WorldGuardApi() != null){
 			System.out.println("-----> GriefPrevention & WorldGuard were found!");
