@@ -6,6 +6,7 @@ description: A group of utilities made for Altitude
 author: Darko
 
 main: com.darko.main.Main
+api-version: 1.13
 commands:
 
   chair:
