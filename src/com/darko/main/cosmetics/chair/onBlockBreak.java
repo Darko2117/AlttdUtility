@@ -4,7 +4,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import com.darko.main.utilities.other.GlobalVariables;
+import com.darko.main.cosmetics.chair.GlobalVariables;
 
 public class onBlockBreak implements Listener {
 	

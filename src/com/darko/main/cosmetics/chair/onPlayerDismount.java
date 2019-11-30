@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.spigotmc.event.entity.EntityDismountEvent;
-import com.darko.main.utilities.other.GlobalVariables;
+import com.darko.main.cosmetics.chair.GlobalVariables;
 import com.darko.main.Main;
 
 public class onPlayerDismount implements Listener {

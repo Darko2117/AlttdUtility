@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import com.darko.main.utilities.other.GlobalVariables;
+import com.darko.main.utilities.other.Flags;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
@@ -37,7 +37,7 @@ public class onAnvilClick implements Listener{
 			RegionContainer container1 = WorldGuard.getInstance().getPlatform().getRegionContainer();
 			RegionQuery query1 = container1.createQuery();
 			
-			if(query1.testState(location, localPlayer, GlobalVariables.ANVIL_REPAIR)){
+			if(query1.testState(location, localPlayer, Flags.ANVIL_REPAIR)){
 			
 			String dataString = e.getClickedBlock().getBlockData().getAsString();
 			if(dataString.contains("chipped_")){dataString = dataString.replace("chipped_", "");}
@@ -63,7 +63,7 @@ public class onAnvilClick implements Listener{
 			RegionContainer container1 = WorldGuard.getInstance().getPlatform().getRegionContainer();
 			RegionQuery query1 = container1.createQuery();
 			
-			if(query1.testState(location, localPlayer, GlobalVariables.ANVIL_USE)){
+			if(query1.testState(location, localPlayer, Flags.ANVIL_USE)){
 
 			if(e.isCancelled()){e.setCancelled(false);}
 			

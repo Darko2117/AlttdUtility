@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import com.darko.main.utilities.other.GlobalVariables;
+import com.darko.main.cosmetics.chair.GlobalVariables;
 
 public class onPlayerTeleportCommand implements Listener {
 
@@ -15,7 +15,7 @@ public class onPlayerTeleportCommand implements Listener {
 		Player player = e.getPlayer();
 		String command = e.getMessage();
 		Boolean sitting = false;
-		String[] tpCommands = {"/tp","/ptp","/tpa","/tpaccept","/spawn","/warp","/home","/warps","/back"};
+		String[] tpCommands = {"/tp","/ptp","/spawn","/warp","/home","/back"};
 		try{if(player.getVehicle().getCustomName().equals(GlobalVariables.ChairName)){sitting = true;}}catch(Exception ex){}
 		
 		if(sitting){

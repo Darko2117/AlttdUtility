@@ -16,6 +16,7 @@ import org.bukkit.material.Stairs;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
+import com.darko.main.utilities.other.Flags;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
@@ -25,11 +26,9 @@ import com.sk89q.worldguard.protection.regions.RegionQuery;
 
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
-import com.darko.main.utilities.other.GlobalVariables;
 
 public class onStairsRightClick implements Listener {
 	Integer OneClick = 0;
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onRightClick(PlayerInteractEvent e){
 	if(OneClick == 0){
@@ -40,6 +39,7 @@ public class onStairsRightClick implements Listener {
 	if(!GlobalVariables.chairEnabled.containsKey(player.getUniqueId())){
 		GlobalVariables.chairEnabled.put(player.getUniqueId(), false);}
 	
+	String dataString = e.getClickedBlock().getBlockData().getAsString();
 	Location blockloc = e.getClickedBlock().getLocation();
 	Material[] bannedMaterialsBelow = {Material.AIR, Material.LAVA, Material.FIRE};
 	Material[] allowedMaterialsAbove = {Material.AIR, Material.WALL_SIGN, Material.ITEM_FRAME, Material.TORCH};
@@ -47,9 +47,9 @@ public class onStairsRightClick implements Listener {
 	Boolean allowedMaterialFould = false;
 	
 	
-	if(	e.getClickedBlock().getType().toString().contains("STAIRS") &&
+	if(	dataString.contains("stairs") &&
 		GlobalVariables.chairEnabled.get(player.getUniqueId()) &&
-		!e.getClickedBlock().getState().getData().toString().contains("inverted") &&
+		!dataString.contains("half=top") &&
 		!player.isGliding() &&
 		!GlobalVariables.occupiedSeats.containsValue(e.getClickedBlock().getLocation())){
 		
@@ -74,7 +74,7 @@ public class onStairsRightClick implements Listener {
 	LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
 	RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
 	RegionQuery query = container.createQuery();
-	if(query.testState(blockloc1, localPlayer, GlobalVariables.SIT)){RegionPerms = true;}
+	if(query.testState(blockloc1, localPlayer, Flags.SIT)){RegionPerms = true;}
 	
 	try{
 	if(claim.allowAccess(player) == null){

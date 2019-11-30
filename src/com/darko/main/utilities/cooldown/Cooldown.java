@@ -5,7 +5,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import com.darko.main.utilities.other.GlobalVariables;
+
+import com.darko.main.utilities.other.APIs;
 
 import me.lucko.luckperms.api.LuckPermsApi;
 import me.lucko.luckperms.api.Node;
@@ -42,7 +43,7 @@ public class Cooldown implements CommandExecutor {
 	
 	public static Boolean rtpCheck(Player player){
 		if(player.hasPermission("rtp.no")){
-		LuckPermsApi api = GlobalVariables.LuckPermsApi();
+		LuckPermsApi api = APIs.LuckPermsApi();
 		User user = api.getUser(player.getUniqueId());
 		for (Node n : user.getPermissions()) {
 		if(n.getPermission().equalsIgnoreCase("rtp.no")) {
@@ -61,7 +62,7 @@ public class Cooldown implements CommandExecutor {
 	
 	public static Boolean crateCheck(Player player){
 		if(!player.hasPermission("keyshop.buy")){
-		LuckPermsApi api = GlobalVariables.LuckPermsApi();
+		LuckPermsApi api = APIs.LuckPermsApi();
 		User user = api.getUser(player.getUniqueId());
 		for (Node n : user.getPermissions()) {
 		if(n.getPermission().equalsIgnoreCase("keyshop.buy")) {

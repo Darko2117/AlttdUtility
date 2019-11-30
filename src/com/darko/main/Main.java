@@ -13,9 +13,11 @@ import com.darko.main.cosmetics.chair.onStairsRightClick;
 import com.darko.main.cosmetics.hat.Hat;
 import com.darko.main.utilities.anvil.onAnvilClick;
 import com.darko.main.utilities.cooldown.Cooldown;
+import com.darko.main.utilities.other.APIs;
 import com.darko.main.utilities.other.ConsoleColors;
-import com.darko.main.utilities.other.GlobalVariables;
+import com.darko.main.utilities.other.Flags;
 import com.darko.main.utilities.servermsg.Servermsg;
+import com.darko.main.utilities.teleport.onPlayerTeleport;
 
 public class Main extends JavaPlugin{
 	
@@ -30,21 +32,20 @@ public class Main extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new onChunkLoad(this), this);
 		Bukkit.getPluginManager().registerEvents(new onPlayerTeleportCommand(), this);
 		Bukkit.getPluginManager().registerEvents(new onAnvilClick(), this);
+		Bukkit.getPluginManager().registerEvents(new onPlayerTeleport(), this);
 
 		getCommand("hat").setExecutor(new Hat());
 		getCommand("servermsg").setExecutor(new Servermsg());
 		getCommand("chair").setExecutor(new Chair());
 		
-		GlobalVariables.SitFlag();
-		GlobalVariables.AnvilRepairFlag();
-		GlobalVariables.AnvilUseFlag();
+		Flags.FlagsEnable();
 		
-		if(GlobalVariables.GriefPreventionApi() != null && GlobalVariables.WorldGuardApi() != null){
+		if(APIs.GriefPreventionApi() != null && APIs.WorldGuardApi() != null){
 			System.out.println("-----> GriefPrevention & WorldGuard were found!");
 			getCommand("chair").setExecutor(new Chair());
 		}else{System.out.println("-----> GriefPrevention or WorldGuard were not found! /chair will work in claims and worldguard regions.");}
 		
-		if(GlobalVariables.LuckPermsApi() != null){
+		if(APIs.LuckPermsApi() != null){
 			System.out.println("-----> LuckPerms was found!");
 			getCommand("cooldown").setExecutor(new Cooldown());
 		}else{System.out.println("-----> LuckPerms was not found! /cooldown will be disabled.");}

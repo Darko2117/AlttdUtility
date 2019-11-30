@@ -3,7 +3,7 @@ package com.darko.main.cosmetics.chair;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import com.darko.main.utilities.other.GlobalVariables;
+import com.darko.main.cosmetics.chair.GlobalVariables;
 
 public class onPlayerQuit implements Listener {
 	

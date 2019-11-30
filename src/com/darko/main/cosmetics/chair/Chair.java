@@ -5,7 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import com.darko.main.utilities.other.GlobalVariables;
+import com.darko.main.cosmetics.chair.GlobalVariables;
 
 public class Chair implements CommandExecutor {
 	
