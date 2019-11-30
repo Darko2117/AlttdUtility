@@ -51,9 +51,9 @@ public class Cooldown implements CommandExecutor {
 		while(time>3600){time-=3600; hours++;}
 		while(time>60){time-=60; minutes++;}
 		seconds = time.intValue();
-		if(hours != 0 && minutes != 0){player.sendMessage(ChatColor.GREEN + "Cooldown on the RTP portal is " + hours + " hours " + minutes + " minutes " + seconds + " seconds.");}
-		else if(hours == 0 && minutes != 0){player.sendMessage(ChatColor.GREEN + "Cooldown on the RTP portal is " + minutes + " minutes " + seconds + " seconds.");}
-		if(hours == 0 && minutes == 0){player.sendMessage(ChatColor.GREEN + "Cooldown on the RTP portal is " + seconds + " seconds.");}
+		if(hours != 0 && minutes != 0){player.sendMessage(ChatColor.GREEN + "Cooldown on the RTP is " + hours + " hours " + minutes + " minutes " + seconds + " seconds.");}
+		else if(hours == 0 && minutes != 0){player.sendMessage(ChatColor.GREEN + "Cooldown on the RTP is " + minutes + " minutes " + seconds + " seconds.");}
+		if(hours == 0 && minutes == 0){player.sendMessage(ChatColor.GREEN + "Cooldown on the RTP is " + seconds + " seconds.");}
 		return true;
 		}}}
 		return false;

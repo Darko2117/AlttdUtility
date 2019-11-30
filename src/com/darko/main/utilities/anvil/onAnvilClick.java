@@ -13,6 +13,7 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 
@@ -24,18 +25,22 @@ public class onAnvilClick implements Listener{
 		   e.getClickedBlock().getType() == Material.ANVIL){
 			
 			Player player = e.getPlayer();
-			
 			com.sk89q.worldedit.util.Location location = BukkitAdapter.adapt(e.getClickedBlock().getLocation());
-			LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
+			
 			RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
 			RegionQuery query = container.createQuery();
-			if(query.testState(location, localPlayer, GlobalVariables.ANVIL_REPAIR)){
+			ApplicableRegionSet set = query.getApplicableRegions(location);
+			
+			if(set.size() != 0){
+			LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
+			RegionContainer container1 = WorldGuard.getInstance().getPlatform().getRegionContainer();
+			RegionQuery query1 = container1.createQuery();
+			
+			if(query1.testState(location, localPlayer, GlobalVariables.ANVIL_REPAIR)){
 			
 			String dataString = e.getClickedBlock().getBlockData().getAsString();
-			player.sendMessage(dataString);
 			if(dataString.contains("chipped_")){dataString = dataString.replace("chipped_", "");}
 			else if(dataString.contains("damaged_")){dataString = dataString.replace("damaged_", "");}
-			player.sendMessage(dataString);
 			e.getClickedBlock().setBlockData(Bukkit.createBlockData(dataString));
 			
-			}}}}
+			}}}}}

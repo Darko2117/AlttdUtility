@@ -33,6 +33,7 @@ public class Main extends JavaPlugin{
 
 		getCommand("hat").setExecutor(new Hat());
 		getCommand("servermsg").setExecutor(new Servermsg());
+		getCommand("chair").setExecutor(new Chair());
 		
 		GlobalVariables.SitFlag();
 		GlobalVariables.AnvilRepairFlag();
@@ -40,7 +41,7 @@ public class Main extends JavaPlugin{
 		if(GlobalVariables.GriefPreventionApi() != null && GlobalVariables.WorldGuardApi() != null){
 			System.out.println("-----> GriefPrevention & WorldGuard were found!");
 			getCommand("chair").setExecutor(new Chair());
-		}else{System.out.println("-----> GriefPrevention or WorldGuard were not found! /chair will be disabled.");}
+		}else{System.out.println("-----> GriefPrevention or WorldGuard were not found! /chair will work in claims and worldguard regions.");}
 		
 		if(GlobalVariables.LuckPermsApi() != null){
 			System.out.println("-----> LuckPerms was found!");
