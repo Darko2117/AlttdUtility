@@ -8,13 +8,14 @@ import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 
 public class Flags {
 
-	public static StateFlag SIT, ANVIL_REPAIR, ANVIL_USE, NAME_TAG_USE;
+	public static StateFlag SIT, ANVIL_REPAIR, ANVIL_USE, NAME_TAG_USE, BONE_MEAL_USE;
 	
 	public static void FlagsEnable(){
 	SitFlag();
 	AnvilRepairFlag();
 	AnvilUseFlag();
 	NameTagFlag();
+	BoneMealFlag();
 	}
 	
 	
@@ -64,6 +65,18 @@ public class Flags {
 	     Flag<?> existing = registry.get("nametaguse");
 	     if (existing instanceof StateFlag) {
 	     NAME_TAG_USE = (StateFlag) existing;
+	     }else{}}}
+	
+	public static void BoneMealFlag(){
+		FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
+	    try {
+	     StateFlag flag = new StateFlag("bonemealuse", true);
+	     registry.register(flag);
+	     BONE_MEAL_USE = flag;
+	     }catch (FlagConflictException e) {
+	     Flag<?> existing = registry.get("bonemealuse");
+	     if (existing instanceof StateFlag) {
+	     BONE_MEAL_USE = (StateFlag) existing;
 	     }else{}}}
 	
 }

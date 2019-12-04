@@ -19,7 +19,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 
 
-public class OnEntityInteractWithLead implements Listener {
+public class onEntityInteractWithLead implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void EntityInteract(PlayerInteractEntityEvent event) {
