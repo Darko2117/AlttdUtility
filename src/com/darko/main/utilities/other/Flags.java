@@ -8,12 +8,13 @@ import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 
 public class Flags {
 
-	public static StateFlag SIT, ANVIL_REPAIR, ANVIL_USE;
+	public static StateFlag SIT, ANVIL_REPAIR, ANVIL_USE, NAME_TAG_USE;
 	
 	public static void FlagsEnable(){
 	SitFlag();
 	AnvilRepairFlag();
 	AnvilUseFlag();
+	NameTagFlag();
 	}
 	
 	
@@ -51,6 +52,18 @@ public class Flags {
 	     Flag<?> existing = registry.get("anviluse");
 	     if (existing instanceof StateFlag) {
 	     ANVIL_USE = (StateFlag) existing;
+	     }else{}}}
+	
+	public static void NameTagFlag(){
+		FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
+	    try {
+	     StateFlag flag = new StateFlag("nametaguse", true);
+	     registry.register(flag);
+	     NAME_TAG_USE = flag;
+	     }catch (FlagConflictException e) {
+	     Flag<?> existing = registry.get("nametaguse");
+	     if (existing instanceof StateFlag) {
+	     NAME_TAG_USE = (StateFlag) existing;
 	     }else{}}}
 	
 }

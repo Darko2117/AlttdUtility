@@ -1,4 +1,4 @@
-package com.darko.main.utilities.anvil;
+package com.darko.main.utilities.flags;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -23,7 +23,9 @@ public class onAnvilClick implements Listener{
 	@EventHandler
 	public void onDamagedAnvilClick(PlayerInteractEvent e){
 		if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && 
-		   e.getClickedBlock().getType() == Material.ANVIL){
+		  (e.getClickedBlock().getType() == Material.ANVIL || 
+		   e.getClickedBlock().getType() == Material.CHIPPED_ANVIL || 
+		   e.getClickedBlock().getType() == Material.DAMAGED_ANVIL)){
 			
 			Player player = e.getPlayer();
 			com.sk89q.worldedit.util.Location location = BukkitAdapter.adapt(e.getClickedBlock().getLocation());
@@ -49,7 +51,9 @@ public class onAnvilClick implements Listener{
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void AnvilClickPriority(PlayerInteractEvent e){
 		if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && 
-		   e.getClickedBlock().getType() == Material.ANVIL){
+		  (e.getClickedBlock().getType() == Material.ANVIL || 
+		   e.getClickedBlock().getType() == Material.CHIPPED_ANVIL || 
+		   e.getClickedBlock().getType() == Material.DAMAGED_ANVIL)){
 			
 			Player player = e.getPlayer();
 			com.sk89q.worldedit.util.Location location = BukkitAdapter.adapt(e.getClickedBlock().getLocation());

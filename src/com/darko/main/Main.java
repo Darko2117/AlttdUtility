@@ -11,12 +11,14 @@ import com.darko.main.cosmetics.chair.onPlayerQuit;
 import com.darko.main.cosmetics.chair.onPlayerTeleportCommand;
 import com.darko.main.cosmetics.chair.onStairsRightClick;
 import com.darko.main.cosmetics.hat.Hat;
-import com.darko.main.utilities.anvil.onAnvilClick;
+import com.darko.main.utilities.flags.onAnvilClick;
+import com.darko.main.utilities.flags.onEntityRename;
 import com.darko.main.utilities.cooldown.Cooldown;
 import com.darko.main.utilities.other.APIs;
 import com.darko.main.utilities.other.ConsoleColors;
 import com.darko.main.utilities.other.Flags;
 import com.darko.main.utilities.servermsg.Servermsg;
+import com.darko.main.utilities.tamedexpire.OnEntityInteractWithLead;
 import com.darko.main.utilities.teleport.onPlayerTeleport;
 
 public class Main extends JavaPlugin{
@@ -33,6 +35,8 @@ public class Main extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new onPlayerTeleportCommand(), this);
 		Bukkit.getPluginManager().registerEvents(new onAnvilClick(), this);
 		Bukkit.getPluginManager().registerEvents(new onPlayerTeleport(), this);
+		Bukkit.getPluginManager().registerEvents(new onEntityRename(), this);
+		Bukkit.getPluginManager().registerEvents(new OnEntityInteractWithLead(), this);
 
 		getCommand("hat").setExecutor(new Hat());
 		getCommand("servermsg").setExecutor(new Servermsg());

@@ -29,6 +29,7 @@ import me.ryanhamshire.GriefPrevention.GriefPrevention;
 
 public class onStairsRightClick implements Listener {
 	Integer OneClick = 0;
+	
 	@EventHandler
 	public void onRightClick(PlayerInteractEvent e){
 	if(OneClick == 0){
