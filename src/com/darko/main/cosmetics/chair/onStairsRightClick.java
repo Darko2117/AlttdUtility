@@ -32,6 +32,7 @@ public class onStairsRightClick implements Listener {
 	
 	@EventHandler
 	public void onRightClick(PlayerInteractEvent e){
+	try{
 	if(OneClick == 0){
 	
 	Player player = e.getPlayer();
@@ -115,5 +116,5 @@ public class onStairsRightClick implements Listener {
 	}else{player.sendMessage(ChatColor.RED + "Invalid block found above/below the stairs.");}}
 	OneClick++;
 	
-	}}else{OneClick = 0;}
+	}}else{OneClick = 0;}}catch(Exception ex){}
 	}}

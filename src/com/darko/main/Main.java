@@ -18,6 +18,7 @@ import com.darko.main.utilities.flags.onEntityRename;
 import com.darko.main.utilities.other.APIs;
 import com.darko.main.utilities.other.ConsoleColors;
 import com.darko.main.utilities.other.Flags;
+import com.darko.main.utilities.punish.TabComplete.PunishmentTabComplete;
 import com.darko.main.utilities.servermsg.Servermsg;
 import com.darko.main.utilities.tamedexpire.onEntityInteractWithLead;
 import com.darko.main.utilities.teleport.onPlayerTeleport;
@@ -43,6 +44,12 @@ public class Main extends JavaPlugin{
 		getCommand("hat").setExecutor(new Hat());
 		getCommand("servermsg").setExecutor(new Servermsg());
 		getCommand("chair").setExecutor(new Chair());
+		
+		getCommand("kick").setTabCompleter(new PunishmentTabComplete());
+		getCommand("warn").setTabCompleter(new PunishmentTabComplete());
+		getCommand("tempmute").setTabCompleter(new PunishmentTabComplete());
+		getCommand("tempban").setTabCompleter(new PunishmentTabComplete());
+		getCommand("ban").setTabCompleter(new PunishmentTabComplete());
 		
 		Flags.FlagsEnable();
 		

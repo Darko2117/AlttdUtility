@@ -13,3 +13,8 @@ commands:
   hat:
   servermsg:
   cooldown:
+  kick:
+  warn:
+  tempmute:
+  tempban:
+  ban:

@@ -34,11 +34,11 @@ public class Flags {
 	public static void AnvilRepairFlag(){
 		FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
 	    try {
-	     StateFlag flag = new StateFlag("anvilrepair", true);
+	     StateFlag flag = new StateFlag("anvil-repair", true);
 	     registry.register(flag);
 	     ANVIL_REPAIR = flag;
 	     }catch (FlagConflictException e) {
-	     Flag<?> existing = registry.get("anvilrepair");
+	     Flag<?> existing = registry.get("anvil-repair");
 	     if (existing instanceof StateFlag) {
 	     ANVIL_REPAIR = (StateFlag) existing;
 	     }else{}}}
@@ -46,11 +46,11 @@ public class Flags {
 	public static void AnvilUseFlag(){
 		FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
 	    try {
-	     StateFlag flag = new StateFlag("anviluse", true);
+	     StateFlag flag = new StateFlag("anvil-use", true);
 	     registry.register(flag);
 	     ANVIL_USE = flag;
 	     }catch (FlagConflictException e) {
-	     Flag<?> existing = registry.get("anviluse");
+	     Flag<?> existing = registry.get("anvil-use");
 	     if (existing instanceof StateFlag) {
 	     ANVIL_USE = (StateFlag) existing;
 	     }else{}}}
@@ -58,11 +58,11 @@ public class Flags {
 	public static void NameTagFlag(){
 		FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
 	    try {
-	     StateFlag flag = new StateFlag("nametaguse", true);
+	     StateFlag flag = new StateFlag("name-tag-use", true);
 	     registry.register(flag);
 	     NAME_TAG_USE = flag;
 	     }catch (FlagConflictException e) {
-	     Flag<?> existing = registry.get("nametaguse");
+	     Flag<?> existing = registry.get("name-tag-use");
 	     if (existing instanceof StateFlag) {
 	     NAME_TAG_USE = (StateFlag) existing;
 	     }else{}}}
@@ -70,11 +70,11 @@ public class Flags {
 	public static void BoneMealFlag(){
 		FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
 	    try {
-	     StateFlag flag = new StateFlag("bonemealuse", true);
+	     StateFlag flag = new StateFlag("bone-meal-use", true);
 	     registry.register(flag);
 	     BONE_MEAL_USE = flag;
 	     }catch (FlagConflictException e) {
-	     Flag<?> existing = registry.get("bonemealuse");
+	     Flag<?> existing = registry.get("bone-meal-use");
 	     if (existing instanceof StateFlag) {
 	     BONE_MEAL_USE = (StateFlag) existing;
 	     }else{}}}
