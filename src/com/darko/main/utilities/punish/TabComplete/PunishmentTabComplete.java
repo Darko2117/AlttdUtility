@@ -16,8 +16,9 @@ public class PunishmentTabComplete implements TabCompleter{
     	if(args.length == 1){
     	List<String> completions = new ArrayList<>();
     	for(Player player : Bukkit.getOnlinePlayers()){
+    		if(player.getName().startsWith(args[0])){
     		completions.add(player.getName());
-    	}        
+    	}}
     	return completions;
     }
     return null;	
