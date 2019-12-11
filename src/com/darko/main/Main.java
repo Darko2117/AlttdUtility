@@ -23,12 +23,13 @@ import com.darko.main.utilities.servermsg.Servermsg;
 import com.darko.main.utilities.tamedexpire.onEntityInteractWithLead;
 import com.darko.main.utilities.teleport.onPlayerTeleport;
 
-public class Main extends JavaPlugin{
-	
+public class Main extends JavaPlugin {
+
 	@Override
-	public void onEnable(){
-		System.out.println("Utility plugin started... Teri bring back " + ConsoleColors.GREEN_BOLD + "Sugar Cane" + ConsoleColors.RESET + " please thank you :)");
-		
+	public void onEnable() {
+		System.out.println("Utility plugin started... Teri bring back " + ConsoleColors.GREEN_BOLD + "Sugar Cane"
+				+ ConsoleColors.RESET + " please thank you :)");
+
 		Bukkit.getPluginManager().registerEvents(new onStairsRightClick(), this);
 		Bukkit.getPluginManager().registerEvents(new onPlayerDismount(this), this);
 		Bukkit.getPluginManager().registerEvents(new onPlayerQuit(), this);
@@ -44,25 +45,28 @@ public class Main extends JavaPlugin{
 		getCommand("hat").setExecutor(new Hat());
 		getCommand("servermsg").setExecutor(new Servermsg());
 		getCommand("chair").setExecutor(new Chair());
-		
+
 		getCommand("kick").setTabCompleter(new PunishmentTabComplete());
 		getCommand("warn").setTabCompleter(new PunishmentTabComplete());
 		getCommand("tempmute").setTabCompleter(new PunishmentTabComplete());
 		getCommand("tempban").setTabCompleter(new PunishmentTabComplete());
 		getCommand("ban").setTabCompleter(new PunishmentTabComplete());
-		
+
 		Flags.FlagsEnable();
-		
-		if(APIs.GriefPreventionApi() != null && APIs.WorldGuardApi() != null){
+
+		if (APIs.GriefPreventionApi() != null && APIs.WorldGuardApi() != null) {
 			System.out.println("-----> GriefPrevention & WorldGuard were found!");
 			getCommand("chair").setExecutor(new Chair());
-		}else{System.out.println("-----> GriefPrevention or WorldGuard were not found! /chair will work in claims and worldguard regions.");}
-		
-		if(APIs.LuckPermsApi() != null){
+		} else {
+			System.out.println(
+					"-----> GriefPrevention or WorldGuard were not found! /chair will work in claims and worldguard regions.");
+		}
+
+		if (APIs.LuckPermsApi() != null) {
 			System.out.println("-----> LuckPerms was found!");
 			getCommand("cooldown").setExecutor(new Cooldown());
-		}else{System.out.println("-----> LuckPerms was not found! /cooldown will be disabled.");}
+		} else {
+			System.out.println("-----> LuckPerms was not found! /cooldown will be disabled.");
+		}
 	}
 }
-
-	
