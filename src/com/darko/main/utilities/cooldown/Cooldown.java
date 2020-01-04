@@ -8,106 +8,109 @@ import org.bukkit.entity.Player;
 
 import com.darko.main.utilities.other.APIs;
 
-import me.lucko.luckperms.api.LuckPermsApi;
-import me.lucko.luckperms.api.Node;
-import me.lucko.luckperms.api.User;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.model.user.User;
+import net.luckperms.api.node.Node;
 
 public class Cooldown implements CommandExecutor {
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		Player player = (Player) sender;
-		Boolean rtp = false, crate = false;
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        Player player = (Player) sender;
+        Boolean crate = false;
+        Boolean rtp = false;
+        if (player.hasPermission("utility.cooldown")) {
+            if (args.length == 1) {
+                if (args[0].toString().equals("crate")) {
+                    crate = crate(player);
+                } else if (args[0].toString().equals("rtp")) {
+                    rtp = rtp(player);
+                }
+            } else {
+                crate = crate(player);
+                rtp = rtp(player);
+            }
+            if (!crate && !rtp) {
+                player.sendMessage(ChatColor.YELLOW + "You have no cooldowns right now.");
+            }
+        } else {
+            player.sendMessage(ChatColor.RED + "You do not have permission to do this.");
+        }
+        return false;
 
-		if (player.hasPermission("utility.cooldown")) {
-			if (args.length != 0) {
-				if (args[0].toString().equalsIgnoreCase("rtp")) {
-					rtp = rtpCheck(player);
-				}
+    }
 
-				else if (args[0].toString().equalsIgnoreCase("crate")) {
-					crate = crateCheck(player);
-				}
-			}
+    public static Boolean crate(Player player) {
+        LuckPerms api = APIs.LuckPermsApi();
+        User user = api.getUserManager().getUser(player.getUniqueId());
+        Integer time = 0;
+        for (Node node : user.getNodes()) {
+            if (node.getKey().equals("keyshop.buy")) {
+                Long time1 = node.getExpiryDuration().getSeconds();
+                time = time1.intValue();
+            }
+        }
+        Integer hours = 0;
+        Integer minutes = 0;
+        Integer seconds = time;
 
-			else {
-				rtp = rtpCheck(player);
-				crate = crateCheck(player);
-			}
+        while (seconds > 60) {
+            seconds -= 60;
+            minutes++;
+        }
+        while (minutes > 60) {
+            minutes -= 60;
+            hours++;
+        }
+        if (hours != 0 && minutes != 0) {
+            player.sendMessage(ChatColor.GREEN + "Cooldown on the SuperCrate is " + hours + " hours " + minutes
+                    + " minutes " + seconds + " seconds.");
+            return true;
+        } else if (hours == 0 && minutes != 0) {
+            player.sendMessage(
+                    ChatColor.GREEN + "Cooldown on the SuperCrate is " + minutes + " minutes " + seconds + " seconds.");
+            return true;
+        } else if (hours == 0 && minutes == 0 && seconds > 0) {
+            player.sendMessage(ChatColor.GREEN + "Cooldown on the SuperCrate is " + seconds + " seconds.");
+            return true;
+        }
+        return false;
+    }
 
-			if (!rtp && !crate) {
-				player.sendMessage(ChatColor.YELLOW + "You don't have any cooldowns right now.");
-			}
+    public static Boolean rtp(Player player) {
+        LuckPerms api = APIs.LuckPermsApi();
+        User user = api.getUserManager().getUser(player.getUniqueId());
+        Integer time = 0;
+        for (Node node : user.getNodes()) {
+            if (node.getKey().equals("rtp.no")) {
+                Long time1 = node.getExpiryDuration().getSeconds();
+                time = time1.intValue();
+            }
+        }
+        Integer hours = 0;
+        Integer minutes = 0;
+        Integer seconds = time;
 
-		}
+        while (seconds > 60) {
+            seconds -= 60;
+            minutes++;
+        }
+        while (minutes > 60) {
+            minutes -= 60;
+            hours++;
+        }
+        if (hours != 0 && minutes != 0) {
+            player.sendMessage(ChatColor.GREEN + "Cooldown on the RTP is " + hours + " hours " + minutes + " minutes "
+                    + seconds + " seconds.");
+            return true;
+        } else if (hours == 0 && minutes != 0) {
+            player.sendMessage(
+                    ChatColor.GREEN + "Cooldown on the RTP is " + minutes + " minutes " + seconds + " seconds.");
+            return true;
+        } else if (hours == 0 && minutes == 0 && seconds > 0) {
+            player.sendMessage(ChatColor.GREEN + "Cooldown on the RTP is " + seconds + " seconds.");
+            return true;
+        }
+        return false;
+    }
 
-		return false;
-	}
-
-	public static Boolean rtpCheck(Player player) {
-		if (player.hasPermission("rtp.no")) {
-			LuckPermsApi api = APIs.LuckPermsApi();
-			User user = api.getUser(player.getUniqueId());
-			for (Node n : user.getPermissions()) {
-				if (n.getPermission().equalsIgnoreCase("rtp.no")) {
-					Long time = n.getSecondsTilExpiry();
-					Integer hours = 0, minutes = 0, seconds = 0;
-					while (time > 3600) {
-						time -= 3600;
-						hours++;
-					}
-					while (time > 60) {
-						time -= 60;
-						minutes++;
-					}
-					seconds = time.intValue();
-					if (hours != 0 && minutes != 0) {
-						player.sendMessage(ChatColor.GREEN + "Cooldown on the RTP is " + hours + " hours " + minutes
-								+ " minutes " + seconds + " seconds.");
-					} else if (hours == 0 && minutes != 0) {
-						player.sendMessage(ChatColor.GREEN + "Cooldown on the RTP is " + minutes + " minutes " + seconds
-								+ " seconds.");
-					}
-					if (hours == 0 && minutes == 0) {
-						player.sendMessage(ChatColor.GREEN + "Cooldown on the RTP is " + seconds + " seconds.");
-					}
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	public static Boolean crateCheck(Player player) {
-		if (!player.hasPermission("keyshop.buy")) {
-			LuckPermsApi api = APIs.LuckPermsApi();
-			User user = api.getUser(player.getUniqueId());
-			for (Node n : user.getPermissions()) {
-				if (n.getPermission().equalsIgnoreCase("keyshop.buy")) {
-					Long time = n.getSecondsTilExpiry();
-					Integer hours = 0, minutes = 0, seconds = 0;
-					while (time > 3600) {
-						time -= 3600;
-						hours++;
-					}
-					while (time > 60) {
-						time -= 60;
-						minutes++;
-					}
-					seconds = time.intValue();
-					if (hours != 0 && minutes != 0) {
-						player.sendMessage(ChatColor.GREEN + "Cooldown on the SuperCrate is " + hours + " hours "
-								+ minutes + " minutes " + seconds + " seconds.");
-					} else if (hours == 0 && minutes != 0) {
-						player.sendMessage(ChatColor.GREEN + "Cooldown on the SuperCrate is " + minutes + " minutes "
-								+ seconds + " seconds.");
-					}
-					if (hours == 0 && minutes == 0) {
-						player.sendMessage(ChatColor.GREEN + "Cooldown on the SuperCrate is " + seconds + " seconds.");
-					}
-					return true;
-				}
-			}
-		}
-		return false;
-	}
 }

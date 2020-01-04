@@ -3,18 +3,13 @@ version: 6.9 hehe
 name: AlttdUtility
 description: A group of utilities made for Altitude
 
-author: Darko
+author: Kap
 
 main: com.darko.main.Main
-api-version: 1.13
+api-version: 1.15
 commands:
 
   chair:
   hat:
   servermsg:
   cooldown:
-  kick:
-  warn:
-  tempmute:
-  tempban:
-  ban:

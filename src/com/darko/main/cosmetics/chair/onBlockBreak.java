@@ -7,15 +7,15 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 public class onBlockBreak implements Listener {
 
-	@EventHandler
-	public void BlockBreak(BlockBreakEvent e) {
-		if (GlobalVariables.occupiedSeats.containsValue(e.getBlock().getLocation())) {
-			if (e.getPlayer().hasPermission("utility.forcedismount")) {
-				Entity ent = GlobalVariables.aliveSeats.get(e.getBlock().getLocation());
-				ent.remove();
-			} else {
-				e.setCancelled(true);
-			}
-		}
-	}
+    @EventHandler
+    public void BlockBreak(BlockBreakEvent e) {
+        if (GlobalVariables.occupiedSeats.containsValue(e.getBlock().getLocation())) {
+            if (e.getPlayer().hasPermission("utility.forcedismount")) {
+                Entity ent = GlobalVariables.aliveSeats.get(e.getBlock().getLocation());
+                ent.remove();
+            } else {
+                e.setCancelled(true);
+            }
+        }
+    }
 }

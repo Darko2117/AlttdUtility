@@ -9,26 +9,31 @@ import org.spigotmc.event.entity.EntityDismountEvent;
 import com.darko.main.Main;
 
 public class onPlayerDismount implements Listener {
-	private Main main;
+    private Main main;
 
-	public onPlayerDismount(Main main) {
-		this.main = main;
-	}
+    public onPlayerDismount(Main main) {
+        this.main = main;
+    }
 
-	@EventHandler
-	public void onDismount(EntityDismountEvent e) {
-		try {
-			Entity ent = e.getDismounted();
-			if (ent.getCustomName().equals(GlobalVariables.ChairName)) {
-				new BukkitRunnable() {
-					public void run() {
-						ent.remove();
-						GlobalVariables.aliveSeats.remove(e.getEntity().getLocation());
-						GlobalVariables.occupiedSeats.remove(e.getEntity().getUniqueId());
-					}
-				}.runTaskAsynchronously(this.main);
-			}
-		} catch (Exception ex) {
-		}
-	}
+    @EventHandler
+    public void onDismount(EntityDismountEvent e) {
+
+        try {
+            Entity ent = e.getDismounted();
+            if (ent.getCustomName().equals(GlobalVariables.ChairName)) {
+                ent.remove();
+                GlobalVariables.aliveSeats.remove(e.getEntity().getLocation());
+                GlobalVariables.occupiedSeats.remove(e.getEntity().getUniqueId());
+                new BukkitRunnable() {
+                    public void run() {
+                        if (e.getEntity().getVehicle() == null) {
+                            e.getEntity().teleport(e.getEntity().getLocation().add(0, 1, 0));
+                        }
+                    }
+                }.runTaskLater(main, 0);
+            }
+        } catch (Exception ex) {
+        }
+
+    }
 }
