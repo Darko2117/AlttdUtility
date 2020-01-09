@@ -33,6 +33,7 @@ public class Chair implements CommandExecutor {
         } else {
             player.sendMessage(ChatColor.RED + "You do not have permission to do this.");
         }
+
         return false;
     }
 }
