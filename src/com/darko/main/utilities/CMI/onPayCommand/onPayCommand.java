@@ -8,6 +8,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import com.darko.main.Main;
+
 public class onPayCommand implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -23,7 +25,8 @@ public class onPayCommand implements Listener {
             name.reverse();
             if (!onlineChecker(name.toString())) {
                 e.setCancelled(true);
-                player.sendMessage(ChatColor.RED + "You can't send money to offline players.");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        Main.getInstance().getConfig().getString("Messages.OfflinePlayerPayment")));
             }
         } else if (command.startsWith("/cmi:cmi pay ")) {
             StringBuilder name = new StringBuilder(command);
@@ -33,7 +36,8 @@ public class onPayCommand implements Listener {
             name.reverse();
             if (!onlineChecker(name.toString())) {
                 e.setCancelled(true);
-                player.sendMessage(ChatColor.RED + "You can't send money to offline players.");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        Main.getInstance().getConfig().getString("Messages.OfflinePlayerPayment")));
             }
         } else if (command.startsWith("/cmi pay ")) {
             StringBuilder name = new StringBuilder(command);
@@ -43,7 +47,8 @@ public class onPayCommand implements Listener {
             name.reverse();
             if (!onlineChecker(name.toString())) {
                 e.setCancelled(true);
-                player.sendMessage(ChatColor.RED + "You can't send money to offline players.");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        Main.getInstance().getConfig().getString("Messages.OfflinePlayerPayment")));
             }
         } else if (command.startsWith("/cmi:cmi money pay ")) {
             StringBuilder name = new StringBuilder(command);
@@ -53,7 +58,8 @@ public class onPayCommand implements Listener {
             name.reverse();
             if (!onlineChecker(name.toString())) {
                 e.setCancelled(true);
-                player.sendMessage(ChatColor.RED + "You can't send money to offline players.");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        Main.getInstance().getConfig().getString("Messages.OfflinePlayerPayment")));
             }
         } else if (command.startsWith("/cmi money pay ")) {
             StringBuilder name = new StringBuilder(command);
@@ -63,7 +69,8 @@ public class onPayCommand implements Listener {
             name.reverse();
             if (!onlineChecker(name.toString())) {
                 e.setCancelled(true);
-                player.sendMessage(ChatColor.RED + "You can't send money to offline players.");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        Main.getInstance().getConfig().getString("Messages.OfflinePlayerPayment")));
             }
         } else if (command.startsWith("/pay ")) {
             StringBuilder name = new StringBuilder(command);
@@ -73,7 +80,8 @@ public class onPayCommand implements Listener {
             name.reverse();
             if (!onlineChecker(name.toString())) {
                 e.setCancelled(true);
-                player.sendMessage(ChatColor.RED + "You can't send money to offline players.");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        Main.getInstance().getConfig().getString("Messages.OfflinePlayerPayment")));
             }
         }
     }

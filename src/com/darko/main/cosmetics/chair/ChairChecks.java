@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.darko.main.Main;
 import com.darko.main.utilities.other.Flags;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.LocalPlayer;
@@ -33,10 +34,10 @@ public class ChairChecks {
 
     public static Boolean blocksCheck(Player player, PlayerInteractEvent e) {
         Location blockloc = e.getClickedBlock().getLocation();
-        Material[] bannedMaterialsBelow = { Material.AIR, Material.LAVA, Material.FIRE };
+        Material[] bannedMaterialsBelow = { Material.LAVA, Material.FIRE };
         Material[] allowedMaterialsAbove = { Material.AIR, Material.ACACIA_WALL_SIGN, Material.BIRCH_WALL_SIGN,
                 Material.DARK_OAK_WALL_SIGN, Material.JUNGLE_WALL_SIGN, Material.OAK_WALL_SIGN,
-                Material.SPRUCE_WALL_SIGN, Material.ITEM_FRAME, Material.WALL_TORCH };
+                Material.SPRUCE_WALL_SIGN, Material.WALL_TORCH };
         Boolean bannedMaterialFound = false;
         Boolean allowedMaterialFound = false;
 
@@ -56,14 +57,15 @@ public class ChairChecks {
         if (!bannedMaterialFound && allowedMaterialFound) {
             return true;
         } else {
-            player.sendMessage(ChatColor.RED + "Invalid block found above/below the stairs.");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    Main.getInstance().getConfig().getString("Messages.InvalidChairBlock")));
         }
         return false;
     }
 
     public static Boolean stairsCheck(Player player, PlayerInteractEvent e) {
         String dataString = e.getClickedBlock().getBlockData().toString();
-        if (dataString.contains("stairs") && GlobalVariables.chairEnabled.get(player.getUniqueId())
+        if (dataString.contains("stairs") && GlobalVariables.chairEnabled.contains(player)
                 && !dataString.contains("half=top") && !player.isGliding()
                 && !GlobalVariables.occupiedSeats.containsValue(e.getClickedBlock().getLocation())) {
             return true;
@@ -87,8 +89,8 @@ public class ChairChecks {
             if (claim.allowAccess(player) == null) {
                 return true;
             } else {
-                player.sendMessage(
-                        ChatColor.RED + "You don't have " + claim.getOwnerName() + "'s permission to use that.");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig()
+                        .getString("Messages.ChairNoClaimPerm").replace("%player%", claim.getOwnerName())));
             }
         } else {
             return true;
@@ -107,7 +109,8 @@ public class ChairChecks {
         if (query.testState(blockloc, localPlayer, Flags.SIT)) {
             return true;
         } else {
-            player.sendMessage(ChatColor.RED + "You can't sit in this region.");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    Main.getInstance().getConfig().getString("Messages.ChairNoRegionPerm")));
         }
         return false;
     }

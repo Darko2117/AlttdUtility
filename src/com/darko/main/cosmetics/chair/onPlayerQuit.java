@@ -16,6 +16,6 @@ public class onPlayerQuit implements Listener {
             }
         } catch (Exception ex) {
         }
-        GlobalVariables.chairEnabled.put(e.getPlayer().getUniqueId(), false);
+        GlobalVariables.chairEnabled.remove(e.getPlayer());
     }
 }

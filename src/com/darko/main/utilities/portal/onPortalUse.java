@@ -12,6 +12,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPortalEvent;
 
+import com.darko.main.Main;
+
 public class onPortalUse implements Listener {
 
     @EventHandler
@@ -21,12 +23,14 @@ public class onPortalUse implements Listener {
             Location to = (Location) e.getTo();
             Player player = (Player) e.getPlayer();
             if (from.getWorld().getEnvironment().equals(Environment.NETHER)) {
-                player.sendMessage(ChatColor.RED + "You have been teleported to spawn.");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        Main.getInstance().getConfig().getString("Messages.NetherExit")));
                 e.setCancelled(true);
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "cmi spawn " + player.getName());
             } else if (to.getWorld().getEnvironment().equals(Environment.NETHER)
                     && from.getWorld().getEnvironment().equals(Environment.NORMAL)) {
-                player.sendMessage(ChatColor.RED + "When exiting the nether you will be teleported to spawn.");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        Main.getInstance().getConfig().getString("Messages.NetherEntry")));
             }
         }
     }

@@ -6,6 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.darko.main.Main;
 import com.darko.main.utilities.other.APIs;
 
 import net.luckperms.api.LuckPerms;
@@ -30,10 +31,12 @@ public class Cooldown implements CommandExecutor {
                 rtp = rtp(player);
             }
             if (!crate && !rtp) {
-                player.sendMessage(ChatColor.YELLOW + "You have no cooldowns right now.");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        Main.getInstance().getConfig().getString("Messages.NoCooldowns")));
             }
         } else {
-            player.sendMessage(ChatColor.RED + "You do not have permission to do this.");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    Main.getInstance().getConfig().getString("Messages.NoPermission")));
         }
         return false;
 
@@ -53,11 +56,11 @@ public class Cooldown implements CommandExecutor {
         Integer minutes = 0;
         Integer seconds = time;
 
-        while (seconds > 60) {
+        while (seconds >= 60) {
             seconds -= 60;
             minutes++;
         }
-        while (minutes > 60) {
+        while (minutes >= 60) {
             minutes -= 60;
             hours++;
         }
@@ -90,11 +93,11 @@ public class Cooldown implements CommandExecutor {
         Integer minutes = 0;
         Integer seconds = time;
 
-        while (seconds > 60) {
+        while (seconds >= 60) {
             seconds -= 60;
             minutes++;
         }
-        while (minutes > 60) {
+        while (minutes >= 60) {
             minutes -= 60;
             hours++;
         }

@@ -6,6 +6,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.darko.main.Main;
+
 public class Chair implements CommandExecutor {
 
     @Override
@@ -13,27 +15,38 @@ public class Chair implements CommandExecutor {
         Player player = (Player) sender;
         if (player.hasPermission("utility.chair")) {
 
-            if (GlobalVariables.chairEnabled.containsKey(player.getUniqueId())) {
-
-                if (GlobalVariables.chairEnabled.get(player.getUniqueId()) == true) {
-                    GlobalVariables.chairEnabled.put(player.getUniqueId(), false);
-                } else if (GlobalVariables.chairEnabled.get(player.getUniqueId()) == false) {
-                    GlobalVariables.chairEnabled.put(player.getUniqueId(), true);
-                }
+            if (GlobalVariables.chairEnabled.contains(player)) {
+                GlobalVariables.chairEnabled.remove(player);
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        Main.getInstance().getConfig().getString("Messages.ChairDisabled")));
             } else {
-                GlobalVariables.chairEnabled.put(player.getUniqueId(), true);
+                GlobalVariables.chairEnabled.add(player);
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        Main.getInstance().getConfig().getString("Messages.ChairEnabled")));
             }
 
-            if (GlobalVariables.chairEnabled.get(player.getUniqueId()) == true) {
-                player.sendMessage(ChatColor.GREEN + "Chair mode enabled, right click on any stairs to sit on them.");
-            } else {
-                player.sendMessage(ChatColor.RED + "Chair mode disabled.");
-            }
-
+            /*
+             * if (GlobalVariables.chairEnabled.containsKey(player.getUniqueId())) {
+             * 
+             * if (GlobalVariables.chairEnabled.get(player.getUniqueId()) == true) {
+             * GlobalVariables.chairEnabled.put(player.getUniqueId(), false); } else if
+             * (GlobalVariables.chairEnabled.get(player.getUniqueId()) == false) {
+             * GlobalVariables.chairEnabled.put(player.getUniqueId(), true); } } else {
+             * GlobalVariables.chairEnabled.put(player.getUniqueId(), true); }
+             * 
+             * if (GlobalVariables.chairEnabled.get(player.getUniqueId()) == true) {
+             * player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+             * Main.getInstance().getConfig().getString("Messages.ChairEnabled"))); } else {
+             * player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+             * Main.getInstance().getConfig().getString("Messages.ChairDisabled"))); }
+             * 
+             * } else { player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+             * Main.getInstance().getConfig().getString("Messages.NoPermission"))); }
+             */
         } else {
-            player.sendMessage(ChatColor.RED + "You do not have permission to do this.");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    Main.getInstance().getConfig().getString("Messages.NoPermission")));
         }
-
         return false;
     }
 }

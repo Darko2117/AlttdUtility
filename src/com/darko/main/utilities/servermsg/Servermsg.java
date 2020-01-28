@@ -7,6 +7,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.darko.main.Main;
+
 public class Servermsg implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -34,7 +36,8 @@ public class Servermsg implements CommandExecutor {
                 sender.sendMessage(ChatColor.RED + "Color codes work and a new line is ^n");
             }
         } else {
-            sender.sendMessage(ChatColor.RED + "You do not have permission to do this.");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    Main.getInstance().getConfig().getString("Messages.NoPermission")));
         }
         return false;
     }

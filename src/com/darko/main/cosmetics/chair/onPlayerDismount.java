@@ -9,11 +9,6 @@ import org.spigotmc.event.entity.EntityDismountEvent;
 import com.darko.main.Main;
 
 public class onPlayerDismount implements Listener {
-    private Main main;
-
-    public onPlayerDismount(Main main) {
-        this.main = main;
-    }
 
     @EventHandler
     public void onDismount(EntityDismountEvent e) {
@@ -30,7 +25,7 @@ public class onPlayerDismount implements Listener {
                             e.getEntity().teleport(e.getEntity().getLocation().add(0, 1, 0));
                         }
                     }
-                }.runTaskLater(main, 0);
+                }.runTaskLater(Main.getInstance(), 0);
             }
         } catch (Exception ex) {
         }

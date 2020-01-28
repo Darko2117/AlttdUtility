@@ -9,11 +9,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.darko.main.Main;
 
 public class onChunkLoad implements Listener {
-    private Main main;
-
-    public onChunkLoad(Main main) {
-        this.main = main;
-    }
 
     @EventHandler
     public void onChunkLoadEvent(ChunkLoadEvent e) {
@@ -34,6 +29,6 @@ public class onChunkLoad implements Listener {
                 } catch (Exception ex) {
                 }
             }
-        }.runTask(this.main);
+        }.runTask(Main.getInstance());
     }
 }
