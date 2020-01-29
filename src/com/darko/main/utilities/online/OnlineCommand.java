@@ -23,25 +23,32 @@ public class OnlineCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player player = (Player) sender;
-        if (sender.hasPermission("utility.online")) {
-
-            if (args.length == 1) {
-                String groupName = args[0].toString();
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig()
-                        .getString("Messages.OnlineGroup").replace("%group%", groupName)));
-                StringBuilder names = new StringBuilder();
+        if (player.hasPermission("utility.online")) {
+            try {
                 LuckPerms api = APIs.LuckPermsApi();
-                for (Player players : Bukkit.getOnlinePlayers()) {
-                    User user = api.getUserManager().getUser(players.getUniqueId());
-                    Set<String> usersGroups = user.getNodes().stream().filter(NodeType.INHERITANCE::matches)
-                            .map(NodeType.INHERITANCE::cast).map(InheritanceNode::getGroupName)
-                            .collect(Collectors.toSet());
-                    if (usersGroups.contains(groupName)) {
-                        names.append(players.getName() + ", ");
+                if (args.length == 1) {
+                    String groupName = args[0].toString();
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig()
+                            .getString("Messages.OnlineGroup").replace("%group%", groupName)));
+                    StringBuilder names = new StringBuilder();
+                    for (Player players : Bukkit.getOnlinePlayers()) {
+                        User user = api.getUserManager().getUser(players.getUniqueId());
+                        Set<String> userGroups = user.getNodes().stream().filter(NodeType.INHERITANCE::matches)
+                                .map(NodeType.INHERITANCE::cast).map(InheritanceNode::getGroupName)
+                                .collect(Collectors.toSet());
+                        if (userGroups.contains(groupName)) {
+                            names.append(players.getName() + ", ");
+                        }
                     }
+                    player.sendMessage(names.substring(0, names.length() - 2).toString());
                 }
-                player.sendMessage(names.substring(0, names.length() - 2).toString());
+            } catch (Exception e) {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        Main.getInstance().getConfig().getString("Messages.GroupNotFound")));
             }
+        } else {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    Main.getInstance().getConfig().getString("Messages.NoPermission")));
         }
 
         return false;

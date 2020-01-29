@@ -24,25 +24,6 @@ public class Chair implements CommandExecutor {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         Main.getInstance().getConfig().getString("Messages.ChairEnabled")));
             }
-
-            /*
-             * if (GlobalVariables.chairEnabled.containsKey(player.getUniqueId())) {
-             * 
-             * if (GlobalVariables.chairEnabled.get(player.getUniqueId()) == true) {
-             * GlobalVariables.chairEnabled.put(player.getUniqueId(), false); } else if
-             * (GlobalVariables.chairEnabled.get(player.getUniqueId()) == false) {
-             * GlobalVariables.chairEnabled.put(player.getUniqueId(), true); } } else {
-             * GlobalVariables.chairEnabled.put(player.getUniqueId(), true); }
-             * 
-             * if (GlobalVariables.chairEnabled.get(player.getUniqueId()) == true) {
-             * player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-             * Main.getInstance().getConfig().getString("Messages.ChairEnabled"))); } else {
-             * player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-             * Main.getInstance().getConfig().getString("Messages.ChairDisabled"))); }
-             * 
-             * } else { player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-             * Main.getInstance().getConfig().getString("Messages.NoPermission"))); }
-             */
         } else {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     Main.getInstance().getConfig().getString("Messages.NoPermission")));

@@ -23,6 +23,9 @@ public class AutoFix implements CommandExecutor {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         Main.getInstance().getConfig().getString("Messages.AutoFixDisabled")));
             }
+        } else {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    Main.getInstance().getConfig().getString("Messages.NoPermission")));
         }
         return false;
     }
