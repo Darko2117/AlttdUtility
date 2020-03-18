@@ -27,20 +27,27 @@ public class OnlineCommand implements CommandExecutor {
             try {
                 LuckPerms api = APIs.LuckPermsApi();
                 if (args.length == 1) {
+
                     String groupName = args[0].toString();
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig()
                             .getString("Messages.OnlineGroup").replace("%group%", groupName)));
-                    StringBuilder names = new StringBuilder();
-                    for (Player players : Bukkit.getOnlinePlayers()) {
-                        User user = api.getUserManager().getUser(players.getUniqueId());
-                        Set<String> userGroups = user.getNodes().stream().filter(NodeType.INHERITANCE::matches)
-                                .map(NodeType.INHERITANCE::cast).map(InheritanceNode::getGroupName)
-                                .collect(Collectors.toSet());
-                        if (userGroups.contains(groupName)) {
-                            names.append(players.getName() + ", ");
+                    if (!Main.getInstance().getConfig().getStringList("BlackListedGroups").contains(args[0].toString())
+                            || player.hasPermission("utility.online.seeblacklisted")) {
+                        StringBuilder names = new StringBuilder();
+                        for (Player players : Bukkit.getOnlinePlayers()) {
+                            User user = api.getUserManager().getUser(players.getUniqueId());
+                            Set<String> userGroups = user.getNodes().stream().filter(NodeType.INHERITANCE::matches)
+                                    .map(NodeType.INHERITANCE::cast).map(InheritanceNode::getGroupName)
+                                    .collect(Collectors.toSet());
+                            if (userGroups.contains(groupName)) {
+                                names.append(players.getName() + ", ");
+                            }
                         }
+                        player.sendMessage(names.substring(0, names.length() - 2).toString());
+                    } else {
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                                Main.getInstance().getConfig().getString("Messages.GroupNotFound")));
                     }
-                    player.sendMessage(names.substring(0, names.length() - 2).toString());
                 }
             } catch (Exception e) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',

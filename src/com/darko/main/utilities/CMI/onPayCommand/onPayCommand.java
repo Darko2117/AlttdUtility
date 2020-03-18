@@ -16,72 +16,74 @@ public class onPayCommand implements Listener {
     public void onPayCommands(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
         String command = e.getMessage();
-        if (command.startsWith("/cmi pay ") && command.endsWith(" -confirmed")) {
-            StringBuilder name = new StringBuilder(command);
-            name.delete(0, 9);
-            name.reverse();
-            name.delete(0, 11);
-            name.delete(0, name.indexOf(" ") + 1);
-            name.reverse();
-            if (!onlineChecker(name.toString())) {
-                e.setCancelled(true);
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        Main.getInstance().getConfig().getString("Messages.OfflinePlayerPayment")));
-            }
-        } else if (command.startsWith("/cmi:cmi pay ")) {
-            StringBuilder name = new StringBuilder(command);
-            name.delete(0, 13);
-            name.reverse();
-            name.delete(0, name.indexOf(" ") + 1);
-            name.reverse();
-            if (!onlineChecker(name.toString())) {
-                e.setCancelled(true);
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        Main.getInstance().getConfig().getString("Messages.OfflinePlayerPayment")));
-            }
-        } else if (command.startsWith("/cmi pay ")) {
-            StringBuilder name = new StringBuilder(command);
-            name.delete(0, 9);
-            name.reverse();
-            name.delete(0, name.indexOf(" ") + 1);
-            name.reverse();
-            if (!onlineChecker(name.toString())) {
-                e.setCancelled(true);
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        Main.getInstance().getConfig().getString("Messages.OfflinePlayerPayment")));
-            }
-        } else if (command.startsWith("/cmi:cmi money pay ")) {
-            StringBuilder name = new StringBuilder(command);
-            name.delete(0, 19);
-            name.reverse();
-            name.delete(0, name.indexOf(" ") + 1);
-            name.reverse();
-            if (!onlineChecker(name.toString())) {
-                e.setCancelled(true);
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        Main.getInstance().getConfig().getString("Messages.OfflinePlayerPayment")));
-            }
-        } else if (command.startsWith("/cmi money pay ")) {
-            StringBuilder name = new StringBuilder(command);
-            name.delete(0, 15);
-            name.reverse();
-            name.delete(0, name.indexOf(" ") + 1);
-            name.reverse();
-            if (!onlineChecker(name.toString())) {
-                e.setCancelled(true);
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        Main.getInstance().getConfig().getString("Messages.OfflinePlayerPayment")));
-            }
-        } else if (command.startsWith("/pay ")) {
-            StringBuilder name = new StringBuilder(command);
-            name.delete(0, 5);
-            name.reverse();
-            name.delete(0, name.indexOf(" ") + 1);
-            name.reverse();
-            if (!onlineChecker(name.toString())) {
-                e.setCancelled(true);
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        Main.getInstance().getConfig().getString("Messages.OfflinePlayerPayment")));
+        if (player.hasPermission("utility.offlinepay.disabled")) {
+            if (command.startsWith("/cmi pay ") && command.endsWith(" -confirmed")) {
+                StringBuilder name = new StringBuilder(command);
+                name.delete(0, 9);
+                name.reverse();
+                name.delete(0, 11);
+                name.delete(0, name.indexOf(" ") + 1);
+                name.reverse();
+                if (!onlineChecker(name.toString())) {
+                    e.setCancelled(true);
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                            Main.getInstance().getConfig().getString("Messages.OfflinePlayerPayment")));
+                }
+            } else if (command.startsWith("/cmi:cmi pay ")) {
+                StringBuilder name = new StringBuilder(command);
+                name.delete(0, 13);
+                name.reverse();
+                name.delete(0, name.indexOf(" ") + 1);
+                name.reverse();
+                if (!onlineChecker(name.toString())) {
+                    e.setCancelled(true);
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                            Main.getInstance().getConfig().getString("Messages.OfflinePlayerPayment")));
+                }
+            } else if (command.startsWith("/cmi pay ")) {
+                StringBuilder name = new StringBuilder(command);
+                name.delete(0, 9);
+                name.reverse();
+                name.delete(0, name.indexOf(" ") + 1);
+                name.reverse();
+                if (!onlineChecker(name.toString())) {
+                    e.setCancelled(true);
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                            Main.getInstance().getConfig().getString("Messages.OfflinePlayerPayment")));
+                }
+            } else if (command.startsWith("/cmi:cmi money pay ")) {
+                StringBuilder name = new StringBuilder(command);
+                name.delete(0, 19);
+                name.reverse();
+                name.delete(0, name.indexOf(" ") + 1);
+                name.reverse();
+                if (!onlineChecker(name.toString())) {
+                    e.setCancelled(true);
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                            Main.getInstance().getConfig().getString("Messages.OfflinePlayerPayment")));
+                }
+            } else if (command.startsWith("/cmi money pay ")) {
+                StringBuilder name = new StringBuilder(command);
+                name.delete(0, 15);
+                name.reverse();
+                name.delete(0, name.indexOf(" ") + 1);
+                name.reverse();
+                if (!onlineChecker(name.toString())) {
+                    e.setCancelled(true);
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                            Main.getInstance().getConfig().getString("Messages.OfflinePlayerPayment")));
+                }
+            } else if (command.startsWith("/pay ")) {
+                StringBuilder name = new StringBuilder(command);
+                name.delete(0, 5);
+                name.reverse();
+                name.delete(0, name.indexOf(" ") + 1);
+                name.reverse();
+                if (!onlineChecker(name.toString())) {
+                    e.setCancelled(true);
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                            Main.getInstance().getConfig().getString("Messages.OfflinePlayerPayment")));
+                }
             }
         }
     }

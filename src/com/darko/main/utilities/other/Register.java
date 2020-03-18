@@ -12,19 +12,26 @@ import com.darko.main.cosmetics.chair.onPlayerQuit;
 import com.darko.main.cosmetics.chair.onStairsRightClick;
 import com.darko.main.cosmetics.hat.Hat;
 import com.darko.main.utilities.CMI.onPayCommand.onPayCommand;
+import com.darko.main.utilities.claimlogging.claimCreatedEventLog;
 import com.darko.main.utilities.cooldown.Cooldown;
 import com.darko.main.utilities.cooldown.cooldownTabComplete;
+import com.darko.main.utilities.destro.animals.DamageListener;
+import com.darko.main.utilities.destro.petpickup.PetPickupListener;
+import com.darko.main.utilities.destro.prizelogger.PrizeListener;
+import com.darko.main.utilities.destro.raids.RaidListener;
+import com.darko.main.utilities.destro.tamedexpire.onEntityInteractWithLead;
 import com.darko.main.utilities.durability.AutoFix;
 import com.darko.main.utilities.durability.onDurabilityUse;
+import com.darko.main.utilities.egglogging.EggLog;
 import com.darko.main.utilities.flags.onAnvilClick;
 import com.darko.main.utilities.flags.onBoneMeal;
 import com.darko.main.utilities.flags.onEnchantmentTableClick;
 import com.darko.main.utilities.flags.onEntityRename;
+import com.darko.main.utilities.freeze.onPlayerMove;
 import com.darko.main.utilities.online.GroupsTabComplete;
 import com.darko.main.utilities.online.OnlineCommand;
 import com.darko.main.utilities.portal.onPortalUse;
 import com.darko.main.utilities.servermsg.Servermsg;
-import com.darko.main.utilities.tamedexpire.onEntityInteractWithLead;
 import com.darko.main.utilities.teleport.onPlayerTeleport;
 
 public class Register extends JavaPlugin {
@@ -46,6 +53,13 @@ public class Register extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new onPayCommand(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new onPortalUse(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new onDurabilityUse(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new onPlayerMove(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new RaidListener(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new PetPickupListener(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new PrizeListener(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new DamageListener(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new EggLog(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new claimCreatedEventLog(), Main.getInstance());
     }
 
     public static void RegisterCommands() {
@@ -55,6 +69,7 @@ public class Register extends JavaPlugin {
         Main.getInstance().getCommand("hat").setExecutor(new Hat());
         Main.getInstance().getCommand("servermsg").setExecutor(new Servermsg());
         Main.getInstance().getCommand("chair").setExecutor(new Chair());
+
         if (GlobalVariables.LuckPermsFound) {
             Main.getInstance().getCommand("cooldown").setExecutor(new Cooldown());
             Main.getInstance().getCommand("cooldown").setTabCompleter(new cooldownTabComplete());

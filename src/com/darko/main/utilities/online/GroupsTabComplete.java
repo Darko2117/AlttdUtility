@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import com.darko.main.Main;
 import com.darko.main.utilities.other.APIs;
 
 import net.luckperms.api.LuckPerms;
@@ -44,7 +45,9 @@ public class GroupsTabComplete implements TabCompleter {
             Set<String> groupsTemp = user.getNodes().stream().filter(NodeType.INHERITANCE::matches)
                     .map(NodeType.INHERITANCE::cast).map(InheritanceNode::getGroupName).collect(Collectors.toSet());
             for (String group : groupsTemp) {
-                if (!groups.contains(group)) {
+                if ((!groups.contains(group)
+                        && !Main.getInstance().getConfig().getStringList("BlackListedGroups").contains(group))
+                        || (!groups.contains(group) && player.hasPermission("utility.online.seeblacklisted"))) {
                     groups.add(group);
                 }
             }

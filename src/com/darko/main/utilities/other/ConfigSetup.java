@@ -1,12 +1,16 @@
 package com.darko.main.utilities.other;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.darko.main.Main;
 
 public class ConfigSetup {
 
-    private enum Message {
+    private enum Messages {
+
         NoPermission("Messages.NoPermission", "&cYou do not have permission to do this."),
         ChairEnabled("Messages.ChairEnabled", "&aChair mode enabled, right click on any stairs to sit on them."),
         ChairDisabled("Messages.ChairDisabled", "&cChair mode disabled."),
@@ -30,7 +34,7 @@ public class ConfigSetup {
         private final String path;
         private final String message;
 
-        Message(String path, String message) {
+        Messages(String path, String message) {
             this.path = path;
             this.message = message;
         }
@@ -38,12 +42,25 @@ public class ConfigSetup {
 
     public static void onConfigSetup() {
         FileConfiguration config = Main.getInstance().getConfig();
-        for (Message m : Message.values()) {
+        // Messages
+        for (Messages m : Messages.values()) {
             if (!config.contains(m.path)) {
                 config.set(m.path, m.message);
                 System.out.println(m.path + " not found in the config, creating it now.");
             }
         }
+        // ----------------------------------------------------------------------------------------------------
+
+        // Blacklisted groups
+        if (!config.contains("BlackListedGroups")) {
+            List<String> groups = new ArrayList<>();
+            groups.add("spy");
+            config.set("BlackListedGroups", groups);
+            System.out.println("BlackListedGroups list not found in the config, creating it now.");
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
         Main.getInstance().saveConfig();
     }
 

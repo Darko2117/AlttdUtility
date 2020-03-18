@@ -3,8 +3,10 @@ package com.darko.main;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.darko.main.utilities.other.APIs;
+import com.darko.main.utilities.other.ClaimCreationLogDataFile;
 import com.darko.main.utilities.other.ConfigSetup;
 import com.darko.main.utilities.other.ConsoleColors;
+import com.darko.main.utilities.other.EggLogDataFile;
 import com.darko.main.utilities.other.Register;
 
 public class Main extends JavaPlugin {
@@ -21,6 +23,9 @@ public class Main extends JavaPlugin {
         instance = this;
 
         ConfigSetup.onConfigSetup();
+
+        EggLogDataFile.Initiate();
+        ClaimCreationLogDataFile.Initiate();
 
         Register.RegisterEvents();
 
