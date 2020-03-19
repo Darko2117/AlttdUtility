@@ -12,22 +12,26 @@ import com.darko.main.cosmetics.chair.onPlayerQuit;
 import com.darko.main.cosmetics.chair.onStairsRightClick;
 import com.darko.main.cosmetics.hat.Hat;
 import com.darko.main.utilities.CMI.onPayCommand.onPayCommand;
-import com.darko.main.utilities.claimlogging.claimCreatedEventLog;
 import com.darko.main.utilities.cooldown.Cooldown;
 import com.darko.main.utilities.cooldown.cooldownTabComplete;
-import com.darko.main.utilities.destro.animals.DamageListener;
+import com.darko.main.utilities.destro.claimanimals.DamageListener;
+import com.darko.main.utilities.destro.claimraids.RaidListener;
 import com.darko.main.utilities.destro.petpickup.PetPickupListener;
-import com.darko.main.utilities.destro.prizelogger.PrizeListener;
-import com.darko.main.utilities.destro.raids.RaidListener;
 import com.darko.main.utilities.destro.tamedexpire.onEntityInteractWithLead;
 import com.darko.main.utilities.durability.AutoFix;
 import com.darko.main.utilities.durability.onDurabilityUse;
-import com.darko.main.utilities.egglogging.EggLog;
+import com.darko.main.utilities.flags.Flags;
 import com.darko.main.utilities.flags.onAnvilClick;
 import com.darko.main.utilities.flags.onBoneMeal;
 import com.darko.main.utilities.flags.onEnchantmentTableClick;
 import com.darko.main.utilities.flags.onEntityRename;
 import com.darko.main.utilities.freeze.onPlayerMove;
+import com.darko.main.utilities.logging.claimlogging.ClaimCreatedLog;
+import com.darko.main.utilities.logging.claimlogging.ClaimDeletedLog;
+import com.darko.main.utilities.logging.claimlogging.ClaimExpiredLog;
+import com.darko.main.utilities.logging.claimlogging.ClaimModifiedLog;
+import com.darko.main.utilities.logging.egglogging.EggLog;
+import com.darko.main.utilities.logging.prizelogger.CratePrizeLog;
 import com.darko.main.utilities.online.GroupsTabComplete;
 import com.darko.main.utilities.online.OnlineCommand;
 import com.darko.main.utilities.portal.onPortalUse;
@@ -56,10 +60,13 @@ public class Register extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new onPlayerMove(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new RaidListener(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new PetPickupListener(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new PrizeListener(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new CratePrizeLog(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new DamageListener(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new EggLog(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new claimCreatedEventLog(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new ClaimCreatedLog(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new ClaimDeletedLog(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new ClaimExpiredLog(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new ClaimModifiedLog(), Main.getInstance());
     }
 
     public static void RegisterCommands() {
@@ -70,12 +77,12 @@ public class Register extends JavaPlugin {
         Main.getInstance().getCommand("servermsg").setExecutor(new Servermsg());
         Main.getInstance().getCommand("chair").setExecutor(new Chair());
 
-        if (GlobalVariables.LuckPermsFound) {
+        if (APIs.LuckPermsFound) {
             Main.getInstance().getCommand("cooldown").setExecutor(new Cooldown());
             Main.getInstance().getCommand("cooldown").setTabCompleter(new cooldownTabComplete());
         }
 
-        if (GlobalVariables.WorldGuardFound) {
+        if (APIs.WorldGuardFound) {
             Flags.FlagsEnable();
         }
     }

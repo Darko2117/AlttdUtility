@@ -46,7 +46,7 @@ public class ConfigSetup {
         for (Messages m : Messages.values()) {
             if (!config.contains(m.path)) {
                 config.set(m.path, m.message);
-                System.out.println(m.path + " not found in the config, creating it now.");
+                Main.getInstance().getLogger().info(m.path + " not found in the config, creating it now.");
             }
         }
         // ----------------------------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ public class ConfigSetup {
             List<String> groups = new ArrayList<>();
             groups.add("spy");
             config.set("BlackListedGroups", groups);
-            System.out.println("BlackListedGroups list not found in the config, creating it now.");
+            Main.getInstance().getLogger().info("BlackListedGroups list not found in the config, creating it now.");
         }
 
         // ----------------------------------------------------------------------------------------------------

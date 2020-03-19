@@ -1,5 +1,8 @@
 package com.darko.main.utilities.durability;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,16 +13,18 @@ import com.darko.main.Main;
 
 public class AutoFix implements CommandExecutor {
 
+    public static List<Player> AutoFix = new ArrayList<>();
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player player = (Player) sender;
         if (player.hasPermission("utility.autofix")) {
-            if (!PlayerList.AutoFix.contains(player)) {
-                PlayerList.AutoFix.add(player);
+            if (!AutoFix.contains(player)) {
+                AutoFix.add(player);
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         Main.getInstance().getConfig().getString("Messages.AutoFixEnabled")));
             } else {
-                PlayerList.AutoFix.remove(player);
+                AutoFix.remove(player);
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         Main.getInstance().getConfig().getString("Messages.AutoFixDisabled")));
             }

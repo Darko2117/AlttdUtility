@@ -9,7 +9,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.darko.main.Main;
-import com.darko.main.utilities.other.Flags;
+import com.darko.main.utilities.other.APIs;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
@@ -81,7 +81,7 @@ public class ChairChecks {
     }
 
     public static Boolean claimCheck(Player player, PlayerInteractEvent e) {
-        if (!com.darko.main.utilities.other.GlobalVariables.GriefPreventionFound) {
+        if (!APIs.GriefPreventionFound) {
             return true;
         }
         Claim claim = GriefPrevention.instance.dataStore.getClaimAt(e.getClickedBlock().getLocation(), true, null);
@@ -99,14 +99,14 @@ public class ChairChecks {
     }
 
     public static Boolean regionCheck(Player player, PlayerInteractEvent e) {
-        if (!com.darko.main.utilities.other.GlobalVariables.WorldGuardFound) {
+        if (!APIs.WorldGuardFound) {
             return true;
         }
         com.sk89q.worldedit.util.Location blockloc = BukkitAdapter.adapt(e.getClickedBlock().getLocation());
         LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
         RegionQuery query = container.createQuery();
-        if (query.testState(blockloc, localPlayer, Flags.SIT)) {
+        if (query.testState(blockloc, localPlayer, com.darko.main.utilities.flags.Flags.SIT)) {
             return true;
         } else {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&',

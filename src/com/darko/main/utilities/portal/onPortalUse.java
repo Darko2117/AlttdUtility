@@ -66,8 +66,9 @@ public class onPortalUse implements Listener {
                     }
                 }
             }
-            System.out.println(e.getPlayer().getName() + " used the end portal. Teleporting them to X: "
-                    + e.getTo().getX() + " Y: " + e.getTo().getY() + " Z: " + e.getTo().getZ());
+            Main.getInstance().getLogger()
+                    .info(e.getPlayer().getName() + " used the end portal. Teleporting them to X: " + e.getTo().getX()
+                            + " Y: " + e.getTo().getY() + " Z: " + e.getTo().getZ());
         }
     }
 
