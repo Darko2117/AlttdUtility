@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.darko.main.Main;
 
@@ -14,7 +15,7 @@ import me.ryanhamshire.GriefPrevention.events.ClaimExpirationEvent;
 public class ClaimExpiredLog implements Listener {
 
     @EventHandler
-    public void onClaimExpiration(ClaimExpirationEvent e) throws IOException {
+    public void onClaimExpiration(ClaimExpirationEvent e) {
 
         Date time = new Date(System.currentTimeMillis());
         String owner = e.getClaim().getOwnerName();
@@ -31,9 +32,18 @@ public class ClaimExpiredLog implements Listener {
         StringBuilder message = new StringBuilder();
         message.append(time.toString() + " Claim of " + owner + " expired. The claim was located at " + firstCorner
                 + " - " + secondCorner + " and it went down to Y:" + lowestY);
-        FileWriter writer = new FileWriter(Main.getInstance().getDataFolder() + "/logs/claim-expired-log.txt", true);
-        writer.write(message.toString() + "\n");
-        writer.close();
+
+        new BukkitRunnable() {
+            public void run() {
+                try {
+                    FileWriter writer = new FileWriter(
+                            Main.getInstance().getDataFolder() + "/logs/claim-expired-log.txt", true);
+                    writer.write(message.toString() + "\n");
+                    writer.close();
+                } catch (IOException e) {
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
 
     }
 }

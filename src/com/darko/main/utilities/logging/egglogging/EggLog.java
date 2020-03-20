@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerEggThrowEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.darko.main.Main;
 
@@ -17,7 +18,7 @@ import me.ryanhamshire.GriefPrevention.GriefPrevention;
 public class EggLog implements Listener {
 
     @EventHandler
-    public void onEggThrow(PlayerEggThrowEvent e) throws IOException {
+    public void onEggThrow(PlayerEggThrowEvent e) {
 
         String player = e.getPlayer().getName();
         Location location = (Location) e.getEgg().getLocation();
@@ -26,7 +27,6 @@ public class EggLog implements Listener {
         xyz.append("Y:" + location.getBlockY() + " ");
         xyz.append("Z:" + location.getBlockZ());
         Date time = new Date(System.currentTimeMillis());
-        FileWriter writer = new FileWriter(Main.getInstance().getDataFolder() + "/logs/egg-log.txt", true);
         StringBuilder message = new StringBuilder();
         Claim claim = GriefPrevention.instance.dataStore.getClaimAt(location, true, null);
         if (claim != null) {
@@ -36,7 +36,17 @@ public class EggLog implements Listener {
         } else {
             message.append(time.toString() + " " + player + " threw an egg at " + xyz + ".");
         }
-        writer.write(message.toString() + "\n");
-        writer.close();
+
+        new BukkitRunnable() {
+            public void run() {
+                try {
+                    FileWriter writer = new FileWriter(Main.getInstance().getDataFolder() + "/logs/egg-log.txt", true);
+                    writer.write(message.toString() + "\n");
+                    writer.close();
+                } catch (IOException e) {
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
+
     }
 }

@@ -35,4 +35,5 @@ public class Main extends JavaPlugin {
                 + "Sugar Cane" + ConsoleColors.RESET + " please thank you :)");
         System.out.println("--------------------------------------------------");
     }
+
 }

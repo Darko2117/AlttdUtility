@@ -18,6 +18,7 @@ import com.darko.main.utilities.destro.claimanimals.DamageListener;
 import com.darko.main.utilities.destro.claimraids.RaidListener;
 import com.darko.main.utilities.destro.petpickup.PetPickupListener;
 import com.darko.main.utilities.destro.tamedexpire.onEntityInteractWithLead;
+import com.darko.main.utilities.drops.onIronGolemDeath;
 import com.darko.main.utilities.durability.AutoFix;
 import com.darko.main.utilities.durability.onDurabilityUse;
 import com.darko.main.utilities.flags.Flags;
@@ -67,6 +68,7 @@ public class Register extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ClaimDeletedLog(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new ClaimExpiredLog(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new ClaimModifiedLog(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new onIronGolemDeath(), Main.getInstance());
     }
 
     public static void RegisterCommands() {

@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.darko.main.Main;
 
@@ -14,7 +15,7 @@ import me.ryanhamshire.GriefPrevention.events.ClaimCreatedEvent;
 public class ClaimCreatedLog implements Listener {
 
     @EventHandler
-    public void onClaimCreate(ClaimCreatedEvent e) throws IOException {
+    public void onClaimCreate(ClaimCreatedEvent e) {
 
         Date time = new Date(System.currentTimeMillis());
         String creator = e.getCreator().getName();
@@ -31,9 +32,18 @@ public class ClaimCreatedLog implements Listener {
         StringBuilder message = new StringBuilder();
         message.append(time.toString() + " New claim created at " + firstCorner + " - " + secondCorner + " by "
                 + creator + ". The claim goes down to Y:" + lowestY + ".");
-        FileWriter writer = new FileWriter(Main.getInstance().getDataFolder() + "/logs/claim-created-log.txt", true);
-        writer.write(message.toString() + "\n");
-        writer.close();
+
+        new BukkitRunnable() {
+            public void run() {
+                try {
+                    FileWriter writer = new FileWriter(
+                            Main.getInstance().getDataFolder() + "/logs/claim-created-log.txt", true);
+                    writer.write(message.toString() + "\n");
+                    writer.close();
+                } catch (IOException e) {
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
 
     }
 }

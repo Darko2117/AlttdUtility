@@ -7,31 +7,30 @@ import java.util.List;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.darko.main.Main;
 
 import me.badbones69.crazycrates.api.events.PlayerPrizeEvent;
 import me.badbones69.crazycrates.api.objects.ItemBuilder;
-import net.md_5.bungee.api.ChatColor;
 
 public class CratePrizeLog implements Listener {
 
     @EventHandler
-    public void onPrize(PlayerPrizeEvent event) throws IOException {
+    public void onPrize(PlayerPrizeEvent event) {
         List<ItemBuilder> items = event.getPrize().getItemBuilders();
         StringBuilder message = new StringBuilder();
-        FileWriter writer = new FileWriter(Main.getInstance().getDataFolder() + "/logs/crate-prize-log.txt", true);
         if (items.size() != 0) {
 
             Date time = new Date(System.currentTimeMillis());
             String player = event.getPlayer().getDisplayName();
-            message.append(time + " " + player + ChatColor.RESET + " won: ");
+            message.append(time + " " + player + " won: ");
 
             for (ItemBuilder item : items) {
 
                 Integer amount = item.getAmount();
                 String itemName = item.getName();
-                message.append(amount + "x " + itemName + ChatColor.RESET + ", ");
+                message.append(amount + "x " + itemName + ", ");
             }
             message.delete(message.length() - 2, message.length());
             String crate = event.getCrateName();
@@ -41,8 +40,7 @@ public class CratePrizeLog implements Listener {
             String prize = event.getPrize().getDisplayItem().getItemMeta().getDisplayName();
             String crate = event.getCrateName();
             Date time = new Date(System.currentTimeMillis());
-            message.append(time + " " + player + ChatColor.RESET + " won " + prize + ChatColor.RESET
-                    + " out of the Crate: " + crate + "\n");
+            message.append(time + " " + player + " won " + prize + " out of the Crate: " + crate + "\n");
         }
         List<String> commands = event.getPrize().getCommands();
         if (commands.size() != 0) {
@@ -56,7 +54,17 @@ public class CratePrizeLog implements Listener {
             message.delete(message.length() - 2, message.length());
         }
 
-        writer.write(message.toString() + "\n");
-        writer.close();
+        new BukkitRunnable() {
+            public void run() {
+                try {
+                    FileWriter writer = new FileWriter(Main.getInstance().getDataFolder() + "/logs/crate-prize-log.txt",
+                            true);
+                    writer.write(message.toString() + "\n");
+                    writer.close();
+                } catch (IOException e) {
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
+
     }
 }
