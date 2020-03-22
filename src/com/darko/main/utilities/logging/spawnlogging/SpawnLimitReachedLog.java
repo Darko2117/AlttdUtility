@@ -1,10 +1,12 @@
 package com.darko.main.utilities.logging.spawnlogging;
 
 import com.darko.main.Main;
+import com.darko.main.utilities.other.APIs;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,7 +30,19 @@ public class SpawnLimitReachedLog{
         StringBuilder message = new StringBuilder();
 
         Date time = new Date(System.currentTimeMillis());
-        message.append(time + " " + entityType + " tried to spawn at X:" + locationX + " Y:" + locationY + " Z:" + locationZ + " but the spawn max is reached.");
+        String claimOwner = null;
+
+        if(APIs.WorldGuardFound){
+            Claim claim = GriefPrevention.instance.dataStore.getClaimAt(e.getLocation(), true, null);
+            if (claim != null) {
+                claimOwner = claim.getOwnerName();
+                message.append(time + " " + entityType + " tried to spawn at X:" + locationX + " Y:" + locationY + " Z:" + locationZ + " which is in " + claimOwner + "'s claim but the spawn max is reached.");
+            }else{
+                message.append(time + " " + entityType + " tried to spawn at X:" + locationX + " Y:" + locationY + " Z:" + locationZ + " but the spawn max is reached.");
+            }
+            }else{
+            message.append(time + " " + entityType + " tried to spawn at X:" + locationX + " Y:" + locationY + " Z:" + locationZ + " but the spawn max is reached.");
+        }
 
         new BukkitRunnable() {
             public void run() {
