@@ -4,7 +4,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.darko.main.utilities.logging.Logging;
 import com.darko.main.utilities.other.APIs;
-import com.darko.main.utilities.other.ConfigSetup;
+import com.darko.main.utilities.config.ConfigSetup;
 import com.darko.main.utilities.other.ConsoleColors;
 import com.darko.main.utilities.other.Register;
 

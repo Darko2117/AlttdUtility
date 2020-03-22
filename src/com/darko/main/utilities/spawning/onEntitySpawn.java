@@ -1,6 +1,7 @@
 package com.darko.main.utilities.spawning;
 
 import com.darko.main.Main;
+import com.darko.main.utilities.logging.spawnlogging.SpawnLimitReachedLog;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.libs.org.apache.commons.lang3.EnumUtils;
 import org.bukkit.entity.EntityType;
@@ -10,11 +11,12 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class onEntitySpawn implements Listener {
 
-    public static List<Location> spawnLoc = new ArrayList<>();
+    public static HashMap<EntityType, List<Location>> spawnLoc = new HashMap<>();
 
     @EventHandler
     public void onSpawn(EntitySpawnEvent e){
@@ -33,6 +35,11 @@ public class onEntitySpawn implements Listener {
 
                 if (e.getEntity().getType().equals(entityType)) {
 
+                    if(!spawnLoc.containsKey(entityType)){
+                        List <Location> emptyLocationsList = new ArrayList<>();
+                        spawnLoc.put(entityType, emptyLocationsList);
+                    }
+
                     Location location = e.getLocation();
 
                     Integer distanceLimit = Main.getInstance().getConfig().getInt("SpawnLimiter." + stringEdit + ".RadiusLimit");
@@ -41,7 +48,7 @@ public class onEntitySpawn implements Listener {
 
                     Integer alreadySpawned = 0;
 
-                    for (Location loc : spawnLoc) {
+                    for (Location loc : spawnLoc.get(entityType)) {
                         if (location.distance(loc) <= distanceLimit) {
                             alreadySpawned++;
                         }
@@ -49,15 +56,22 @@ public class onEntitySpawn implements Listener {
 
                     if (alreadySpawned >= spawnLimit) {
                         e.setCancelled(true);
-                        System.out.println(e.getEntityType().toString() + " tried to spawn but the cap is reached.");
+                        SpawnLimitReachedLog.onCancelledSpawn(e);
                     }
 
                     if (!e.isCancelled()) {
-                        spawnLoc.add(location);
+
+                        List <Location> addedLocation = new ArrayList<>(spawnLoc.get(entityType));
+                        addedLocation.add(location);
+                        spawnLoc.put(entityType, addedLocation);
+
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                spawnLoc.remove(location);
+
+                                List <Location> removedLocation = new ArrayList<>(spawnLoc.get(entityType));
+                                removedLocation.remove(location);
+                                spawnLoc.put(entityType, removedLocation);
                             }
                         }.runTaskLater(Main.getInstance(), timeLimit * 20);
                     }

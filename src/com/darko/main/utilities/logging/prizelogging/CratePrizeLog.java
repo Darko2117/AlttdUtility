@@ -1,4 +1,4 @@
-package com.darko.main.utilities.logging.prizelogger;
+package com.darko.main.utilities.logging.prizelogging;
 
 import java.io.FileWriter;
 import java.io.IOException;

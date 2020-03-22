@@ -1,4 +1,4 @@
-package com.darko.main.utilities.freeze;
+package com.darko.main.utilities.permissionStuff;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

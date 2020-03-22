@@ -1,4 +1,4 @@
-package com.darko.main.utilities.other;
+package com.darko.main.utilities.config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,9 @@ public class ConfigSetup {
     }
 
     public static void onConfigSetup() {
+
         FileConfiguration config = Main.getInstance().getConfig();
+
         // Messages
         for (Messages m : Messages.values()) {
             if (!config.contains(m.path)) {
@@ -65,15 +67,17 @@ public class ConfigSetup {
         // SpawnLimiter
         if (!config.contains("SpawnLimiter")) {
             config.createSection("SpawnLimiter.IRON_GOLEM");
-            Integer spawnRadius = 50;
-            Integer spawnTimeLimit = 10;
-            Integer spawnLimit = 5;
+            Integer spawnRadius = 112;
+            Integer spawnTimeLimit = 60;
+            Integer spawnLimit = 10;
             config.set("SpawnLimiter.IRON_GOLEM.RadiusLimit", spawnRadius);
             config.set("SpawnLimiter.IRON_GOLEM.TimeLimit", spawnTimeLimit);
             config.set("SpawnLimiter.IRON_GOLEM.SpawnLimit", spawnLimit);
         }
 
         // ----------------------------------------------------------------------------------------------------
+
+
 
         Main.getInstance().saveConfig();
     }

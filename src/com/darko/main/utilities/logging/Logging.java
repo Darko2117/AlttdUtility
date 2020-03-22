@@ -5,7 +5,9 @@ import com.darko.main.utilities.logging.claimlogging.ClaimDeletedLogFile;
 import com.darko.main.utilities.logging.claimlogging.ClaimExpiredLogFile;
 import com.darko.main.utilities.logging.claimlogging.ClaimModifiedLogFile;
 import com.darko.main.utilities.logging.egglogging.EggLogFile;
-import com.darko.main.utilities.logging.prizelogger.CratePrizeLogFile;
+import com.darko.main.utilities.logging.prizelogging.CratePrizeLogFile;
+import com.darko.main.utilities.logging.spawnlogging.SpawnLimitReachedLog;
+import com.darko.main.utilities.logging.spawnlogging.SpawnLimitReachedLogFile;
 
 public class Logging {
 
@@ -18,6 +20,7 @@ public class Logging {
         ClaimModifiedLogFile.Initiate();
         EggLogFile.Initiate();
         CratePrizeLogFile.Initiate();
+        SpawnLimitReachedLogFile.Initiate();
 
     }
 
