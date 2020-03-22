@@ -3,6 +3,7 @@ package com.darko.main.utilities.other;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.darko.main.Main;
@@ -57,6 +58,19 @@ public class ConfigSetup {
             groups.add("spy");
             config.set("BlackListedGroups", groups);
             Main.getInstance().getLogger().info("BlackListedGroups list not found in the config, creating it now.");
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
+        // SpawnLimiter
+        if (!config.contains("SpawnLimiter")) {
+            config.createSection("SpawnLimiter.IRON_GOLEM");
+            Integer spawnRadius = 50;
+            Integer spawnTimeLimit = 10;
+            Integer spawnLimit = 5;
+            config.set("SpawnLimiter.IRON_GOLEM.RadiusLimit", spawnRadius);
+            config.set("SpawnLimiter.IRON_GOLEM.TimeLimit", spawnTimeLimit);
+            config.set("SpawnLimiter.IRON_GOLEM.SpawnLimit", spawnLimit);
         }
 
         // ----------------------------------------------------------------------------------------------------

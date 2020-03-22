@@ -1,5 +1,6 @@
 package com.darko.main.utilities.other;
 
+import com.darko.main.utilities.spawning.onEntitySpawn;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -69,6 +70,8 @@ public class Register extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ClaimExpiredLog(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new ClaimModifiedLog(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new onIronGolemDeath(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new onEntitySpawn(), Main.getInstance());
+
     }
 
     public static void RegisterCommands() {
@@ -88,5 +91,4 @@ public class Register extends JavaPlugin {
             Flags.FlagsEnable();
         }
     }
-
 }
