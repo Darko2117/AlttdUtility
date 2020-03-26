@@ -25,7 +25,7 @@ public class onEntitySpawn implements Listener {
 
             StringBuilder stringEdit = new StringBuilder(entityTypeString);
 
-            if(entityTypeString.length() >= 12 && entityTypeString.substring(0, 12).equals("SpawnLimiter")){
+            if(entityTypeString.length() >= 12 && entityTypeString.startsWith("SpawnLimiter")){
                 stringEdit.delete(0, 13);
             }
 

@@ -1,7 +1,10 @@
 package com.darko.main.utilities.other;
 
 import com.darko.main.utilities.config.ConfigReload;
+import com.darko.main.utilities.deathMessage.DeathMessage;
 import com.darko.main.utilities.permissionStuff.ItemPickup;
+import com.darko.main.utilities.playerList.PlayerList;
+import com.darko.main.utilities.playerList.PlayerListTabComplete;
 import com.darko.main.utilities.spawning.onEntitySpawn;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,8 +38,6 @@ import com.darko.main.utilities.logging.claimlogging.ClaimExpiredLog;
 import com.darko.main.utilities.logging.claimlogging.ClaimModifiedLog;
 import com.darko.main.utilities.logging.egglogging.EggLog;
 import com.darko.main.utilities.logging.prizelogging.CratePrizeLog;
-import com.darko.main.utilities.online.GroupsTabComplete;
-import com.darko.main.utilities.online.OnlineCommand;
 import com.darko.main.utilities.portal.onPortalUse;
 import com.darko.main.utilities.servermsg.Servermsg;
 import com.darko.main.utilities.teleport.onPlayerTeleport;
@@ -73,17 +74,18 @@ public class Register extends JavaPlugin {
         //Bukkit.getPluginManager().registerEvents(new onIronGolemDeath(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new onEntitySpawn(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new ItemPickup(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new DeathMessage(), Main.getInstance());
 
     }
 
     public static void RegisterCommands() {
         Main.getInstance().getCommand("autofix").setExecutor(new AutoFix());
-        Main.getInstance().getCommand("online").setExecutor(new OnlineCommand());
-        Main.getInstance().getCommand("online").setTabCompleter(new GroupsTabComplete());
         Main.getInstance().getCommand("hat").setExecutor(new Hat());
         Main.getInstance().getCommand("servermsg").setExecutor(new Servermsg());
         Main.getInstance().getCommand("chair").setExecutor(new Chair());
         Main.getInstance().getCommand("utilityconfigreload").setExecutor(new ConfigReload());
+        Main.getInstance().getCommand("list").setExecutor(new PlayerList());
+        Main.getInstance().getCommand("list").setTabCompleter(new PlayerListTabComplete());
 
         if (APIs.LuckPermsFound) {
             Main.getInstance().getCommand("cooldown").setExecutor(new Cooldown());

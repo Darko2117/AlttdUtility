@@ -24,13 +24,14 @@ public class ConfigSetup {
                 "&cCan't take off an item that has the &d&oCurse of Binding&r&c."),
         OfflinePlayerPayment("Messages.OfflinePlayerPayment", "&cYou can't send money to offline players."),
         NoCooldowns("Messages.NoCooldowns", "&eYou have no cooldowns right now."),
-        OnlineGroup("Messages.OnlineGroup", "&6Online players for the group &b%group%&6:"),
+        ListGroup("Messages.ListGroup", "&eOnline players for the group &b%group%&6:"),
         NetherEntry("Messages.NetherEntry", "&cWhen exiting the nether you will be teleported to spawn."),
         NetherExit("Messages.NetherExit", "&cYou have been teleported to spawn."),
         AutoFixEnabled("Messages.AutoFixEnabled", "&aAuto repair enabled."),
         AutoFixDisabled("Messages.AutoFixDisabled", "&cAuto repair disabled."),
         PlayerNotFound("Messages.PlayerNotFound", "&cPlayer not found."),
-        GroupNotFound("Messages.GroupNotFound", "&cNo online players in that group.");
+        GroupNotFound("Messages.GroupNotFound", "&cNo online players in that group."),
+        DeathMessage("Messages.DeathMessage", "&cUse &6/dback&c to go back to your previous death location.");
 
         private final String path;
         private final String message;
@@ -54,12 +55,45 @@ public class ConfigSetup {
         }
         // ----------------------------------------------------------------------------------------------------
 
-        // Blacklisted groups
-        if (!config.contains("BlackListedGroups")) {
-            List<String> groups = new ArrayList<>();
-            groups.add("spy");
-            config.set("BlackListedGroups", groups);
-            Main.getInstance().getLogger().info("BlackListedGroups list not found in the config, creating it now.");
+        // List groups
+        if (!config.contains("ListGroups")) {
+
+            List<String> Owner = new ArrayList<>();
+            Owner.add("owner");
+
+            List<String> Staff = new ArrayList<>();
+            Staff.add("trainee");
+            Staff.add("moderator");
+            Staff.add("headmod");
+            Staff.add("admin");
+            Staff.add("manager");
+
+            List<String> Event_Team = new ArrayList<>();
+            Event_Team.add("eventteam");
+            Event_Team.add("eventleader");
+
+            List<String> Donors = new ArrayList<>();
+            Donors.add("baron");
+            Donors.add("count");
+            Donors.add("duke");
+            Donors.add("archduke");
+
+            List<String> Other = new ArrayList<>();
+            Other.add("default");
+            Other.add("nomad");
+            Other.add("peddler");
+            Other.add("settler");
+            Other.add("resident");
+            Other.add("esquire");
+            Other.add("knight");
+
+            config.set("ListGroups.Owner", Owner);
+            config.set("ListGroups.Staff", Staff);
+            config.set("ListGroups.Event Team", Event_Team);
+            config.set("ListGroups.Donors", Donors);
+            config.set("ListGroups.Other", Other);
+
+            Main.getInstance().getLogger().info("ListGroups not found in the config, creating it now.");
         }
 
         // ----------------------------------------------------------------------------------------------------
@@ -73,6 +107,7 @@ public class ConfigSetup {
             config.set("SpawnLimiter.IRON_GOLEM.RadiusLimit", spawnRadius);
             config.set("SpawnLimiter.IRON_GOLEM.TimeLimit", spawnTimeLimit);
             config.set("SpawnLimiter.IRON_GOLEM.SpawnLimit", spawnLimit);
+            Main.getInstance().getLogger().info("SpawnLimiter not found in the config, creating it now.");
         }
 
         // ----------------------------------------------------------------------------------------------------

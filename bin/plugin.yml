@@ -22,3 +22,5 @@ commands:
     permission: utility.autofix
   utilityconfigreload:
     permission: utility.configreload
+  list:
+      permission: utility.list

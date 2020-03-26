@@ -34,6 +34,5 @@ public class Main extends JavaPlugin {
         Main.getInstance().getLogger().info("Utility plugin started... Teri bring back " + ConsoleColors.GREEN_BOLD
                 + "Sugar Cane" + ConsoleColors.RESET + " please thank you :)");
         System.out.println("--------------------------------------------------");
+        }
     }
-
-}
