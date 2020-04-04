@@ -28,7 +28,7 @@ public class PlayerList implements CommandExecutor {
                 FileConfiguration config = Main.getInstance().getConfig();
                 StringBuilder message = new StringBuilder();
 
-                message.append(ChatColor.GRAY + "====================\n");
+                message.append(ChatColor.GRAY + "==============================\n");
 
                 Integer currentPlayers = Bukkit.getServer().getOnlinePlayers().size();
                 Integer maxPlayers = Bukkit.getServer().getMaxPlayers();
@@ -86,7 +86,7 @@ public class PlayerList implements CommandExecutor {
                         message.append(ChatColor.YELLOW + "" + pair.getKey() + ": " + ChatColor.RESET + "" + ChatColor.YELLOW);
 
                         for (String player : players) {
-                            message.append(ChatColor.RESET + player + ", ");
+                            message.append(ChatColor.RESET + player + ChatColor.RESET + ", ");
                         }
 
                         message.delete(message.length() - 2, message.length());
@@ -96,7 +96,7 @@ public class PlayerList implements CommandExecutor {
 
                 }
 
-                message.append(ChatColor.GRAY + "====================\n");
+                message.append(ChatColor.GRAY + "==============================\n");
                 sender.sendMessage(message.toString());
             } else {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',

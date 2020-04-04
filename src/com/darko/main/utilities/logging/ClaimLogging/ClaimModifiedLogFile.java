@@ -1,18 +1,18 @@
-package com.darko.main.utilities.logging.spawnlogging;
-
-import com.darko.main.Main;
-import org.bukkit.Bukkit;
+package com.darko.main.utilities.logging.ClaimLogging;
 
 import java.io.File;
 import java.io.IOException;
 
-public class SpawnLimitReachedLogFile {
+import org.bukkit.Bukkit;
 
+import com.darko.main.Main;
+
+public class ClaimModifiedLogFile {
     public static void Initiate() {
         try {
             Main.getInstance().saveDefaultConfig();
             File dataFile = new File(Bukkit.getServer().getPluginManager().getPlugin("AlttdUtility").getDataFolder(),
-                    "/logs/spawn-limit-reached-log.txt");
+                    "/logs/claim-modified-log.txt");
             if (!dataFile.exists()) {
                 dataFile.createNewFile();
             }

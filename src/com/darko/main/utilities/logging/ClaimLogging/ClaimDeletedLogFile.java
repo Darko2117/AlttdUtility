@@ -1,4 +1,4 @@
-package com.darko.main.utilities.logging.claimlogging;
+package com.darko.main.utilities.logging.ClaimLogging;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,12 +7,12 @@ import org.bukkit.Bukkit;
 
 import com.darko.main.Main;
 
-public class ClaimModifiedLogFile {
+public class ClaimDeletedLogFile {
     public static void Initiate() {
         try {
             Main.getInstance().saveDefaultConfig();
             File dataFile = new File(Bukkit.getServer().getPluginManager().getPlugin("AlttdUtility").getDataFolder(),
-                    "/logs/claim-modified-log.txt");
+                    "/logs/claim-deleted-log.txt");
             if (!dataFile.exists()) {
                 dataFile.createNewFile();
             }

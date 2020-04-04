@@ -1,7 +1,11 @@
 package com.darko.main.utilities.other;
 
+import com.darko.main.utilities.chat.AtPlayers.NameInChatNotification;
 import com.darko.main.utilities.config.ConfigReload;
 import com.darko.main.utilities.deathMessage.DeathMessage;
+import com.darko.main.utilities.logging.ItemsLogging.DroppedItemsLog;
+import com.darko.main.utilities.logging.ItemsLogging.ItemPlacedInItemFrameLog;
+import com.darko.main.utilities.logging.ItemsLogging.MCMMORepairUseLog;
 import com.darko.main.utilities.permissionStuff.ItemPickup;
 import com.darko.main.utilities.playerList.PlayerList;
 import com.darko.main.utilities.playerList.PlayerListTabComplete;
@@ -32,12 +36,12 @@ import com.darko.main.utilities.flags.onBoneMeal;
 import com.darko.main.utilities.flags.onEnchantmentTableClick;
 import com.darko.main.utilities.flags.onEntityRename;
 import com.darko.main.utilities.permissionStuff.onPlayerMove;
-import com.darko.main.utilities.logging.claimlogging.ClaimCreatedLog;
-import com.darko.main.utilities.logging.claimlogging.ClaimDeletedLog;
-import com.darko.main.utilities.logging.claimlogging.ClaimExpiredLog;
-import com.darko.main.utilities.logging.claimlogging.ClaimModifiedLog;
-import com.darko.main.utilities.logging.egglogging.EggLog;
-import com.darko.main.utilities.logging.prizelogging.CratePrizeLog;
+import com.darko.main.utilities.logging.ClaimLogging.ClaimCreatedLog;
+import com.darko.main.utilities.logging.ClaimLogging.ClaimDeletedLog;
+import com.darko.main.utilities.logging.ClaimLogging.ClaimExpiredLog;
+import com.darko.main.utilities.logging.ClaimLogging.ClaimModifiedLog;
+import com.darko.main.utilities.logging.EggLogging.EggLog;
+import com.darko.main.utilities.logging.PrizeLogging.CratePrizeLog;
 import com.darko.main.utilities.portal.onPortalUse;
 import com.darko.main.utilities.servermsg.Servermsg;
 import com.darko.main.utilities.teleport.onPlayerTeleport;
@@ -65,7 +69,7 @@ public class Register extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new RaidListener(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new PetPickupListener(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new CratePrizeLog(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new DamageListener(), Main.getInstance());
+        //Bukkit.getPluginManager().registerEvents(new DamageListener(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new EggLog(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new ClaimCreatedLog(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new ClaimDeletedLog(), Main.getInstance());
@@ -75,6 +79,10 @@ public class Register extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new onEntitySpawn(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new ItemPickup(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new DeathMessage(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new DroppedItemsLog(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new NameInChatNotification(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new ItemPlacedInItemFrameLog(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new MCMMORepairUseLog(), Main.getInstance());
 
     }
 

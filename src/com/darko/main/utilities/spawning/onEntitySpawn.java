@@ -1,7 +1,7 @@
 package com.darko.main.utilities.spawning;
 
 import com.darko.main.Main;
-import com.darko.main.utilities.logging.spawnlogging.SpawnLimitReachedLog;
+import com.darko.main.utilities.logging.SpawnLogging.SpawnLimitReachedLog;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.libs.org.apache.commons.lang3.EnumUtils;
 import org.bukkit.entity.EntityType;
@@ -19,24 +19,24 @@ public class onEntitySpawn implements Listener {
     public static HashMap<EntityType, List<Location>> spawnLoc = new HashMap<>();
 
     @EventHandler
-    public void onSpawn(EntitySpawnEvent e){
+    public void onSpawn(EntitySpawnEvent e) {
 
-        for(String entityTypeString : Main.getInstance().getConfig().getKeys(true)){
+        for (String entityTypeString : Main.getInstance().getConfig().getKeys(true)) {
 
             StringBuilder stringEdit = new StringBuilder(entityTypeString);
 
-            if(entityTypeString.length() >= 12 && entityTypeString.startsWith("SpawnLimiter")){
+            if (entityTypeString.length() >= 12 && entityTypeString.startsWith("SpawnLimiter")) {
                 stringEdit.delete(0, 13);
             }
 
-            if ( EnumUtils.isValidEnum(EntityType.class, stringEdit.toString()) ) {
+            if (EnumUtils.isValidEnum(EntityType.class, stringEdit.toString())) {
 
                 EntityType entityType = EntityType.valueOf(stringEdit.toString());
 
                 if (e.getEntity().getType().equals(entityType)) {
 
-                    if(!spawnLoc.containsKey(entityType)){
-                        List <Location> emptyLocationsList = new ArrayList<>();
+                    if (!spawnLoc.containsKey(entityType)) {
+                        List<Location> emptyLocationsList = new ArrayList<>();
                         spawnLoc.put(entityType, emptyLocationsList);
                     }
 
@@ -61,7 +61,7 @@ public class onEntitySpawn implements Listener {
 
                     if (!e.isCancelled()) {
 
-                        List <Location> addedLocation = new ArrayList<>(spawnLoc.get(entityType));
+                        List<Location> addedLocation = new ArrayList<>(spawnLoc.get(entityType));
                         addedLocation.add(location);
                         spawnLoc.put(entityType, addedLocation);
 
@@ -69,7 +69,7 @@ public class onEntitySpawn implements Listener {
                             @Override
                             public void run() {
 
-                                List <Location> removedLocation = new ArrayList<>(spawnLoc.get(entityType));
+                                List<Location> removedLocation = new ArrayList<>(spawnLoc.get(entityType));
                                 removedLocation.remove(location);
                                 spawnLoc.put(entityType, removedLocation);
                             }
