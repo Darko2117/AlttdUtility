@@ -11,7 +11,7 @@ public class onDurabilityUse implements Listener {
 
     @EventHandler
     public void onDurability(PlayerItemDamageEvent e) {
-        Player player = (Player) e.getPlayer();
+        Player player = e.getPlayer();
         if (AutoFix.AutoFix.contains(player)) {
             Damageable durability = (Damageable) e.getItem().getItemMeta();
             durability.setDamage(0);

@@ -3,6 +3,7 @@ package com.darko.main.utilities.other;
 import com.darko.main.utilities.chat.AtPlayers.NameInChatNotification;
 import com.darko.main.utilities.config.ConfigReload;
 import com.darko.main.utilities.deathMessage.DeathMessage;
+import com.darko.main.utilities.flags.*;
 import com.darko.main.utilities.logging.ItemsLogging.DroppedItemsLog;
 import com.darko.main.utilities.logging.ItemsLogging.ItemPlacedInItemFrameLog;
 import com.darko.main.utilities.logging.ItemsLogging.MCMMORepairUseLog;
@@ -24,17 +25,11 @@ import com.darko.main.cosmetics.hat.Hat;
 import com.darko.main.utilities.CMI.onPayCommand.onPayCommand;
 import com.darko.main.utilities.cooldown.Cooldown;
 import com.darko.main.utilities.cooldown.cooldownTabComplete;
-import com.darko.main.utilities.destro.claimanimals.DamageListener;
 import com.darko.main.utilities.destro.claimraids.RaidListener;
 import com.darko.main.utilities.destro.petpickup.PetPickupListener;
 import com.darko.main.utilities.destro.tamedexpire.onEntityInteractWithLead;
 import com.darko.main.utilities.durability.AutoFix;
 import com.darko.main.utilities.durability.onDurabilityUse;
-import com.darko.main.utilities.flags.Flags;
-import com.darko.main.utilities.flags.onAnvilClick;
-import com.darko.main.utilities.flags.onBoneMeal;
-import com.darko.main.utilities.flags.onEnchantmentTableClick;
-import com.darko.main.utilities.flags.onEntityRename;
 import com.darko.main.utilities.permissionStuff.onPlayerMove;
 import com.darko.main.utilities.logging.ClaimLogging.ClaimCreatedLog;
 import com.darko.main.utilities.logging.ClaimLogging.ClaimDeletedLog;
@@ -83,6 +78,7 @@ public class Register extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new NameInChatNotification(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new ItemPlacedInItemFrameLog(), Main.getInstance());
         Bukkit.getPluginManager().registerEvents(new MCMMORepairUseLog(), Main.getInstance());
+        //Bukkit.getPluginManager().registerEvents(new onGuardianPathfind(), Main.getInstance());
 
     }
 

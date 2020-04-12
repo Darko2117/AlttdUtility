@@ -95,5 +95,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="paper-api-1.15.2-R0.1-SNAPSHOT" level="project" />
   </component>
 </module>

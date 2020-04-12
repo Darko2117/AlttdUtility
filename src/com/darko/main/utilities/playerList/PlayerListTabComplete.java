@@ -44,9 +44,7 @@ public class PlayerListTabComplete implements TabCompleter {
             Set<String> groupsTemp = user.getNodes().stream().filter(NodeType.INHERITANCE::matches)
                     .map(NodeType.INHERITANCE::cast).map(InheritanceNode::getGroupName).collect(Collectors.toSet());
             for (String group : groupsTemp) {
-                if (!groups.contains(group)){
-                    groups.add(group);
-                }
+                groups.add(group);
             }
         }
         return groups;

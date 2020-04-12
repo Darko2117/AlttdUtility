@@ -24,12 +24,8 @@ public class ChairChecks {
 
     public static Boolean handCheck(Player player, PlayerInteractEvent e) {
 
-        if (e.getAction() == Action.RIGHT_CLICK_BLOCK
-                && player.getInventory().getItemInMainHand().getType() == Material.AIR) {
-            return true;
-        }
-
-        return false;
+        return e.getAction() == Action.RIGHT_CLICK_BLOCK
+                && player.getInventory().getItemInMainHand().getType() == Material.AIR;
     }
 
     public static Boolean blocksCheck(Player player, PlayerInteractEvent e) {
@@ -65,19 +61,13 @@ public class ChairChecks {
 
     public static Boolean stairsCheck(Player player, PlayerInteractEvent e) {
         String dataString = e.getClickedBlock().getBlockData().toString();
-        if (dataString.contains("stairs") && GlobalVariables.chairEnabled.contains(player)
+        return dataString.contains("stairs") && GlobalVariables.chairEnabled.contains(player)
                 && !dataString.contains("half=top") && !player.isGliding()
-                && !GlobalVariables.occupiedSeats.containsValue(e.getClickedBlock().getLocation())) {
-            return true;
-        }
-        return false;
+                && !GlobalVariables.occupiedSeats.containsValue(e.getClickedBlock().getLocation());
     }
 
     public static Boolean occupiedCheck(PlayerInteractEvent e) {
-        if (!GlobalVariables.occupiedSeats.containsValue(e.getClickedBlock().getLocation())) {
-            return true;
-        }
-        return false;
+        return !GlobalVariables.occupiedSeats.containsValue(e.getClickedBlock().getLocation());
     }
 
     public static Boolean claimCheck(Player player, PlayerInteractEvent e) {

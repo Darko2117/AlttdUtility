@@ -21,9 +21,9 @@ public class Cooldown implements CommandExecutor {
         Boolean rtp = false;
         if (player.hasPermission("utility.cooldown")) {
             if (args.length == 1) {
-                if (args[0].toString().equals("crate")) {
+                if (args[0].equals("crate")) {
                     crate = crate(player);
-                } else if (args[0].toString().equals("rtp")) {
+                } else if (args[0].equals("rtp")) {
                     rtp = rtp(player);
                 }
             } else {

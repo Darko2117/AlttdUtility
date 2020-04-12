@@ -105,7 +105,7 @@ public class PlayerList implements CommandExecutor {
         } else {
             if (sender.hasPermission("utility.list.specific")) {
 
-                String group = args[0].toString();
+                String group = args[0];
 
                 LuckPerms api = APIs.LuckPermsApi();
 
