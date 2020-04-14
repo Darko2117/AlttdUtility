@@ -20,7 +20,3 @@ commands:
     permission: utility.online
   autofix:
     permission: utility.autofix
-  utilityconfigreload:
-    permission: utility.configreload
-  list:
-      permission: utility.list
