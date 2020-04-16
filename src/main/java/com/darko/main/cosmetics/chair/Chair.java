@@ -1,11 +1,12 @@
 package com.darko.main.cosmetics.chair;
 
-import com.darko.main.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import com.darko.main.Main;
 
 public class Chair implements CommandExecutor {
 

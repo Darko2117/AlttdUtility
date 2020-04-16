@@ -1,14 +1,15 @@
 package com.darko.main.utilities.durability;
 
-import com.darko.main.Main;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.darko.main.Main;
 
 public class AutoFix implements CommandExecutor {
 

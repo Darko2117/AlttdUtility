@@ -1,11 +1,11 @@
 package com.darko.main.utilities.cooldown;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class cooldownTabComplete implements TabCompleter {
     private static final String[] COMMANDS = { "rtp", "crate" };

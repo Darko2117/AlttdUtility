@@ -11,6 +11,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.time.ZoneId;
+
 public class Cooldown implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -19,9 +21,9 @@ public class Cooldown implements CommandExecutor {
         Boolean rtp = false;
         if (player.hasPermission("utility.cooldown")) {
             if (args.length == 1) {
-                if (args[0].toString().equals("crate")) {
+                if (args[0].equals("crate")) {
                     crate = crate(player);
-                } else if (args[0].toString().equals("rtp")) {
+                } else if (args[0].equals("rtp")) {
                     rtp = rtp(player);
                 }
             } else {
@@ -46,7 +48,7 @@ public class Cooldown implements CommandExecutor {
         Integer time = 0;
         for (Node node : user.getNodes()) {
             if (node.getKey().equals("keyshop.buy")) {
-                Long time1 = node.getExpiry().getEpochSecond();
+                Long time1 = node.getExpiry().getEpochSecond() - System.currentTimeMillis() / 1000l;
                 time = time1.intValue();
             }
         }
@@ -83,7 +85,7 @@ public class Cooldown implements CommandExecutor {
         Integer time = 0;
         for (Node node : user.getNodes()) {
             if (node.getKey().equals("rtp.no")) {
-                Long time1 = node.getExpiry().getEpochSecond();
+                Long time1 = node.getExpiry().getEpochSecond() - System.currentTimeMillis() / 1000l;
                 time = time1.intValue();
             }
         }

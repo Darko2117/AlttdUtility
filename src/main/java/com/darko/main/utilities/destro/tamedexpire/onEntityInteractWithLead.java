@@ -1,18 +1,22 @@
 package com.darko.main.utilities.destro.tamedexpire;
 
-import me.ryanhamshire.GriefPrevention.GriefPrevention;
+import java.util.concurrent.TimeUnit;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Ocelot;
+//import org.bukkit.entity.Ocelot.Type;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Tameable;
+import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
-import java.util.concurrent.TimeUnit;
-
-//import org.bukkit.entity.Ocelot.Type;
+import me.ryanhamshire.GriefPrevention.GriefPrevention;
 
 public class onEntityInteractWithLead implements Listener {
 

@@ -8,7 +8,7 @@ import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 
 public class Flags {
 
-    public static StateFlag SIT, ANVIL_REPAIR, ANVIL_USE, ENCHANTING_TABLE_USE, NAME_TAG_USE, BONE_MEAL_USE;
+    public static StateFlag SIT, ANVIL_REPAIR, ANVIL_USE, ENCHANTING_TABLE_USE, NAME_TAG_USE, BONE_MEAL_USE, ALLOW_GUARDIAN_PATHFINDING;
 
     public static void FlagsEnable() {
         SitFlag();
@@ -17,6 +17,7 @@ public class Flags {
         EnchantingTableUseFlag();
         NameTagFlag();
         BoneMealFlag();
+        GuardianPathFindingFlag();
     }
 
     public static void SitFlag() {
@@ -104,6 +105,21 @@ public class Flags {
             Flag<?> existing = registry.get("bone-meal-use");
             if (existing instanceof StateFlag) {
                 BONE_MEAL_USE = (StateFlag) existing;
+            } else {
+            }
+        }
+    }
+
+    public static void GuardianPathFindingFlag() {
+        FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
+        try {
+            StateFlag flag = new StateFlag("guardian-pathfinding", false);
+            registry.register(flag);
+            ALLOW_GUARDIAN_PATHFINDING = flag;
+        } catch (FlagConflictException e) {
+            Flag<?> existing = registry.get("guardian-pathfinding");
+            if (existing instanceof StateFlag) {
+                ALLOW_GUARDIAN_PATHFINDING = (StateFlag) existing;
             } else {
             }
         }

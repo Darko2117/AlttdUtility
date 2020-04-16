@@ -1,15 +1,5 @@
 package com.darko.main.cosmetics.chair;
 
-import com.darko.main.Main;
-import com.darko.main.utilities.other.APIs;
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldguard.LocalPlayer;
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.protection.regions.RegionContainer;
-import com.sk89q.worldguard.protection.regions.RegionQuery;
-import me.ryanhamshire.GriefPrevention.Claim;
-import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -18,16 +8,24 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.darko.main.Main;
+import com.darko.main.utilities.other.APIs;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.LocalPlayer;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+import com.sk89q.worldguard.protection.regions.RegionQuery;
+
+import me.ryanhamshire.GriefPrevention.Claim;
+import me.ryanhamshire.GriefPrevention.GriefPrevention;
+
 public class ChairChecks {
 
     public static Boolean handCheck(Player player, PlayerInteractEvent e) {
 
-        if (e.getAction() == Action.RIGHT_CLICK_BLOCK
-                && player.getInventory().getItemInMainHand().getType() == Material.AIR) {
-            return true;
-        }
-
-        return false;
+        return e.getAction() == Action.RIGHT_CLICK_BLOCK
+                && player.getInventory().getItemInMainHand().getType() == Material.AIR;
     }
 
     public static Boolean blocksCheck(Player player, PlayerInteractEvent e) {
@@ -63,19 +61,13 @@ public class ChairChecks {
 
     public static Boolean stairsCheck(Player player, PlayerInteractEvent e) {
         String dataString = e.getClickedBlock().getBlockData().toString();
-        if (dataString.contains("stairs") && GlobalVariables.chairEnabled.contains(player)
+        return dataString.contains("stairs") && GlobalVariables.chairEnabled.contains(player)
                 && !dataString.contains("half=top") && !player.isGliding()
-                && !GlobalVariables.occupiedSeats.containsValue(e.getClickedBlock().getLocation())) {
-            return true;
-        }
-        return false;
+                && !GlobalVariables.occupiedSeats.containsValue(e.getClickedBlock().getLocation());
     }
 
     public static Boolean occupiedCheck(PlayerInteractEvent e) {
-        if (!GlobalVariables.occupiedSeats.containsValue(e.getClickedBlock().getLocation())) {
-            return true;
-        }
-        return false;
+        return !GlobalVariables.occupiedSeats.containsValue(e.getClickedBlock().getLocation());
     }
 
     public static Boolean claimCheck(Player player, PlayerInteractEvent e) {

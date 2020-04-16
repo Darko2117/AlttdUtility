@@ -1,6 +1,5 @@
 package com.darko.main.cosmetics.hat;
 
-import com.darko.main.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -8,6 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import com.darko.main.Main;
 
 public class Hat implements CommandExecutor {
 

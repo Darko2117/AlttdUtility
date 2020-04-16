@@ -1,11 +1,12 @@
 package com.darko.main.utilities.destro.petpickup;
 
-import de.Keyle.MyPet.api.event.MyPetPickupItemEvent;
-import me.ryanhamshire.GriefPrevention.Claim;
-import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+
+import de.Keyle.MyPet.api.event.MyPetPickupItemEvent;
+import me.ryanhamshire.GriefPrevention.Claim;
+import me.ryanhamshire.GriefPrevention.GriefPrevention;
 
 public class PetPickupListener implements Listener {
 

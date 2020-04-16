@@ -1,9 +1,8 @@
 package com.darko.main;
 
+import com.darko.main.utilities.config.ConfigSetup;
 import com.darko.main.utilities.logging.Logging;
 import com.darko.main.utilities.other.APIs;
-import com.darko.main.utilities.other.ConfigSetup;
-import com.darko.main.utilities.other.ConsoleColors;
 import com.darko.main.utilities.other.Register;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -24,11 +23,13 @@ public class Main extends JavaPlugin {
 
         Logging.Initiate();
 
-        Register.RegisterEvents();
-
         APIs.APIConnect();
 
+        Register.RegisterEvents();
+
         Register.RegisterCommands();
+
+        //Logging.CheckAndCompress();
 
         Main.getInstance().getLogger().info("Utility plugin started... Let's see how long it takes Teri to figure out I changed this message. Hit me up on discord when you find this :)");
         System.out.println("--------------------------------------------------");

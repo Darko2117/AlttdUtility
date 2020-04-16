@@ -1,6 +1,5 @@
 package com.darko.main.utilities.portal;
 
-import com.darko.main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -13,14 +12,16 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPortalEvent;
 
+import com.darko.main.Main;
+
 public class onPortalUse implements Listener {
 
     @EventHandler
     public void onNether(PlayerPortalEvent e) {
         if (e.getPlayer().hasPermission("utility.nether")) {
-            Location from = (Location) e.getFrom();
-            Location to = (Location) e.getTo();
-            Player player = (Player) e.getPlayer();
+            Location from = e.getFrom();
+            Location to = e.getTo();
+            Player player = e.getPlayer();
             if (from.getWorld().getEnvironment().equals(Environment.NETHER)) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         Main.getInstance().getConfig().getString("Messages.NetherExit")));
@@ -37,8 +38,8 @@ public class onPortalUse implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEnd(PlayerPortalEvent e) {
         if (e.getPlayer().hasPermission("utility.end")) {
-            Location from = (Location) e.getFrom();
-            Location to = (Location) e.getTo();
+            Location from = e.getFrom();
+            Location to = e.getTo();
             if (from.getWorld().getEnvironment().equals(Environment.NORMAL)
                     && to.getWorld().getEnvironment().equals(Environment.THE_END)) {
                 e.getTo().setX(100);

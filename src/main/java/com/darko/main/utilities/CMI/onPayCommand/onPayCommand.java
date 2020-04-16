@@ -1,6 +1,5 @@
 package com.darko.main.utilities.CMI.onPayCommand;
 
-import com.darko.main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -8,6 +7,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+
+import com.darko.main.Main;
 
 public class onPayCommand implements Listener {
 

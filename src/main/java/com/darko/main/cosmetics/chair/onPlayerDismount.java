@@ -1,11 +1,12 @@
 package com.darko.main.cosmetics.chair;
 
-import com.darko.main.Main;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.spigotmc.event.entity.EntityDismountEvent;
+
+import com.darko.main.Main;
 
 public class onPlayerDismount implements Listener {
 

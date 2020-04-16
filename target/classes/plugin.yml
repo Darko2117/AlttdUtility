@@ -17,3 +17,9 @@ commands:
     permission: utility.online
   autofix:
     permission: utility.autofix
+  kickfrombungee:
+    permission: utility.kickfrombungee
+  utilityconfigreload:
+    permission: utility.configreload
+  list:
+    permission: utility.list
