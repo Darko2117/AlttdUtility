@@ -2,6 +2,7 @@ package com.darko.main.utilities.config;
 
 import java.util.*;
 
+import com.darko.main.utilities.logging.Logging;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.darko.main.Main;
@@ -111,48 +112,18 @@ public class ConfigSetup {
         // ----------------------------------------------------------------------------------------------------
 
         // Logging
-        List<String> paths = new ArrayList<>();
+        Logging.UpdateLogDates();
 
-        paths.add("Logging.ClaimCreatedLog.Enabled");
-        paths.add("Logging.ClaimDeletedLog.Enabled");
-        paths.add("Logging.ClaimExpiredLog.Enabled");
-        paths.add("Logging.ClaimModifiedLog.Enabled");
-        paths.add("Logging.EggLog.Enabled");
-        paths.add("Logging.DroppedItemsLog.Enabled");
-        paths.add("Logging.CratePrizeLog.Enabled");
-        paths.add("Logging.SpawnLimitReachedLog.Enabled");
-        paths.add("Logging.ItemPlacedInItemFrameLog.Enabled");
-        paths.add("Logging.MCMMORepairUseLog.Enabled");
+        Iterator it = Logging.LogNamesAndConfigPaths.entrySet().iterator();
 
-        for (String path : paths) {
-            if (!config.contains(path)) {
-                config.set(path, true);
-                Main.getInstance().getLogger().info(path + " not found in the config, creating it now.");
-            }
-        }
+        while (it.hasNext()) {
 
-        HashMap<String, Integer> amountOfFilesToKeep = new HashMap<>();
+            Map.Entry element = (Map.Entry) it.next();
 
-        amountOfFilesToKeep.put("Logging.ClaimCreatedLog.NumberOfLogsToKeep", 30);
-        amountOfFilesToKeep.put("Logging.ClaimDeletedLog.NumberOfLogsToKeep", 30);
-        amountOfFilesToKeep.put("Logging.ClaimExpiredLog.NumberOfLogsToKeep", 30);
-        amountOfFilesToKeep.put("Logging.ClaimModifiedLog.NumberOfLogsToKeep", 30);
-        amountOfFilesToKeep.put("Logging.EggLog.NumberOfLogsToKeep", 30);
-        amountOfFilesToKeep.put("Logging.DroppedItemsLog.NumberOfLogsToKeep", 30);
-        amountOfFilesToKeep.put("Logging.CratePrizeLog.NumberOfLogsToKeep", 30);
-        amountOfFilesToKeep.put("Logging.SpawnLimitReachedLog.NumberOfLogsToKeep", 30);
-        amountOfFilesToKeep.put("Logging.ItemPlacedInItemFrameLog.NumberOfLogsToKeep", 30);
-        amountOfFilesToKeep.put("Logging.MCMMORepairUseLog.NumberOfLogsToKeep", 30);
-
-        Iterator amountOfFilesToKeepIterator = amountOfFilesToKeep.entrySet().iterator();
-
-        while (amountOfFilesToKeepIterator.hasNext()) {
-
-            Map.Entry element = (Map.Entry) amountOfFilesToKeepIterator.next();
-
-            if (!config.contains(element.getKey().toString())) {
-                config.set(element.getKey().toString(), element.getValue());
-                Main.getInstance().getLogger().info(element.getKey() + " not found in the config, creating it now.");
+            if (!config.contains(element.getValue().toString())) {
+                config.set(element.getValue() + ".Enabled", true);
+                config.set(element.getValue() + ".NumberOfLogsToKeep", 365);
+                Main.getInstance().getLogger().info(element.getValue() + " not found in the config, creating it now.");
             }
 
         }

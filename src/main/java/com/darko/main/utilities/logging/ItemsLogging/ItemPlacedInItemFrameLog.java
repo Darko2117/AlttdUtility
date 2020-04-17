@@ -25,7 +25,7 @@ public class ItemPlacedInItemFrameLog implements Listener {
             if (((ItemFrame) e.getRightClicked()).getItem().getType().equals(Material.AIR)) {
                 if (!e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
 
-                    if (Main.getInstance().getConfig().getBoolean("Logging.ItemPlacedInItemFrameLog.Enabled")) {
+                    if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.itemPlacedInItemFrameLogName.substring(17)) + ".Enabled")) {
 
                         StringBuilder message = new StringBuilder();
                         Player player = e.getPlayer();

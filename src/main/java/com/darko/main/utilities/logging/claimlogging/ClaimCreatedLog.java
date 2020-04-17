@@ -18,7 +18,7 @@ public class ClaimCreatedLog implements Listener {
     @EventHandler
     public void onClaimCreate(ClaimCreatedEvent e) {
 
-        if (Main.getInstance().getConfig().getBoolean("Logging.ClaimCreatedLog.Enabled")) {
+        if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.claimCreatedLogName.substring(17)) + ".Enabled")) {
 
             Date time = new Date(System.currentTimeMillis());
             String creator = e.getCreator().getName();

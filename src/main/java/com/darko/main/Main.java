@@ -29,8 +29,6 @@ public class Main extends JavaPlugin {
 
         Register.RegisterCommands();
 
-        //Logging.CheckAndCompress();
-
         Main.getInstance().getLogger().info("Utility plugin started... Let's see how long it takes Teri to figure out I changed this message. Hit me up on discord when you find this :)");
         System.out.println("--------------------------------------------------");
     }

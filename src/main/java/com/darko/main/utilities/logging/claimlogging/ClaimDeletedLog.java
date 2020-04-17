@@ -18,7 +18,7 @@ public class ClaimDeletedLog implements Listener {
     @EventHandler
     public void onClaimDelete(ClaimDeletedEvent e) {
 
-        if (Main.getInstance().getConfig().getBoolean("Logging.ClaimDeletedLog.Enabled")) {
+        if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.claimDeletedLogName.substring(17)) + ".Enabled")) {
 
             Date time = new Date(System.currentTimeMillis());
             String owner = e.getClaim().getOwnerName();

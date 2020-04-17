@@ -19,7 +19,7 @@ public class CratePrizeLog implements Listener {
     @EventHandler
     public void onPrize(PlayerPrizeEvent event) {
 
-        if (Main.getInstance().getConfig().getBoolean("Logging.CratePrizeLog.Enabled")) {
+        if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.cratePrizeLogName.substring(17)) + ".Enabled")) {
 
             List<ItemBuilder> items = event.getPrize().getItemBuilders();
             StringBuilder message = new StringBuilder();

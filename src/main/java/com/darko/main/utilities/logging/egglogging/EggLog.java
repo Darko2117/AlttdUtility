@@ -21,7 +21,7 @@ public class EggLog implements Listener {
     @EventHandler
     public void onEggThrow(PlayerEggThrowEvent e) {
 
-        if (Main.getInstance().getConfig().getBoolean("Logging.EggLog.Enabled")) {
+        if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.eggLogLogName.substring(17)) + ".Enabled")) {
 
             String player = e.getPlayer().getName();
             String locationString = Logging.getBetterLocationString(e.getEgg().getLocation());

@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Date;
@@ -18,20 +19,27 @@ public class MCMMORepairUseLog implements Listener {
     public void onIronBlockUse(PlayerInteractEvent e) {
 
         Player player = e.getPlayer();
+
         if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-            if (e.getClickedBlock().getType().equals(Material.IRON_BLOCK)) {
-                if (!player.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
-                    if (Main.getInstance().getConfig().getBoolean("Logging.MCMMORepairUseLog.Enabled")) {
+            if (e.getHand().equals(EquipmentSlot.HAND)) {
+                if (e.getClickedBlock().getType().equals(Material.IRON_BLOCK)) {
+                    if (!player.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
+                        if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.mcmmoRepairUseLogName.substring(17)) + ".Enabled")) {
 
-                        ItemStack itemInHand = player.getInventory().getItemInMainHand();
-                        Date time = new Date(System.currentTimeMillis());
+                            ItemStack itemInHand = player.getInventory().getItemInMainHand();
 
-                        StringBuilder message = new StringBuilder();
+                            if (!itemInHand.getType().equals(Material.IRON_BLOCK)) {
 
-                        message.append(time + " " + player.getName() + " right clicked on an iron block with the item: " + itemInHand);
+                                Date time = new Date(System.currentTimeMillis());
 
-                        Logging.WriteToFile(Logging.mcmmoRepairUseLogName, message.toString());
+                                StringBuilder message = new StringBuilder();
 
+                                message.append(time + " " + player.getName() + " right clicked on an iron block with the item: " + itemInHand);
+
+                                Logging.WriteToFile(Logging.mcmmoRepairUseLogName, message.toString());
+
+                            }
+                        }
                     }
                 }
             }

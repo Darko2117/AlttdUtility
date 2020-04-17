@@ -18,7 +18,7 @@ public class ClaimModifiedLog implements Listener {
     @EventHandler
     public void onClaimModify(ClaimModifiedEvent e) {
 
-        if (Main.getInstance().getConfig().getBoolean("Logging.ClaimModifiedLog.Enabled")) {
+        if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.claimModifiedLogName.substring(17)) + ".Enabled")) {
 
             Date time = new Date(System.currentTimeMillis());
             String owner = e.getClaim().getOwnerName();

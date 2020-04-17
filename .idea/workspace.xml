@@ -22,6 +22,7 @@
   <component name="MavenImportPreferences">
     <option name="importingSettings">
       <MavenImportingSettings>
+        <option name="downloadSourcesAutomatically" value="true" />
         <option name="importAutomatically" value="true" />
         <option name="vmOptionsForImporter" value="-Xmx768m" />
       </MavenImportingSettings>
@@ -36,30 +37,34 @@
   </component>
   <component name="PropertiesComponent">
     <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
+    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
+    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="alttdutility" />
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../AlttdUtilityOld" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.35977012" />
-    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.ignored.files" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Darko\IntelliJ\AlttdUtilityMaven" />
-      <recent name="C:\Users\Darko\IntelliJ\AlttdUtilityMaven\src\main\java" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Darko\IntelliJ\AlttdUtility\src\main\java\com\darko\main" />
       <recent name="C:\Users\Darko\IntelliJ\AlttdUtility\src\main\java\com\darko\main\utilities\other" />
       <recent name="C:\Users\Darko\IntelliJ\AlttdUtility\src\main\java\com\darko\main\utilities\destro" />
       <recent name="C:\Users\Darko\IntelliJ\AlttdUtility\src\main\java\com\darko\main\utilities\cooldown" />
       <recent name="C:\Users\Darko\IntelliJ\AlttdUtility\src\main\java\com\darko" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Darko\IntelliJ\AlttdUtilityMaven" />
+      <recent name="C:\Users\Darko\IntelliJ\AlttdUtilityMaven\src\main\java" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -93,37 +98,49 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="1164" y="212" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586830173205" />
+    <state x="850" y="262" key="#com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditorDialog" timestamp="1587070367959">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="850" y="262" key="#com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditorDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1587070367959" />
     <state x="651" y="445" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1586914226751">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="651" y="445" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586914226751" />
+    <state x="734" y="379" width="501" height="289" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1587084566150">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="734" y="379" width="501" height="289" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1587084566150" />
     <state x="756" y="400" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages" timestamp="1586914026980">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="756" y="400" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586914026980" />
-    <state x="666" y="261" key="FileChooserDialogImpl" timestamp="1586913733483">
+    <state x="666" y="261" key="FileChooserDialogImpl" timestamp="1587071106759">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="666" y="261" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586913733483" />
+    <state x="666" y="261" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1587071106759" />
     <state x="490" y="174" key="Maven.ArtifactSearchDialog" timestamp="1586996218540">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="490" y="174" key="Maven.ArtifactSearchDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586996218540" />
-    <state x="412" y="126" width="1336" height="852" key="SettingsEditor" timestamp="1586994552944">
+    <state x="412" y="126" width="1409" height="852" key="SettingsEditor" timestamp="1587097981971">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="412" y="126" width="1336" height="852" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586994552944" />
-    <state x="655" y="343" key="com.intellij.ide.util.TipDialog" timestamp="1587068528978">
+    <state x="412" y="126" width="1409" height="852" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1587097981971" />
+    <state x="884" y="420" key="classpath-attribute-editor" timestamp="1587071406875">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="655" y="343" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1587068528978" />
+    <state x="884" y="420" key="classpath-attribute-editor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1587071406875" />
+    <state x="655" y="343" key="com.intellij.ide.util.TipDialog" timestamp="1587097894643">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="655" y="343" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1587097894643" />
     <state x="757" y="428" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1586994475918">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="757" y="428" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586994475918" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1587001208782">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1587097965886">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1587001208782" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1587097965886" />
   </component>
 </project>

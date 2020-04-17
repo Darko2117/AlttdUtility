@@ -17,7 +17,7 @@ public class SpawnLimitReachedLog {
 
     public static void onCancelledSpawn(EntitySpawnEvent e) {
 
-        if (Main.getInstance().getConfig().getBoolean("Logging.SpawnLimitReachedLog.Enabled")) {
+        if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.spawnLimitReachedLogName.substring(17)) + ".Enabled")) {
 
             EntityType entityType = e.getEntityType();
             String location = Logging.getBetterLocationString(e.getLocation());

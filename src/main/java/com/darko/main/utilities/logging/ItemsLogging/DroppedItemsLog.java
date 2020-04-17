@@ -19,7 +19,7 @@ public class DroppedItemsLog implements Listener {
     @EventHandler
     public static void onItemDrop(PlayerDropItemEvent e) {
 
-        if (Main.getInstance().getConfig().getBoolean("Logging.DroppedItemsLog.Enabled")) {
+        if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.droppedItemsLogName.substring(17)) + ".Enabled")) {
 
             Player player = e.getPlayer();
             String location = Logging.getBetterLocationString(e.getItemDrop().getLocation());

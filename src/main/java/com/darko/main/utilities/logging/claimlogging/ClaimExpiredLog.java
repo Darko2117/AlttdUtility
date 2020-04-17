@@ -18,7 +18,7 @@ public class ClaimExpiredLog implements Listener {
     @EventHandler
     public void onClaimExpiration(ClaimExpirationEvent e) {
 
-        if (Main.getInstance().getConfig().getBoolean("Logging.ClaimExpiredLog.Enabled")) {
+        if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.claimExpiredLogName.substring(17)) + ".Enabled")) {
 
             Date time = new Date(System.currentTimeMillis());
             String owner = e.getClaim().getOwnerName();
