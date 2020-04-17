@@ -30,7 +30,10 @@ public class ConfigSetup {
         AutoFixDisabled("Messages.AutoFixDisabled", "&cAuto repair disabled."),
         PlayerNotFound("Messages.PlayerNotFound", "&cPlayer not found."),
         GroupNotFound("Messages.GroupNotFound", "&cNo online players in that group."),
-        DeathMessage("Messages.DeathMessage", "&cUse &6/dback&c to go back to your previous death location.");
+        DeathMessage("Messages.DeathMessage", "&cUse &6/dback&c to go back to your previous death location."),
+        InvalidPrefixLengthMessage("Messages.InvalidPrefixLengthMessage", "&cA prefix cannot be longer than 10 characters."),
+        PrefixSetConfirmedMessage("Messages.PrefixSetConfirmedMessage", "&ePrefix &6%prefix%&e set for &6%player%&e."),
+        PrefixRemovedConfirmedMessage("Messages.PrefixRemovedConfirmedMessage", "&ePrefix removed for &6%player%&e.");
 
         private final String path;
         private final String message;
@@ -97,6 +100,20 @@ public class ConfigSetup {
 
         // ----------------------------------------------------------------------------------------------------
 
+        // List groups
+        if (!config.contains("PrefixAvailableGroups")) {
+
+            List<String> groups = new ArrayList<>();
+
+            groups.add("archduke");
+
+            config.set("PrefixAvailableGroups", groups);
+
+            Main.getInstance().getLogger().info("PrefixAvailableGroups not found in the config, creating it now.");
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
         // SpawnLimiter
         if (!config.contains("SpawnLimiter")) {
             config.createSection("SpawnLimiter.IRON_GOLEM");
@@ -130,6 +147,17 @@ public class ConfigSetup {
 
         // ----------------------------------------------------------------------------------------------------
 
+        // DatabaseInitiate
+        if (!config.contains("Database")){
+            config.set("Database.driver", "mariadb");
+            config.set("Database.ip", "localhost");
+            config.set("Database.port", "3306");
+            config.set("Database.name", "utility");
+            config.set("Database.username", "root");
+            config.set("Database.password", "root");
+        }
+
+        // ----------------------------------------------------------------------------------------------------
 
         Main.getInstance().saveConfig();
     }

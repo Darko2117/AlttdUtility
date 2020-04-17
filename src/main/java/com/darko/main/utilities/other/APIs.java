@@ -54,7 +54,7 @@ public class APIs extends JavaPlugin {
         }
         if (LuckPermsFound) {
             Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "LuckPerms found!... " + ConsoleColors.RESET
-                    + "/cooldown will show RTP and SuperCrate cooldowns.");
+                    + "/cooldown will show RTP and SuperCrate cooldowns. Prefix commands available.");
         } else {
             Main.getInstance().getLogger().info(ConsoleColors.RED + "LuckPerms not found!... " + ConsoleColors.RESET
                     + "/cooldown will be disabled.");

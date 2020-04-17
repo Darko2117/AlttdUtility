@@ -11,6 +11,8 @@ import com.darko.main.utilities.logging.ItemsLogging.MCMMORepairUseLog;
 import com.darko.main.utilities.permissionStuff.ItemPickup;
 import com.darko.main.utilities.playerList.PlayerList;
 import com.darko.main.utilities.playerList.PlayerListTabComplete;
+import com.darko.main.utilities.prefixes.RemovePrefix;
+import com.darko.main.utilities.prefixes.SetPrefix;
 import com.darko.main.utilities.spawning.onEntitySpawn;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -104,6 +106,12 @@ public class Register extends JavaPlugin {
         if (APIs.LuckPermsFound) {
             Main.getInstance().getCommand("cooldown").setExecutor(new Cooldown());
             Main.getInstance().getCommand("cooldown").setTabCompleter(new cooldownTabComplete());
+        }
+
+        if(APIs.LuckPermsFound){
+            Main.getInstance().getCommand("setprefix").setExecutor(new SetPrefix());
+            Main.getInstance().getCommand("removeprefix").setExecutor(new RemovePrefix());
+            Main.getInstance().getCommand("prefixhistory").setExecutor(new Cooldown());
         }
 
         if (APIs.WorldGuardFound) {

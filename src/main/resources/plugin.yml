@@ -23,3 +23,9 @@ commands:
     permission: utility.configreload
   list:
     permission: utility.list
+  setprefix:
+    permission: utility.setprefix
+  removeprefix:
+    permission: utility.removeprefix
+  prefixhistory:
+    premission: utility.prefixhistory
