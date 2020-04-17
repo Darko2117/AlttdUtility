@@ -7,7 +7,6 @@ import java.util.Date;
 import com.darko.main.utilities.logging.Logging;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import com.darko.main.Main;
 
