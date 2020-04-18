@@ -15,6 +15,7 @@ import com.darko.main.utilities.prefixes.RemovePrefix;
 import com.darko.main.utilities.prefixes.SetPrefix;
 import com.darko.main.utilities.spawning.onEntitySpawn;
 import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.darko.main.Main;
@@ -47,49 +48,57 @@ import com.darko.main.utilities.teleport.onPlayerTeleport;
 public class Register extends JavaPlugin {
 
     public static void RegisterEvents() {
-        Bukkit.getPluginManager().registerEvents(new onStairsRightClick(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new onPlayerDismount(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new onPlayerQuit(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new onBlockBreak(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new onChunkLoad(), Main.getInstance());
-        // Bukkit.getPluginManager().registerEvents(new onPlayerTeleportCommand(),
-        // Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new onAnvilClick(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new onEnchantmentTableClick(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new onPlayerTeleport(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new onEntityRename(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new onEntityInteractWithLead(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new onBoneMeal(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new onPayCommand(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new onPortalUse(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new onDurabilityUse(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new onPlayerMove(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new RaidListener(), Main.getInstance());
-        //Bukkit.getPluginManager().registerEvents(new DamageListener(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new EggLog(), Main.getInstance());
-        //Bukkit.getPluginManager().registerEvents(new onIronGolemDeath(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new onEntitySpawn(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new ItemPickup(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new DeathMessage(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new DroppedItemsLog(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new NameInChatNotification(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new ItemPlacedInItemFrameLog(), Main.getInstance());
-        Bukkit.getPluginManager().registerEvents(new MCMMORepairUseLog(), Main.getInstance());
-        //Bukkit.getPluginManager().registerEvents(new onGuardianPathfind(), Main.getInstance());
+        registerEvents(
+                new onStairsRightClick(),
+                new onPlayerDismount(),
+                new onPlayerQuit(),
+                new onBlockBreak(),
+                new onChunkLoad(),
+                //new onPlayerTeleportCommand(),
+                new onAnvilClick(),
+                new onEnchantmentTableClick(),
+                new onPlayerTeleport(),
+                new onEntityRename(),
+                new onEntityInteractWithLead(),
+                new onBoneMeal(),
+                new onPayCommand(),
+                new onPortalUse(),
+                new onDurabilityUse(),
+                new onPlayerMove(),
+                new RaidListener(),
+                //new DamageListener(),
+                new EggLog(),
+                //new onIronGolemDeath(),
+                new onEntitySpawn(),
+                new ItemPickup(),
+                new DeathMessage(),
+                new DroppedItemsLog(),
+                new NameInChatNotification(),
+                new ItemPlacedInItemFrameLog(),
+                new MCMMORepairUseLog()
+                //new onGuardianPathfind()
+        );
 
-        if(APIs.MyPetFound){
-            Bukkit.getPluginManager().registerEvents(new PetPickupListener(), Main.getInstance());
+        if(APIs.MyPetFound) {
+            registerEvents(new PetPickupListener());
         }
-        if(APIs.CrazyCratesFound){
-            Bukkit.getPluginManager().registerEvents(new CratePrizeLog(), Main.getInstance());
+        if(APIs.CrazyCratesFound) {
+            registerEvents(new CratePrizeLog());
         }
         if(APIs.GriefPreventionFound){
-            Bukkit.getPluginManager().registerEvents(new ClaimCreatedLog(), Main.getInstance());
-            Bukkit.getPluginManager().registerEvents(new ClaimDeletedLog(), Main.getInstance());
-            Bukkit.getPluginManager().registerEvents(new ClaimExpiredLog(), Main.getInstance());
-            Bukkit.getPluginManager().registerEvents(new ClaimModifiedLog(), Main.getInstance());
+            registerEvents(
+                    new ClaimCreatedLog(),
+                    new ClaimDeletedLog(),
+                    new ClaimExpiredLog(),
+                    new ClaimModifiedLog()
+            );
         }
 
+    }
+
+    public static void registerEvents(Listener... listeners) {
+        for(Listener listener : listeners)
+            Main.getInstance().getServer().getPluginManager().registerEvents(listener, Main.getInstance());
     }
 
     public static void RegisterCommands() {
