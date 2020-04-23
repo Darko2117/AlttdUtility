@@ -1,5 +1,6 @@
 package com.darko.main.utilities.flags;
 
+import com.darko.main.Main;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
@@ -9,6 +10,13 @@ import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 public class Flags {
 
     public static StateFlag SIT, ANVIL_REPAIR, ANVIL_USE, ENCHANTING_TABLE_USE, NAME_TAG_USE, BONE_MEAL_USE, ALLOW_GUARDIAN_PATHFINDING;
+
+    private final Main plugin;
+
+    public Flags(Main main) {
+        this.plugin = main;
+        FlagsEnable();
+    }
 
     public static void FlagsEnable() {
         SitFlag();
@@ -30,7 +38,6 @@ public class Flags {
             Flag<?> existing = registry.get("chair-sit");
             if (existing instanceof StateFlag) {
                 SIT = (StateFlag) existing;
-            } else {
             }
         }
     }
@@ -45,7 +52,6 @@ public class Flags {
             Flag<?> existing = registry.get("anvil-repair");
             if (existing instanceof StateFlag) {
                 ANVIL_REPAIR = (StateFlag) existing;
-            } else {
             }
         }
     }
@@ -60,7 +66,6 @@ public class Flags {
             Flag<?> existing = registry.get("anvil-use");
             if (existing instanceof StateFlag) {
                 ANVIL_USE = (StateFlag) existing;
-            } else {
             }
         }
     }
@@ -75,7 +80,6 @@ public class Flags {
             Flag<?> existing = registry.get("enchanting-table-use");
             if (existing instanceof StateFlag) {
                 ENCHANTING_TABLE_USE = (StateFlag) existing;
-            } else {
             }
         }
     }
@@ -90,7 +94,6 @@ public class Flags {
             Flag<?> existing = registry.get("name-tag-use");
             if (existing instanceof StateFlag) {
                 NAME_TAG_USE = (StateFlag) existing;
-            } else {
             }
         }
     }
@@ -105,7 +108,6 @@ public class Flags {
             Flag<?> existing = registry.get("bone-meal-use");
             if (existing instanceof StateFlag) {
                 BONE_MEAL_USE = (StateFlag) existing;
-            } else {
             }
         }
     }
@@ -120,7 +122,6 @@ public class Flags {
             Flag<?> existing = registry.get("guardian-pathfinding");
             if (existing instanceof StateFlag) {
                 ALLOW_GUARDIAN_PATHFINDING = (StateFlag) existing;
-            } else {
             }
         }
     }

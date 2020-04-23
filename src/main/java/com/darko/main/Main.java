@@ -26,9 +26,7 @@ public class Main extends JavaPlugin {
 
         APIs.APIConnect();
 
-        Register.RegisterEvents();
-
-        Register.RegisterCommands();
+        new Register(this);
 
         //Database.Initiate();
 
