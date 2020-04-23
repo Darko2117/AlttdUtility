@@ -7,6 +7,7 @@ import com.darko.main.utilities.destro.kickFromBungee.KickFromBungeeCommand;
 import com.darko.main.utilities.flags.*;
 import com.darko.main.utilities.logging.ItemsLogging.DroppedItemsLog;
 import com.darko.main.utilities.logging.ItemsLogging.ItemPlacedInItemFrameLog;
+import com.darko.main.utilities.logging.ItemsLogging.ItemTakenOutOfItemFrameLog;
 import com.darko.main.utilities.logging.ItemsLogging.MCMMORepairUseLog;
 import com.darko.main.utilities.permissionStuff.ItemPickup;
 import com.darko.main.utilities.playerList.PlayerList;
@@ -14,7 +15,6 @@ import com.darko.main.utilities.playerList.PlayerListTabComplete;
 import com.darko.main.utilities.prefixes.RemovePrefix;
 import com.darko.main.utilities.prefixes.SetPrefix;
 import com.darko.main.utilities.spawning.onEntitySpawn;
-import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -75,17 +75,18 @@ public class Register extends JavaPlugin {
                 new DroppedItemsLog(),
                 new NameInChatNotification(),
                 new ItemPlacedInItemFrameLog(),
+                new ItemTakenOutOfItemFrameLog(),
                 new MCMMORepairUseLog()
                 //new onGuardianPathfind()
         );
 
-        if(APIs.MyPetFound) {
+        if (APIs.MyPetFound) {
             registerEvents(new PetPickupListener());
         }
-        if(APIs.CrazyCratesFound) {
+        if (APIs.CrazyCratesFound) {
             registerEvents(new CratePrizeLog());
         }
-        if(APIs.GriefPreventionFound){
+        if (APIs.GriefPreventionFound) {
             registerEvents(
                     new ClaimCreatedLog(),
                     new ClaimDeletedLog(),
@@ -97,8 +98,9 @@ public class Register extends JavaPlugin {
     }
 
     public static void registerEvents(Listener... listeners) {
-        for(Listener listener : listeners)
+        for (Listener listener : listeners) {
             Main.getInstance().getServer().getPluginManager().registerEvents(listener, Main.getInstance());
+        }
     }
 
     public static void RegisterCommands() {
@@ -117,7 +119,7 @@ public class Register extends JavaPlugin {
             Main.getInstance().getCommand("cooldown").setTabCompleter(new cooldownTabComplete());
         }
 
-        if(APIs.LuckPermsFound){
+        if (APIs.LuckPermsFound) {
             Main.getInstance().getCommand("setprefix").setExecutor(new SetPrefix());
             Main.getInstance().getCommand("removeprefix").setExecutor(new RemovePrefix());
             Main.getInstance().getCommand("prefixhistory").setExecutor(new Cooldown());

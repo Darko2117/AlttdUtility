@@ -18,6 +18,7 @@ public class APIs extends JavaPlugin {
     public static Boolean LuckPermsFound = false;
     public static Boolean MyPetFound = false;
     public static Boolean CrazyCratesFound = false;
+    public static Boolean mcMMOFound = false;
 
 
     public static void APIConnect() {
@@ -36,6 +37,9 @@ public class APIs extends JavaPlugin {
         }
         if (CrazyCratesApiCheck() != null) {
             CrazyCratesFound = true;
+        }
+        if (mcMMOApiCheck() != null) {
+            mcMMOFound = true;
         }
 
         if (GriefPreventionFound) {
@@ -70,6 +74,11 @@ public class APIs extends JavaPlugin {
                     + "If it's enabled in the config, prizes from crates are logged.");
         } else {
             Main.getInstance().getLogger().info(ConsoleColors.RED + "CrazyCrates not found!... " + ConsoleColors.RESET);
+        }
+        if (mcMMOFound) {
+            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "mcMMO found!... ");
+        } else {
+            Main.getInstance().getLogger().info(ConsoleColors.RED + "mcMMO not found!... " + ConsoleColors.RESET);
         }
     }
 
@@ -121,6 +130,15 @@ public class APIs extends JavaPlugin {
         Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CrazyCrates");
         if (plugin instanceof me.badbones69.crazycrates.Main) {
             return (me.badbones69.crazycrates.Main) plugin;
+        } else {
+            return null;
+        }
+    }
+
+    public static com.gmail.nossr50.mcMMO mcMMOApiCheck() {
+        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("mcMMO");
+        if (plugin instanceof com.gmail.nossr50.mcMMO) {
+            return (com.gmail.nossr50.mcMMO) plugin;
         } else {
             return null;
         }

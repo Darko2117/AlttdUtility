@@ -28,6 +28,7 @@ public class Logging {
     public static String eggLogLogName = null;
     public static String droppedItemsLogName = null;
     public static String itemPlacedInItemFrameLogName = null;
+    public static String itemTakenOutOfItemFrameLogName = null;
     public static String mcmmoRepairUseLogName = null;
     public static String cratePrizeLogName = null;
     public static String spawnLimitReachedLogName = null;
@@ -63,6 +64,7 @@ public class Logging {
                     dataFilesNames.add(eggLogLogName);
                     dataFilesNames.add(droppedItemsLogName);
                     dataFilesNames.add(itemPlacedInItemFrameLogName);
+                    dataFilesNames.add(itemTakenOutOfItemFrameLogName);
                     dataFilesNames.add(mcmmoRepairUseLogName);
                     dataFilesNames.add(cratePrizeLogName);
                     dataFilesNames.add(spawnLimitReachedLogName);
@@ -111,6 +113,7 @@ public class Logging {
         eggLogLogName = "/logs/" + date + "egg-log.txt";
         droppedItemsLogName = "/logs/" + date + "dropped-items-log.txt";
         itemPlacedInItemFrameLogName = "/logs/" + date + "item-placed-in-item-frame-log.txt";
+        itemTakenOutOfItemFrameLogName = "/logs/" + date + "item-taken-out-of-item-frame-log.txt";
         mcmmoRepairUseLogName = "/logs/" + date + "mcmmo-repair-use-log.txt";
         cratePrizeLogName = "/logs/" + date + "crate-prize-log.txt";
         spawnLimitReachedLogName = "/logs/" + date + "spawn-limit-reached-log.txt";
@@ -122,6 +125,7 @@ public class Logging {
         LogNamesAndConfigPaths.put(eggLogLogName.substring(17), "Logging.EggLog");
         LogNamesAndConfigPaths.put(droppedItemsLogName.substring(17), "Logging.DroppedItemsLog");
         LogNamesAndConfigPaths.put(itemPlacedInItemFrameLogName.substring(17), "Logging.ItemPlacedInItemFrameLog");
+        LogNamesAndConfigPaths.put(itemTakenOutOfItemFrameLogName.substring(17), "Logging.ItemTakenOutOfItemFrameLog");
         LogNamesAndConfigPaths.put(mcmmoRepairUseLogName.substring(17), "Logging.MCMMORepairUseLog");
         LogNamesAndConfigPaths.put(cratePrizeLogName.substring(17), "Logging.CratePrizeLog");
         LogNamesAndConfigPaths.put(spawnLimitReachedLogName.substring(17), "Logging.SpawnLimitReachedLog");

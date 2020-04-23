@@ -19,21 +19,23 @@ import com.sk89q.worldguard.protection.regions.RegionQuery;
 
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
+import org.bukkit.inventory.EquipmentSlot;
 
 public class ChairChecks {
 
     public static Boolean handCheck(Player player, PlayerInteractEvent e) {
 
         return e.getAction() == Action.RIGHT_CLICK_BLOCK
-                && player.getInventory().getItemInMainHand().getType() == Material.AIR;
+                && player.getInventory().getItemInMainHand().getType() == Material.AIR && e.getHand().equals(EquipmentSlot.HAND);
     }
 
     public static Boolean blocksCheck(Player player, PlayerInteractEvent e) {
+
         Location blockloc = e.getClickedBlock().getLocation();
-        Material[] bannedMaterialsBelow = { Material.LAVA, Material.FIRE };
-        Material[] allowedMaterialsAbove = { Material.AIR, Material.ACACIA_WALL_SIGN, Material.BIRCH_WALL_SIGN,
+        Material[] bannedMaterialsBelow = {Material.LAVA, Material.FIRE};
+        Material[] allowedMaterialsAbove = {Material.AIR, Material.ACACIA_WALL_SIGN, Material.BIRCH_WALL_SIGN,
                 Material.DARK_OAK_WALL_SIGN, Material.JUNGLE_WALL_SIGN, Material.OAK_WALL_SIGN,
-                Material.SPRUCE_WALL_SIGN, Material.WALL_TORCH };
+                Material.SPRUCE_WALL_SIGN, Material.WALL_TORCH};
         Boolean bannedMaterialFound = false;
         Boolean allowedMaterialFound = false;
 

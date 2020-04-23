@@ -33,7 +33,8 @@ public class ConfigSetup {
         DeathMessage("Messages.DeathMessage", "&cUse &6/dback&c to go back to your previous death location."),
         InvalidPrefixLengthMessage("Messages.InvalidPrefixLengthMessage", "&cA prefix cannot be longer than 10 characters."),
         PrefixSetConfirmedMessage("Messages.PrefixSetConfirmedMessage", "&ePrefix &6%prefix%&e set for &6%player%&e."),
-        PrefixRemovedConfirmedMessage("Messages.PrefixRemovedConfirmedMessage", "&ePrefix removed for &6%player%&e.");
+        PrefixRemovedConfirmedMessage("Messages.PrefixRemovedConfirmedMessage", "&ePrefix removed for &6%player%&e."),
+        servermsgInvalidUsage("Messages.servermsgInvalidUsage", "&cUsage of this command is /servermsg <player/permission> <message>.\nYou can use color codes and ^n for a new line.");
 
         private final String path;
         private final String message;

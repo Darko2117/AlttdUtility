@@ -51,7 +51,6 @@ public class Hat implements CommandExecutor {
         } else {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     Main.getInstance().getConfig().getString("Messages.NoPermission")));
-            // Teri is a dumdum
         }
         return false;
     }

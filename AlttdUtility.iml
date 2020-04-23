@@ -115,5 +115,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="mcMMO" level="project" />
   </component>
 </module>
