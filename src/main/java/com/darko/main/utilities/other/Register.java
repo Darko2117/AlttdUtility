@@ -3,6 +3,7 @@ package com.darko.main.utilities.other;
 import com.darko.main.utilities.chat.AtPlayers.NameInChatNotification;
 import com.darko.main.utilities.config.ConfigReload;
 import com.darko.main.utilities.deathMessage.DeathMessage;
+import com.darko.main.utilities.destro.LavaSponge;
 import com.darko.main.utilities.destro.kickFromBungee.KickFromBungeeCommand;
 import com.darko.main.utilities.flags.*;
 import com.darko.main.utilities.logging.ItemsLogging.DroppedItemsLog;
@@ -55,7 +56,7 @@ public class Register extends JavaPlugin {
         RegisterCommands();
     }
 
-    public static void RegisterEvents() {
+    public void RegisterEvents() {
         registerEvents(
                 new onStairsRightClick(),
                 new onPlayerDismount(),
@@ -84,8 +85,9 @@ public class Register extends JavaPlugin {
                 new NameInChatNotification(),
                 new ItemPlacedInItemFrameLog(),
                 new ItemTakenOutOfItemFrameLog(),
-                new MCMMORepairUseLog()
-                //new onGuardianPathfind()
+                new MCMMORepairUseLog(),
+                //new onGuardianPathfind(),
+                new LavaSponge()
         );
 
         if (APIs.MyPetFound) {
@@ -105,7 +107,7 @@ public class Register extends JavaPlugin {
 
     }
 
-    public static void registerEvents(Listener... listeners) {
+    public void registerEvents(Listener... listeners) {
         for (Listener listener : listeners) {
             Main.getInstance().getServer().getPluginManager().registerEvents(listener, Main.getInstance());
         }
@@ -134,7 +136,7 @@ public class Register extends JavaPlugin {
         }
 
         if (APIs.WorldGuardFound) {
-            new Flags(plugin);
+            new Flags();
         }
     }
 }
