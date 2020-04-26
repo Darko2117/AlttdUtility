@@ -3,6 +3,7 @@ package com.darko.main.utilities.other;
 import com.darko.main.utilities.chat.AtPlayers.NameInChatNotification;
 import com.darko.main.utilities.config.ConfigReload;
 import com.darko.main.utilities.deathMessage.DeathMessage;
+import com.darko.main.utilities.destro.LavaSponge;
 import com.darko.main.utilities.destro.kickFromBungee.KickFromBungeeCommand;
 import com.darko.main.utilities.flags.*;
 import com.darko.main.utilities.logging.ItemsLogging.DroppedItemsLog;
@@ -47,7 +48,15 @@ import com.darko.main.utilities.teleport.onPlayerTeleport;
 
 public class Register extends JavaPlugin {
 
-    public static void RegisterEvents() {
+    private final Main plugin;
+
+    public Register(Main main) {
+        this.plugin = main;
+        RegisterEvents();
+        RegisterCommands();
+    }
+
+    public void RegisterEvents() {
         registerEvents(
                 new onStairsRightClick(),
                 new onPlayerDismount(),
@@ -76,8 +85,9 @@ public class Register extends JavaPlugin {
                 new NameInChatNotification(),
                 new ItemPlacedInItemFrameLog(),
                 new ItemTakenOutOfItemFrameLog(),
-                new MCMMORepairUseLog()
-                //new onGuardianPathfind()
+                new MCMMORepairUseLog(),
+                //new onGuardianPathfind(),
+                new LavaSponge()
         );
 
         if (APIs.MyPetFound) {
@@ -97,36 +107,36 @@ public class Register extends JavaPlugin {
 
     }
 
-    public static void registerEvents(Listener... listeners) {
+    public void registerEvents(Listener... listeners) {
         for (Listener listener : listeners) {
             Main.getInstance().getServer().getPluginManager().registerEvents(listener, Main.getInstance());
         }
     }
 
-    public static void RegisterCommands() {
-        Main.getInstance().getCommand("autofix").setExecutor(new AutoFix());
-        Main.getInstance().getCommand("hat").setExecutor(new Hat());
-        Main.getInstance().getCommand("servermsg").setExecutor(new Servermsg());
-        Main.getInstance().getCommand("chair").setExecutor(new Chair());
-        Main.getInstance().getCommand("utilityconfigreload").setExecutor(new ConfigReload());
-        Main.getInstance().getCommand("list").setExecutor(new PlayerList());
-        Main.getInstance().getCommand("list").setTabCompleter(new PlayerListTabComplete());
-        Main.getInstance().getCommand("kickfrombungee").setExecutor(new KickFromBungeeCommand());
-        Main.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(Main.getInstance(), "BungeeCord");
+    public void RegisterCommands() {
+        plugin.getCommand("autofix").setExecutor(new AutoFix());
+        plugin.getCommand("hat").setExecutor(new Hat());
+        plugin.getCommand("servermsg").setExecutor(new Servermsg());
+        plugin.getCommand("chair").setExecutor(new Chair());
+        plugin.getCommand("utilityconfigreload").setExecutor(new ConfigReload());
+        plugin.getCommand("list").setExecutor(new PlayerList());
+        plugin.getCommand("list").setTabCompleter(new PlayerListTabComplete());
+        plugin.getCommand("kickfrombungee").setExecutor(new KickFromBungeeCommand());
+        plugin.getServer().getMessenger().registerOutgoingPluginChannel(Main.getInstance(), "BungeeCord");
 
         if (APIs.LuckPermsFound) {
-            Main.getInstance().getCommand("cooldown").setExecutor(new Cooldown());
-            Main.getInstance().getCommand("cooldown").setTabCompleter(new cooldownTabComplete());
+            plugin.getCommand("cooldown").setExecutor(new Cooldown());
+            plugin.getCommand("cooldown").setTabCompleter(new cooldownTabComplete());
         }
 
-        if (APIs.LuckPermsFound) {
-            Main.getInstance().getCommand("setprefix").setExecutor(new SetPrefix());
-            Main.getInstance().getCommand("removeprefix").setExecutor(new RemovePrefix());
-            Main.getInstance().getCommand("prefixhistory").setExecutor(new Cooldown());
+        if(APIs.LuckPermsFound){
+            plugin.getCommand("setprefix").setExecutor(new SetPrefix());
+            plugin.getCommand("removeprefix").setExecutor(new RemovePrefix());
+            plugin.getCommand("prefixhistory").setExecutor(new Cooldown());
         }
 
         if (APIs.WorldGuardFound) {
-            Flags.FlagsEnable();
+            new Flags();
         }
     }
 }
