@@ -1,7 +1,7 @@
 package com.darko.main.utilities.cooldown;
 
 import com.darko.main.Main;
-import com.darko.main.utilities.other.APIs;
+import com.darko.main.API.APIs;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
@@ -10,8 +10,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.time.ZoneId;
 
 public class Cooldown implements CommandExecutor {
 

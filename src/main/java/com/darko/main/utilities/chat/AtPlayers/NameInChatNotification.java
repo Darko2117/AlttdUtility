@@ -1,6 +1,6 @@
 package com.darko.main.utilities.chat.AtPlayers;
 
-import com.darko.main.utilities.other.APIs;
+import com.darko.main.API.APIs;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;

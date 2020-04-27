@@ -1,3 +1,4 @@
 /.idea/
 /bin/
-/AlttdUtility.jar
+/AlttdUtility.iml
+/target/

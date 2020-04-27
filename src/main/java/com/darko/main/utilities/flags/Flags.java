@@ -11,13 +11,6 @@ public class Flags {
 
     public static StateFlag SIT, ANVIL_REPAIR, ANVIL_USE, ENCHANTING_TABLE_USE, NAME_TAG_USE, BONE_MEAL_USE, ALLOW_GUARDIAN_PATHFINDING;
 
-    private final Main plugin;
-
-    public Flags(Main main) {
-        this.plugin = main;
-        FlagsEnable();
-    }
-
     public static void FlagsEnable() {
         SitFlag();
         AnvilRepairFlag();
@@ -28,7 +21,7 @@ public class Flags {
         GuardianPathFindingFlag();
     }
 
-    public static void SitFlag() {
+    private static void SitFlag() {
         FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
         try {
             StateFlag flag = new StateFlag("chair-sit", true);
@@ -42,7 +35,7 @@ public class Flags {
         }
     }
 
-    public static void AnvilRepairFlag() {
+    private static void AnvilRepairFlag() {
         FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
         try {
             StateFlag flag = new StateFlag("anvil-repair", false);
@@ -56,7 +49,7 @@ public class Flags {
         }
     }
 
-    public static void AnvilUseFlag() {
+    private static void AnvilUseFlag() {
         FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
         try {
             StateFlag flag = new StateFlag("anvil-use", true);
@@ -70,7 +63,7 @@ public class Flags {
         }
     }
 
-    public static void EnchantingTableUseFlag() {
+    private static void EnchantingTableUseFlag() {
         FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
         try {
             StateFlag flag = new StateFlag("enchanting-table-use", true);
@@ -84,7 +77,7 @@ public class Flags {
         }
     }
 
-    public static void NameTagFlag() {
+    private static void NameTagFlag() {
         FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
         try {
             StateFlag flag = new StateFlag("name-tag-use", true);
@@ -98,7 +91,7 @@ public class Flags {
         }
     }
 
-    public static void BoneMealFlag() {
+    private static void BoneMealFlag() {
         FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
         try {
             StateFlag flag = new StateFlag("bone-meal-use", true);
@@ -112,7 +105,7 @@ public class Flags {
         }
     }
 
-    public static void GuardianPathFindingFlag() {
+    private static void GuardianPathFindingFlag() {
         FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
         try {
             StateFlag flag = new StateFlag("guardian-pathfinding", false);

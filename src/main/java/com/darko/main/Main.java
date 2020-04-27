@@ -1,10 +1,9 @@
 package com.darko.main;
 
-import com.darko.main.database.Database;
-import com.darko.main.utilities.config.ConfigSetup;
+import com.darko.main.config.ConfigSetup;
 import com.darko.main.utilities.logging.Logging;
-import com.darko.main.utilities.other.APIs;
-import com.darko.main.utilities.other.Register;
+import com.darko.main.API.APIs;
+import com.darko.main.register.Register;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
@@ -26,7 +25,9 @@ public class Main extends JavaPlugin {
 
         APIs.APIConnect();
 
-        new Register(this);
+        Register.RegisterEvents();
+
+        Register.RegisterCommands();
 
         //Database.Initiate();
 

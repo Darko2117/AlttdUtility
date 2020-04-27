@@ -1,4 +1,4 @@
-package com.darko.main.utilities.config;
+package com.darko.main.config;
 
 import java.util.*;
 

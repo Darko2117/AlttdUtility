@@ -1,4 +1,4 @@
-package com.darko.main.utilities.destro;
+package com.darko.main.utilities.destro.lavasponge;
 
 import org.bukkit.Location;
 import org.bukkit.Material;

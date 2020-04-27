@@ -1,6 +1,7 @@
-package com.darko.main.utilities.other;
+package com.darko.main.API;
 
 import com.darko.main.Main;
+import com.darko.main.utilities.other.ConsoleColors;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import de.Keyle.MyPet.MyPetPlugin;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
@@ -76,7 +77,7 @@ public class APIs extends JavaPlugin {
             Main.getInstance().getLogger().info(ConsoleColors.RED + "CrazyCrates not found!... " + ConsoleColors.RESET);
         }
         if (mcMMOFound) {
-            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "mcMMO found!... ");
+            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "mcMMO found!... " + ConsoleColors.RESET);
         } else {
             Main.getInstance().getLogger().info(ConsoleColors.RED + "mcMMO not found!... " + ConsoleColors.RESET);
         }

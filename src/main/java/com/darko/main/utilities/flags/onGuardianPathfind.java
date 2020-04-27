@@ -1,6 +1,6 @@
 package com.darko.main.utilities.flags;
 
-import com.darko.main.utilities.other.APIs;
+import com.darko.main.API.APIs;
 import com.destroystokyo.paper.event.entity.EntityPathfindEvent;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
