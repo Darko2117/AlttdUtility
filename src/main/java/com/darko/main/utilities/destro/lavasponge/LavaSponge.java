@@ -40,6 +40,7 @@ public class LavaSponge implements Listener {
             }
         }
     }
+
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {
         if (e.isCancelled()) {

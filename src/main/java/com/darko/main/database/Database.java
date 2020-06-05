@@ -83,9 +83,8 @@ public class Database {
 
     /**
      * Sets the connection for this instance
-     *
      */
-    public static void Initiate(){
+    public static void Initiate() {
         try {
             instance = new Database();
         } catch (SQLException e) {

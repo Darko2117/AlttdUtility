@@ -20,7 +20,7 @@ public class NameInChatNotification implements Listener {
         Boolean adminChatEnabled = false;
         Boolean partyCheatEnabled = false;
 
-        if(APIs.mcMMOFound) {
+        if (APIs.mcMMOFound) {
             adminChatEnabled = ChatAPI.isUsingAdminChat(e.getPlayer());
             partyCheatEnabled = ChatAPI.isUsingPartyChat(e.getPlayer());
         }

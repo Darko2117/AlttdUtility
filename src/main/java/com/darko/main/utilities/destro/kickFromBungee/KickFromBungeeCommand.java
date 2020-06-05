@@ -20,8 +20,8 @@ public class KickFromBungeeCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission("utility.kickfrombungee")) {
             if (!(args.length == 0)) {
-                Player target  = Bukkit.getPlayer(args[0]);
-                if(target != null) {
+                Player target = Bukkit.getPlayer(args[0]);
+                if (target != null) {
                     String reason = StringUtils.join(args, " ", 1, args.length);
                     ByteArrayDataOutput out = ByteStreams.newDataOutput();
                     out.writeUTF("KickPlayer");

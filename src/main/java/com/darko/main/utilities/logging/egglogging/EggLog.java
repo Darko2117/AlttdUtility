@@ -1,7 +1,5 @@
-package com.darko.main.utilities.logging.EggLogging;
+package com.darko.main.utilities.logging.egglogging;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Date;
 
 import com.darko.main.utilities.logging.Logging;
@@ -9,7 +7,6 @@ import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerEggThrowEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import com.darko.main.Main;
 

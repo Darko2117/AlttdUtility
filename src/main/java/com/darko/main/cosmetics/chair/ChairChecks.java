@@ -35,7 +35,7 @@ public class ChairChecks {
         Material[] bannedMaterialsBelow = {Material.LAVA, Material.FIRE};
         Material[] allowedMaterialsAbove = {Material.AIR, Material.ACACIA_WALL_SIGN, Material.BIRCH_WALL_SIGN,
                 Material.DARK_OAK_WALL_SIGN, Material.JUNGLE_WALL_SIGN, Material.OAK_WALL_SIGN,
-                Material.SPRUCE_WALL_SIGN, Material.WALL_TORCH};
+                Material.SPRUCE_WALL_SIGN, Material.WALL_TORCH, Material.WATER};
         Boolean bannedMaterialFound = false;
         Boolean allowedMaterialFound = false;
 

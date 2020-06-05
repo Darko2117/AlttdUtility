@@ -9,9 +9,9 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 public class DeathMessage implements Listener {
 
     @EventHandler
-    public void onDeath(PlayerDeathEvent e){
+    public void onDeath(PlayerDeathEvent e) {
 
-        if(e.getEntity().hasPermission("utility.deathmsg")){
+        if (e.getEntity().hasPermission("utility.deathmsg")) {
             e.getEntity().sendMessage(ChatColor.translateAlternateColorCodes('&',
                     Main.getInstance().getConfig().getString("Messages.DeathMessage")));
         }

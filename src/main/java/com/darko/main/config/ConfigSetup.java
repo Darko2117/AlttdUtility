@@ -149,7 +149,7 @@ public class ConfigSetup {
         // ----------------------------------------------------------------------------------------------------
 
         // DatabaseInitiate
-        if (!config.contains("Database")){
+        if (!config.contains("Database")) {
             config.set("Database.driver", "mariadb");
             config.set("Database.ip", "localhost");
             config.set("Database.port", "3306");

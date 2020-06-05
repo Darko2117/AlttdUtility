@@ -67,7 +67,7 @@ public class onEntityInteractWithLead implements Listener {
                              * This is where we check how long the player has been offline for. MC stores
                              * this in milliseconds, so we convert the offline time to days first and
                              * compare it to GP config value for claim expirationdays.
-                             * 
+                             *
                              */
                             if (TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - ownerInfo
                                     .getLastPlayed()) >= GriefPrevention.instance.config_claims_expirationDays) {

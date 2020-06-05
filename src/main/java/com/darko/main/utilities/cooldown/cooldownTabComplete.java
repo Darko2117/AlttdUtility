@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
 public class cooldownTabComplete implements TabCompleter {
-    private static final String[] COMMANDS = { "rtp", "crate" };
+    private static final String[] COMMANDS = {"rtp", "crate"};
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {

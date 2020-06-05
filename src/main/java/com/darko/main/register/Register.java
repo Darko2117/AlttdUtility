@@ -10,6 +10,11 @@ import com.darko.main.utilities.logging.ItemsLogging.DroppedItemsLog;
 import com.darko.main.utilities.logging.ItemsLogging.ItemPlacedInItemFrameLog;
 import com.darko.main.utilities.logging.ItemsLogging.ItemTakenOutOfItemFrameLog;
 import com.darko.main.utilities.logging.ItemsLogging.MCMMORepairUseLog;
+import com.darko.main.utilities.logging.claimlogging.ClaimCreatedLog;
+import com.darko.main.utilities.logging.claimlogging.ClaimDeletedLog;
+import com.darko.main.utilities.logging.claimlogging.ClaimExpiredLog;
+import com.darko.main.utilities.logging.claimlogging.ClaimModifiedLog;
+import com.darko.main.utilities.logging.egglogging.EggLog;
 import com.darko.main.utilities.permissionStuff.ItemPickup;
 import com.darko.main.utilities.playerList.PlayerList;
 import com.darko.main.utilities.playerList.PlayerListTabComplete;
@@ -36,11 +41,6 @@ import com.darko.main.utilities.destro.tamedexpire.onEntityInteractWithLead;
 import com.darko.main.utilities.durability.AutoFix;
 import com.darko.main.utilities.durability.onDurabilityUse;
 import com.darko.main.utilities.permissionStuff.onPlayerMove;
-import com.darko.main.utilities.logging.ClaimLogging.ClaimCreatedLog;
-import com.darko.main.utilities.logging.ClaimLogging.ClaimDeletedLog;
-import com.darko.main.utilities.logging.ClaimLogging.ClaimExpiredLog;
-import com.darko.main.utilities.logging.ClaimLogging.ClaimModifiedLog;
-import com.darko.main.utilities.logging.EggLogging.EggLog;
 import com.darko.main.utilities.logging.PrizeLogging.CratePrizeLog;
 import com.darko.main.utilities.portal.onPortalUse;
 import com.darko.main.utilities.servermsg.Servermsg;
@@ -121,7 +121,7 @@ public class Register extends JavaPlugin {
             Main.getInstance().getCommand("cooldown").setTabCompleter(new cooldownTabComplete());
         }
 
-        if(APIs.LuckPermsFound){
+        if (APIs.LuckPermsFound) {
             Main.getInstance().getCommand("setprefix").setExecutor(new SetPrefix());
             Main.getInstance().getCommand("removeprefix").setExecutor(new RemovePrefix());
             Main.getInstance().getCommand("prefixhistory").setExecutor(new Cooldown());

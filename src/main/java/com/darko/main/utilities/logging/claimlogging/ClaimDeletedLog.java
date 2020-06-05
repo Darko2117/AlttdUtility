@@ -1,13 +1,10 @@
-package com.darko.main.utilities.logging.ClaimLogging;
+package com.darko.main.utilities.logging.claimlogging;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Date;
 
 import com.darko.main.utilities.logging.Logging;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import com.darko.main.Main;
 

@@ -9,11 +9,11 @@ import org.bukkit.command.CommandSender;
 public class ConfigReload implements CommandExecutor {
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if(sender.hasPermission("utility.configreload")){
+        if (sender.hasPermission("utility.configreload")) {
             Main.getInstance().reloadConfig();
-           sender.sendMessage(ChatColor.GREEN + "Config reloaded!");
+            sender.sendMessage(ChatColor.GREEN + "Config reloaded!");
         }
         return false;
     }

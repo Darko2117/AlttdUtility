@@ -14,7 +14,7 @@ public class onPlayerTeleportCommand implements Listener {
         Player player = e.getPlayer();
         String command = e.getMessage();
         Boolean sitting = false;
-        String[] tpCommands = { "/tp", "/ptp", "/spawn", "/warp", "/home", "/back" };
+        String[] tpCommands = {"/tp", "/ptp", "/spawn", "/warp", "/home", "/back"};
         try {
             if (player.getVehicle().getCustomName().equals(GlobalVariables.ChairName)) {
                 sitting = true;
