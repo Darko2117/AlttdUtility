@@ -29,3 +29,5 @@ commands:
     permission: utility.removeprefix
   prefixhistory:
     premission: utility.prefixhistory
+  recompresslogs:
+    permission: utility.recompresslogs

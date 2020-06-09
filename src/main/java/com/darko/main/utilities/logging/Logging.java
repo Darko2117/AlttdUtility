@@ -144,7 +144,7 @@ public class Logging {
                 try {
 
                     File file = new File(Bukkit.getServer().getPluginManager().getPlugin("AlttdUtility").getDataFolder(), "/logs/" + fileNames[i]);
-                    String zipFileName = file.getName().concat(".zip");
+                    String zipFileName = file.getName().concat(".gz");
 
                     FileOutputStream fos = new FileOutputStream(zipFileName);
                     ZipOutputStream zos = new ZipOutputStream(fos);
@@ -160,11 +160,9 @@ public class Logging {
                         directory.mkdir();
                     }
 
-                    Path temp = Files.move(Paths.get(zipFileName), Paths.get(Bukkit.getServer().getPluginManager().getPlugin("AlttdUtility").getDataFolder() + "/compressed-logs/" + zipFileName));
+                    Files.move(Paths.get(zipFileName), Paths.get(Bukkit.getServer().getPluginManager().getPlugin("AlttdUtility").getDataFolder() + "/compressed-logs/" + zipFileName));
 
-                    File fileDelete = new File(Bukkit.getServer().getPluginManager().getPlugin("AlttdUtility").getDataFolder(), "/logs/" + fileNames[i]);
-
-                    fileDelete.delete();
+                    file.delete();
 
                 } catch (Exception e) {
                     Main.getInstance().getLogger().warning("Something failed during file compression, yikes...");
@@ -193,7 +191,7 @@ public class Logging {
                 LocalDate fileDateLD = LocalDate.of(fileYear, fileMonth, fileDay);
 
                 String fileNameWithoutDate = file.getName().substring(11);
-                fileNameWithoutDate = fileNameWithoutDate.substring(0, fileNameWithoutDate.indexOf(".zip"));
+                fileNameWithoutDate = fileNameWithoutDate.substring(0, fileNameWithoutDate.indexOf(".gz"));
 
                 Integer numberOfLogsToKeepFromConfig = Main.getInstance().getConfig().getInt(Logging.LogNamesAndConfigPaths.get(fileNameWithoutDate) + ".NumberOfLogsToKeep");
 
