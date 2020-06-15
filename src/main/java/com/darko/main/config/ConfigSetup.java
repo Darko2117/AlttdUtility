@@ -34,7 +34,7 @@ public class ConfigSetup {
         InvalidPrefixLengthMessage("Messages.InvalidPrefixLengthMessage", "&cA prefix cannot be longer than 10 characters."),
         PrefixSetConfirmedMessage("Messages.PrefixSetConfirmedMessage", "&ePrefix &6%prefix%&e set for &6%player%&e."),
         PrefixRemovedConfirmedMessage("Messages.PrefixRemovedConfirmedMessage", "&ePrefix removed for &6%player%&e."),
-        servermsgInvalidUsage("Messages.servermsgInvalidUsage", "&cUsage of this command is /servermsg <player/permission> <message>.\nYou can use color codes and ^n for a new line.");
+        servermsgInvalidUsage("Messages.servermsgInvalidUsage", "&cUsage of this command is /servermsg <player/permission> <message>. You can use color codes and ^n for a new line.");
 
         private final String path;
         private final String message;
@@ -118,7 +118,7 @@ public class ConfigSetup {
         // SpawnLimiter
         if (!config.contains("SpawnLimiter")) {
             config.createSection("SpawnLimiter.IRON_GOLEM");
-            Integer spawnRadius = 112;
+            Integer spawnRadius = 208;
             Integer spawnTimeLimit = 60;
             Integer spawnLimit = 10;
             config.set("SpawnLimiter.IRON_GOLEM.RadiusLimit", spawnRadius);
@@ -132,16 +132,12 @@ public class ConfigSetup {
         // Logging
         Logging.UpdateLogDates();
 
-        Iterator it = Logging.LogNamesAndConfigPaths.entrySet().iterator();
+        for(Map.Entry<String, String> entry : Logging.LogNamesAndConfigPaths.entrySet()){
 
-        while (it.hasNext()) {
-
-            Map.Entry element = (Map.Entry) it.next();
-
-            if (!config.contains(element.getValue().toString())) {
-                config.set(element.getValue() + ".Enabled", true);
-                config.set(element.getValue() + ".NumberOfLogsToKeep", 365);
-                Main.getInstance().getLogger().info(element.getValue() + " not found in the config, creating it now.");
+            if (!config.contains(entry.getValue())) {
+                config.set(entry.getValue() + ".Enabled", true);
+                config.set(entry.getValue() + ".NumberOfLogsToKeep", 365);
+                Main.getInstance().getLogger().info(entry.getValue() + " not found in the config, creating it now.");
             }
 
         }

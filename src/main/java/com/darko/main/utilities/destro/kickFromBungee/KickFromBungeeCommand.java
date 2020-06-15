@@ -28,6 +28,7 @@ public class KickFromBungeeCommand implements CommandExecutor, TabCompleter {
                     out.writeUTF(target.getName());
                     out.writeUTF(ChatColor.translateAlternateColorCodes('&', reason));
                     target.sendPluginMessage(Main.getInstance(), "BungeeCord", out.toByteArray());
+                    Main.getInstance().getLogger().info(target.getName() + " kicked from bungee.");
                 } else {
 
                 }

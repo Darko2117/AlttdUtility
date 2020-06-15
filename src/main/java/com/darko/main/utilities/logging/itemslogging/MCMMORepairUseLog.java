@@ -1,4 +1,4 @@
-package com.darko.main.utilities.logging.ItemsLogging;
+package com.darko.main.utilities.logging.itemslogging;
 
 import com.darko.main.Main;
 import com.darko.main.utilities.logging.Logging;
@@ -27,6 +27,9 @@ public class MCMMORepairUseLog implements Listener {
                         if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.mcmmoRepairUseLogName.substring(17)) + ".Enabled")) {
 
                             ItemStack itemInHand = player.getInventory().getItemInMainHand();
+                            String itemInHandString = player.getInventory().getItemInMainHand().toString();
+                            if(itemInHandString.length() > 1000) itemInHandString = itemInHandString.substring(0, 999);
+                            itemInHandString = itemInHandString.replace("\n", "|");
 
                             if (!itemInHand.getType().equals(Material.IRON_BLOCK)) {
 
@@ -34,7 +37,7 @@ public class MCMMORepairUseLog implements Listener {
 
                                 StringBuilder message = new StringBuilder();
 
-                                message.append(time + " " + player.getName() + " right clicked on an iron block with the item: " + itemInHand);
+                                message.append(time + " " + player.getName() + " right clicked on an iron block with the item: " + itemInHandString + ".");
 
                                 Logging.WriteToFile(Logging.mcmmoRepairUseLogName, message.toString());
 

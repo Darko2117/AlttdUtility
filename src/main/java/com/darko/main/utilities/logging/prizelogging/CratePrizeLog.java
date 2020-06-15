@@ -1,7 +1,5 @@
-package com.darko.main.utilities.logging.PrizeLogging;
+package com.darko.main.utilities.logging.prizelogging;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 

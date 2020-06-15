@@ -1,17 +1,13 @@
-package com.darko.main.utilities.logging.ItemsLogging;
+package com.darko.main.utilities.logging.itemslogging;
 
 import com.darko.main.Main;
 import com.darko.main.utilities.logging.Logging;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Date;
 
 public class DroppedItemsLog implements Listener {
@@ -25,7 +21,9 @@ public class DroppedItemsLog implements Listener {
             String location = Logging.getBetterLocationString(e.getItemDrop().getLocation());
             Date time = new Date(System.currentTimeMillis());
 
-            ItemStack item = e.getItemDrop().getItemStack();
+            String item = e.getItemDrop().getItemStack().toString();
+            if(item.length() > 1000) item = item.substring(0, 999);
+            item = item.replace("\n", "|");
 
             StringBuilder message = new StringBuilder();
 

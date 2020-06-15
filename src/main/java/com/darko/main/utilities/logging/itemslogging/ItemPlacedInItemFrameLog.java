@@ -1,8 +1,7 @@
-package com.darko.main.utilities.logging.ItemsLogging;
+package com.darko.main.utilities.logging.itemslogging;
 
 import com.darko.main.Main;
 import com.darko.main.utilities.logging.Logging;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
@@ -10,10 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Date;
 
 public class ItemPlacedInItemFrameLog implements Listener {
@@ -31,7 +27,9 @@ public class ItemPlacedInItemFrameLog implements Listener {
                         Player player = e.getPlayer();
                         String location = Logging.getBetterLocationString(e.getRightClicked().getLocation());
                         Date time = new Date(System.currentTimeMillis());
-                        ItemStack itemInFrame = player.getInventory().getItemInMainHand();
+                        String itemInFrame = player.getInventory().getItemInMainHand().toString();
+                        if(itemInFrame.length() > 1000) itemInFrame = itemInFrame.substring(0, 999);
+                        itemInFrame = itemInFrame.replace("\n", "|");
 
                         message.append(time + " " + player.getName() + " has placed " + itemInFrame + " in an item frame at " + location + ".");
 

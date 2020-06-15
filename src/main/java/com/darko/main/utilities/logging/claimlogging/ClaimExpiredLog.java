@@ -27,7 +27,7 @@ public class ClaimExpiredLog implements Listener {
 
             StringBuilder message = new StringBuilder();
             message.append(time.toString() + " Claim of " + owner + " expired. The claim was located at " + firstCorner
-                    + " - " + secondCorner + " and it went down to Y:" + lowestY);
+                    + " - " + secondCorner + " and it went down to Y:" + lowestY + ".");
 
             Logging.WriteToFile(Logging.claimExpiredLogName, message.toString());
 

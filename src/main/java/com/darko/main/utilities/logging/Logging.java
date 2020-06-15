@@ -10,7 +10,6 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
@@ -32,6 +31,8 @@ public class Logging {
     public static String mcmmoRepairUseLogName = null;
     public static String cratePrizeLogName = null;
     public static String spawnLimitReachedLogName = null;
+    public static String pickedUpItemsLogName = null;
+    public static String uiClickLogName = null;
 
     public static StringBuilder date = new StringBuilder();
 
@@ -68,6 +69,8 @@ public class Logging {
                     dataFilesNames.add(mcmmoRepairUseLogName);
                     dataFilesNames.add(cratePrizeLogName);
                     dataFilesNames.add(spawnLimitReachedLogName);
+                    dataFilesNames.add(pickedUpItemsLogName);
+                    dataFilesNames.add(uiClickLogName);
 
                     for (String fileName : dataFilesNames) {
 
@@ -117,6 +120,8 @@ public class Logging {
         mcmmoRepairUseLogName = "/logs/" + date + "mcmmo-repair-use-log.txt";
         cratePrizeLogName = "/logs/" + date + "crate-prize-log.txt";
         spawnLimitReachedLogName = "/logs/" + date + "spawn-limit-reached-log.txt";
+        pickedUpItemsLogName = "/logs/" + date + "picked-up-items-log.txt";
+        uiClickLogName = "/logs/" + date + "ui-clicks-log.txt";
 
         LogNamesAndConfigPaths.put(claimCreatedLogName.substring(17), "Logging.ClaimCreatedLog");
         LogNamesAndConfigPaths.put(claimDeletedLogName.substring(17), "Logging.ClaimDeletedLog");
@@ -129,6 +134,8 @@ public class Logging {
         LogNamesAndConfigPaths.put(mcmmoRepairUseLogName.substring(17), "Logging.MCMMORepairUseLog");
         LogNamesAndConfigPaths.put(cratePrizeLogName.substring(17), "Logging.CratePrizeLog");
         LogNamesAndConfigPaths.put(spawnLimitReachedLogName.substring(17), "Logging.SpawnLimitReachedLog");
+        LogNamesAndConfigPaths.put(pickedUpItemsLogName.substring(17), "Logging.PickedUpItemsLog");
+        LogNamesAndConfigPaths.put(uiClickLogName.substring(17), "Logging.UIClicksLog");
     }
 
 

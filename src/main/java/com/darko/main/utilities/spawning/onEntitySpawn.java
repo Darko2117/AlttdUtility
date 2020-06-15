@@ -1,7 +1,7 @@
 package com.darko.main.utilities.spawning;
 
 import com.darko.main.Main;
-import com.darko.main.utilities.logging.SpawnLogging.SpawnLimitReachedLog;
+import com.darko.main.utilities.logging.spawnlogging.SpawnLimitReachedLog;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;

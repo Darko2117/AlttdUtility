@@ -1,4 +1,4 @@
-package com.darko.main.utilities.logging.SpawnLogging;
+package com.darko.main.utilities.logging.spawnlogging;
 
 import com.darko.main.Main;
 import com.darko.main.utilities.logging.Logging;

@@ -25,15 +25,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49bc6783-8dae-497b-9e1b-b9252310cd10" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/TemporaryLogRecompressCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/UnzipUtility.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/PickedUpItemsLog.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/uiclicklogging/UIClicksLog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/config/ConfigSetup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/config/ConfigSetup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/register/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/register/Register.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/destro/kickFromBungee/KickFromBungeeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/destro/kickFromBungee/KickFromBungeeCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/ItemsLogging/DroppedItemsLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/DroppedItemsLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/ItemsLogging/ItemPlacedInItemFrameLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/ItemPlacedInItemFrameLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/ItemsLogging/ItemTakenOutOfItemFrameLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/ItemTakenOutOfItemFrameLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/ItemsLogging/MCMMORepairUseLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/MCMMORepairUseLog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/Logging.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/Logging.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/PrizeLogging/CratePrizeLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/prizelogging/CratePrizeLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/SpawnLogging/SpawnLimitReachedLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/spawnlogging/SpawnLimitReachedLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/TemporaryLogRecompressCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/RecompressCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/UnzipUtility.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/claimlogging/ClaimDeletedLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/claimlogging/ClaimDeletedLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/claimlogging/ClaimExpiredLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/claimlogging/ClaimExpiredLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/spawning/onEntitySpawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/spawning/onEntitySpawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/kickFromBungee/KickFromBungeeCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/kickFromBungee/KickFromBungeeCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/DroppedItemsLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/DroppedItemsLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/ItemPlacedInItemFrameLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/ItemPlacedInItemFrameLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/ItemTakenOutOfItemFrameLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/ItemTakenOutOfItemFrameLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/MCMMORepairUseLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/MCMMORepairUseLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/PrizeLogging/CratePrizeLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/PrizeLogging/CratePrizeLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/SpawnLogging/SpawnLimitReachedLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/SpawnLogging/SpawnLimitReachedLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/claimlogging/ClaimDeletedLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/claimlogging/ClaimDeletedLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/claimlogging/ClaimExpiredLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/claimlogging/ClaimExpiredLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/spawning/onEntitySpawn.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/spawning/onEntitySpawn.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +106,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CTF" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.35977012" />
@@ -127,7 +149,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591376767431</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Changed some stuff idk I'm not good at naming commits">
+      <created>1591732962091</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1591732962091</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -148,7 +177,8 @@
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
     <MESSAGE value="Fixed a lot of stuff" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed a lot of stuff" />
+    <MESSAGE value="Changed some stuff idk I'm not good at naming commits" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed some stuff idk I'm not good at naming commits" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="178" key="#Project_Structure" timestamp="1586994613147">
@@ -179,14 +209,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="756" y="400" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586914026980" />
-    <state x="587" y="86" key="CommitChangelistDialog2" timestamp="1591376765476">
+    <state x="587" y="86" key="CommitChangelistDialog2" timestamp="1591732960705">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="587" y="86" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591376765476" />
-    <state x="666" y="261" key="FileChooserDialogImpl" timestamp="1591406606855">
+    <state x="587" y="86" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591732960705" />
+    <state x="666" y="261" key="FileChooserDialogImpl" timestamp="1591733123418">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="666" y="261" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591406606855" />
+    <state x="666" y="261" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591733123418" />
     <state x="490" y="174" key="Maven.ArtifactSearchDialog" timestamp="1586996218540">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -199,6 +229,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="412" y="126" width="1409" height="852" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1587511871708" />
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1591732974056">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591732974056" />
     <state x="884" y="420" key="classpath-attribute-editor" timestamp="1587071406875">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

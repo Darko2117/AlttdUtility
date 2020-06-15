@@ -1,16 +1,14 @@
 package com.darko.main.register;
 
 import com.darko.main.API.APIs;
-import com.darko.main.utilities.logging.TemporaryLogRecompressCommand;
+import com.darko.main.utilities.logging.RecompressCommand;
 import com.darko.main.utilities.chat.AtPlayers.NameInChatNotification;
 import com.darko.main.config.ConfigReload;
 import com.darko.main.utilities.deathMessage.DeathMessage;
 import com.darko.main.utilities.destro.kickFromBungee.KickFromBungeeCommand;
 import com.darko.main.utilities.flags.*;
-import com.darko.main.utilities.logging.ItemsLogging.DroppedItemsLog;
-import com.darko.main.utilities.logging.ItemsLogging.ItemPlacedInItemFrameLog;
-import com.darko.main.utilities.logging.ItemsLogging.ItemTakenOutOfItemFrameLog;
-import com.darko.main.utilities.logging.ItemsLogging.MCMMORepairUseLog;
+import com.darko.main.utilities.logging.uiclicklogging.UIClicksLog;
+import com.darko.main.utilities.logging.itemslogging.*;
 import com.darko.main.utilities.logging.claimlogging.ClaimCreatedLog;
 import com.darko.main.utilities.logging.claimlogging.ClaimDeletedLog;
 import com.darko.main.utilities.logging.claimlogging.ClaimExpiredLog;
@@ -42,7 +40,7 @@ import com.darko.main.utilities.destro.tamedexpire.onEntityInteractWithLead;
 import com.darko.main.utilities.durability.AutoFix;
 import com.darko.main.utilities.durability.onDurabilityUse;
 import com.darko.main.utilities.permissionStuff.onPlayerMove;
-import com.darko.main.utilities.logging.PrizeLogging.CratePrizeLog;
+import com.darko.main.utilities.logging.prizelogging.CratePrizeLog;
 import com.darko.main.utilities.portal.onPortalUse;
 import com.darko.main.utilities.servermsg.Servermsg;
 import com.darko.main.utilities.teleport.onPlayerTeleport;
@@ -78,9 +76,11 @@ public class Register extends JavaPlugin {
                 new NameInChatNotification(),
                 new ItemPlacedInItemFrameLog(),
                 new ItemTakenOutOfItemFrameLog(),
-                new MCMMORepairUseLog()
+                new MCMMORepairUseLog(),
                 //new onGuardianPathfind(),
                 //new LavaSponge()
+                new PickedUpItemsLog(),
+                new UIClicksLog()
         );
 
         if (APIs.MyPetFound) {
@@ -118,7 +118,7 @@ public class Register extends JavaPlugin {
         Main.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(Main.getInstance(), "BungeeCord");
 
 
-        Main.getInstance().getCommand("recompresslogs").setExecutor(new TemporaryLogRecompressCommand());
+        Main.getInstance().getCommand("recompresslogs").setExecutor(new RecompressCommand());
 
 
         if (APIs.LuckPermsFound) {
