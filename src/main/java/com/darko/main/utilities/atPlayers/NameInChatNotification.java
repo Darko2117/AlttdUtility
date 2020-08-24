@@ -1,6 +1,7 @@
-package com.darko.main.utilities.chat.AtPlayers;
+package com.darko.main.utilities.atPlayers;
 
 import com.darko.main.API.APIs;
+import com.darko.main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -13,20 +14,25 @@ import com.gmail.nossr50.api.ChatAPI;
 public class NameInChatNotification implements Listener {
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent e) {
+    public void onChat(AsyncPlayerChatEvent event) {
 
-        StringBuilder message = new StringBuilder(e.getMessage());
+        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.ChatAtPlayers")) return;
+
+        StringBuilder message = new StringBuilder(event.getMessage());
 
         Boolean adminChatEnabled = false;
-        Boolean partyCheatEnabled = false;
+        Boolean partyChatEnabled = false;
 
         if (APIs.mcMMOFound) {
-            adminChatEnabled = ChatAPI.isUsingAdminChat(e.getPlayer());
-            partyCheatEnabled = ChatAPI.isUsingPartyChat(e.getPlayer());
+            try {
+                adminChatEnabled = ChatAPI.isUsingAdminChat(event.getPlayer());
+                partyChatEnabled = ChatAPI.isUsingPartyChat(event.getPlayer());
+            } catch (Throwable ignored) {
+            }
         }
 
         for (Player p : Bukkit.getOnlinePlayers()) {
-            if (!adminChatEnabled && !partyCheatEnabled) {
+            if (!adminChatEnabled && !partyChatEnabled) {
                 if (message.indexOf(p.getName()) != -1 && message.indexOf("[i]") == -1) {
                     message.insert(message.indexOf(p.getName()), ChatColor.AQUA + "@" + ChatColor.RESET);
                     if (p.hasPermission("utility.hear-name-ping")) {
@@ -36,7 +42,7 @@ public class NameInChatNotification implements Listener {
             }
         }
 
-        e.setMessage(message.toString());
+        event.setMessage(message.toString());
 
     }
 }

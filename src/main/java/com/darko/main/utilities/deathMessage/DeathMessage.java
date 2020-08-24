@@ -1,7 +1,7 @@
 package com.darko.main.utilities.deathMessage;
 
 import com.darko.main.Main;
-import org.bukkit.ChatColor;
+import com.darko.main.other.Methods;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -9,11 +9,13 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 public class DeathMessage implements Listener {
 
     @EventHandler
-    public void onDeath(PlayerDeathEvent e) {
+    public void onDeath(PlayerDeathEvent event) {
 
-        if (e.getEntity().hasPermission("utility.deathmsg")) {
-            e.getEntity().sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    Main.getInstance().getConfig().getString("Messages.DeathMessage")));
+        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.DeathMessage")) return;
+
+        if (event.getEntity().hasPermission("utility.deathmsg")) {
+            Methods.sendConfigMessage(event.getEntity(), "Messages.DeathMessage");
         }
+
     }
 }

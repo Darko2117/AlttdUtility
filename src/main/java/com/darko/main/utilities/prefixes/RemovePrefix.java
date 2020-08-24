@@ -1,6 +1,7 @@
 package com.darko.main.utilities.prefixes;
 
 import com.darko.main.Main;
+import com.darko.main.other.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -15,40 +16,39 @@ public class RemovePrefix implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        if (player.hasPermission("utility.removeprefix")) {
-            if (args.length >= 1) {
+        if (args.length >= 1) {
 
-                Player actedPlayer = null;
+            Player actedPlayer = null;
 
-                for(Player p : Bukkit.getOnlinePlayers()){
+            for (Player p : Bukkit.getOnlinePlayers()) {
 
-                    if(p.getName().equalsIgnoreCase(args[0])){
-                        actedPlayer = p;
-                    }
-
+                if (p.getName().equalsIgnoreCase(args[0])) {
+                    actedPlayer = p;
                 }
 
-                if(actedPlayer == null){
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            Main.getInstance().getConfig().getString("Messages.PlayerNotFound")));
-                    return false;
-                }
-
-
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + actedPlayer.getName() + " meta removeprefix 100 ");
-
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig()
-                        .getString("Messages.PrefixRemovedConfirmedMessage").replace("%player%", actedPlayer.getName())));
-
-            } else {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        Main.getInstance().getConfig().getString("Messages.PlayerNotFound")));
             }
+
+            if (actedPlayer == null) {
+
+                Methods.sendConfigMessage(player, "Messages.PlayerNotFound");
+                return true;
+
+            }
+
+
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + actedPlayer.getName() + " meta removeprefix 100 ");
+
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig()
+                    .getString("Messages.PrefixRemovedConfirmedMessage").replace("%player%", actedPlayer.getName())));
+
         } else {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    Main.getInstance().getConfig().getString("Messages.NoPermission")));
+
+            Methods.sendConfigMessage(player, "Messages.PlayerNotFound");
+
         }
 
-        return false;
+        return true;
+
     }
+
 }

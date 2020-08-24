@@ -2,6 +2,7 @@ package com.darko.main.utilities.destro.tamedexpire;
 
 import java.util.concurrent.TimeUnit;
 
+import com.darko.main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -22,6 +23,9 @@ public class onEntityInteractWithLead implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void EntityInteract(PlayerInteractEntityEvent event) {
+
+        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.UnclaimAnimalWithLead")) return;
+
         Player p = event.getPlayer();
         Entity e = event.getRightClicked();
         /**

@@ -1,9 +1,9 @@
 version: 6.9 hehe
 name: AlttdUtility
 description: A group of utilities made for Altitude
-author: Kap
+author: Daki
 main: com.darko.main.Main
-api-version: 1.15
+api-version: 1.16
 commands:
   chair:
     permission: utility.chair
@@ -31,3 +31,5 @@ commands:
     premission: utility.prefixhistory
   recompresslogs:
     permission: utility.recompresslogs
+  togglepickup:
+    permission: utility.togglepickup

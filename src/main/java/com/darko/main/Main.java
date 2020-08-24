@@ -1,6 +1,7 @@
 package com.darko.main;
 
 import com.darko.main.config.ConfigSetup;
+import com.darko.main.database.Database;
 import com.darko.main.utilities.logging.Logging;
 import com.darko.main.API.APIs;
 import com.darko.main.register.Register;
@@ -29,7 +30,7 @@ public class Main extends JavaPlugin {
 
         Register.RegisterCommands();
 
-        //Database.Initiate();
+        Database.initiate();
 
         Main.getInstance().getLogger().info("Utility plugin started...");
         System.out.println("--------------------------------------------------");

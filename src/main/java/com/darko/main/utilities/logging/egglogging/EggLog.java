@@ -16,13 +16,13 @@ import me.ryanhamshire.GriefPrevention.GriefPrevention;
 public class EggLog implements Listener {
 
     @EventHandler
-    public void onEggThrow(PlayerEggThrowEvent e) {
+    public void onEggThrow(PlayerEggThrowEvent event) {
 
         if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.eggLogLogName.substring(17)) + ".Enabled")) {
 
-            String player = e.getPlayer().getName();
-            String locationString = Logging.getBetterLocationString(e.getEgg().getLocation());
-            Location location = e.getEgg().getLocation();
+            String player = event.getPlayer().getName();
+            String locationString = Logging.getBetterLocationString(event.getEgg().getLocation());
+            Location location = event.getEgg().getLocation();
             Date time = new Date(System.currentTimeMillis());
             StringBuilder message = new StringBuilder();
             Claim claim = GriefPrevention.instance.dataStore.getClaimAt(location, true, null);

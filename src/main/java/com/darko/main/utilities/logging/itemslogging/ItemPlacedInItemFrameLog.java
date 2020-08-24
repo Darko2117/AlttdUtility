@@ -15,17 +15,17 @@ import java.util.Date;
 public class ItemPlacedInItemFrameLog implements Listener {
 
     @EventHandler
-    public void onItemPlaceInItemFrame(PlayerInteractEntityEvent e) {
+    public void onItemPlaceInItemFrame(PlayerInteractEntityEvent event) {
 
-        if (e.getRightClicked() instanceof ItemFrame) {
-            if (((ItemFrame) e.getRightClicked()).getItem().getType().equals(Material.AIR)) {
-                if (!e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
+        if (event.getRightClicked() instanceof ItemFrame) {
+            if (((ItemFrame) event.getRightClicked()).getItem().getType().equals(Material.AIR)) {
+                if (!event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
 
                     if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.itemPlacedInItemFrameLogName.substring(17)) + ".Enabled")) {
 
                         StringBuilder message = new StringBuilder();
-                        Player player = e.getPlayer();
-                        String location = Logging.getBetterLocationString(e.getRightClicked().getLocation());
+                        Player player = event.getPlayer();
+                        String location = Logging.getBetterLocationString(event.getRightClicked().getLocation());
                         Date time = new Date(System.currentTimeMillis());
                         String itemInFrame = player.getInventory().getItemInMainHand().toString();
                         if(itemInFrame.length() > 1000) itemInFrame = itemInFrame.substring(0, 999);

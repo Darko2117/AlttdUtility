@@ -13,15 +13,15 @@ import java.util.Date;
 public class DroppedItemsLog implements Listener {
 
     @EventHandler
-    public static void onItemDrop(PlayerDropItemEvent e) {
+    public static void onItemDrop(PlayerDropItemEvent event) {
 
         if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.droppedItemsLogName.substring(17)) + ".Enabled")) {
 
-            Player player = e.getPlayer();
-            String location = Logging.getBetterLocationString(e.getItemDrop().getLocation());
+            Player player = event.getPlayer();
+            String location = Logging.getBetterLocationString(event.getItemDrop().getLocation());
             Date time = new Date(System.currentTimeMillis());
 
-            String item = e.getItemDrop().getItemStack().toString();
+            String item = event.getItemDrop().getItemStack().toString();
             if(item.length() > 1000) item = item.substring(0, 999);
             item = item.replace("\n", "|");
 

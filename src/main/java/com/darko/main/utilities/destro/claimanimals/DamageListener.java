@@ -1,5 +1,6 @@
 package com.darko.main.utilities.destro.claimanimals;
 
+import com.darko.main.Main;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -15,6 +16,9 @@ public class DamageListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDamage(EntityDamageByEntityEvent event) {
+
+        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.BlockAnimalDamageInClaimWithoutTrust")) return;
+
         if (event.isCancelled())
             return;
         Entity damager = event.getDamager();

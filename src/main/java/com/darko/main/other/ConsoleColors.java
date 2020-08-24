@@ -1,4 +1,4 @@
-package com.darko.main.utilities.other;
+package com.darko.main.other;
 
 public class ConsoleColors {
     // Reset

@@ -1,7 +1,8 @@
 package com.darko.main.utilities.cooldown;
 
-import com.darko.main.Main;
 import com.darko.main.API.APIs;
+import com.darko.main.Main;
+import com.darko.main.other.Methods;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
@@ -9,109 +10,145 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-public class Cooldown implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Cooldown implements CommandExecutor, TabCompleter {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+
+        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.CooldownCommand")) return true;
+
+        if (!(sender instanceof Player)) {
+            Methods.sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
+            return true;
+        }
+
         Player player = (Player) sender;
-        Boolean crate = false;
-        Boolean rtp = false;
-        if (player.hasPermission("utility.cooldown")) {
-            if (args.length == 1) {
-                if (args[0].equals("crate")) {
-                    crate = crate(player);
-                } else if (args[0].equals("rtp")) {
-                    rtp = rtp(player);
+
+        if (args.length == 0)
+            for (String permissionName : getCooldownCommandInfo().values()) {
+                sendCooldownMessage(player, permissionName);
+            }
+        else sendCooldownMessage(player, args[0]);
+
+        return true;
+
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+
+        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.CooldownCommand")) return null;
+
+        if (args.length == 1) {
+
+            List<String> permissions = new ArrayList<>();
+            for (Map.Entry<String, String> entry : getCooldownCommandInfo().entrySet())
+                permissions.add(entry.getValue());
+
+            List<String> completions = new ArrayList<>();
+
+            for (String string : permissions) {
+                if (string.startsWith(args[0])) {
+                    completions.add(string);
                 }
-            } else {
-                crate = crate(player);
-                rtp = rtp(player);
             }
-            if (!crate && !rtp) {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        Main.getInstance().getConfig().getString("Messages.NoCooldowns")));
-            }
-        } else {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    Main.getInstance().getConfig().getString("Messages.NoPermission")));
+
+            return completions;
+
         }
-        return false;
+
+        return null;
 
     }
 
-    public static Boolean crate(Player player) {
-        LuckPerms api = APIs.LuckPermsApiCheck();
-        User user = api.getUserManager().getUser(player.getUniqueId());
-        Integer time = 0;
-        for (Node node : user.getNodes()) {
-            if (node.getKey().equals("keyshop.buy")) {
-                Long time1 = node.getExpiry().getEpochSecond() - System.currentTimeMillis() / 1000l;
-                time = time1.intValue();
+    void sendCooldownMessage(Player player, String permissionName) {
+
+        String permission = null;
+
+        for (Map.Entry<String, String> entry : getCooldownCommandInfo().entrySet()) {
+            if (entry.getValue().equals(permissionName)) {
+                permission = entry.getKey();
+                break;
             }
         }
-        Integer hours = 0;
-        Integer minutes = 0;
-        Integer seconds = time;
 
-        while (seconds >= 60) {
-            seconds -= 60;
+        if (permission == null) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&eYou have no cooldown on " + permissionName));
+            return;
+        }
+
+        LuckPerms api = APIs.LuckPermsApiCheck();
+        User user = api.getUserManager().getUser(player.getUniqueId());
+
+        Integer hours = 0, minutes = 0, seconds = 0;
+
+        for (Node node : user.getNodes()) {
+            if (node.getKey().equals(permission)) {
+                seconds = Integer.parseInt(String.valueOf(node.getExpiry().getEpochSecond() - System.currentTimeMillis() / 1000L));
+            }
+        }
+
+        while (seconds > 60) {
             minutes++;
+            seconds -= 60;
         }
-        while (minutes >= 60) {
-            minutes -= 60;
+        while (minutes > 60) {
             hours++;
+            minutes -= 60;
         }
-        if (hours != 0 && minutes != 0) {
-            player.sendMessage(ChatColor.GREEN + "Cooldown on the SuperCrate is " + hours + " hours " + minutes
-                    + " minutes " + seconds + " seconds.");
-            return true;
-        } else if (hours == 0 && minutes != 0) {
-            player.sendMessage(
-                    ChatColor.GREEN + "Cooldown on the SuperCrate is " + minutes + " minutes " + seconds + " seconds.");
-            return true;
-        } else if (hours == 0 && minutes == 0 && seconds > 0) {
-            player.sendMessage(ChatColor.GREEN + "Cooldown on the SuperCrate is " + seconds + " seconds.");
-            return true;
+
+        Boolean displayHours = hours > 0;
+        Boolean displayMinutes = minutes > 0;
+        Boolean displaySeconds = seconds > 0;
+
+        if (!displaySeconds) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&eYou have no cooldown on " + permissionName));
+            return;
         }
-        return false;
+
+        StringBuilder message = new StringBuilder("&aYour cooldown on " + permissionName + " is ");
+        if (displayHours) message.append(hours).append(" hours ");
+        if (displayMinutes) message.append(minutes).append(" minutes ");
+        if (displaySeconds) message.append(seconds).append(" seconds");
+        message.append(".");
+
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message.toString()));
+
     }
 
-    public static Boolean rtp(Player player) {
-        LuckPerms api = APIs.LuckPermsApiCheck();
-        User user = api.getUserManager().getUser(player.getUniqueId());
-        Integer time = 0;
-        for (Node node : user.getNodes()) {
-            if (node.getKey().equals("rtp.no")) {
-                Long time1 = node.getExpiry().getEpochSecond() - System.currentTimeMillis() / 1000l;
-                time = time1.intValue();
-            }
-        }
-        Integer hours = 0;
-        Integer minutes = 0;
-        Integer seconds = time;
+    HashMap<String, String> getCooldownCommandInfo() {
 
-        while (seconds >= 60) {
-            seconds -= 60;
-            minutes++;
+        HashMap<String, String> resultsHashMap = new HashMap<>();
+
+        List<String> resultsList = Main.getInstance().getConfig().getStringList("CooldownCommandPermissions");
+        if (resultsList == null) return resultsHashMap;
+
+        for (String string : resultsList) {
+
+            String permission, name;
+
+            StringBuilder reader = new StringBuilder(string);
+            reader.delete(0, reader.indexOf("Permission:") + 11);
+            reader.delete(reader.indexOf(" "), reader.length());
+            permission = reader.toString();
+
+            reader = new StringBuilder(string);
+            reader.delete(0, reader.indexOf("Name:") + 5);
+            name = reader.toString();
+
+            resultsHashMap.put(permission, name);
+
         }
-        while (minutes >= 60) {
-            minutes -= 60;
-            hours++;
-        }
-        if (hours != 0 && minutes != 0) {
-            player.sendMessage(ChatColor.GREEN + "Cooldown on the RTP is " + hours + " hours " + minutes + " minutes "
-                    + seconds + " seconds.");
-            return true;
-        } else if (hours == 0 && minutes != 0) {
-            player.sendMessage(
-                    ChatColor.GREEN + "Cooldown on the RTP is " + minutes + " minutes " + seconds + " seconds.");
-            return true;
-        } else if (hours == 0 && minutes == 0 && seconds > 0) {
-            player.sendMessage(ChatColor.GREEN + "Cooldown on the RTP is " + seconds + " seconds.");
-            return true;
-        }
-        return false;
+
+        return resultsHashMap;
+
     }
 
 }

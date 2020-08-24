@@ -16,13 +16,13 @@ import java.util.Date;
 public class MCMMORepairUseLog implements Listener {
 
     @EventHandler
-    public void onIronBlockUse(PlayerInteractEvent e) {
+    public void onIronBlockUse(PlayerInteractEvent event) {
 
-        Player player = e.getPlayer();
+        Player player = event.getPlayer();
 
-        if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-            if (e.getHand().equals(EquipmentSlot.HAND)) {
-                if (e.getClickedBlock().getType().equals(Material.IRON_BLOCK)) {
+        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            if (event.getHand().equals(EquipmentSlot.HAND)) {
+                if (event.getClickedBlock().getType().equals(Material.IRON_BLOCK)) {
                     if (!player.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
                         if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.mcmmoRepairUseLogName.substring(17)) + ".Enabled")) {
 

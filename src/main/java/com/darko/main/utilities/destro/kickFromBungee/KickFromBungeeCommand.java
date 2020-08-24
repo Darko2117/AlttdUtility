@@ -14,10 +14,13 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class KickFromBungeeCommand implements CommandExecutor, TabCompleter {
+public class KickFromBungeeCommand implements CommandExecutor{
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
+        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.KickFromBungeeCommand")) return true;
+
         if (sender.hasPermission("utility.kickfrombungee")) {
             if (!(args.length == 0)) {
                 Player target = Bukkit.getPlayer(args[0]);
@@ -37,8 +40,4 @@ public class KickFromBungeeCommand implements CommandExecutor, TabCompleter {
         return true;
     }
 
-    @Override
-    public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
-        return null;
-    }
 }

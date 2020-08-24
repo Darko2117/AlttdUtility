@@ -13,17 +13,17 @@ import me.ryanhamshire.GriefPrevention.events.ClaimModifiedEvent;
 public class ClaimModifiedLog implements Listener {
 
     @EventHandler
-    public void onClaimModify(ClaimModifiedEvent e) {
+    public void onClaimModify(ClaimModifiedEvent event) {
 
         if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.claimModifiedLogName.substring(17)) + ".Enabled")) {
 
             Date time = new Date(System.currentTimeMillis());
-            String owner = e.getClaim().getOwnerName();
-            String lowestY = String.valueOf(e.getClaim().getLesserBoundaryCorner().getBlockY());
+            String owner = event.getClaim().getOwnerName();
+            String lowestY = String.valueOf(event.getClaim().getLesserBoundaryCorner().getBlockY());
 
-            String firstCorner = Logging.getBetterLocationString(e.getClaim().getLesserBoundaryCorner());
+            String firstCorner = Logging.getBetterLocationString(event.getClaim().getLesserBoundaryCorner());
 
-            String secondCorner = Logging.getBetterLocationString(e.getClaim().getGreaterBoundaryCorner());
+            String secondCorner = Logging.getBetterLocationString(event.getClaim().getGreaterBoundaryCorner());
 
             StringBuilder message = new StringBuilder();
             message.append(time.toString() + " Existing claim by " + owner + " edited, new data is " + firstCorner + " - "

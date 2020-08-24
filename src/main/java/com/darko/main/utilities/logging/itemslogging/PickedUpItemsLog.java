@@ -15,16 +15,16 @@ import java.util.Date;
 public class PickedUpItemsLog implements Listener {
 
     @EventHandler
-    public static void onItemPickup(EntityPickupItemEvent e) {
+    public static void onItemPickup(EntityPickupItemEvent event) {
 
         if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.pickedUpItemsLogName.substring(17)) + ".Enabled")) {
 
-            if (e.getEntity() instanceof Player) {
-                Player player = (Player) e.getEntity();
+            if (event.getEntity() instanceof Player) {
+                Player player = (Player) event.getEntity();
                 String location = Logging.getBetterLocationString(player.getLocation());
                 Date time = new Date(System.currentTimeMillis());
 
-                String item = e.getItem().getItemStack().toString();
+                String item = event.getItem().getItemStack().toString();
                 if (item.length() > 1000) item = item.substring(0, 999);
                 item = item.replace("\n", "|");
 

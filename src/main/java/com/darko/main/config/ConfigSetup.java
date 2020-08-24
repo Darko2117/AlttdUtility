@@ -18,23 +18,24 @@ public class ConfigSetup {
         ChairNoClaimPerm("Messages.ChairNoClaimPerm", "&cYou don't have %player%'s permission to use that."),
         ChairNoRegionPerm("Messages.ChairNoRegionPerm", "&cYou can't sit in this region."),
         HatNoItem("Messages.HatNoItem", "&eHold the item that you wish to put on your head."),
-        HatEquipped("Messages.HatEquipped", "&aItem equipped."), HatSwapped("Messages.HatSwapped", "&aItems swapped."),
-        HatCurseOfBinding("Messages.HatCurseOfBinding",
-                "&cCan't take off an item that has the &d&oCurse of Binding&r&c."),
+        HatEquipped("Messages.HatEquipped", "&aItem equipped."),
+        HatSwapped("Messages.HatSwapped", "&aItems swapped."),
+        HatCurseOfBinding("Messages.HatCurseOfBinding", "&cCan't take off an item that has the &d&oCurse of Binding&r&c."),
         OfflinePlayerPayment("Messages.OfflinePlayerPayment", "&cYou can't send money to offline players."),
-        NoCooldowns("Messages.NoCooldowns", "&eYou have no cooldowns right now."),
         ListGroup("Messages.ListGroup", "&eOnline players for the group &b%group%&6:"),
-        NetherEntry("Messages.NetherEntry", "&cWhen exiting the nether you will be teleported to spawn."),
-        NetherExit("Messages.NetherExit", "&cYou have been teleported to spawn."),
-        AutoFixEnabled("Messages.AutoFixEnabled", "&aAuto repair enabled."),
-        AutoFixDisabled("Messages.AutoFixDisabled", "&cAuto repair disabled."),
+        AutofixEnabled("Messages.AutofixEnabled", "&aAutofix enabled."),
+        AutofixDisabled("Messages.AutofixDisabled", "&cAutofix disabled."),
         PlayerNotFound("Messages.PlayerNotFound", "&cPlayer not found."),
         GroupNotFound("Messages.GroupNotFound", "&cNo online players in that group."),
         DeathMessage("Messages.DeathMessage", "&cUse &6/dback&c to go back to your previous death location."),
         InvalidPrefixLengthMessage("Messages.InvalidPrefixLengthMessage", "&cA prefix cannot be longer than 10 characters."),
         PrefixSetConfirmedMessage("Messages.PrefixSetConfirmedMessage", "&ePrefix &6%prefix%&e set for &6%player%&e."),
         PrefixRemovedConfirmedMessage("Messages.PrefixRemovedConfirmedMessage", "&ePrefix removed for &6%player%&e."),
-        servermsgInvalidUsage("Messages.servermsgInvalidUsage", "&cUsage of this command is /servermsg <player/permission> <message>. You can use color codes and ^n for a new line.");
+        ServermsgInvalidUsage("Messages.ServermsgInvalidUsage", "&cUsage of this command is /servermsg <player/permission> <message>. You can use color codes and \\n for a new line."),
+        NoDatabaseConnectionMessage("Messages.NoDatabaseConnectionMessage", "&cThis feature is unavailable when there is no database connection."),
+        PlayerOnlyCommandMessage("Messages.PlayerOnlyCommandMessage", "&cThis command can only be performed by a player."),
+        BlockItemPickupEnabledMessage("Messages.BlockItemPickupEnabledMessage", "&aBlock item pickup enabled."),
+        BlockItemPickupDisabledMessage("Messages.BlockItemPickupDisabledMessage", "&cBlock item pickup disabled.");
 
         private final String path;
         private final String message;
@@ -43,19 +44,64 @@ public class ConfigSetup {
             this.path = path;
             this.message = message;
         }
+
     }
 
     public static void onConfigSetup() {
 
         FileConfiguration config = Main.getInstance().getConfig();
 
+        //Toggles
+        List<String> toggles = new ArrayList<>();
+        toggles.add("Chair");
+        toggles.add("Hat");
+        toggles.add("ChatAtPlayers");
+        toggles.add("BlockOfflinePay");
+        toggles.add("CooldownCommand");
+        toggles.add("DeathMessage");
+        toggles.add("BlockAnimalDamageInClaimWithoutTrust");
+        toggles.add("BlockRaidsInClaimWithoutAccessTrust");
+        toggles.add("KickFromBungeeCommand");
+        toggles.add("BlockPetPickupInClaimWithoutContainerTrust");
+        toggles.add("UnclaimAnimalWithLead");
+        toggles.add("AutofixCommand");
+        toggles.add("CustomWorldGuardFlags");
+        toggles.add("ItemPickupCommand");
+        toggles.add("PlayerListCommand");
+        toggles.add("RemovePrefixCommand");
+        toggles.add("SetPrefixCommand");
+        toggles.add("ServerMsgCommand");
+        toggles.add("FixGrassPathAndFarmlandTP");
+
+        for (String string : toggles) {
+            if (!config.contains("FeatureToggles." + string)) config.set("FeatureToggles." + string, true);
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
         // Messages
-        for (Messages m : Messages.values()) {
-            if (!config.contains(m.path)) {
-                config.set(m.path, m.message);
-                Main.getInstance().getLogger().info(m.path + " not found in the config, creating it now.");
+        for (Messages message : Messages.values()) {
+            if (!config.contains(message.path)) {
+                config.set(message.path, message.message);
+                Main.getInstance().getLogger().info(message.path + " not found in the config, creating it now.");
             }
         }
+
+        // ----------------------------------------------------------------------------------------------------
+
+        // Cooldown command
+        if (!config.contains("CooldownCommandPermissions")) {
+
+            List<String> permissions = new ArrayList<>();
+            permissions.add("Permission:rtp.no Name:RTP");
+            permissions.add("Permission:keyshop.buy Name:SuperCrate");
+
+            config.set("CooldownCommandPermissions", permissions);
+
+            Main.getInstance().getLogger().info("CooldownCommandPermissions not found in the config, creating it now.");
+
+        }
+
         // ----------------------------------------------------------------------------------------------------
 
         // List groups
@@ -111,33 +157,43 @@ public class ConfigSetup {
             config.set("PrefixAvailableGroups", groups);
 
             Main.getInstance().getLogger().info("PrefixAvailableGroups not found in the config, creating it now.");
+
         }
 
         // ----------------------------------------------------------------------------------------------------
 
         // SpawnLimiter
         if (!config.contains("SpawnLimiter")) {
+
             config.createSection("SpawnLimiter.IRON_GOLEM");
+
             Integer spawnRadius = 208;
             Integer spawnTimeLimit = 60;
             Integer spawnLimit = 10;
+
             config.set("SpawnLimiter.IRON_GOLEM.RadiusLimit", spawnRadius);
             config.set("SpawnLimiter.IRON_GOLEM.TimeLimit", spawnTimeLimit);
             config.set("SpawnLimiter.IRON_GOLEM.SpawnLimit", spawnLimit);
+
             Main.getInstance().getLogger().info("SpawnLimiter not found in the config, creating it now.");
+
         }
 
         // ----------------------------------------------------------------------------------------------------
 
         // Logging
+
         Logging.UpdateLogDates();
 
-        for(Map.Entry<String, String> entry : Logging.LogNamesAndConfigPaths.entrySet()){
+        for (Map.Entry<String, String> entry : Logging.LogNamesAndConfigPaths.entrySet()) {
 
             if (!config.contains(entry.getValue())) {
+
                 config.set(entry.getValue() + ".Enabled", true);
                 config.set(entry.getValue() + ".NumberOfLogsToKeep", 365);
+
                 Main.getInstance().getLogger().info(entry.getValue() + " not found in the config, creating it now.");
+
             }
 
         }
@@ -146,17 +202,22 @@ public class ConfigSetup {
 
         // DatabaseInitiate
         if (!config.contains("Database")) {
+
             config.set("Database.driver", "mariadb");
             config.set("Database.ip", "localhost");
             config.set("Database.port", "3306");
-            config.set("Database.name", "utility");
+            config.set("Database.name", "alttdutility");
             config.set("Database.username", "root");
-            config.set("Database.password", "root");
+            config.set("Database.password", "");
+
+            Main.getInstance().getLogger().info("Database info not found in the config, creating it now.");
+
         }
 
         // ----------------------------------------------------------------------------------------------------
 
         Main.getInstance().saveConfig();
+
     }
 
 }

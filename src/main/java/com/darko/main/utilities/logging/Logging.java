@@ -81,7 +81,7 @@ public class Logging {
 
                     }
 
-                } catch (IOException e) {
+                } catch (Throwable ignored) {
                 }
 
             }
@@ -171,7 +171,8 @@ public class Logging {
 
                     file.delete();
 
-                } catch (Exception e) {
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
                     Main.getInstance().getLogger().warning("Something failed during file compression, yikes...");
                 }
             }
@@ -213,7 +214,7 @@ public class Logging {
                     Main.getInstance().getLogger().info(file.getName() + " deleted.");
                 }
 
-            } catch (Exception e) {
+            } catch (Throwable throwable) {
                 Main.getInstance().getLogger().warning(fileNames[i] + " has an invalid name. Please set it to dd-mm-yyyy format if you want the plugin to keep track of it and delete it after the specified time.");
             }
 
@@ -247,7 +248,7 @@ public class Logging {
                     FileWriter writer = new FileWriter(Main.getInstance().getDataFolder() + path, true);
                     writer.write(message + "\n");
                     writer.close();
-                } catch (IOException e) {
+                } catch (Throwable ignored) {
                 }
             }
         }.runTaskAsynchronously(Main.getInstance());

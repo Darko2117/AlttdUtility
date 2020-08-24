@@ -12,12 +12,12 @@ import java.util.Date;
 
 public class SpawnLimitReachedLog {
 
-    public static void onCancelledSpawn(EntitySpawnEvent e) {
+    public static void onCancelledSpawn(EntitySpawnEvent event) {
 
         if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.spawnLimitReachedLogName.substring(17)) + ".Enabled")) {
 
-            EntityType entityType = e.getEntityType();
-            String location = Logging.getBetterLocationString(e.getLocation());
+            EntityType entityType = event.getEntityType();
+            String location = Logging.getBetterLocationString(event.getLocation());
 
             StringBuilder message = new StringBuilder();
 
@@ -25,7 +25,7 @@ public class SpawnLimitReachedLog {
             String claimOwner = null;
 
             if (APIs.WorldGuardFound) {
-                Claim claim = GriefPrevention.instance.dataStore.getClaimAt(e.getLocation(), true, null);
+                Claim claim = GriefPrevention.instance.dataStore.getClaimAt(event.getLocation(), true, null);
                 if (claim != null) {
                     claimOwner = claim.getOwnerName();
                     message.append(time + " " + entityType + " tried to spawn at " + location + " which is in " + claimOwner + "'s claim but the spawn max is reached.");

@@ -15,17 +15,17 @@ import java.util.Date;
 public class ItemTakenOutOfItemFrameLog implements Listener {
 
     @EventHandler
-    public void onItemTakenOutOfItemFrame(EntityDamageByEntityEvent e) {
+    public void onItemTakenOutOfItemFrame(EntityDamageByEntityEvent event) {
 
-        if (e.getEntity() instanceof ItemFrame) {
-            if (!((ItemFrame) e.getEntity()).getItem().getType().equals(Material.AIR)) {
+        if (event.getEntity() instanceof ItemFrame) {
+            if (!((ItemFrame) event.getEntity()).getItem().getType().equals(Material.AIR)) {
 
                 if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.itemTakenOutOfItemFrameLogName.substring(17)) + ".Enabled")) {
 
-                    ItemFrame itemFrame = (ItemFrame) e.getEntity();
+                    ItemFrame itemFrame = (ItemFrame) event.getEntity();
                     StringBuilder message = new StringBuilder();
-                    Entity damager = e.getDamager();
-                    String location = Logging.getBetterLocationString(e.getEntity().getLocation());
+                    Entity damager = event.getDamager();
+                    String location = Logging.getBetterLocationString(event.getEntity().getLocation());
                     Date time = new Date(System.currentTimeMillis());
                     String itemInFrame = itemFrame.getItem().toString();
                     if(itemInFrame.length() > 1000) itemInFrame = itemInFrame.substring(0, 999);

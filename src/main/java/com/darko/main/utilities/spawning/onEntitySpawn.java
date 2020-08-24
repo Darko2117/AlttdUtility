@@ -18,7 +18,7 @@ public class onEntitySpawn implements Listener {
     public static HashMap<EntityType, List<Location>> spawnLoc = new HashMap<>();
 
     @EventHandler
-    public void onSpawn(EntitySpawnEvent e) {
+    public void onSpawn(EntitySpawnEvent event) {
 
         for (String entityTypeString : Main.getInstance().getConfig().getKeys(true)) {
 
@@ -35,14 +35,14 @@ public class onEntitySpawn implements Listener {
 
                             EntityType entityType = EntityType.valueOf(stringEdit.toString());
 
-                            if (e.getEntity().getType().equals(entityType)) {
+                            if (event.getEntity().getType().equals(entityType)) {
 
                                 if (!spawnLoc.containsKey(entityType)) {
                                     List<Location> emptyLocationsList = new ArrayList<>();
                                     spawnLoc.put(entityType, emptyLocationsList);
                                 }
 
-                                Location location = e.getLocation();
+                                Location location = event.getLocation();
 
                                 Integer distanceLimit = Main.getInstance().getConfig().getInt("SpawnLimiter." + stringEdit + ".RadiusLimit");
                                 Integer timeLimit = Main.getInstance().getConfig().getInt("SpawnLimiter." + stringEdit + ".TimeLimit");
@@ -57,11 +57,11 @@ public class onEntitySpawn implements Listener {
                                 }
 
                                 if (alreadySpawned >= spawnLimit) {
-                                    e.setCancelled(true);
-                                    SpawnLimitReachedLog.onCancelledSpawn(e);
+                                    event.setCancelled(true);
+                                    SpawnLimitReachedLog.onCancelledSpawn(event);
                                 }
 
-                                if (!e.isCancelled()) {
+                                if (!event.isCancelled()) {
 
                                     List<Location> addedLocation = new ArrayList<>(spawnLoc.get(entityType));
                                     addedLocation.add(location);
@@ -76,12 +76,21 @@ public class onEntitySpawn implements Listener {
                                             spawnLoc.put(entityType, removedLocation);
                                         }
                                     }.runTaskLater(Main.getInstance(), timeLimit * 20);
+
                                 }
+
                             }
+
                         }
+
                     }
+
                 }
+
             }
+
         }
+
     }
+
 }

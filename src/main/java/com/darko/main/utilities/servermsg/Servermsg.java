@@ -1,5 +1,6 @@
 package com.darko.main.utilities.servermsg;
 
+import com.darko.main.other.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -13,7 +14,6 @@ public class Servermsg implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (sender.hasPermission("utility.servermsg")) {
             if (args.length >= 2) {
 
                 String receiver = null;
@@ -43,22 +43,21 @@ public class Servermsg implements CommandExecutor {
                 }
 
                 if (receiverIsPlayer) {
-                    Bukkit.getPlayer(receiver).sendMessage(ChatColor.translateAlternateColorCodes('&', message.toString()).replace("^n", "\n"));
-                    sender.sendMessage(ChatColor.GOLD + "Following message sent to the user: " + ChatColor.RESET + receiver + "\n" + ChatColor.translateAlternateColorCodes('&', message.toString()).replace("^n", "\n"));
+                    Bukkit.getPlayer(receiver).sendMessage(ChatColor.translateAlternateColorCodes('&', message.toString()).replace("\\n", "\n"));
+                    sender.sendMessage(ChatColor.GOLD + "Following message sent to the user: " + ChatColor.RESET + receiver + "\n" + ChatColor.translateAlternateColorCodes('&', message.toString()).replace("\\n", "\n"));
                 } else {
-                    Bukkit.getServer().broadcast(ChatColor.translateAlternateColorCodes('&', message.toString()).replace("^n", "\n"), receiver);
-                    sender.sendMessage(ChatColor.GOLD + "Following message sent to users with the permission: " + ChatColor.RESET + receiver + "\n" + ChatColor.translateAlternateColorCodes('&', message.toString()).replace("^n", "\n"));
+                    Bukkit.getServer().broadcast(ChatColor.translateAlternateColorCodes('&', message.toString()).replace("\\n", "\n"), receiver);
+                    sender.sendMessage(ChatColor.GOLD + "Following message sent to users with the permission: " + ChatColor.RESET + receiver + "\n" + ChatColor.translateAlternateColorCodes('&', message.toString()).replace("\\n", "\n"));
                 }
 
             } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        Main.getInstance().getConfig().getString("Messages.servermsgInvalidUsage")));
+
+                Methods.sendConfigMessage(sender, "Messages.ServermsgInvalidUsage");
+
             }
-        } else {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    Main.getInstance().getConfig().getString("Messages.NoPermission")));
-        }
 
         return false;
+
     }
+
 }

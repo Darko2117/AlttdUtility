@@ -15,14 +15,14 @@ import java.util.Date;
 public class UIClicksLog implements Listener {
 
     @EventHandler
-    public static void onInventoryCLick(InventoryClickEvent e) {
+    public static void onInventoryCLick(InventoryClickEvent event) {
 
         if (Main.getInstance().getConfig().getBoolean(Logging.LogNamesAndConfigPaths.get(Logging.uiClickLogName.substring(17)) + ".Enabled")) {
 
-            Player player = (Player) e.getWhoClicked();
+            Player player = (Player) event.getWhoClicked();
             Date time = new Date(System.currentTimeMillis());
-            InventoryView inventory = e.getView();
-            ItemStack item = e.getCurrentItem();
+            InventoryView inventory = event.getView();
+            ItemStack item = event.getCurrentItem();
             String itemString = "";
 
             if (item != null) {
