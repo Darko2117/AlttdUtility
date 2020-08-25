@@ -74,6 +74,7 @@ public class ConfigSetup {
         toggles.add("SetPrefixCommand");
         toggles.add("ServerMsgCommand");
         toggles.add("FixGrassPathAndFarmlandTP");
+        toggles.add("CrashCommand");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) config.set("FeatureToggles." + string, true);

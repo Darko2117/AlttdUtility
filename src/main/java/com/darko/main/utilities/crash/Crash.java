@@ -16,6 +16,8 @@ public class Crash implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
+        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CrashCommand")) return true;
+
         if (args.length == 0) {
             Methods.sendConfigMessage(sender, "Messages.CrashCommandInvalidUsage");
             return true;

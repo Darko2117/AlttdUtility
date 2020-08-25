@@ -1,6 +1,7 @@
 package com.darko.main.register;
 
 import com.darko.main.API.APIs;
+import com.darko.main.config.ConfigReload;
 import com.darko.main.database.Database;
 import com.darko.main.utilities.atPlayers.NameInChatNotification;
 import com.darko.main.utilities.crash.Crash;
@@ -40,7 +41,6 @@ public class Register extends JavaPlugin {
     public static void RegisterEvents() {
         registerEvents(
                 //new onPlayerTeleportCommand(),
-                //new Flags(),
                 new onPlayerTeleport(),
                 new onEntityInteractWithLead(),
                 new onPayCommand(),
@@ -78,6 +78,9 @@ public class Register extends JavaPlugin {
                     new ClaimModifiedLog()
             );
         }
+        if(APIs.WorldGuardFound){
+            registerEvents(new Flags());
+        }
 
     }
 
@@ -93,7 +96,7 @@ public class Register extends JavaPlugin {
         Main.getInstance().getCommand("hat").setExecutor(new Hat());
         Main.getInstance().getCommand("servermsg").setExecutor(new Servermsg());
         Main.getInstance().getCommand("chair").setExecutor(new Chair());
-        //Main.getInstance().getCommand("utilityconfigreload").setExecutor(new ConfigReload());
+        Main.getInstance().getCommand("utilityconfigreload").setExecutor(new ConfigReload());
         Main.getInstance().getCommand("list").setExecutor(new PlayerList());
         Main.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         Main.getInstance().getCommand("kickfrombungee").setExecutor(new KickFromBungeeCommand());

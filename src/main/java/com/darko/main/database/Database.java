@@ -105,8 +105,8 @@ public class Database implements Listener {
                         statement = "INSERT INTO users(UUID, Username, chair_enabled, autofix_enabled, block_item_pickup_enabled) VALUES("
                                 + "'" + uuid + "', "
                                 + "'" + username + "', "
-                                + "false"
-                                + "false"
+                                + "false" + ", "
+                                + "false" + ", "
                                 + "false"
                                 + ");";
 
