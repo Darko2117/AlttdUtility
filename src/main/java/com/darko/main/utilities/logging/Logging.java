@@ -8,7 +8,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -136,6 +135,7 @@ public class Logging {
         LogNamesAndConfigPaths.put(spawnLimitReachedLogName.substring(17), "Logging.SpawnLimitReachedLog");
         LogNamesAndConfigPaths.put(pickedUpItemsLogName.substring(17), "Logging.PickedUpItemsLog");
         LogNamesAndConfigPaths.put(uiClickLogName.substring(17), "Logging.UIClicksLog");
+
     }
 
 

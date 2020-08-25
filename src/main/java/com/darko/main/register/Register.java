@@ -3,6 +3,7 @@ package com.darko.main.register;
 import com.darko.main.API.APIs;
 import com.darko.main.database.Database;
 import com.darko.main.utilities.atPlayers.NameInChatNotification;
+import com.darko.main.utilities.crash.Crash;
 import com.darko.main.utilities.deathMessage.DeathMessage;
 import com.darko.main.utilities.destro.kickFromBungee.KickFromBungeeCommand;
 import com.darko.main.utilities.flags.*;
@@ -96,6 +97,7 @@ public class Register extends JavaPlugin {
         Main.getInstance().getCommand("list").setExecutor(new PlayerList());
         Main.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         Main.getInstance().getCommand("kickfrombungee").setExecutor(new KickFromBungeeCommand());
+        Main.getInstance().getCommand("crash").setExecutor(new Crash());
         Main.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(Main.getInstance(), "BungeeCord");
 
         if (APIs.LuckPermsFound) {

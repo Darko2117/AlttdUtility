@@ -33,3 +33,5 @@ commands:
     permission: utility.recompresslogs
   togglepickup:
     permission: utility.togglepickup
+  crash:
+    permission: utility.crash

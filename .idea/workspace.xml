@@ -28,124 +28,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49bc6783-8dae-497b-9e1b-b9252310cd10" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/other/Methods.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/autofix/AutoFix.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_destroystokyo_paper_paper_api_1_15_2_R0_1_SNAPSHOT.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_luckperms_api_5_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_md_5_bungeecord_chat_1_15_SNAPSHOT.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_7_3_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_analysis_7_3_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_commons_7_3_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_tree_7_3_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_25.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/crash/Crash.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AlttdUtility.iml" beforeDir="false" afterPath="$PROJECT_DIR$/AlttdUtility.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/API/APIs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/API/APIs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/config/ConfigReload.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/config/ConfigReload.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/config/ConfigSetup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/config/ConfigSetup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/cosmetics/chair/Chair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/cosmetics/chair/Chair.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/cosmetics/chair/ChairChecks.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/cosmetics/chair/GlobalVariables.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/cosmetics/chair/onBlockBreak.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/cosmetics/chair/onChunkLoad.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/cosmetics/chair/onPlayerDismount.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/cosmetics/chair/onPlayerQuit.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/cosmetics/chair/onPlayerTeleportCommand.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/cosmetics/chair/onStairsRightClick.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/cosmetics/hat/Hat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/cosmetics/hat/Hat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/database/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/database/Database.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/register/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/register/Register.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/CMI/onPayCommand/onPayCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/offlinePay/onPayCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/chat/AtPlayers/NameInChatNotification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/atPlayers/NameInChatNotification.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/cooldown/Cooldown.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/cooldown/Cooldown.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/cooldown/cooldownTabComplete.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/deathMessage/DeathMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/deathMessage/DeathMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/destro/claimanimals/DamageListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/destro/claimanimals/DamageListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/destro/claimraids/RaidListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/destro/claimraids/RaidListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/destro/kickFromBungee/KickFromBungeeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/destro/kickFromBungee/KickFromBungeeCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/destro/lavasponge/LavaSponge.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/destro/petpickup/PetPickupListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/destro/petpickup/PetPickupListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/destro/tamedexpire/onEntityInteractWithLead.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/destro/tamedexpire/onEntityInteractWithLead.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/drops/onIronGolemDeath.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/durability/AutoFix.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/durability/onDurabilityUse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/flags/Flags.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/flags/Flags.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/flags/onAnvilClick.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/flags/onBoneMeal.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/flags/onEnchantmentTableClick.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/flags/onEntityRename.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/flags/onGuardianPathfind.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/Logging.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/Logging.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/RecompressCommand.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/claimlogging/ClaimCreatedLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/claimlogging/ClaimCreatedLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/claimlogging/ClaimDeletedLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/claimlogging/ClaimDeletedLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/claimlogging/ClaimExpiredLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/claimlogging/ClaimExpiredLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/claimlogging/ClaimModifiedLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/claimlogging/ClaimModifiedLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/egglogging/EggLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/egglogging/EggLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/DroppedItemsLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/DroppedItemsLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/ItemPlacedInItemFrameLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/ItemPlacedInItemFrameLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/ItemTakenOutOfItemFrameLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/ItemTakenOutOfItemFrameLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/MCMMORepairUseLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/MCMMORepairUseLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/PickedUpItemsLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/PickedUpItemsLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/spawnlogging/SpawnLimitReachedLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/spawnlogging/SpawnLimitReachedLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/uiclicklogging/UIClicksLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/uiclicklogging/UIClicksLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/other/ConsoleColors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/other/ConsoleColors.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/permissionStuff/ItemPickup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/itemPickup/ItemPickup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/permissionStuff/onPlayerMove.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/playerList/PlayerList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/playerList/PlayerList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/playerList/PlayerListTabComplete.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/portal/onPortalUse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/prefixes/RemovePrefix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/prefixes/RemovePrefix.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/prefixes/SetPrefix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/prefixes/SetPrefix.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/servermsg/Servermsg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/servermsg/Servermsg.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/spawning/onEntitySpawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/spawning/onEntitySpawn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/teleport/onPlayerTeleport.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/teleport/onPlayerTeleport.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/cosmetics/chair/Chair.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/cosmetics/chair/Chair.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/cosmetics/chair/ChairChecks.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/cosmetics/chair/GlobalVariables.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/cosmetics/chair/onBlockBreak.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/cosmetics/chair/onChunkLoad.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/cosmetics/chair/onPlayerDismount$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/cosmetics/chair/onPlayerDismount.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/cosmetics/chair/onPlayerQuit.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/cosmetics/chair/onPlayerTeleportCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/cosmetics/chair/onStairsRightClick.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/cosmetics/hat/Hat.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/cosmetics/hat/Hat.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/database/Database$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/database/Database$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/database/Database.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/database/Database.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/CMI/onPayCommand/onPayCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/chat/AtPlayers/NameInChatNotification.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/cooldown/Cooldown.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/cooldown/Cooldown.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/cooldown/cooldownTabComplete.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/deathMessage/DeathMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/deathMessage/DeathMessage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/claimanimals/DamageListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/claimanimals/DamageListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/claimraids/RaidListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/claimraids/RaidListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/kickFromBungee/KickFromBungeeCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/kickFromBungee/KickFromBungeeCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/petpickup/PetPickupListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/petpickup/PetPickupListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/tamedexpire/onEntityInteractWithLead.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/tamedexpire/onEntityInteractWithLead.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/drops/onIronGolemDeath.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/durability/AutoFix.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/durability/onDurabilityUse.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/flags/Flags.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/flags/Flags.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/flags/onAnvilClick.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/flags/onBoneMeal.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/flags/onEnchantmentTableClick.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/flags/onEntityRename.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/flags/onGuardianPathfind.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/other/ConsoleColors.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/permissionStuff/ItemPickup.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/permissionStuff/onPlayerMove.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/playerList/PlayerList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/playerList/PlayerList.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/playerList/PlayerListTabComplete.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/portal/onPortalUse.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/prefixes/RemovePrefix.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/prefixes/RemovePrefix.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/prefixes/SetPrefix.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/prefixes/SetPrefix.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/servermsg/Servermsg.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/servermsg/Servermsg.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/DroppedItemsLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/DroppedItemsLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/ItemPlacedInItemFrameLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/ItemPlacedInItemFrameLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/ItemTakenOutOfItemFrameLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/ItemTakenOutOfItemFrameLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/MCMMORepairUseLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/MCMMORepairUseLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/SpawnLogging/SpawnLimitReachedLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/SpawnLogging/SpawnLimitReachedLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/claimlogging/ClaimCreatedLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/claimlogging/ClaimCreatedLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/claimlogging/ClaimDeletedLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/claimlogging/ClaimDeletedLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/claimlogging/ClaimExpiredLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/claimlogging/ClaimExpiredLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/claimlogging/ClaimModifiedLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/claimlogging/ClaimModifiedLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/egglogging/EggLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/egglogging/EggLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/spawning/onEntitySpawn.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/spawning/onEntitySpawn.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/teleport/onPlayerTeleport.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/teleport/onPlayerTeleport.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -260,7 +164,14 @@
       <option name="project" value="LOCAL" />
       <updated>1592181994402</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Reworked most of the plugin">
+      <created>1598311581110</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1598311581110</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -283,13 +194,14 @@
     <MESSAGE value="Fixed a lot of stuff" />
     <MESSAGE value="Changed some stuff idk I'm not good at naming commits" />
     <MESSAGE value="Stopped logging entities other than a player in PickedUpItemsLog" />
-    <option name="LAST_COMMIT_MESSAGE" value="Stopped logging entities other than a player in PickedUpItemsLog" />
+    <MESSAGE value="Reworked most of the plugin" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reworked most of the plugin" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1597707953159">
+    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1598315773080">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1597707953159" />
+    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598315773080" />
     <state x="734" y="379" width="501" height="289" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1591502460360">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -298,26 +210,30 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598237467834" />
-    <state x="587" y="86" key="CommitChangelistDialog2" timestamp="1592181992159">
+    <state x="587" y="86" key="CommitChangelistDialog2" timestamp="1598311579062">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="587" y="86" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1592181992159" />
+    <state x="587" y="86" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598311579062" />
     <state x="666" y="261" key="FileChooserDialogImpl" timestamp="1597707840466">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="666" y="261" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1597707840466" />
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1592181999630">
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1598311647389">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1592181999630" />
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598311647389" />
+    <state x="777" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1598311632987">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="777" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598311632987" />
     <state x="1920" y="0" width="1547" height="1028" key="dock-window-1" timestamp="1597710656807">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="1920" y="0" width="1547" height="1028" key="dock-window-1/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1597710656807" />
-    <state x="702" y="262" width="585" height="592" key="find.popup" timestamp="1598311497284">
+    <state x="702" y="262" width="585" height="592" key="find.popup" timestamp="1598316892305">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="702" y="262" width="585" height="592" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598311497284" />
+    <state x="702" y="262" width="585" height="592" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598316892305" />
     <state x="342" y="140" key="new project wizard" timestamp="1592182165611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
