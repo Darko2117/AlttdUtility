@@ -1,11 +1,11 @@
 package com.darko.main.register;
 
 import com.darko.main.API.APIs;
-import com.darko.main.config.ConfigReload;
 import com.darko.main.database.Database;
 import com.darko.main.utilities.atPlayers.NameInChatNotification;
 import com.darko.main.utilities.crash.Crash;
 import com.darko.main.utilities.deathMessage.DeathMessage;
+import com.darko.main.utilities.destro.claimanimals.DamageListener;
 import com.darko.main.utilities.destro.kickFromBungee.KickFromBungeeCommand;
 import com.darko.main.utilities.flags.*;
 import com.darko.main.utilities.logging.uiclicklogging.UIClicksLog;
@@ -19,7 +19,8 @@ import com.darko.main.utilities.itemPickup.ItemPickup;
 import com.darko.main.utilities.playerList.PlayerList;
 import com.darko.main.utilities.prefixes.RemovePrefix;
 import com.darko.main.utilities.prefixes.SetPrefix;
-import com.darko.main.utilities.spawning.onEntitySpawn;
+import com.darko.main.utilities.reload.ReloadCommand;
+import com.darko.main.utilities.spawnLimiter.SpawnLimiter;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -34,30 +35,25 @@ import com.darko.main.utilities.destro.tamedexpire.onEntityInteractWithLead;
 import com.darko.main.utilities.autofix.AutoFix;
 import com.darko.main.utilities.logging.prizelogging.CratePrizeLog;
 import com.darko.main.utilities.servermsg.Servermsg;
-import com.darko.main.utilities.teleport.onPlayerTeleport;
 
 public class Register extends JavaPlugin {
 
-    public static void RegisterEvents() {
+    public static void registerEvents() {
         registerEvents(
-                //new onPlayerTeleportCommand(),
-                new onPlayerTeleport(),
                 new onEntityInteractWithLead(),
                 new onPayCommand(),
                 new AutoFix(),
                 new RaidListener(),
-                //new DamageListener(),
+                new DamageListener(),
                 new EggLog(),
-                new onEntitySpawn(),
+                new SpawnLimiter(),
                 new ItemPickup(),
                 new DeathMessage(),
                 new DroppedItemsLog(),
                 new NameInChatNotification(),
-                new ItemPlacedInItemFrameLog(),
+                new ItemsPlacedInItemFramesLog(),
                 new ItemTakenOutOfItemFrameLog(),
                 new MCMMORepairUseLog(),
-                //new onGuardianPathfind(),
-                //new LavaSponge()
                 new PickedUpItemsLog(),
                 new UIClicksLog(),
                 new Database(),
@@ -90,13 +86,13 @@ public class Register extends JavaPlugin {
         }
     }
 
-    public static void RegisterCommands() {
+    public static void registerCommands() {
         Main.getInstance().getCommand("autofix").setExecutor(new AutoFix());
-        Main.getInstance().getCommand("togglepickup").setExecutor(new ItemPickup());
+        Main.getInstance().getCommand("blockitempickup").setExecutor(new ItemPickup());
         Main.getInstance().getCommand("hat").setExecutor(new Hat());
         Main.getInstance().getCommand("servermsg").setExecutor(new Servermsg());
         Main.getInstance().getCommand("chair").setExecutor(new Chair());
-        Main.getInstance().getCommand("utilityconfigreload").setExecutor(new ConfigReload());
+        Main.getInstance().getCommand("alttdutilityreload").setExecutor(new ReloadCommand());
         Main.getInstance().getCommand("list").setExecutor(new PlayerList());
         Main.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         Main.getInstance().getCommand("kickfrombungee").setExecutor(new KickFromBungeeCommand());
@@ -111,7 +107,7 @@ public class Register extends JavaPlugin {
         if (APIs.LuckPermsFound) {
             Main.getInstance().getCommand("setprefix").setExecutor(new SetPrefix());
             Main.getInstance().getCommand("removeprefix").setExecutor(new RemovePrefix());
-            Main.getInstance().getCommand("prefixhistory").setExecutor(new Cooldown());
+            //Main.getInstance().getCommand("prefixhistory").setExecutor(new Cooldown());
         }
 
         if (APIs.WorldGuardFound) {

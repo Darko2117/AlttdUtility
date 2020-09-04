@@ -1,25 +1,18 @@
 package com.darko.main.utilities.flags;
 
 import com.darko.main.Main;
-import com.destroystokyo.paper.event.entity.EntityPathfindEvent;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
-import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
-import com.sk89q.worldguard.protection.managers.RegionManager;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -31,7 +24,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class Flags implements Listener {
 
-    public static StateFlag SIT, ANVIL_REPAIR, ANVIL_USE, ENCHANTING_TABLE_USE, NAME_TAG_USE, BONE_MEAL_USE, ALLOW_GUARDIAN_PATHFINDING;
+    public static StateFlag SIT, ANVIL_REPAIR, ANVIL_USE, ENCHANTING_TABLE_USE, NAME_TAG_USE, BONE_MEAL_USE;
 
     public static void FlagsEnable() {
 
@@ -43,14 +36,13 @@ public class Flags implements Listener {
         EnchantingTableUseFlag();
         NameTagFlag();
         BoneMealFlag();
-        GuardianPathFindingFlag();
 
     }
 
     private static void SitFlag() {
         FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
         try {
-            StateFlag flag = new StateFlag("chair-sit", false);
+            StateFlag flag = new StateFlag("chair-sit", true);
             registry.register(flag);
             SIT = flag;
         } catch (Throwable throwable) {
@@ -127,20 +119,6 @@ public class Flags implements Listener {
             Flag<?> existing = registry.get("bone-meal-use");
             if (existing instanceof StateFlag) {
                 BONE_MEAL_USE = (StateFlag) existing;
-            }
-        }
-    }
-
-    private static void GuardianPathFindingFlag() {
-        FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
-        try {
-            StateFlag flag = new StateFlag("guardian-pathfinding", true);
-            registry.register(flag);
-            ALLOW_GUARDIAN_PATHFINDING = flag;
-        } catch (Throwable throwable) {
-            Flag<?> existing = registry.get("guardian-pathfinding");
-            if (existing instanceof StateFlag) {
-                ALLOW_GUARDIAN_PATHFINDING = (StateFlag) existing;
             }
         }
     }
@@ -222,7 +200,7 @@ public class Flags implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onAnvilClick(PlayerInteractEvent event) {
+    public void onEnchantingTableClick(PlayerInteractEvent event) {
 
         if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags")) return;
 
@@ -243,6 +221,39 @@ public class Flags implements Listener {
                 RegionQuery query1 = container1.createQuery();
 
                 query1.testState(location, localPlayer, Flags.ENCHANTING_TABLE_USE);
+
+                if (event.useInteractedBlock() == Event.Result.DENY) {
+                    event.setUseInteractedBlock(Event.Result.ALLOW);
+                }
+
+            }
+
+        }
+
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onAnvilClick(PlayerInteractEvent event) {
+
+        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags")) return;
+
+        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
+                && ((event.getClickedBlock().getType() == Material.ANVIL || event.getClickedBlock().getType() == Material.CHIPPED_ANVIL || event.getClickedBlock().getType() == Material.DAMAGED_ANVIL))) {
+
+            Player player = event.getPlayer();
+            com.sk89q.worldedit.util.Location location = BukkitAdapter.adapt(event.getClickedBlock().getLocation());
+
+            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+            RegionQuery query = container.createQuery();
+            ApplicableRegionSet set = query.getApplicableRegions(location);
+
+            if (set.size() != 0) {
+
+                LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
+                RegionContainer container1 = WorldGuard.getInstance().getPlatform().getRegionContainer();
+                RegionQuery query1 = container1.createQuery();
+
+                query1.testState(location, localPlayer, Flags.ANVIL_USE);
 
                 if (event.useInteractedBlock() == Event.Result.DENY) {
                     event.setUseInteractedBlock(Event.Result.ALLOW);
@@ -277,35 +288,6 @@ public class Flags implements Listener {
 
                 if (!query1.testState(location, localPlayer, Flags.NAME_TAG_USE)) {
                     if (!player.hasPermission("utility.nametag.bypass")) {
-                        event.setCancelled(true);
-                    }
-                }
-
-            }
-
-        }
-
-    }
-
-    @EventHandler
-    public void onGuardianPathfind(EntityPathfindEvent event) {
-
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags")) return;
-
-        Entity ent = event.getEntity();
-
-        if (ent.getType().equals(EntityType.GUARDIAN)) {
-
-            com.sk89q.worldedit.world.World locationWorld = BukkitAdapter.adapt(ent.getLocation().getWorld());
-            BlockVector3 location = BlockVector3.at(ent.getLocation().getBlockX(), ent.getLocation().getBlockY(), ent.getLocation().getBlockZ());
-            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-            RegionManager regions = container.get(locationWorld);
-            ApplicableRegionSet set = regions.getApplicableRegions(location);
-
-            for (ProtectedRegion r : set) {
-
-                if (r.getFlags().containsKey(Flags.ALLOW_GUARDIAN_PATHFINDING)) {
-                    if (r.getFlags().get(Flags.ALLOW_GUARDIAN_PATHFINDING).equals(StateFlag.State.DENY)) {
                         event.setCancelled(true);
                     }
                 }

@@ -95,11 +95,11 @@ public class Cooldown implements CommandExecutor, TabCompleter {
             }
         }
 
-        while (seconds > 60) {
+        while (seconds >= 60) {
             minutes++;
             seconds -= 60;
         }
-        while (minutes > 60) {
+        while (minutes >= 60) {
             hours++;
             minutes -= 60;
         }
@@ -108,18 +108,17 @@ public class Cooldown implements CommandExecutor, TabCompleter {
         Boolean displayMinutes = minutes > 0;
         Boolean displaySeconds = seconds > 0;
 
-        if (!displaySeconds) {
+        if (!displaySeconds && !displayMinutes && !displayHours) {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&eYou have no cooldown on " + permissionName));
             return;
         }
 
-        StringBuilder message = new StringBuilder("&aYour cooldown on " + permissionName + " is ");
+        StringBuilder message = new StringBuilder(ChatColor.GREEN + "Your cooldown on " + permissionName + " is ");
         if (displayHours) message.append(hours).append(" hours ");
         if (displayMinutes) message.append(minutes).append(" minutes ");
-        if (displaySeconds) message.append(seconds).append(" seconds");
-        message.append(".");
+        message.append(seconds).append(" seconds").append(".");
 
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message.toString()));
+        player.sendMessage(message.toString());
 
     }
 

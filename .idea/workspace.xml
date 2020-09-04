@@ -28,11 +28,46 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49bc6783-8dae-497b-9e1b-b9252310cd10" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/reload/ReloadCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AlttdUtility.iml" beforeDir="false" afterPath="$PROJECT_DIR$/AlttdUtility.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/config/ConfigReload.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/config/ConfigSetup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/config/ConfigSetup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/cosmetics/chair/Chair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/cosmetics/chair/Chair.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/database/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/database/Database.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/register/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/register/Register.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/crash/Crash.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/crash/Crash.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/cooldown/Cooldown.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/cooldown/Cooldown.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/flags/Flags.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/flags/Flags.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/Logging.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/Logging.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/ItemPlacedInItemFrameLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/ItemsPlacedInItemFramesLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/spawnlogging/SpawnLimitReachedLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/spawnlogging/SpawnLimiterLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/playerList/PlayerList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/playerList/PlayerList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/prefixes/RemovePrefix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/prefixes/RemovePrefix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/prefixes/SetPrefix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/prefixes/SetPrefix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/servermsg/Servermsg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/servermsg/Servermsg.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/spawning/onEntitySpawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/spawnLimiter/SpawnLimiter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/teleport/onPlayerTeleport.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/cosmetics/chair/Chair.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/cosmetics/chair/Chair.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/database/Database$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/database/Database$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/database/Database.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/database/Database.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/cooldown/Cooldown.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/cooldown/Cooldown.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/flags/Flags.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/flags/Flags.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/ItemPlacedInItemFrameLog.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/SpawnLogging/SpawnLimitReachedLog.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/playerList/PlayerList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/playerList/PlayerList.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/prefixes/RemovePrefix.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/prefixes/RemovePrefix.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/prefixes/SetPrefix.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/prefixes/SetPrefix.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/servermsg/Servermsg.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/servermsg/Servermsg.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/spawning/onEntitySpawn$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/spawning/onEntitySpawn.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/teleport/onPlayerTeleport.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +123,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CustomSell" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.35977012" />
@@ -160,7 +195,14 @@
       <option name="project" value="LOCAL" />
       <updated>1598317002913</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Fixed custom worldguard flags">
+      <created>1598321919847</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1598321919847</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -185,33 +227,42 @@
     <MESSAGE value="Stopped logging entities other than a player in PickedUpItemsLog" />
     <MESSAGE value="Reworked most of the plugin" />
     <MESSAGE value="Added a /crash command" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added a /crash command" />
+    <MESSAGE value="Fixed custom worldguard flags" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed custom worldguard flags" />
   </component>
   <component name="WindowStateProjectService">
     <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1598315773080">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598315773080" />
+    <state x="640" y="255" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1598532073993">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="640" y="255" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598532073993" />
     <state x="734" y="379" width="501" height="289" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1591502460360">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="734" y="379" width="501" height="289" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591502460360" />
-    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1598237467834">
+    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1598402459703">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598237467834" />
-    <state x="587" y="86" key="CommitChangelistDialog2" timestamp="1598317001849">
+    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598402459703" />
+    <state x="690" y="266" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog" timestamp="1598390603437">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="587" y="86" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598317001849" />
-    <state x="666" y="261" key="FileChooserDialogImpl" timestamp="1597707840466">
+    <state x="690" y="266" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598390603437" />
+    <state x="587" y="86" key="CommitChangelistDialog2" timestamp="1598321918952">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="666" y="261" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1597707840466" />
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1598317008338">
+    <state x="587" y="86" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598321918952" />
+    <state x="666" y="261" key="FileChooserDialogImpl" timestamp="1598664455340">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598317008338" />
+    <state x="666" y="261" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598664455340" />
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1598321923820">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598321923820" />
     <state x="777" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1598311632987">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -220,10 +271,10 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="1920" y="0" width="1547" height="1028" key="dock-window-1/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1597710656807" />
-    <state x="702" y="262" width="585" height="592" key="find.popup" timestamp="1598316892305">
+    <state x="702" y="262" width="585" height="592" key="find.popup" timestamp="1598402262801">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="702" y="262" width="585" height="592" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598316892305" />
+    <state x="702" y="262" width="585" height="592" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598402262801" />
     <state x="342" y="140" key="new project wizard" timestamp="1592182165611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -232,9 +283,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="660" y="267" key="refactoring.ChangeSignatureDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598161958573" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1598302548962">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1598390091423">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598302548962" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598390091423" />
   </component>
 </project>

@@ -22,6 +22,8 @@ public class PlayerList implements CommandExecutor, TabCompleter {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
+        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.PlayerListCommand")) return true;
+
         if (args.length == 0) {
 
             StringBuilder message = new StringBuilder();

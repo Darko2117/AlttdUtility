@@ -49,7 +49,7 @@ public class ConfigSetup {
 
     }
 
-    public static void onConfigSetup() {
+    public static void configSetup() {
 
         FileConfiguration config = Main.getInstance().getConfig();
 
@@ -73,8 +73,8 @@ public class ConfigSetup {
         toggles.add("RemovePrefixCommand");
         toggles.add("SetPrefixCommand");
         toggles.add("ServerMsgCommand");
-        toggles.add("FixGrassPathAndFarmlandTP");
         toggles.add("CrashCommand");
+        toggles.add("SpawnLimiter");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) config.set("FeatureToggles." + string, true);
@@ -125,8 +125,8 @@ public class ConfigSetup {
             Event_Team.add("eventleader");
 
             List<String> Donors = new ArrayList<>();
-            Donors.add("baron");
             Donors.add("count");
+            Donors.add("viceroy");
             Donors.add("duke");
             Donors.add("archduke");
 
@@ -138,6 +138,7 @@ public class ConfigSetup {
             Other.add("resident");
             Other.add("esquire");
             Other.add("knight");
+            Other.add("baron");
 
             config.set("ListGroups.Owner", Owner);
             config.set("ListGroups.Staff", Staff);

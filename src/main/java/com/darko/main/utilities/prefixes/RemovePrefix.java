@@ -14,6 +14,8 @@ public class RemovePrefix implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
+        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.RemovePrefixCommand")) return true;
+
         Player player = (Player) sender;
 
         if (args.length >= 1) {

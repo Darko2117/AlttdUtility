@@ -35,7 +35,7 @@ public class Logging {
 
     public static StringBuilder date = new StringBuilder();
 
-    public static void Initiate() {
+    public static void initiate() {
 
         new BukkitRunnable() {
             @Override

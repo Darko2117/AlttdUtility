@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Date;
 
-public class ItemPlacedInItemFrameLog implements Listener {
+public class ItemsPlacedInItemFramesLog implements Listener {
 
     @EventHandler
     public void onItemPlaceInItemFrame(PlayerInteractEntityEvent event) {

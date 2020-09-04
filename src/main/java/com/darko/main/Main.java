@@ -5,6 +5,7 @@ import com.darko.main.database.Database;
 import com.darko.main.utilities.logging.Logging;
 import com.darko.main.API.APIs;
 import com.darko.main.register.Register;
+import com.darko.main.utilities.spawnLimiter.SpawnLimiter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
@@ -16,24 +17,25 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        System.out.println("--------------------------------------------------");
-
         instance = this;
+        Main.getInstance().getLogger().info("--------------------------------------------------");
 
-        ConfigSetup.onConfigSetup();
+        ConfigSetup.configSetup();
 
-        Logging.Initiate();
+        Logging.initiate();
+
+        SpawnLimiter.reloadLimitedEntities();
 
         APIs.APIConnect();
 
-        Register.RegisterEvents();
+        Register.registerEvents();
 
-        Register.RegisterCommands();
+        Register.registerCommands();
 
         Database.initiate();
 
         Main.getInstance().getLogger().info("Utility plugin started...");
-        System.out.println("--------------------------------------------------");
+        Main.getInstance().getLogger().info("--------------------------------------------------");
     }
 
 }

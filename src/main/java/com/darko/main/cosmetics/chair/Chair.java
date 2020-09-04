@@ -48,7 +48,7 @@ import java.util.Map;
 public class Chair implements CommandExecutor, Listener {
 
     static HashMap<Location, Entity> aliveSeats = new HashMap<>();
-    static String chairName = "There is a 16 character limit on a name tag";
+    static String chairName = "There is a 35 character limit on a name tag.";
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -172,7 +172,7 @@ public class Chair implements CommandExecutor, Listener {
 
         if (aliveSeats.containsKey(event.getBlock().getLocation())) {
             if (event.getPlayer().hasPermission("utility.forcedismount")) {
-                aliveSeats.get(event.getBlock().getLocation()).remove();
+                aliveSeats.get(event.getBlock().getLocation()).eject();
             } else {
                 event.setCancelled(true);
             }
@@ -220,6 +220,7 @@ public class Chair implements CommandExecutor, Listener {
         for (Map.Entry<Location, Entity> entry : aliveSeats.entrySet()) {
             if (entry.getValue().equals(dismounted)) {
                 aliveSeats.remove(entry.getKey());
+                break;
             }
         }
         dismounted.remove();
@@ -244,6 +245,8 @@ public class Chair implements CommandExecutor, Listener {
         Player player = event.getPlayer();
 
         if (!player.isInsideVehicle()) return;
+
+        if (player.getVehicle().getCustomName() == null) return;
 
         if (player.getVehicle().getCustomName().equals(chairName)) {
             player.getVehicle().eject();

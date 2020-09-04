@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 
 import java.util.Date;
 
-public class SpawnLimitReachedLog {
+public class SpawnLimiterLog {
 
     public static void onCancelledSpawn(EntitySpawnEvent event) {
 

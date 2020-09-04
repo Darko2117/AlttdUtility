@@ -13,14 +13,12 @@ commands:
     permission: utility.servermsg
   cooldown:
     permission: utility.cooldown
-  online:
-    permission: utility.online
   autofix:
     permission: utility.autofix
   kickfrombungee:
     permission: utility.kickfrombungee
-  utilityconfigreload:
-    permission: utility.configreload
+  alttdutilityreload:
+    permission: utility.alttdutilityreload
   list:
     permission: utility.list
   setprefix:
@@ -29,9 +27,7 @@ commands:
     permission: utility.removeprefix
   prefixhistory:
     premission: utility.prefixhistory
-  recompresslogs:
-    permission: utility.recompresslogs
-  togglepickup:
-    permission: utility.togglepickup
+  blockitempickup:
+    permission: utility.blockitempickup
   crash:
     permission: utility.crash

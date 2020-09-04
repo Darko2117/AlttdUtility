@@ -1,5 +1,6 @@
 package com.darko.main.utilities.servermsg;
 
+import com.darko.main.Main;
 import com.darko.main.other.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -8,13 +9,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.darko.main.Main;
-
 public class Servermsg implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-            if (args.length >= 2) {
+        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.ServerMsgCommand")) return true;
+
+        if (args.length >= 2) {
 
                 String receiver = null;
                 Boolean receiverIsPlayer = false;
