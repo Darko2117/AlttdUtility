@@ -8,14 +8,10 @@ import com.darko.main.utilities.deathMessage.DeathMessage;
 import com.darko.main.utilities.destro.claimanimals.DamageListener;
 import com.darko.main.utilities.destro.kickFromBungee.KickFromBungeeCommand;
 import com.darko.main.utilities.flags.*;
-import com.darko.main.utilities.logging.uiclicklogging.UIClicksLog;
-import com.darko.main.utilities.logging.itemslogging.*;
-import com.darko.main.utilities.logging.claimlogging.ClaimCreatedLog;
-import com.darko.main.utilities.logging.claimlogging.ClaimDeletedLog;
-import com.darko.main.utilities.logging.claimlogging.ClaimExpiredLog;
-import com.darko.main.utilities.logging.claimlogging.ClaimModifiedLog;
-import com.darko.main.utilities.logging.egglogging.EggLog;
+import com.darko.main.utilities.logging.LoggingCrazyCrates;
+import com.darko.main.utilities.logging.LoggingGriefPrevention;
 import com.darko.main.utilities.itemPickup.ItemPickup;
+import com.darko.main.utilities.logging.LoggingNoAPI;
 import com.darko.main.utilities.playerList.PlayerList;
 import com.darko.main.utilities.prefixes.RemovePrefix;
 import com.darko.main.utilities.prefixes.SetPrefix;
@@ -33,7 +29,6 @@ import com.darko.main.utilities.destro.claimraids.RaidListener;
 import com.darko.main.utilities.destro.petpickup.PetPickupListener;
 import com.darko.main.utilities.destro.tamedexpire.onEntityInteractWithLead;
 import com.darko.main.utilities.autofix.AutoFix;
-import com.darko.main.utilities.logging.prizelogging.CratePrizeLog;
 import com.darko.main.utilities.servermsg.Servermsg;
 
 public class Register extends JavaPlugin {
@@ -45,36 +40,25 @@ public class Register extends JavaPlugin {
                 new AutoFix(),
                 new RaidListener(),
                 new DamageListener(),
-                new EggLog(),
                 new SpawnLimiter(),
                 new ItemPickup(),
                 new DeathMessage(),
-                new DroppedItemsLog(),
                 new NameInChatNotification(),
-                new ItemsPlacedInItemFramesLog(),
-                new ItemTakenOutOfItemFrameLog(),
-                new MCMMORepairUseLog(),
-                new PickedUpItemsLog(),
-                new UIClicksLog(),
                 new Database(),
-                new Chair()
+                new Chair(),
+                new LoggingNoAPI()
         );
 
         if (APIs.MyPetFound) {
             registerEvents(new PetPickupListener());
         }
         if (APIs.CrazyCratesFound) {
-            registerEvents(new CratePrizeLog());
+            registerEvents(new LoggingCrazyCrates());
         }
         if (APIs.GriefPreventionFound) {
-            registerEvents(
-                    new ClaimCreatedLog(),
-                    new ClaimDeletedLog(),
-                    new ClaimExpiredLog(),
-                    new ClaimModifiedLog()
-            );
+            registerEvents(new LoggingGriefPrevention());
         }
-        if(APIs.WorldGuardFound){
+        if (APIs.WorldGuardFound) {
             registerEvents(new Flags());
         }
 

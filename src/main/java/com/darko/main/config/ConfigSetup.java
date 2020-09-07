@@ -187,9 +187,7 @@ public class ConfigSetup {
 
         // Logging
 
-        Logging.UpdateLogDates();
-
-        for (Map.Entry<String, String> entry : Logging.LogNamesAndConfigPaths.entrySet()) {
+        for (Map.Entry<String, String> entry : Logging.logNamesAndConfigPaths.entrySet()) {
 
             if (!config.contains(entry.getValue())) {
 

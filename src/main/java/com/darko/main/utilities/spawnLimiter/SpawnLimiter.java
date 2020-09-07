@@ -1,7 +1,7 @@
 package com.darko.main.utilities.spawnLimiter;
 
 import com.darko.main.Main;
-import com.darko.main.utilities.logging.spawnlogging.SpawnLimiterLog;
+import com.darko.main.utilities.logging.LoggingNoAPI;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -28,7 +28,7 @@ public class SpawnLimiter implements Listener {
 
         EntityType entityType = event.getEntityType();
 
-        if(!limitedEntities.contains(entityType)) return;
+        if (!limitedEntities.contains(entityType)) return;
 
         Location location = event.getLocation();
 
@@ -47,7 +47,7 @@ public class SpawnLimiter implements Listener {
 
         if (alreadySpawned >= spawnLimit1) {
             event.setCancelled(true);
-            SpawnLimiterLog.onCancelledSpawn(event);
+            LoggingNoAPI.logCancelledSpawn(event);
             return;
         }
 
@@ -69,38 +69,35 @@ public class SpawnLimiter implements Listener {
     }
 
     public static void reloadLimitedEntities() {
-        try {
 
-            limitedEntities.clear();
-            radiusLimit.clear();
-            timeLimit.clear();
-            spawnLimit.clear();
-            spawnLocations.clear();
+        limitedEntities.clear();
+        radiusLimit.clear();
+        timeLimit.clear();
+        spawnLimit.clear();
+        spawnLocations.clear();
 
-            for (String key : Main.getInstance().getConfig().getKeys(true)) {
+        for (String key : Main.getInstance().getConfig().getKeys(true)) {
 
-                StringBuilder entityTypeName = new StringBuilder(key);
+            StringBuilder entityTypeName = new StringBuilder(key);
 
-                if (entityTypeName.length() >= 12 && entityTypeName.toString().startsWith("SpawnLimiter")) {
+            if (entityTypeName.length() >= 12 && entityTypeName.toString().startsWith("SpawnLimiter")) {
 
-                    entityTypeName.delete(0, 13);
+                entityTypeName.delete(0, 13);
 
-                    if (!entityTypeName.toString().contains(".") && !entityTypeName.toString().isEmpty()) {
+                if (!entityTypeName.toString().contains(".") && !entityTypeName.toString().isEmpty()) {
 
-                        for (EntityType entityTypes : EntityType.values()) {
+                    for (EntityType entityTypes : EntityType.values()) {
 
-                            if (entityTypes.name().equals(entityTypeName.toString())) {
+                        if (entityTypes.name().equals(entityTypeName.toString())) {
 
-                                EntityType entityType = EntityType.valueOf(entityTypeName.toString());
+                            EntityType entityType = EntityType.valueOf(entityTypeName.toString());
 
-                                limitedEntities.add(entityType);
+                            limitedEntities.add(entityType);
 
-                                radiusLimit.put(entityType, Main.getInstance().getConfig().getInt("SpawnLimiter." + entityTypeName + ".RadiusLimit"));
-                                timeLimit.put(entityType, Main.getInstance().getConfig().getInt("SpawnLimiter." + entityTypeName + ".TimeLimit"));
-                                spawnLimit.put(entityType, Main.getInstance().getConfig().getInt("SpawnLimiter." + entityTypeName + ".SpawnLimit"));
-                                spawnLocations.put(entityType, new ArrayList<>());
-
-                            }
+                            radiusLimit.put(entityType, Main.getInstance().getConfig().getInt("SpawnLimiter." + entityTypeName + ".RadiusLimit"));
+                            timeLimit.put(entityType, Main.getInstance().getConfig().getInt("SpawnLimiter." + entityTypeName + ".TimeLimit"));
+                            spawnLimit.put(entityType, Main.getInstance().getConfig().getInt("SpawnLimiter." + entityTypeName + ".SpawnLimit"));
+                            spawnLocations.put(entityType, new ArrayList<>());
 
                         }
 
@@ -110,9 +107,8 @@ public class SpawnLimiter implements Listener {
 
             }
 
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
         }
+
     }
 
 }

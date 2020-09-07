@@ -1,7 +1,6 @@
 package com.darko.main.utilities.logging;
 
 import com.darko.main.Main;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -17,140 +16,103 @@ import java.util.zip.ZipOutputStream;
 
 public class Logging {
 
-    public static HashMap<String, String> LogNamesAndConfigPaths = new LinkedHashMap<>();
+    public static HashMap<String, String> logNamesAndConfigPaths = new LinkedHashMap<>();
 
-    public static String claimCreatedLogName = null;
-    public static String claimDeletedLogName = null;
-    public static String claimExpiredLogName = null;
-    public static String claimModifiedLogName = null;
-    public static String eggLogLogName = null;
-    public static String droppedItemsLogName = null;
-    public static String itemPlacedInItemFrameLogName = null;
-    public static String itemTakenOutOfItemFrameLogName = null;
-    public static String mcmmoRepairUseLogName = null;
-    public static String cratePrizeLogName = null;
-    public static String spawnLimitReachedLogName = null;
-    public static String pickedUpItemsLogName = null;
-    public static String uiClickLogName = null;
+    public static String claimsCreatedLogName = "claimsCreated";
+    public static String claimsDeletedLogName = "claimsDeleted";
+    public static String claimsExpiredLogName = "claimsExpired";
+    public static String claimsModifiedLogName = "claimsModified";
+    public static String eggsThrownLogName = "eggsThrown";
+    public static String droppedItemsLogName = "droppedItems";
+    public static String itemsPlacedInItemFramesLogName = "itemsPlacedInItemFrames";
+    public static String itemsTakenOutOfItemFramesLogName = "itemsTakenOutOfItemFrames";
+    public static String mcmmoRepairUseLogName = "mcmmoRepairUse";
+    public static String cratePrizesLogName = "cratePrizes";
+    public static String spawnLimitReachedLogName = "spawnLimitReached";
+    public static String pickedUpItemsLogName = "pickedUpItems";
+    public static String uiClicksLogName = "uiClicks";
 
-    public static StringBuilder date = new StringBuilder();
+    public static String date = "";
 
     public static void initiate() {
+
+        updateDate();
+
+        logNamesAndConfigPaths.put(claimsCreatedLogName, "Logging.ClaimsCreatedLog");
+        logNamesAndConfigPaths.put(claimsDeletedLogName, "Logging.ClaimsDeletedLog");
+        logNamesAndConfigPaths.put(claimsExpiredLogName, "Logging.ClaimsExpiredLog");
+        logNamesAndConfigPaths.put(claimsModifiedLogName, "Logging.ClaimsModifiedLog");
+        logNamesAndConfigPaths.put(eggsThrownLogName, "Logging.EggsThrownLog");
+        logNamesAndConfigPaths.put(droppedItemsLogName, "Logging.DroppedItemsLog");
+        logNamesAndConfigPaths.put(itemsPlacedInItemFramesLogName, "Logging.ItemsPlacedInItemFramesLog");
+        logNamesAndConfigPaths.put(itemsTakenOutOfItemFramesLogName, "Logging.ItemsTakenOutOfItemFramesLog");
+        logNamesAndConfigPaths.put(mcmmoRepairUseLogName, "Logging.MCMMORepairUseLog");
+        logNamesAndConfigPaths.put(cratePrizesLogName, "Logging.CratePrizesLog");
+        logNamesAndConfigPaths.put(spawnLimitReachedLogName, "Logging.SpawnLimitReachedLog");
+        logNamesAndConfigPaths.put(pickedUpItemsLogName, "Logging.PickedUpItemsLog");
+        logNamesAndConfigPaths.put(uiClicksLogName, "Logging.UIClicksLog");
+
+        List<String> directories = new ArrayList<>();
+        directories.add("logs");
+        directories.add("compressed-logs");
+
+        for (String directory : directories) {
+            new File(Main.getInstance().getDataFolder() + "/" + directory).mkdir();
+        }
+
+        for (Map.Entry<String, String> entry : logNamesAndConfigPaths.entrySet()) {
+            Logging.WriteToFile(entry.getKey(), "");
+        }
 
         new BukkitRunnable() {
             @Override
             public void run() {
+                updateDate();
+            }
+        }.runTaskTimerAsynchronously(Main.getInstance(), 1, 1);
 
-                try {
-
-                    Main.getInstance().saveDefaultConfig();
-
-                    File directory = new File(Main.getInstance().getDataFolder() + "/logs");
-                    directory.mkdir();
-
-                    File compressedDirectory = new File(Main.getInstance().getDataFolder() + "/compressed-logs");
-                    compressedDirectory.mkdir();
-
-                    UpdateLogDates();
-                    CheckAndCompress();
-                    CheckAndDeleteOld();
-
-                    List<String> dataFilesNames = new ArrayList<>();
-
-                    dataFilesNames.add(claimCreatedLogName);
-                    dataFilesNames.add(claimDeletedLogName);
-                    dataFilesNames.add(claimExpiredLogName);
-                    dataFilesNames.add(claimModifiedLogName);
-                    dataFilesNames.add(eggLogLogName);
-                    dataFilesNames.add(droppedItemsLogName);
-                    dataFilesNames.add(itemPlacedInItemFrameLogName);
-                    dataFilesNames.add(itemTakenOutOfItemFrameLogName);
-                    dataFilesNames.add(mcmmoRepairUseLogName);
-                    dataFilesNames.add(cratePrizeLogName);
-                    dataFilesNames.add(spawnLimitReachedLogName);
-                    dataFilesNames.add(pickedUpItemsLogName);
-                    dataFilesNames.add(uiClickLogName);
-
-                    for (String fileName : dataFilesNames) {
-
-                        File dataFile = new File(Bukkit.getServer().getPluginManager().getPlugin("AlttdUtility").getDataFolder(), fileName);
-                        if (!dataFile.exists()) {
-                            dataFile.createNewFile();
-                        }
-
-                    }
-
-                } catch (Throwable ignored) {
-                }
-
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                CheckAndCompress();
+                CheckAndDeleteOld();
             }
         }.runTaskAsynchronously(Main.getInstance());
 
     }
 
-
-    public static void UpdateLogDates() {
+    static void updateDate() {
 
         Integer day = LocalDate.now().getDayOfMonth();
         Integer month = LocalDate.now().getMonthValue();
         Integer year = LocalDate.now().getYear();
 
-        StringBuilder format = new StringBuilder();
-
+        String tempDate = "";
         if (day < 10) {
-            format.append("0");
+            tempDate = tempDate.concat("0");
         }
-        format.append(day + "-");
+        tempDate = tempDate.concat(day.toString());
+        tempDate = tempDate.concat("-");
         if (month < 10) {
-            format.append("0");
+            tempDate = tempDate.concat("0");
         }
-        format.append(month + "-" + year + "-");
+        tempDate = tempDate.concat(month.toString());
+        tempDate = tempDate.concat("-");
+        tempDate = tempDate.concat(year.toString());
 
-        date.replace(0, date.length(), format.toString());
-
-        claimCreatedLogName = "/logs/" + date + "claim-created-log.txt";
-        claimDeletedLogName = "/logs/" + date + "claim-deleted-log.txt";
-        claimExpiredLogName = "/logs/" + date + "claim-expired-log.txt";
-        claimModifiedLogName = "/logs/" + date + "claim-modified-log.txt";
-        eggLogLogName = "/logs/" + date + "egg-log.txt";
-        droppedItemsLogName = "/logs/" + date + "dropped-items-log.txt";
-        itemPlacedInItemFrameLogName = "/logs/" + date + "item-placed-in-item-frame-log.txt";
-        itemTakenOutOfItemFrameLogName = "/logs/" + date + "item-taken-out-of-item-frame-log.txt";
-        mcmmoRepairUseLogName = "/logs/" + date + "mcmmo-repair-use-log.txt";
-        cratePrizeLogName = "/logs/" + date + "crate-prize-log.txt";
-        spawnLimitReachedLogName = "/logs/" + date + "spawn-limit-reached-log.txt";
-        pickedUpItemsLogName = "/logs/" + date + "picked-up-items-log.txt";
-        uiClickLogName = "/logs/" + date + "ui-clicks-log.txt";
-
-        LogNamesAndConfigPaths.put(claimCreatedLogName.substring(17), "Logging.ClaimCreatedLog");
-        LogNamesAndConfigPaths.put(claimDeletedLogName.substring(17), "Logging.ClaimDeletedLog");
-        LogNamesAndConfigPaths.put(claimExpiredLogName.substring(17), "Logging.ClaimExpiredLog");
-        LogNamesAndConfigPaths.put(claimModifiedLogName.substring(17), "Logging.ClaimModifiedLog");
-        LogNamesAndConfigPaths.put(eggLogLogName.substring(17), "Logging.EggLog");
-        LogNamesAndConfigPaths.put(droppedItemsLogName.substring(17), "Logging.DroppedItemsLog");
-        LogNamesAndConfigPaths.put(itemPlacedInItemFrameLogName.substring(17), "Logging.ItemPlacedInItemFrameLog");
-        LogNamesAndConfigPaths.put(itemTakenOutOfItemFrameLogName.substring(17), "Logging.ItemTakenOutOfItemFrameLog");
-        LogNamesAndConfigPaths.put(mcmmoRepairUseLogName.substring(17), "Logging.MCMMORepairUseLog");
-        LogNamesAndConfigPaths.put(cratePrizeLogName.substring(17), "Logging.CratePrizeLog");
-        LogNamesAndConfigPaths.put(spawnLimitReachedLogName.substring(17), "Logging.SpawnLimitReachedLog");
-        LogNamesAndConfigPaths.put(pickedUpItemsLogName.substring(17), "Logging.PickedUpItemsLog");
-        LogNamesAndConfigPaths.put(uiClickLogName.substring(17), "Logging.UIClicksLog");
+        date = tempDate;
 
     }
 
+    static void CheckAndCompress() {
 
-    public static void CheckAndCompress() {
+        for (String fileName : new File(Main.getInstance().getDataFolder() + "/logs").list()) {
 
-        File logsFolder = new File(Bukkit.getServer().getPluginManager().getPlugin("AlttdUtility").getDataFolder(), "/logs");
-        String[] fileNames = logsFolder.list();
-
-        for (Integer i = 0; i < fileNames.length; i++) {
-
-            if (!fileNames[i].startsWith(date.toString())) {
+            if (!fileName.startsWith(date)) {
 
                 try {
 
-                    File file = new File(Bukkit.getServer().getPluginManager().getPlugin("AlttdUtility").getDataFolder(), "/logs/" + fileNames[i]);
+                    File file = new File(Main.getInstance().getDataFolder() + "/logs/" + fileName);
                     String zipFileName = file.getName().concat(".gz");
 
                     FileOutputStream fos = new FileOutputStream(zipFileName);
@@ -162,33 +124,30 @@ public class Logging {
                     zos.closeEntry();
                     zos.close();
 
-                    File directory = new File(Main.getInstance().getDataFolder() + "/compressed-logs");
-                    if (!directory.exists()) {
-                        directory.mkdir();
-                    }
+                    new File(Main.getInstance().getDataFolder() + "/compressed-logs").mkdir();
 
-                    Files.move(Paths.get(zipFileName), Paths.get(Bukkit.getServer().getPluginManager().getPlugin("AlttdUtility").getDataFolder() + "/compressed-logs/" + zipFileName));
+                    Files.move(Paths.get(zipFileName), Paths.get(Main.getInstance().getDataFolder() + "/compressed-logs/" + zipFileName));
 
                     file.delete();
 
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
-                    Main.getInstance().getLogger().warning("Something failed during file compression, yikes...");
+                    Main.getInstance().getLogger().warning("Something failed during file compression of the file " + fileName);
                 }
+
             }
+
         }
+
     }
 
-    public static void CheckAndDeleteOld() {
+    static void CheckAndDeleteOld() {
 
-        File logsFolder = new File(Bukkit.getServer().getPluginManager().getPlugin("AlttdUtility").getDataFolder(), "/compressed-logs");
-        String[] fileNames = logsFolder.list();
-
-        for (Integer i = 0; i < fileNames.length; i++) {
+        for (String fileName : new File(Main.getInstance().getDataFolder() + "/compressed-logs").list()) {
 
             try {
 
-                File file = new File(Bukkit.getServer().getPluginManager().getPlugin("AlttdUtility").getDataFolder(), "/compressed-logs/" + fileNames[i]);
+                File file = new File(Main.getInstance().getDataFolder() + "/compressed-logs/" + fileName);
 
                 StringBuilder fileDate = new StringBuilder(file.getName());
 
@@ -199,23 +158,22 @@ public class Logging {
                 LocalDate fileDateLD = LocalDate.of(fileYear, fileMonth, fileDay);
 
                 String fileNameWithoutDate = file.getName().substring(11);
-                fileNameWithoutDate = fileNameWithoutDate.substring(0, fileNameWithoutDate.indexOf(".gz"));
+                fileNameWithoutDate = fileNameWithoutDate.substring(0, fileNameWithoutDate.indexOf(".txt.gz"));
 
-                Integer numberOfLogsToKeepFromConfig = Main.getInstance().getConfig().getInt(Logging.LogNamesAndConfigPaths.get(fileNameWithoutDate) + ".NumberOfLogsToKeep");
+                Integer numberOfLogsToKeepFromConfig = Main.getInstance().getConfig().getInt(Logging.logNamesAndConfigPaths.get(fileNameWithoutDate) + ".NumberOfLogsToKeep");
 
-                Long temp1 = fileDateLD.toEpochDay();
-                Long temp2 = LocalDate.now().toEpochDay();
+                if (numberOfLogsToKeepFromConfig == 0) throw new Throwable();
 
-                Integer epochDayOfFileCreation = temp1.intValue();
-                Integer epochDayRightNow = temp2.intValue();
+                Integer epochDayOfFileCreation = Math.toIntExact(fileDateLD.toEpochDay());
+                Integer epochDayRightNow = Math.toIntExact(LocalDate.now().toEpochDay());
 
-                if(epochDayOfFileCreation + numberOfLogsToKeepFromConfig <= epochDayRightNow) {
+                if (epochDayOfFileCreation + numberOfLogsToKeepFromConfig <= epochDayRightNow) {
                     file.delete();
                     Main.getInstance().getLogger().info(file.getName() + " deleted.");
                 }
 
             } catch (Throwable throwable) {
-                Main.getInstance().getLogger().warning(fileNames[i] + " has an invalid name. Please set it to dd-mm-yyyy format if you want the plugin to keep track of it and delete it after the specified time.");
+                Main.getInstance().getLogger().warning(fileName + " has an invalid name. Please set it to dd-mm-yyyy format if you want the plugin to keep track of it and delete it after the specified time.");
             }
 
         }
@@ -224,31 +182,42 @@ public class Logging {
 
     public static String getBetterLocationString(Location location) {
 
-        StringBuilder message = new StringBuilder();
+        String worldName = location.getWorld().getName();
+
+        String dimension = location.getWorld().getEnvironment().toString();
 
         String X = String.valueOf(location.getBlockX());
         String Y = String.valueOf(location.getBlockY());
         String Z = String.valueOf(location.getBlockZ());
 
-        String dimension = location.getWorld().getEnvironment().toString();
-        String worldName = location.getWorld().getName();
+        String message = "";
+        message = message.concat("World: ");
+        message = message.concat(worldName);
+        message = message.concat(" Dimension: ");
+        message = message.concat(dimension);
+        message = message.concat(" X:");
+        message = message.concat(X);
+        message = message.concat(" Y:");
+        message = message.concat(Y);
+        message = message.concat(" Z:");
+        message = message.concat(Z);
 
-        message.append("World: " + worldName + " Dimension: " + dimension + " X:" + X + " Y:" + Y + " Z:" + Z);
+        return message;
 
-        return message.toString();
     }
 
-
-    public static void WriteToFile(String path, String message) {
+    public static void WriteToFile(String logName, String message) {
 
         new BukkitRunnable() {
             public void run() {
                 try {
-                    UpdateLogDates();
-                    FileWriter writer = new FileWriter(Main.getInstance().getDataFolder() + path, true);
-                    writer.write(message + "\n");
+                    String logPath = "/logs/" + date + "-" + logName + ".txt";
+                    FileWriter writer = new FileWriter(Main.getInstance().getDataFolder() + logPath, true);
+                    writer.write(message);
+                    if (!message.equals("")) writer.write("\n");
                     writer.close();
-                } catch (Throwable ignored) {
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
                 }
             }
         }.runTaskAsynchronously(Main.getInstance());

@@ -20,9 +20,11 @@ public class Main extends JavaPlugin {
         instance = this;
         Main.getInstance().getLogger().info("--------------------------------------------------");
 
-        ConfigSetup.configSetup();
+        Main.getInstance().saveDefaultConfig();
 
         Logging.initiate();
+
+        ConfigSetup.configSetup();
 
         SpawnLimiter.reloadLimitedEntities();
 
