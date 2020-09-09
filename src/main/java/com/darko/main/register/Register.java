@@ -12,6 +12,7 @@ import com.darko.main.utilities.logging.LoggingCrazyCrates;
 import com.darko.main.utilities.logging.LoggingGriefPrevention;
 import com.darko.main.utilities.itemPickup.ItemPickup;
 import com.darko.main.utilities.logging.LoggingNoAPI;
+import com.darko.main.utilities.logging.LoggingSearch;
 import com.darko.main.utilities.playerList.PlayerList;
 import com.darko.main.utilities.prefixes.RemovePrefix;
 import com.darko.main.utilities.prefixes.SetPrefix;
@@ -78,9 +79,13 @@ public class Register extends JavaPlugin {
         Main.getInstance().getCommand("chair").setExecutor(new Chair());
         Main.getInstance().getCommand("alttdutilityreload").setExecutor(new ReloadCommand());
         Main.getInstance().getCommand("list").setExecutor(new PlayerList());
-        Main.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         Main.getInstance().getCommand("kickfrombungee").setExecutor(new KickFromBungeeCommand());
         Main.getInstance().getCommand("crash").setExecutor(new Crash());
+        Main.getInstance().getCommand("searchlogs").setExecutor(new LoggingSearch());
+
+        Main.getInstance().getCommand("list").setTabCompleter(new PlayerList());
+        Main.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());
+
         Main.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(Main.getInstance(), "BungeeCord");
 
         if (APIs.LuckPermsFound) {

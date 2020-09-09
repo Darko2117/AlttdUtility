@@ -1,5 +1,6 @@
 package com.darko.main.config;
 
+import java.io.File;
 import java.util.*;
 
 import com.darko.main.utilities.logging.Logging;
@@ -37,7 +38,8 @@ public class ConfigSetup {
         BlockItemPickupEnabledMessage("Messages.BlockItemPickupEnabledMessage", "&aBlock item pickup enabled."),
         BlockItemPickupDisabledMessage("Messages.BlockItemPickupDisabledMessage", "&cBlock item pickup disabled."),
         CrashCommandInvalidUsage("Messages.CrashCommandInvalidUsage", "&cUsage of this command is /crash <player>."),
-        CrashCommandOfflinePlayer("Messages.CrashCommandOfflinePlayer", "&cThe player you are trying to crash is offline.");
+        CrashCommandOfflinePlayer("Messages.CrashCommandOfflinePlayer", "&cThe player you are trying to crash is offline."),
+        IncorrectUsageSearchLogsCommand("Messages.IncorrectUsageSearchLogsCommand", "&cUsage of this command is /searchlogs <logName> <numberOfDays> <Argument1Name: Argument1> <Argument2Name: Argument2> <Argument3Name: Argument3>... Just follow what tab complete is giving you.");
 
         private final String path;
         private final String message;
@@ -75,6 +77,7 @@ public class ConfigSetup {
         toggles.add("ServerMsgCommand");
         toggles.add("CrashCommand");
         toggles.add("SpawnLimiter");
+        toggles.add("SearchLogsCommand");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) config.set("FeatureToggles." + string, true);
@@ -197,6 +200,18 @@ public class ConfigSetup {
                 Main.getInstance().getLogger().info(entry.getValue() + " not found in the config, creating it now.");
 
             }
+
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
+        // SearchLogs
+
+        if (!config.contains("SearchLogs")) {
+
+            config.set("SearchLogs.OutputPath", new File(Main.getInstance().getDataFolder() + "/search-output/").getAbsolutePath());
+
+            Main.getInstance().getLogger().info("SearchLogs path not found in the config, creating it now.");
 
         }
 

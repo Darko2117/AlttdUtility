@@ -1,18 +1,14 @@
 package com.darko.main.utilities.logging;
 
 import com.darko.main.Main;
+import com.darko.main.other.Methods;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 public class Logging {
 
@@ -32,11 +28,7 @@ public class Logging {
     public static String pickedUpItemsLogName = "pickedUpItems";
     public static String uiClicksLogName = "uiClicks";
 
-    public static String date = "";
-
     public static void initiate() {
-
-        updateDate();
 
         logNamesAndConfigPaths.put(claimsCreatedLogName, "Logging.ClaimsCreatedLog");
         logNamesAndConfigPaths.put(claimsDeletedLogName, "Logging.ClaimsDeletedLog");
@@ -55,21 +47,17 @@ public class Logging {
         List<String> directories = new ArrayList<>();
         directories.add("logs");
         directories.add("compressed-logs");
+        directories.add("search-output");
+        directories.add("temporary-files");
 
         for (String directory : directories) {
-            new File(Main.getInstance().getDataFolder() + "/" + directory).mkdir();
+            if(!new File(Main.getInstance().getDataFolder() + "/" + directory).mkdir())
+                Main.getInstance().getLogger().warning("Something failed during the creation of the directory " + directory);
         }
 
         for (Map.Entry<String, String> entry : logNamesAndConfigPaths.entrySet()) {
             Logging.WriteToFile(entry.getKey(), "");
         }
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                updateDate();
-            }
-        }.runTaskTimerAsynchronously(Main.getInstance(), 1, 1);
 
         new BukkitRunnable() {
             @Override
@@ -81,60 +69,21 @@ public class Logging {
 
     }
 
-    static void updateDate() {
-
-        Integer day = LocalDate.now().getDayOfMonth();
-        Integer month = LocalDate.now().getMonthValue();
-        Integer year = LocalDate.now().getYear();
-
-        String tempDate = "";
-        if (day < 10) {
-            tempDate = tempDate.concat("0");
-        }
-        tempDate = tempDate.concat(day.toString());
-        tempDate = tempDate.concat("-");
-        if (month < 10) {
-            tempDate = tempDate.concat("0");
-        }
-        tempDate = tempDate.concat(month.toString());
-        tempDate = tempDate.concat("-");
-        tempDate = tempDate.concat(year.toString());
-
-        date = tempDate;
-
-    }
-
     static void CheckAndCompress() {
 
-        for (String fileName : new File(Main.getInstance().getDataFolder() + "/logs").list()) {
+        String[] logsNames = new File(Main.getInstance().getDataFolder() + "/logs").list();
 
-            if (!fileName.startsWith(date)) {
+        for (String logName : logsNames) {
 
-                try {
+            File log = new File(Main.getInstance().getDataFolder() + "/logs/" + logName);
 
-                    File file = new File(Main.getInstance().getDataFolder() + "/logs/" + fileName);
-                    String zipFileName = file.getName().concat(".gz");
+            if (log.getName().startsWith(Methods.getDateString())) continue;
 
-                    FileOutputStream fos = new FileOutputStream(zipFileName);
-                    ZipOutputStream zos = new ZipOutputStream(fos);
-
-                    zos.putNextEntry(new ZipEntry(file.getName()));
-                    byte[] bytes = Files.readAllBytes(Paths.get(file.getPath()));
-                    zos.write(bytes, 0, bytes.length);
-                    zos.closeEntry();
-                    zos.close();
-
-                    new File(Main.getInstance().getDataFolder() + "/compressed-logs").mkdir();
-
-                    Files.move(Paths.get(zipFileName), Paths.get(Main.getInstance().getDataFolder() + "/compressed-logs/" + zipFileName));
-
-                    file.delete();
-
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                    Main.getInstance().getLogger().warning("Something failed during file compression of the file " + fileName);
-                }
-
+            if (Methods.compressFile(log.getAbsolutePath(), log.getAbsolutePath().replace("\\logs\\", "\\compressed-logs\\").replace("/logs/", "/compressed-logs/").concat(".gz"))) {
+                if (!log.delete())
+                    Main.getInstance().getLogger().warning("Something failed during deletion of the file " + log.getAbsolutePath());
+            } else {
+                Main.getInstance().getLogger().warning("Something failed during file compression of the file " + log.getAbsolutePath());
             }
 
         }
@@ -149,27 +98,26 @@ public class Logging {
 
                 File file = new File(Main.getInstance().getDataFolder() + "/compressed-logs/" + fileName);
 
-                StringBuilder fileDate = new StringBuilder(file.getName());
-
-                Integer fileDay = Integer.valueOf(fileDate.substring(0, 2));
-                Integer fileMonth = Integer.valueOf(fileDate.substring(3, 5));
-                Integer fileYear = Integer.valueOf(fileDate.substring(6, 10));
-
-                LocalDate fileDateLD = LocalDate.of(fileYear, fileMonth, fileDay);
-
-                String fileNameWithoutDate = file.getName().substring(11);
-                fileNameWithoutDate = fileNameWithoutDate.substring(0, fileNameWithoutDate.indexOf(".txt.gz"));
+                String fileNameWithoutDate = file.getName().substring(11, file.getName().indexOf(".txt.gz"));
 
                 Integer numberOfLogsToKeepFromConfig = Main.getInstance().getConfig().getInt(Logging.logNamesAndConfigPaths.get(fileNameWithoutDate) + ".NumberOfLogsToKeep");
 
                 if (numberOfLogsToKeepFromConfig == 0) throw new Throwable();
 
+                Integer day = Methods.getDateValuesFromString(fileName.substring(0, 10))[0];
+                Integer month = Methods.getDateValuesFromString(fileName.substring(0, 10))[1];
+                Integer year = Methods.getDateValuesFromString(fileName.substring(0, 10))[2];
+                LocalDate fileDateLD = LocalDate.of(year, month, day);
+
                 Integer epochDayOfFileCreation = Math.toIntExact(fileDateLD.toEpochDay());
                 Integer epochDayRightNow = Math.toIntExact(LocalDate.now().toEpochDay());
 
-                if (epochDayOfFileCreation + numberOfLogsToKeepFromConfig <= epochDayRightNow) {
-                    file.delete();
+                if (epochDayOfFileCreation + numberOfLogsToKeepFromConfig < epochDayRightNow) {
+
+                    if(file.delete())
                     Main.getInstance().getLogger().info(file.getName() + " deleted.");
+                    else
+                        Main.getInstance().getLogger().warning("Something failed during deletion of file " + file.getAbsolutePath());
                 }
 
             } catch (Throwable throwable) {
@@ -211,7 +159,7 @@ public class Logging {
         new BukkitRunnable() {
             public void run() {
                 try {
-                    String logPath = "/logs/" + date + "-" + logName + ".txt";
+                    String logPath = "/logs/" + Methods.getDateString() + "-" + logName + ".txt";
                     FileWriter writer = new FileWriter(Main.getInstance().getDataFolder() + logPath, true);
                     writer.write(message);
                     if (!message.equals("")) writer.write("\n");

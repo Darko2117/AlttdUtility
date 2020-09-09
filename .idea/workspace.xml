@@ -28,42 +28,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49bc6783-8dae-497b-9e1b-b9252310cd10" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/LoggingCrazyCrates.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/LoggingGriefPrevention.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/LoggingNoAPI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/LoggingSearch.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/config/ConfigSetup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/config/ConfigSetup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/other/Methods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/other/Methods.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/register/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/register/Register.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/Logging.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/Logging.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/claimlogging/ClaimCreatedLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/claimlogging/ClaimDeletedLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/claimlogging/ClaimExpiredLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/claimlogging/ClaimModifiedLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/egglogging/EggLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/DroppedItemsLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/ItemTakenOutOfItemFrameLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/ItemsPlacedInItemFramesLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/MCMMORepairUseLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/itemslogging/PickedUpItemsLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/prizelogging/CratePrizeLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/spawnlogging/SpawnLimiterLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/logging/uiclicklogging/UIClicksLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/reload/ReloadCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/reload/ReloadCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/spawnLimiter/SpawnLimiter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/spawnLimiter/SpawnLimiter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/DroppedItemsLog.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/ItemTakenOutOfItemFrameLog.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/ItemsLogging/MCMMORepairUseLog.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/PrizeLogging/CratePrizeLog.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/claimlogging/ClaimCreatedLog.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/claimlogging/ClaimDeletedLog.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/claimlogging/ClaimExpiredLog.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/claimlogging/ClaimModifiedLog.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/egglogging/EggLog.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -227,10 +202,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="Fixed custom worldguard flags" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1598315773080">
+    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1599519273989">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1598315773080" />
+    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1599519273989" />
     <state x="640" y="255" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1598532073993">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -267,22 +242,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1599491883806" />
-    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog" timestamp="1599491883806">
+    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog" timestamp="1600057921192">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1599491883806" />
+    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1600057921192" />
     <state x="777" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1599257627612">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="777" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1599257627612" />
-    <state x="1920" y="0" width="1547" height="1028" key="dock-window-1" timestamp="1597710656807">
-      <screen x="1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="1920" y="0" width="1547" height="1028" key="dock-window-1/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1597710656807" />
-    <state x="702" y="262" width="585" height="592" key="find.popup" timestamp="1599443943381">
+    <state x="953" y="0" width="974" height="1047" key="dock-window-1" timestamp="1599521035790">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="702" y="262" width="585" height="592" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1599443943381" />
+    <state x="953" y="0" width="974" height="1047" key="dock-window-1/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1599521035790" />
+    <state x="702" y="262" width="585" height="592" key="find.popup" timestamp="1599540498687">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="702" y="262" width="585" height="592" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1599540498687" />
     <state x="342" y="140" key="new project wizard" timestamp="1592182165611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

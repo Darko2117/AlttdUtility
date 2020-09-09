@@ -31,3 +31,5 @@ commands:
     permission: utility.blockitempickup
   crash:
     permission: utility.crash
+  searchlogs:
+    permission: utility.searchlogs
