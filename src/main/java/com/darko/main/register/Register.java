@@ -5,6 +5,7 @@ import com.darko.main.database.Database;
 import com.darko.main.utilities.atPlayers.NameInChatNotification;
 import com.darko.main.utilities.crash.Crash;
 import com.darko.main.utilities.deathMessage.DeathMessage;
+import com.darko.main.utilities.destro.PremiumVanishListener;
 import com.darko.main.utilities.destro.claimanimals.DamageListener;
 import com.darko.main.utilities.destro.kickFromBungee.KickFromBungeeCommand;
 import com.darko.main.utilities.flags.*;
@@ -18,6 +19,7 @@ import com.darko.main.utilities.prefixes.RemovePrefix;
 import com.darko.main.utilities.prefixes.SetPrefix;
 import com.darko.main.utilities.reload.ReloadCommand;
 import com.darko.main.utilities.spawnLimiter.SpawnLimiter;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -61,6 +63,9 @@ public class Register extends JavaPlugin {
         }
         if (APIs.WorldGuardFound) {
             registerEvents(new Flags());
+        }
+        if (Bukkit.getPluginManager().isPluginEnabled("PremiumVanish")) {
+            registerEvents(new PremiumVanishListener());
         }
 
     }
