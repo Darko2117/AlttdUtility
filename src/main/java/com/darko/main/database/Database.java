@@ -4,6 +4,7 @@ import com.darko.main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -76,7 +77,7 @@ public class Database implements Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
 
         new BukkitRunnable() {
@@ -132,7 +133,7 @@ public class Database implements Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoin1(PlayerJoinEvent event) {
 
         if (Database.connection == null) return;
@@ -146,7 +147,7 @@ public class Database implements Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerQuit(PlayerQuitEvent event) {
 
         if (Database.connection == null) return;
@@ -197,7 +198,7 @@ public class Database implements Listener {
 
     }
 
-    static void createUsersTable(){
+    static void createUsersTable() {
 
         try {
             String usersTableQuery = "CREATE TABLE IF NOT EXISTS users("

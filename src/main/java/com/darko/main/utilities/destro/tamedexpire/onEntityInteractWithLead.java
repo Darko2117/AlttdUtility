@@ -24,6 +24,7 @@ public class onEntityInteractWithLead implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void EntityInteract(PlayerInteractEntityEvent event) {
 
+        if(event.isCancelled()) return;
         if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.UnclaimAnimalWithLead")) return;
 
         Player p = event.getPlayer();

@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import com.darko.main.Main;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.meta.Damageable;
@@ -25,12 +26,12 @@ public class AutoFix implements CommandExecutor, Listener {
         if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.AutofixCommand")) return true;
 
         if (!(sender instanceof Player)) {
-            Methods.sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
+            new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
             return true;
         }
 
         if (Database.connection == null) {
-            Methods.sendConfigMessage(sender, "Messages.NoDatabaseConnectionMessage");
+            new Methods().sendConfigMessage(sender, "Messages.NoDatabaseConnectionMessage");
             return true;
         }
 
@@ -53,13 +54,13 @@ public class AutoFix implements CommandExecutor, Listener {
 
                         statement = "UPDATE users SET autofix_enabled = true WHERE UUID = '" + uuid + "';";
                         Database.connection.prepareStatement(statement).executeUpdate();
-                        Methods.sendConfigMessage(player, "Messages.AutofixEnabled");
+                        new Methods().sendConfigMessage(player, "Messages.AutofixEnabled");
 
                     } else {
 
                         statement = "UPDATE users SET autofix_enabled = false WHERE UUID = '" + uuid + "';";
                         Database.connection.prepareStatement(statement).executeUpdate();
-                        Methods.sendConfigMessage(player, "Messages.AutofixDisabled");
+                        new Methods().sendConfigMessage(player, "Messages.AutofixDisabled");
 
                     }
 
@@ -75,9 +76,10 @@ public class AutoFix implements CommandExecutor, Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onDurabilityUse(PlayerItemDamageEvent event) {
 
+        if (event.isCancelled()) return;
         if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.AutofixCommand")) return;
 
         if (Database.connection == null) return;

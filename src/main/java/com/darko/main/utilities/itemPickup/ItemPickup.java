@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -22,12 +23,12 @@ public class ItemPickup implements CommandExecutor, Listener {
         if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.ItemPickupCommand")) return true;
 
         if (!(sender instanceof Player)) {
-            Methods.sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
+            new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
             return true;
         }
 
         if (Database.connection == null) {
-            Methods.sendConfigMessage(sender, "Messages.NoDatabaseConnectionMessage");
+            new Methods().sendConfigMessage(sender, "Messages.NoDatabaseConnectionMessage");
             return true;
         }
 
@@ -50,13 +51,13 @@ public class ItemPickup implements CommandExecutor, Listener {
 
                         statement = "UPDATE users SET block_item_pickup_enabled = true WHERE UUID = '" + uuid + "';";
                         Database.connection.prepareStatement(statement).executeUpdate();
-                        Methods.sendConfigMessage(player, "Messages.BlockItemPickupEnabledMessage");
+                        new Methods().sendConfigMessage(player, "Messages.BlockItemPickupEnabledMessage");
 
                     } else {
 
                         statement = "UPDATE users SET block_item_pickup_enabled = false WHERE UUID = '" + uuid + "';";
                         Database.connection.prepareStatement(statement).executeUpdate();
-                        Methods.sendConfigMessage(player, "Messages.BlockItemPickupDisabledMessage");
+                        new Methods().sendConfigMessage(player, "Messages.BlockItemPickupDisabledMessage");
 
                     }
 
@@ -72,9 +73,10 @@ public class ItemPickup implements CommandExecutor, Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onItemPickup(EntityPickupItemEvent event) {
 
+        if(event.isCancelled()) return;
         if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.ItemPickupCommand")) return;
 
         if (Database.connection == null) return;

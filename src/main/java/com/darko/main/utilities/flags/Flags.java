@@ -13,7 +13,6 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,7 +23,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class Flags implements Listener {
 
-    public static StateFlag SIT, ANVIL_REPAIR, ANVIL_USE, ENCHANTING_TABLE_USE, NAME_TAG_USE, BONE_MEAL_USE;
+    public static StateFlag SIT, ANVIL_REPAIR, ANVIL_USE, ENCHANTING_TABLE_USE, NAME_TAG_USE;
 
     public static void FlagsEnable() {
 
@@ -35,7 +34,6 @@ public class Flags implements Listener {
         AnvilUseFlag();
         EnchantingTableUseFlag();
         NameTagFlag();
-        BoneMealFlag();
 
     }
 
@@ -98,7 +96,7 @@ public class Flags implements Listener {
     private static void NameTagFlag() {
         FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
         try {
-            StateFlag flag = new StateFlag("name-tag-use", false);
+            StateFlag flag = new StateFlag("name-tag-use", true);
             registry.register(flag);
             NAME_TAG_USE = flag;
         } catch (Throwable throwable) {
@@ -109,89 +107,37 @@ public class Flags implements Listener {
         }
     }
 
-    private static void BoneMealFlag() {
-        FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
-        try {
-            StateFlag flag = new StateFlag("bone-meal-use", false);
-            registry.register(flag);
-            BONE_MEAL_USE = flag;
-        } catch (Throwable throwable) {
-            Flag<?> existing = registry.get("bone-meal-use");
-            if (existing instanceof StateFlag) {
-                BONE_MEAL_USE = (StateFlag) existing;
-            }
-        }
-    }
-
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamagedAnvilClick(PlayerInteractEvent event) {
 
+        if (event.useInteractedBlock().equals(Event.Result.DENY)) return;
         if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags")) return;
 
-        Player player = event.getPlayer();
+        if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
+        if (!event.getClickedBlock().getType().toString().toLowerCase().contains("anvil")) return;
 
-        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK) && (event.getClickedBlock().getType() == Material.ANVIL
-                || event.getClickedBlock().getType() == Material.CHIPPED_ANVIL
-                || event.getClickedBlock().getType() == Material.DAMAGED_ANVIL)) {
+        com.sk89q.worldedit.util.Location location = BukkitAdapter.adapt(event.getClickedBlock().getLocation());
 
-            com.sk89q.worldedit.util.Location location = BukkitAdapter.adapt(event.getClickedBlock().getLocation());
+        RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        RegionQuery query = container.createQuery();
+        ApplicableRegionSet set = query.getApplicableRegions(location);
 
-            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-            RegionQuery query = container.createQuery();
-            ApplicableRegionSet set = query.getApplicableRegions(location);
+        if (set.size() != 0) {
 
-            if (set.size() != 0) {
+            LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(event.getPlayer());
+            RegionContainer container1 = WorldGuard.getInstance().getPlatform().getRegionContainer();
+            RegionQuery query1 = container1.createQuery();
 
-                LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
-                RegionContainer container1 = WorldGuard.getInstance().getPlatform().getRegionContainer();
-                RegionQuery query1 = container1.createQuery();
+            if (query1.testState(location, localPlayer, Flags.ANVIL_REPAIR)) {
 
-                if (query1.testState(location, localPlayer, Flags.ANVIL_REPAIR)) {
-
-                    String dataString = event.getClickedBlock().getBlockData().getAsString();
-                    if (dataString.contains("chipped_")) {
-                        dataString = dataString.replace("chipped_", "");
-                    } else if (dataString.contains("damaged_")) {
-                        dataString = dataString.replace("damaged_", "");
-                    }
-
-                    event.getClickedBlock().setBlockData(Bukkit.createBlockData(dataString));
-
+                String dataString = event.getClickedBlock().getBlockData().getAsString();
+                if (dataString.contains("chipped_")) {
+                    dataString = dataString.replace("chipped_", "");
+                } else if (dataString.contains("damaged_")) {
+                    dataString = dataString.replace("damaged_", "");
                 }
 
-            }
-
-        }
-
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onBoneMealUse(PlayerInteractEvent event) {
-
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags")) return;
-
-        Player player = event.getPlayer();
-
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK
-                && player.getInventory().getItemInMainHand().getType() == Material.BONE_MEAL) {
-
-            com.sk89q.worldedit.util.Location location = BukkitAdapter.adapt(event.getClickedBlock().getLocation());
-
-            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-            RegionQuery query = container.createQuery();
-            ApplicableRegionSet set = query.getApplicableRegions(location);
-
-            if (set.size() != 0) {
-
-                LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
-                RegionContainer container1 = WorldGuard.getInstance().getPlatform().getRegionContainer();
-                RegionQuery query1 = container1.createQuery();
-
-                if (!query1.testState(location, localPlayer, Flags.BONE_MEAL_USE)) {
-                    if (!player.hasPermission("utility.bonemeal.bypass")) {
-                        event.setCancelled(true);
-                    }
-                }
+                event.getClickedBlock().setBlockData(Bukkit.createBlockData(dataString));
 
             }
 
@@ -204,29 +150,23 @@ public class Flags implements Listener {
 
         if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags")) return;
 
-        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
-                && (event.getClickedBlock().getType() == Material.ENCHANTING_TABLE)) {
+        if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
+        if (!event.getClickedBlock().getType().equals(Material.ENCHANTING_TABLE)) return;
 
-            Player player = event.getPlayer();
-            com.sk89q.worldedit.util.Location location = BukkitAdapter.adapt(event.getClickedBlock().getLocation());
+        com.sk89q.worldedit.util.Location location = BukkitAdapter.adapt(event.getClickedBlock().getLocation());
 
-            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-            RegionQuery query = container.createQuery();
-            ApplicableRegionSet set = query.getApplicableRegions(location);
+        RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        RegionQuery query = container.createQuery();
+        ApplicableRegionSet set = query.getApplicableRegions(location);
 
-            if (set.size() != 0) {
+        if (set.size() != 0) {
 
-                LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
-                RegionContainer container1 = WorldGuard.getInstance().getPlatform().getRegionContainer();
-                RegionQuery query1 = container1.createQuery();
+            LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(event.getPlayer());
+            RegionContainer container1 = WorldGuard.getInstance().getPlatform().getRegionContainer();
+            RegionQuery query1 = container1.createQuery();
 
-                query1.testState(location, localPlayer, Flags.ENCHANTING_TABLE_USE);
-
-                if (event.useInteractedBlock() == Event.Result.DENY) {
-                    event.setUseInteractedBlock(Event.Result.ALLOW);
-                }
-
-            }
+            if (query1.testState(location, localPlayer, Flags.ENCHANTING_TABLE_USE))
+                event.setUseInteractedBlock(Event.Result.ALLOW);
 
         }
 
@@ -237,29 +177,23 @@ public class Flags implements Listener {
 
         if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags")) return;
 
-        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
-                && ((event.getClickedBlock().getType() == Material.ANVIL || event.getClickedBlock().getType() == Material.CHIPPED_ANVIL || event.getClickedBlock().getType() == Material.DAMAGED_ANVIL))) {
+        if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
+        if (!event.getClickedBlock().getType().toString().toLowerCase().contains("anvil")) return;
 
-            Player player = event.getPlayer();
-            com.sk89q.worldedit.util.Location location = BukkitAdapter.adapt(event.getClickedBlock().getLocation());
+        com.sk89q.worldedit.util.Location location = BukkitAdapter.adapt(event.getClickedBlock().getLocation());
 
-            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-            RegionQuery query = container.createQuery();
-            ApplicableRegionSet set = query.getApplicableRegions(location);
+        RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        RegionQuery query = container.createQuery();
+        ApplicableRegionSet set = query.getApplicableRegions(location);
 
-            if (set.size() != 0) {
+        if (set.size() != 0) {
 
-                LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
-                RegionContainer container1 = WorldGuard.getInstance().getPlatform().getRegionContainer();
-                RegionQuery query1 = container1.createQuery();
+            LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(event.getPlayer());
+            RegionContainer container1 = WorldGuard.getInstance().getPlatform().getRegionContainer();
+            RegionQuery query1 = container1.createQuery();
 
-                query1.testState(location, localPlayer, Flags.ANVIL_USE);
-
-                if (event.useInteractedBlock() == Event.Result.DENY) {
-                    event.setUseInteractedBlock(Event.Result.ALLOW);
-                }
-
-            }
+            if (query1.testState(location, localPlayer, Flags.ANVIL_USE))
+                event.setUseInteractedBlock(Event.Result.ALLOW);
 
         }
 
@@ -268,32 +202,27 @@ public class Flags implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onNameTagUse(PlayerInteractEntityEvent event) {
 
+        if (event.isCancelled()) return;
+
         if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags")) return;
 
-        Player player = event.getPlayer();
+        if (!event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.NAME_TAG) && !event.getPlayer().getInventory().getItemInOffHand().getType().equals(Material.NAME_TAG))
+            return;
 
-        if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.NAME_TAG
-                || event.getPlayer().getInventory().getItemInOffHand().getType() == Material.NAME_TAG) {
+        com.sk89q.worldedit.util.Location location = BukkitAdapter.adapt(event.getRightClicked().getLocation());
 
-            com.sk89q.worldedit.util.Location location = BukkitAdapter.adapt(event.getRightClicked().getLocation());
+        RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        RegionQuery query = container.createQuery();
+        ApplicableRegionSet set = query.getApplicableRegions(location);
 
-            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-            RegionQuery query = container.createQuery();
-            ApplicableRegionSet set = query.getApplicableRegions(location);
+        if (set.size() != 0) {
 
-            if (set.size() != 0) {
-                LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
-                RegionContainer container1 = WorldGuard.getInstance().getPlatform().getRegionContainer();
-                RegionQuery query1 = container1.createQuery();
+            LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(event.getPlayer());
+            RegionContainer container1 = WorldGuard.getInstance().getPlatform().getRegionContainer();
+            RegionQuery query1 = container1.createQuery();
 
-                if (!query1.testState(location, localPlayer, Flags.NAME_TAG_USE)) {
-                    if (!player.hasPermission("utility.nametag.bypass")) {
-                        event.setCancelled(true);
-                    }
-                }
-
-            }
-
+            if (!query1.testState(location, localPlayer, Flags.NAME_TAG_USE))
+                event.setCancelled(true);
         }
 
     }

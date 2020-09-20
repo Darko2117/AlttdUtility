@@ -4,6 +4,7 @@ import com.darko.main.Main;
 import org.bukkit.Raid;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.raid.RaidTriggerEvent;
 
@@ -12,10 +13,11 @@ import me.ryanhamshire.GriefPrevention.GriefPrevention;
 
 public class RaidListener implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onRaidStart(RaidTriggerEvent event) {
 
-        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.BlockRaidsInClaimWithoutAccessTrust")) return;
+        if(event.isCancelled()) return;
+        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.BlockRaidsInClaimWithoutAccessTrust")) return;
 
         if (event.isCancelled())
             return;

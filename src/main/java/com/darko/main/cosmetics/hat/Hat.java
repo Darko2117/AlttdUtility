@@ -17,7 +17,7 @@ public class Hat implements CommandExecutor {
         if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.Hat")) return true;
 
         if (!(sender instanceof Player)) {
-            Methods.sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
+            new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
             return true;
         }
 
@@ -25,20 +25,20 @@ public class Hat implements CommandExecutor {
 
         if (player.getInventory().getHelmet() == null) {
             if (player.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
-                Methods.sendConfigMessage(player, "Messages.HatNoItem");
+                new Methods().sendConfigMessage(player, "Messages.HatNoItem");
             } else {
                 player.getInventory().setHelmet(player.getInventory().getItemInMainHand());
                 player.getInventory().setItemInMainHand(null);
-                Methods.sendConfigMessage(player, "Messages.HatEquipped");
+                new Methods().sendConfigMessage(player, "Messages.HatEquipped");
             }
         } else {
             if (player.getInventory().getHelmet().getEnchantments().containsKey(Enchantment.BINDING_CURSE)) {
-                Methods.sendConfigMessage(player, "Messages.HatCurseOfBinding");
+                new Methods().sendConfigMessage(player, "Messages.HatCurseOfBinding");
             } else {
                 ItemStack temp = player.getInventory().getHelmet();
                 player.getInventory().setHelmet(player.getInventory().getItemInMainHand());
                 player.getInventory().setItemInMainHand(temp);
-                Methods.sendConfigMessage(player, "Messages.HatSwapped");
+                new Methods().sendConfigMessage(player, "Messages.HatSwapped");
             }
         }
 

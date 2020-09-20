@@ -39,7 +39,10 @@ public class ConfigSetup {
         BlockItemPickupDisabledMessage("Messages.BlockItemPickupDisabledMessage", "&cBlock item pickup disabled."),
         CrashCommandInvalidUsage("Messages.CrashCommandInvalidUsage", "&cUsage of this command is /crash <player>."),
         CrashCommandOfflinePlayer("Messages.CrashCommandOfflinePlayer", "&cThe player you are trying to crash is offline."),
-        IncorrectUsageSearchLogsCommand("Messages.IncorrectUsageSearchLogsCommand", "&cUsage of this command is /searchlogs <logName> <numberOfDays> <Argument1Name: Argument1> <Argument2Name: Argument2> <Argument3Name: Argument3>... Just follow what tab complete is giving you.");
+        RebootWhitelistKickMessage("Messages.RebootWhitelistKickMessage", "&fThe server is rebooting, you will be able to join shorty."),
+        IncorrectUsageSearchLogsCommand("Messages.IncorrectUsageSearchLogsCommand", "&cUsage of this command is /searchlogs <normal/special>."),
+        IncorrectUsageSearchNormalLogsCommand("Messages.IncorrectUsageSearchNormalLogsCommand", "&cUsage of this command is /searchlogs <normal> <day> <search-string>."),
+        IncorrectUsageSearchSpecialLogsCommand("Messages.IncorrectUsageSearchSpecialLogsCommand", "&cUsage of this command is /searchlogs <logName> <numberOfDays> <Argument1Name: Argument1> <Argument2Name: Argument2> <Argument3Name: Argument3>... Just follow what tab complete is giving you or check out the drive document.");
 
         private final String path;
         private final String message;
@@ -77,7 +80,11 @@ public class ConfigSetup {
         toggles.add("ServerMsgCommand");
         toggles.add("CrashCommand");
         toggles.add("SpawnLimiter");
-        toggles.add("SearchLogsCommand");
+        toggles.add("SearchNormalLogsCommand");
+        toggles.add("SearchSpecialLogsCommand");
+        toggles.add("InvisibleItemFrames");
+        toggles.add("InvisibleItemFramesCommand");
+        toggles.add("RebootWhitelist");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) config.set("FeatureToggles." + string, true);
@@ -209,7 +216,12 @@ public class ConfigSetup {
 
         if (!config.contains("SearchLogs")) {
 
+            List<String> blacklistedStrings = new ArrayList<>();
+            blacklistedStrings.add("seed");
+
             config.set("SearchLogs.OutputPath", new File(Main.getInstance().getDataFolder() + "/search-output/").getAbsolutePath());
+            config.set("SearchLogs.MaxFileSizeWithoutCompression", 8);
+            config.set("SearchLogs.NormalSearchBlacklistedStrings", blacklistedStrings);
 
             Main.getInstance().getLogger().info("SearchLogs path not found in the config, creating it now.");
 
@@ -228,6 +240,22 @@ public class ConfigSetup {
             config.set("Database.password", "");
 
             Main.getInstance().getLogger().info("Database info not found in the config, creating it now.");
+
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
+        // RebootWhitelist
+        if (!config.contains("RebootWhitelist")) {
+
+            List<String> commandsOnEnable = new ArrayList<>();
+            commandsOnEnable.add("mpdb saveandkick");
+
+            config.set("RebootWhitelist.CommandsOnEnable", commandsOnEnable);
+            config.set("RebootWhitelist.DisableTimeAfterBoot", 15);
+            config.set("RebootWhitelist.Enabled", false);
+
+            Main.getInstance().getLogger().info("RebootWhitelist info not found in the config, creating it now.");
 
         }
 

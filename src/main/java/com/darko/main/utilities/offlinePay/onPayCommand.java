@@ -15,6 +15,7 @@ public class onPayCommand implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPayCommands(PlayerCommandPreprocessEvent event) {
 
+        if(event.isCancelled()) return;
         if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.BlockOfflinePay")) return;
 
         Player player = event.getPlayer();
@@ -29,7 +30,7 @@ public class onPayCommand implements Listener {
                 name.reverse();
                 if (!onlineChecker(name.toString())) {
                     event.setCancelled(true);
-                    Methods.sendConfigMessage(player, "Messages.OfflinePlayerPayment");
+                    new Methods().sendConfigMessage(player, "Messages.OfflinePlayerPayment");
                 }
             } else if (command.startsWith("/cmi:cmi pay ")) {
                 StringBuilder name = new StringBuilder(command);
@@ -39,7 +40,7 @@ public class onPayCommand implements Listener {
                 name.reverse();
                 if (!onlineChecker(name.toString())) {
                     event.setCancelled(true);
-                    Methods.sendConfigMessage(player, "Messages.OfflinePlayerPayment");
+                    new Methods().sendConfigMessage(player, "Messages.OfflinePlayerPayment");
                 }
             } else if (command.startsWith("/cmi pay ")) {
                 StringBuilder name = new StringBuilder(command);
@@ -49,7 +50,7 @@ public class onPayCommand implements Listener {
                 name.reverse();
                 if (!onlineChecker(name.toString())) {
                     event.setCancelled(true);
-                    Methods.sendConfigMessage(player, "Messages.OfflinePlayerPayment");
+                    new Methods().sendConfigMessage(player, "Messages.OfflinePlayerPayment");
                 }
             } else if (command.startsWith("/cmi:cmi money pay ")) {
                 StringBuilder name = new StringBuilder(command);
@@ -59,7 +60,7 @@ public class onPayCommand implements Listener {
                 name.reverse();
                 if (!onlineChecker(name.toString())) {
                     event.setCancelled(true);
-                    Methods.sendConfigMessage(player, "Messages.OfflinePlayerPayment");
+                    new Methods().sendConfigMessage(player, "Messages.OfflinePlayerPayment");
                 }
             } else if (command.startsWith("/cmi money pay ")) {
                 StringBuilder name = new StringBuilder(command);
@@ -69,7 +70,7 @@ public class onPayCommand implements Listener {
                 name.reverse();
                 if (!onlineChecker(name.toString())) {
                     event.setCancelled(true);
-                    Methods.sendConfigMessage(player, "Messages.OfflinePlayerPayment");
+                    new Methods().sendConfigMessage(player, "Messages.OfflinePlayerPayment");
                 }
             } else if (command.startsWith("/pay ")) {
                 StringBuilder name = new StringBuilder(command);
@@ -79,7 +80,7 @@ public class onPayCommand implements Listener {
                 name.reverse();
                 if (!onlineChecker(name.toString())) {
                     event.setCancelled(true);
-                    Methods.sendConfigMessage(player, "Messages.OfflinePlayerPayment");
+                    new Methods().sendConfigMessage(player, "Messages.OfflinePlayerPayment");
                 }
             }
         }

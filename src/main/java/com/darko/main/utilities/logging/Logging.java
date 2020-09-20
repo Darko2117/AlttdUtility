@@ -50,10 +50,8 @@ public class Logging {
         directories.add("search-output");
         directories.add("temporary-files");
 
-        for (String directory : directories) {
-            if(!new File(Main.getInstance().getDataFolder() + "/" + directory).mkdir())
-                Main.getInstance().getLogger().warning("Something failed during the creation of the directory " + directory);
-        }
+        for (String directory : directories)
+            new File(Main.getInstance().getDataFolder() + "/" + directory).mkdir();
 
         for (Map.Entry<String, String> entry : logNamesAndConfigPaths.entrySet()) {
             Logging.WriteToFile(entry.getKey(), "");
@@ -77,13 +75,17 @@ public class Logging {
 
             File log = new File(Main.getInstance().getDataFolder() + "/logs/" + logName);
 
-            if (log.getName().startsWith(Methods.getDateString())) continue;
+            if (log.getName().startsWith(new Methods().getDateString())) continue;
 
-            if (Methods.compressFile(log.getAbsolutePath(), log.getAbsolutePath().replace("\\logs\\", "\\compressed-logs\\").replace("/logs/", "/compressed-logs/").concat(".gz"))) {
-                if (!log.delete())
-                    Main.getInstance().getLogger().warning("Something failed during deletion of the file " + log.getAbsolutePath());
-            } else {
-                Main.getInstance().getLogger().warning("Something failed during file compression of the file " + log.getAbsolutePath());
+            try {
+                if (new Methods().compressFile(log.getAbsolutePath(), log.getAbsolutePath().replace("\\logs\\", "\\compressed-logs\\").replace("/logs/", "/compressed-logs/").concat(".gz"))) {
+                    if (!log.delete())
+                        Main.getInstance().getLogger().warning("Something failed during deletion of the file " + log.getAbsolutePath());
+                } else {
+                    Main.getInstance().getLogger().warning("Something failed during file compression of the file " + log.getAbsolutePath());
+                }
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
             }
 
         }
@@ -104,9 +106,9 @@ public class Logging {
 
                 if (numberOfLogsToKeepFromConfig == 0) throw new Throwable();
 
-                Integer day = Methods.getDateValuesFromString(fileName.substring(0, 10))[0];
-                Integer month = Methods.getDateValuesFromString(fileName.substring(0, 10))[1];
-                Integer year = Methods.getDateValuesFromString(fileName.substring(0, 10))[2];
+                Integer day = new Methods().getDateValuesFromStringDDMMYYYY(fileName.substring(0, 10))[0];
+                Integer month = new Methods().getDateValuesFromStringDDMMYYYY(fileName.substring(0, 10))[1];
+                Integer year = new Methods().getDateValuesFromStringDDMMYYYY(fileName.substring(0, 10))[2];
                 LocalDate fileDateLD = LocalDate.of(year, month, day);
 
                 Integer epochDayOfFileCreation = Math.toIntExact(fileDateLD.toEpochDay());
@@ -114,8 +116,8 @@ public class Logging {
 
                 if (epochDayOfFileCreation + numberOfLogsToKeepFromConfig < epochDayRightNow) {
 
-                    if(file.delete())
-                    Main.getInstance().getLogger().info(file.getName() + " deleted.");
+                    if (file.delete())
+                        Main.getInstance().getLogger().info(file.getName() + " deleted.");
                     else
                         Main.getInstance().getLogger().warning("Something failed during deletion of file " + file.getAbsolutePath());
                 }
@@ -159,7 +161,7 @@ public class Logging {
         new BukkitRunnable() {
             public void run() {
                 try {
-                    String logPath = "/logs/" + Methods.getDateString() + "-" + logName + ".txt";
+                    String logPath = "/logs/" + new Methods().getDateString() + "-" + logName + ".txt";
                     FileWriter writer = new FileWriter(Main.getInstance().getDataFolder() + logPath, true);
                     writer.write(message);
                     if (!message.equals("")) writer.write("\n");

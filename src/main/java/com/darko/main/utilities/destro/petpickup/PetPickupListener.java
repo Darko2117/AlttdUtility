@@ -14,6 +14,7 @@ public class PetPickupListener implements Listener {
     @EventHandler
     public void onPetPickup(MyPetPickupItemEvent event) {
 
+        if(event.isCancelled()) return;
         if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.BlockPetPickupInClaimWithoutContainerTrust")) return;
 
         if (event.isCancelled())

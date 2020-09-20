@@ -1,6 +1,7 @@
 package com.darko.main.register;
 
 import com.darko.main.API.APIs;
+import com.darko.main.cosmetics.invisibleItemFrame.InvisibleItemFrame;
 import com.darko.main.database.Database;
 import com.darko.main.utilities.atPlayers.NameInChatNotification;
 import com.darko.main.utilities.crash.Crash;
@@ -16,6 +17,7 @@ import com.darko.main.utilities.logging.LoggingSearch;
 import com.darko.main.utilities.playerList.PlayerList;
 import com.darko.main.utilities.prefixes.RemovePrefix;
 import com.darko.main.utilities.prefixes.SetPrefix;
+import com.darko.main.utilities.rebootWhitelist.RebootWhitelist;
 import com.darko.main.utilities.reload.ReloadCommand;
 import com.darko.main.utilities.spawnLimiter.SpawnLimiter;
 import org.bukkit.event.Listener;
@@ -35,6 +37,7 @@ import com.darko.main.utilities.servermsg.Servermsg;
 public class Register extends JavaPlugin {
 
     public static void registerEvents() {
+
         registerEvents(
                 new onEntityInteractWithLead(),
                 new onPayCommand(),
@@ -47,7 +50,9 @@ public class Register extends JavaPlugin {
                 new NameInChatNotification(),
                 new Database(),
                 new Chair(),
-                new LoggingNoAPI()
+                new LoggingNoAPI(),
+                new InvisibleItemFrame(),
+                new RebootWhitelist()
         );
 
         if (APIs.MyPetFound) {
@@ -72,6 +77,7 @@ public class Register extends JavaPlugin {
     }
 
     public static void registerCommands() {
+
         Main.getInstance().getCommand("autofix").setExecutor(new AutoFix());
         Main.getInstance().getCommand("blockitempickup").setExecutor(new ItemPickup());
         Main.getInstance().getCommand("hat").setExecutor(new Hat());
@@ -82,9 +88,12 @@ public class Register extends JavaPlugin {
         Main.getInstance().getCommand("kickfrombungee").setExecutor(new KickFromBungeeCommand());
         Main.getInstance().getCommand("crash").setExecutor(new Crash());
         Main.getInstance().getCommand("searchlogs").setExecutor(new LoggingSearch());
+        Main.getInstance().getCommand("invisitemframes").setExecutor(new InvisibleItemFrame());
+        Main.getInstance().getCommand("rebootwhitelist").setExecutor(new RebootWhitelist());
 
         Main.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         Main.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());
+        Main.getInstance().getCommand("rebootwhitelist").setTabCompleter(new RebootWhitelist());
 
         Main.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(Main.getInstance(), "BungeeCord");
 
@@ -102,5 +111,7 @@ public class Register extends JavaPlugin {
         if (APIs.WorldGuardFound) {
             Flags.FlagsEnable();
         }
+
     }
+
 }

@@ -5,6 +5,7 @@ import com.darko.main.utilities.logging.LoggingNoAPI;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -21,7 +22,7 @@ public class SpawnLimiter implements Listener {
     static HashMap<EntityType, Integer> spawnLimit = new HashMap<>();
     static HashMap<EntityType, List<Location>> spawnLocations = new HashMap<>();
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntitySpawn(EntitySpawnEvent event) {
 
         if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.SpawnLimiter")) return;
@@ -68,7 +69,7 @@ public class SpawnLimiter implements Listener {
 
     }
 
-    public static void reloadLimitedEntities() {
+    public static void reload() {
 
         limitedEntities.clear();
         radiusLimit.clear();

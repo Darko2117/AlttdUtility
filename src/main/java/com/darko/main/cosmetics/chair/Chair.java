@@ -26,7 +26,9 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import com.darko.main.Main;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -56,12 +58,12 @@ public class Chair implements CommandExecutor, Listener {
         if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.Chair")) return true;
 
         if (!(sender instanceof Player)) {
-            Methods.sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
+            new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
             return true;
         }
 
         if (Database.connection == null) {
-            Methods.sendConfigMessage(sender, "Messages.NoDatabaseConnectionMessage");
+            new Methods().sendConfigMessage(sender, "Messages.NoDatabaseConnectionMessage");
             return true;
         }
 
@@ -84,13 +86,13 @@ public class Chair implements CommandExecutor, Listener {
 
                         statement = "UPDATE users SET chair_enabled = true WHERE UUID = '" + uuid + "';";
                         Database.connection.prepareStatement(statement).executeUpdate();
-                        Methods.sendConfigMessage(player, "Messages.ChairEnabled");
+                        new Methods().sendConfigMessage(player, "Messages.ChairEnabled");
 
                     } else {
 
                         statement = "UPDATE users SET chair_enabled = false WHERE UUID = '" + uuid + "';";
                         Database.connection.prepareStatement(statement).executeUpdate();
-                        Methods.sendConfigMessage(player, "Messages.ChairDisabled");
+                        new Methods().sendConfigMessage(player, "Messages.ChairDisabled");
 
                     }
 
@@ -106,9 +108,11 @@ public class Chair implements CommandExecutor, Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onRightClick(PlayerInteractEvent event) {
 
+        if (event.useInteractedBlock().equals(Event.Result.DENY)) return;
+        if (event.useItemInHand().equals(Event.Result.DENY)) return;
         if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.Chair")) return;
 
         Player player = event.getPlayer();
@@ -163,9 +167,10 @@ public class Chair implements CommandExecutor, Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBreak(BlockBreakEvent event) {
 
+        if (event.isCancelled()) return;
         if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.Chair")) return;
 
         if (event.isCancelled()) return;
@@ -180,7 +185,7 @@ public class Chair implements CommandExecutor, Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onChunkLoad(ChunkLoadEvent event) {
 
         if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.Chair")) return;
@@ -206,9 +211,10 @@ public class Chair implements CommandExecutor, Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onDismount(EntityDismountEvent event) {
 
+        if (event.isCancelled()) return;
         if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.Chair")) return;
 
         Entity dismounted = event.getDismounted();
@@ -237,7 +243,7 @@ public class Chair implements CommandExecutor, Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerLeave(PlayerQuitEvent event) {
 
         if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.Chair")) return;
@@ -254,9 +260,10 @@ public class Chair implements CommandExecutor, Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onTeleportCommand(PlayerCommandPreprocessEvent event) {
 
+        if (event.isCancelled()) return;
         if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.Chair")) return;
 
         Player player = event.getPlayer();
@@ -339,7 +346,7 @@ public class Chair implements CommandExecutor, Listener {
 
         for (Material material : bannedMaterialsBelow) {
             if (material.equals(blockBelowMaterial)) {
-                Methods.sendConfigMessage(player, "Messages.InvalidChairBlock");
+                new Methods().sendConfigMessage(player, "Messages.InvalidChairBlock");
                 return false;
             }
         }
@@ -349,7 +356,7 @@ public class Chair implements CommandExecutor, Listener {
             }
         }
 
-        Methods.sendConfigMessage(player, "Messages.InvalidChairBlock");
+        new Methods().sendConfigMessage(player, "Messages.InvalidChairBlock");
         return false;
 
     }
@@ -387,7 +394,7 @@ public class Chair implements CommandExecutor, Listener {
         if (query.testState(blockLocation, localPlayer, com.darko.main.utilities.flags.Flags.SIT)) {
             return true;
         } else {
-            Methods.sendConfigMessage(player, "Messages.ChairNoRegionPerm");
+            new Methods().sendConfigMessage(player, "Messages.ChairNoRegionPerm");
             return false;
         }
 

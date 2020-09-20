@@ -1,11 +1,8 @@
 package com.darko.main;
 
-import com.darko.main.config.ConfigSetup;
-import com.darko.main.database.Database;
-import com.darko.main.utilities.logging.Logging;
-import com.darko.main.API.APIs;
 import com.darko.main.register.Register;
-import com.darko.main.utilities.spawnLimiter.SpawnLimiter;
+import com.darko.main.utilities.rebootWhitelist.RebootWhitelist;
+import com.darko.main.utilities.reload.ReloadCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
@@ -20,24 +17,17 @@ public class Main extends JavaPlugin {
         instance = this;
         Main.getInstance().getLogger().info("--------------------------------------------------");
 
-        Main.getInstance().saveDefaultConfig();
-
-        Logging.initiate();
-
-        ConfigSetup.configSetup();
-
-        SpawnLimiter.reloadLimitedEntities();
-
-        APIs.APIConnect();
+        ReloadCommand.reload();
 
         Register.registerEvents();
 
         Register.registerCommands();
 
-        Database.initiate();
+        RebootWhitelist.disableAfterBoot();
 
         Main.getInstance().getLogger().info("Utility plugin started...");
         Main.getInstance().getLogger().info("--------------------------------------------------");
+
     }
 
 }

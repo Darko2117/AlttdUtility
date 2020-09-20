@@ -53,7 +53,7 @@ public class Servermsg implements CommandExecutor {
 
             } else {
 
-                Methods.sendConfigMessage(sender, "Messages.ServermsgInvalidUsage");
+            new Methods().sendConfigMessage(sender, "Messages.ServermsgInvalidUsage");
 
             }
 

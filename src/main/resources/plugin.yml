@@ -33,3 +33,7 @@ commands:
     permission: utility.crash
   searchlogs:
     permission: utility.searchlogs
+  invisitemframes:
+    permission: utility.invisitemframes
+  rebootwhitelist:
+    permission: utility.rebootwhitelist

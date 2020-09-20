@@ -17,6 +17,7 @@ public class DamageListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDamage(EntityDamageByEntityEvent event) {
 
+        if(event.isCancelled()) return;
         if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.BlockAnimalDamageInClaimWithoutTrust")) return;
 
         if (event.isCancelled())

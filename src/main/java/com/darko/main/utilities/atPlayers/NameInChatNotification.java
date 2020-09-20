@@ -7,16 +7,18 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import com.gmail.nossr50.api.ChatAPI;
 
 public class NameInChatNotification implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onChat(AsyncPlayerChatEvent event) {
 
-        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.ChatAtPlayers")) return;
+        if (event.isCancelled()) return;
+        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.ChatAtPlayers")) return;
 
         StringBuilder message = new StringBuilder(event.getMessage());
 
@@ -45,4 +47,5 @@ public class NameInChatNotification implements Listener {
         event.setMessage(message.toString());
 
     }
+
 }

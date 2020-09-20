@@ -25,7 +25,7 @@ public class Cooldown implements CommandExecutor, TabCompleter {
         if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.CooldownCommand")) return true;
 
         if (!(sender instanceof Player)) {
-            Methods.sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
+            new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
             return true;
         }
 
