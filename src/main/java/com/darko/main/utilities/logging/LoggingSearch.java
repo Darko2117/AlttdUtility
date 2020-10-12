@@ -2,7 +2,6 @@ package com.darko.main.utilities.logging;
 
 import com.darko.main.Main;
 import com.darko.main.other.Methods;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -77,6 +76,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
                         String searchString = "";
                         for (Integer i = 2; i < args.length; i++) {
+                            if (args[i].equals("-silent")) continue;
                             if (!searchString.isEmpty())
                                 searchString = searchString.concat(" ");
                             searchString = searchString.concat(args[i]);
@@ -86,7 +86,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         List<String> blacklistedStrings = Main.getInstance().getConfig().getStringList("SearchLogs.NormalSearchBlacklistedStrings");
 
                         //Getting a list of all the log files.
-                        String logsDirectoryPath = Bukkit.getServer().getWorldContainer().getAbsolutePath().substring(0, Bukkit.getServer().getWorldContainer().getAbsolutePath().length() - 2) + "/logs/";
+                        String logsDirectoryPath = new File(".").getAbsolutePath() + "/logs/";
                         List<File> filesToRead = new ArrayList<>(Arrays.asList(new File(logsDirectoryPath).listFiles()));
 
                         //Removing from that list all the ones that aren't in the defined time limit.
@@ -127,6 +127,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         //Reloading the list of files that need to be read with the files from /temporary-files/.
                         filesToRead.clear();
                         filesToRead.addAll(Arrays.asList(new File(Main.getInstance().getDataFolder() + "/temporary-files").listFiles()));
+                        filesToRead.sort(Comparator.naturalOrder());
 
                         String serverName = Main.getInstance().getDataFolder().getAbsolutePath().replace("\\", "/");
                         try {
@@ -164,14 +165,14 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                             lineReader:
                             while ((line = bufferedReader.readLine()) != null) {
 
+                                if (!line.toLowerCase().matches("(.*)" + searchString + "(.*)")) continue lineReader;
+
                                 for (String s : blacklistedStrings) {
                                     if (line.toLowerCase().contains(s)) {
                                         writer.write(f.getName() + ":" + "This line contained a blacklisted string. Skipping it." + "\n");
                                         continue lineReader;
                                     }
                                 }
-
-                                if (!line.toLowerCase().matches("(.*)" + searchString + "(.*)")) continue lineReader;
 
                                 //Writes only those lines which contain the provided search string, it skips over the rest.
                                 writer.write(f.getName() + ":" + line + "\n");
@@ -202,7 +203,11 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         tempOutputFilePathString = tempOutputFilePathString.substring(tempOutputFilePathString.lastIndexOf("/") + 1);
                         tempOutputFilePathString = Main.getInstance().getConfig().getString("SearchLogs.OutputPath") + "/" + tempOutputFilePathString;
 
-                        new Methods().copyPasteFile(outputFile, (new File(tempOutputFilePathString)));
+                        if (outputFile.length() != 0)
+                            new Methods().copyPasteFile(outputFile, (new File(tempOutputFilePathString)));
+                        else {
+                            sender.sendMessage(ChatColor.RED + "The results file is empty, not sending it.");
+                        }
 
                         Long endingTime = System.currentTimeMillis();
                         Long totalTime = endingTime - startingTime;
@@ -225,6 +230,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         inUse = false;
 
                     } catch (Throwable throwable) {
+                        new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchNormalLogsCommand");
                         throwable.printStackTrace();
                         inUse = false;
                     }
@@ -287,9 +293,30 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         }
 
                         HashMap<String, String> arguments = new HashMap<>();
-                        for (Integer i = 3; i < args.length; i += 2) {
-                            if (!args[i].equals("-silent") && !args[i + 1].equals("-silent"))
-                                arguments.put(args[i].replace(":", ""), args[i + 1]);
+
+                        for (Integer i = 3; i < args.length; i++) {
+
+                            String argumentKey;
+                            String argumentValues = "";
+
+                            if (args[i].toLowerCase().equals("-silent")) continue;
+                            if (!args[i].contains(":")) continue;
+
+                            argumentKey = args[i].replace(":", "");
+
+                            for (Integer j = i + 1; j < args.length; j++) {
+
+                                if (args[j].toLowerCase().equals("-silent")) break;
+                                if (args[j].contains(":")) break;
+
+                                if (!argumentValues.isEmpty())
+                                    argumentValues = argumentValues.concat(" ");
+                                argumentValues = argumentValues.concat(args[j]);
+
+                            }
+
+                            arguments.put(argumentKey, argumentValues);
+
                         }
 
                         //Getting a list of all the files with the correct log name from /logs/ and /compressed-logs/.
@@ -348,6 +375,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         //Reloading the list of files that need to be read with the files from /temporary-files/.
                         filesToRead.clear();
                         filesToRead.addAll(Arrays.asList(new File(Main.getInstance().getDataFolder() + "/temporary-files").listFiles()));
+                        filesToRead.sort(Comparator.naturalOrder());
 
                         String serverName = Main.getInstance().getDataFolder().getAbsolutePath().replace("\\", "/");
                         try {
@@ -384,6 +412,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         FileWriter writer = new FileWriter(outputFile, true);
                         writer.write("");
 
+                        String errorReadLines = "";
+
                         for (File f : filesToRead) {
 
                             BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
@@ -391,6 +421,11 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
                             lineReader:
                             while ((line = bufferedReader.readLine()) != null) {
+
+                                if (!line.startsWith("|") || !line.endsWith("|")) {
+                                    Main.getInstance().getLogger().warning("Error reading line " + line);
+                                    continue lineReader;
+                                }
 
                                 String lineCopy = line;
                                 HashMap<String, String> lineArguments = new HashMap<>();
@@ -411,12 +446,17 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                                     }
                                 }
 
-                                for (Map.Entry<String, String> inputArguments : arguments.entrySet()) {
+                                try {
+                                    for (Map.Entry<String, String> inputArguments : arguments.entrySet()) {
 
-                                    if (!lineArguments.get(inputArguments.getKey()).toLowerCase().contains(inputArguments.getValue().toLowerCase())) {
-                                        continue lineReader;
+                                        if (!lineArguments.get(inputArguments.getKey()).toLowerCase().contains(inputArguments.getValue().toLowerCase())) {
+                                            continue lineReader;
+                                        }
+
                                     }
-
+                                } catch (Throwable throwable) {
+                                    Main.getInstance().getLogger().warning("Error reading line " + line);
+                                    errorReadLines = errorReadLines.concat("Encountered an error while reading the line, probably doesn't contain the searched arguments:" + line + "\n");
                                 }
 
                                 //Writes only those lines which contain all the provided arguments, it skips over the rest.
@@ -427,6 +467,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                             bufferedReader.close();
 
                         }
+
+                        writer.write(errorReadLines);
 
                         writer.close();
 
@@ -448,7 +490,11 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         tempOutputFilePathString = tempOutputFilePathString.substring(tempOutputFilePathString.lastIndexOf("/") + 1);
                         tempOutputFilePathString = Main.getInstance().getConfig().getString("SearchLogs.OutputPath") + "/" + tempOutputFilePathString;
 
-                        new Methods().copyPasteFile(outputFile, (new File(tempOutputFilePathString)));
+                        if (outputFile.length() != 0)
+                            new Methods().copyPasteFile(outputFile, (new File(tempOutputFilePathString)));
+                        else {
+                            sender.sendMessage(ChatColor.RED + "The results file is empty, not sending it.");
+                        }
 
                         Long endingTime = System.currentTimeMillis();
                         Long totalTime = endingTime - startingTime;
@@ -471,6 +517,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         inUse = false;
 
                     } catch (Throwable throwable) {
+                        new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchSpecialLogsCommand");
                         throwable.printStackTrace();
                         inUse = false;
                     }
@@ -486,57 +533,18 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 
-        if (args.length == 1) {
+        try {
 
-            List<String> choices = new ArrayList<>();
-            choices.add("normal");
-            choices.add("special");
+            if (args.length == 1) {
 
-            List<String> completions = new ArrayList<>();
-            for (String s : choices) {
-                if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
-                    completions.add(s);
-                }
-            }
-
-            return completions;
-
-        }
-
-        if (args[0].toLowerCase().equals("special")) {
-
-            if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.SearchSpecialLogsCommand")) return null;
-
-            if (args.length == 2) {
-
-                String argument = args[1];
-
-                if (argument.contains(",")) argument = argument.substring(argument.lastIndexOf(",") + 1);
-
-                List<String> logNames = new ArrayList<>();
-                for (Map.Entry<String, String> entry : Logging.logNamesAndConfigPaths.entrySet()) {
-                    logNames.add(entry.getKey());
-                }
+                List<String> choices = new ArrayList<>();
+                choices.add("normal");
+                choices.add("special");
 
                 List<String> completions = new ArrayList<>();
-                for (String name : logNames) {
-                    if (name.startsWith(argument)) {
-                        completions.add(args[1].substring(0, args[1].lastIndexOf(argument)) + name);
-                    }
-                }
-
-                return completions;
-
-            } else if (args.length > 3 && args.length % 2 == 0) {
-
-                String logNameArgument = args[1];
-                if (logNameArgument.contains(","))
-                    logNameArgument = logNameArgument.substring(logNameArgument.lastIndexOf(",") + 1);
-
-                List<String> completions = new ArrayList<>();
-                for (String argument : getArgumentListFromLogName(logNameArgument)) {
-                    if (argument.toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
-                        completions.add(argument);
+                for (String s : choices) {
+                    if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
+                        completions.add(s);
                     }
                 }
 
@@ -544,6 +552,51 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             }
 
+            if (args[0].toLowerCase().equals("special")) {
+
+                if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.SearchSpecialLogsCommand")) return null;
+
+                if (args.length == 2) {
+
+                    String argument = args[1];
+
+                    if (argument.contains(",")) argument = argument.substring(argument.lastIndexOf(",") + 1);
+
+                    List<String> logNames = new ArrayList<>();
+                    for (Map.Entry<String, String> entry : Logging.logNamesAndConfigPaths.entrySet()) {
+                        logNames.add(entry.getKey());
+                    }
+
+                    List<String> completions = new ArrayList<>();
+                    for (String name : logNames) {
+                        if (name.startsWith(argument)) {
+                            completions.add(args[1].substring(0, args[1].lastIndexOf(argument)) + name);
+                        }
+                    }
+
+                    return completions;
+
+                } else if (args.length > 3 && args.length % 2 == 0) {
+
+                    String logNameArgument = args[1];
+                    if (logNameArgument.contains(","))
+                        logNameArgument = logNameArgument.substring(logNameArgument.lastIndexOf(",") + 1);
+
+                    List<String> completions = new ArrayList<>();
+                    for (String argument : getArgumentListFromLogName(logNameArgument)) {
+                        if (argument.toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
+                            completions.add(argument);
+                        }
+                    }
+
+                    return completions;
+
+                }
+
+            }
+
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
 
         return null;

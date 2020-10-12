@@ -99,11 +99,14 @@ public class InvisibleItemFrame implements Listener, CommandExecutor {
 
         if (!event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.DIAMOND)) return;
 
+        Boolean takeDiamond = itemFrame.isVisible();
+
         Player player = event.getPlayer();
 
         itemFrame.setVisible(!itemFrame.isVisible());
 
-        player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+        if (takeDiamond)
+            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
 
         event.setCancelled(true);
 

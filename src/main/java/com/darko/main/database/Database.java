@@ -21,7 +21,7 @@ public class Database implements Listener {
 
     public static Connection connection = null;
 
-    public static List<Player> chairEnabledPlayers = new ArrayList<>();
+//    public static List<Player> chairEnabledPlayers = new ArrayList<>();
     public static List<Player> autofixEnabledPlayers = new ArrayList<>();
     public static List<Player> blockItemPickupEnabledPlayers = new ArrayList<>();
 
@@ -98,10 +98,9 @@ public class Database implements Listener {
 
                     if (!rs.next()) {
 
-                        statement = "INSERT INTO users(UUID, Username, chair_enabled, autofix_enabled, block_item_pickup_enabled) VALUES("
+                        statement = "INSERT INTO users(UUID, Username, autofix_enabled, block_item_pickup_enabled) VALUES("
                                 + "'" + uuid + "', "
                                 + "'" + username + "', "
-                                + "false" + ", "
                                 + "false" + ", "
                                 + "false"
                                 + ");";
@@ -168,13 +167,13 @@ public class Database implements Listener {
             ResultSet rs;
             String statement;
 
-            statement = "SELECT UUID FROM users WHERE chair_enabled = true;";
-            rs = Database.connection.prepareStatement(statement).executeQuery();
-            chairEnabledPlayers.clear();
-            while (rs.next()) {
-                Player player = Bukkit.getPlayer(UUID.fromString(rs.getString("UUID")));
-                if (Bukkit.getOnlinePlayers().contains(player)) chairEnabledPlayers.add(player);
-            }
+//            statement = "SELECT UUID FROM users WHERE chair_enabled = true;";
+//            rs = Database.connection.prepareStatement(statement).executeQuery();
+//            chairEnabledPlayers.clear();
+//            while (rs.next()) {
+//                Player player = Bukkit.getPlayer(UUID.fromString(rs.getString("UUID")));
+//                if (Bukkit.getOnlinePlayers().contains(player)) chairEnabledPlayers.add(player);
+//            }
 
             statement = "SELECT UUID FROM users WHERE autofix_enabled = true;";
             rs = Database.connection.prepareStatement(statement).executeQuery();
@@ -212,7 +211,7 @@ public class Database implements Listener {
         List<String> columns = new ArrayList<>();
         columns.add("ALTER TABLE users ADD UUID TEXT NOT NULL");
         columns.add("ALTER TABLE users ADD Username TEXT NOT NULL");
-        columns.add("ALTER TABLE users ADD chair_enabled BOOLEAN NOT NULL");
+//        columns.add("ALTER TABLE users ADD chair_enabled BOOLEAN NOT NULL");
         columns.add("ALTER TABLE users ADD autofix_enabled BOOLEAN NOT NULL");
         columns.add("ALTER TABLE users ADD block_item_pickup_enabled BOOLEAN NOT NULL");
         for (String string : columns) {

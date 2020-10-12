@@ -5,8 +5,8 @@ author: Daki
 main: com.darko.main.Main
 api-version: 1.16
 commands:
-  chair:
-    permission: utility.chair
+#  chair:
+#    permission: utility.chair
   hat:
     permission: utility.hat
   servermsg:
@@ -37,3 +37,7 @@ commands:
     permission: utility.invisitemframes
   rebootwhitelist:
     permission: utility.rebootwhitelist
+  sit:
+    permission: utility.sit
+  togglegc:
+    permission: utility.togglegc

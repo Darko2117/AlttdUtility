@@ -3,8 +3,8 @@ package com.darko.main.utilities.reload;
 import com.darko.main.API.APIs;
 import com.darko.main.Main;
 import com.darko.main.config.ConfigSetup;
+import com.darko.main.cosmetics.sit.Sit;
 import com.darko.main.database.Database;
-import com.darko.main.register.Register;
 import com.darko.main.utilities.logging.Logging;
 import com.darko.main.utilities.rebootWhitelist.RebootWhitelist;
 import com.darko.main.utilities.spawnLimiter.SpawnLimiter;
@@ -33,6 +33,8 @@ public class ReloadCommand implements CommandExecutor {
         Main.getInstance().reloadConfig();
 
         SpawnLimiter.reload();
+
+        Sit.startCheckingSeatYaw();
 
         RebootWhitelist.reload();
 

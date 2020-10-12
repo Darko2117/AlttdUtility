@@ -2,6 +2,8 @@ package com.darko.main.register;
 
 import com.darko.main.API.APIs;
 import com.darko.main.cosmetics.invisibleItemFrame.InvisibleItemFrame;
+//import com.darko.main.cosmetics.sit.Sit;
+import com.darko.main.cosmetics.sit.Sit;
 import com.darko.main.database.Database;
 import com.darko.main.utilities.atPlayers.NameInChatNotification;
 import com.darko.main.utilities.crash.Crash;
@@ -9,6 +11,7 @@ import com.darko.main.utilities.deathMessage.DeathMessage;
 import com.darko.main.utilities.destro.claimanimals.DamageListener;
 import com.darko.main.utilities.destro.kickFromBungee.KickFromBungeeCommand;
 import com.darko.main.utilities.flags.*;
+import com.darko.main.utilities.lavaSponge.LavaSponge;
 import com.darko.main.utilities.logging.LoggingCrazyCrates;
 import com.darko.main.utilities.logging.LoggingGriefPrevention;
 import com.darko.main.utilities.itemPickup.ItemPickup;
@@ -20,11 +23,11 @@ import com.darko.main.utilities.prefixes.SetPrefix;
 import com.darko.main.utilities.rebootWhitelist.RebootWhitelist;
 import com.darko.main.utilities.reload.ReloadCommand;
 import com.darko.main.utilities.spawnLimiter.SpawnLimiter;
+import com.darko.main.utilities.toggleGC.ToggleGC;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.darko.main.Main;
-import com.darko.main.cosmetics.chair.Chair;
 import com.darko.main.cosmetics.hat.Hat;
 import com.darko.main.utilities.offlinePay.onPayCommand;
 import com.darko.main.utilities.cooldown.Cooldown;
@@ -49,10 +52,12 @@ public class Register extends JavaPlugin {
                 new DeathMessage(),
                 new NameInChatNotification(),
                 new Database(),
-                new Chair(),
+//                new Chair(),
                 new LoggingNoAPI(),
                 new InvisibleItemFrame(),
-                new RebootWhitelist()
+                new RebootWhitelist(),
+                new LavaSponge(),
+                new Sit()
         );
 
         if (APIs.MyPetFound) {
@@ -82,7 +87,7 @@ public class Register extends JavaPlugin {
         Main.getInstance().getCommand("blockitempickup").setExecutor(new ItemPickup());
         Main.getInstance().getCommand("hat").setExecutor(new Hat());
         Main.getInstance().getCommand("servermsg").setExecutor(new Servermsg());
-        Main.getInstance().getCommand("chair").setExecutor(new Chair());
+//        Main.getInstance().getCommand("chair").setExecutor(new Chair());
         Main.getInstance().getCommand("alttdutilityreload").setExecutor(new ReloadCommand());
         Main.getInstance().getCommand("list").setExecutor(new PlayerList());
         Main.getInstance().getCommand("kickfrombungee").setExecutor(new KickFromBungeeCommand());
@@ -90,6 +95,8 @@ public class Register extends JavaPlugin {
         Main.getInstance().getCommand("searchlogs").setExecutor(new LoggingSearch());
         Main.getInstance().getCommand("invisitemframes").setExecutor(new InvisibleItemFrame());
         Main.getInstance().getCommand("rebootwhitelist").setExecutor(new RebootWhitelist());
+        Main.getInstance().getCommand("togglegc").setExecutor(new ToggleGC());
+        Main.getInstance().getCommand("sit").setExecutor(new Sit());
 
         Main.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         Main.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());
