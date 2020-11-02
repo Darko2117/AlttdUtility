@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.*;
 
 import com.darko.main.utilities.logging.Logging;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.darko.main.Main;
@@ -39,7 +40,7 @@ public class ConfigSetup {
         BlockItemPickupDisabledMessage("Messages.BlockItemPickupDisabledMessage", "&cBlock item pickup disabled."),
         CrashCommandInvalidUsage("Messages.CrashCommandInvalidUsage", "&cUsage of this command is /crash <player>."),
         CrashCommandOfflinePlayer("Messages.CrashCommandOfflinePlayer", "&cThe player you are trying to crash is offline."),
-        RebootWhitelistKickMessage("Messages.RebootWhitelistKickMessage", "&fThe server is rebooting, you will be able to join shorty."),
+        RebootWhitelistKickMessage("Messages.RebootWhitelistKickMessage", "&fThe server is rebooting, you will be able to join shortly."),
         IncorrectUsageSearchLogsCommand("Messages.IncorrectUsageSearchLogsCommand", "&cUsage of this command is /searchlogs <normal/special>."),
         IncorrectUsageSearchNormalLogsCommand("Messages.IncorrectUsageSearchNormalLogsCommand", "&cUsage of this command is /searchlogs <normal> <day> <search-string>."),
         IncorrectUsageSearchSpecialLogsCommand("Messages.IncorrectUsageSearchSpecialLogsCommand", "&cUsage of this command is /searchlogs <logName> <numberOfDays> <Argument1Name: Argument1> <Argument2Name: Argument2> <Argument3Name: Argument3>... Just follow what tab complete is giving you or check out the drive document."),
@@ -94,8 +95,10 @@ public class ConfigSetup {
         toggles.add("ToggleGCCommand");
 
         for (String string : toggles) {
-            if (!config.contains("FeatureToggles." + string)) config.set("FeatureToggles." + string, true);
-            Main.getInstance().getLogger().info("FeatureToggles." + string + " not found in the config, creating it now.");
+            if (!config.contains("FeatureToggles." + string)) {
+                config.set("FeatureToggles." + string, true);
+                Main.getInstance().getLogger().info("FeatureToggles." + string + " not found in the config, creating it now.");
+            }
         }
 
         // ----------------------------------------------------------------------------------------------------
@@ -309,6 +312,19 @@ public class ConfigSetup {
         if (!config.contains("RebootWhitelist.Enabled")) {
             config.set("RebootWhitelist.Enabled", false);
             Main.getInstance().getLogger().info("RebootWhitelist.Enabled not found in the config, creating it now.");
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
+        // NumberOfClaimsFlag
+
+        if (!config.contains("NumberOfClaimsFlag.MinNumberOfClaimsToLog")) {
+            config.set("NumberOfClaimsFlag.MinNumberOfClaimsToLog", 40);
+            Main.getInstance().getLogger().info("NumberOfClaimsFlag.MinNumberOfClaimsToLog not found in the config, creating it now.");
+        }
+        if (!config.contains("NumberOfClaimsFlag.ClaimDataDirectory")) {
+            config.set("NumberOfClaimsFlag.ClaimDataDirectory", new File("plugins/GriefPreventionData/ClaimData/").getAbsolutePath());
+            Main.getInstance().getLogger().info("NumberOfClaimsFlag.ClaimDataDirectory not found in the config, creating it now.");
         }
 
         // ----------------------------------------------------------------------------------------------------

@@ -33,8 +33,6 @@ public class LavaSponge implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPlace(BlockPlaceEvent event) {
 
-        Long startTime = System.currentTimeMillis();
-
         if (event.isCancelled()) return;
 
         Block spongeBlock = event.getBlock();
@@ -121,10 +119,6 @@ public class LavaSponge implements Listener {
             block.setType(Material.AIR);
 
         }
-
-        Long endTime = System.currentTimeMillis();
-
-        Main.getInstance().getLogger().info(player.getName() + " used LavaSponge and drained " + (blocksToDelete.size() - 1) + " lava. Took " + (endTime - startTime) + "ms.");
 
     }
 

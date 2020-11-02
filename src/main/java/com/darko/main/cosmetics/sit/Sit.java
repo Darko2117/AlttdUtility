@@ -9,6 +9,7 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
+import me.badbones69.crazycrates.controllers.ParticleEffect;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.*;
@@ -26,7 +27,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.spigotmc.event.entity.EntityDismountEvent;
@@ -40,8 +40,8 @@ public class Sit implements CommandExecutor, Listener {
 
     static HashMap<Location, Entity> aliveSeats = new HashMap<>();
     static String seatName = "There is a 35 character limit on a name tag.";
-    static HashMap<Player, List<Location>> recentLocations = new HashMap<>();
-    static HashMap<Player, Location> lastYawTeleportLocation = new HashMap<>();
+//    static HashMap<Player, List<Location>> recentLocations = new HashMap<>();
+//    static HashMap<Player, Location> lastYawTeleportLocation = new HashMap<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -73,10 +73,14 @@ public class Sit implements CommandExecutor, Listener {
         location.setYaw(player.getLocation().getYaw());
 
         ArmorStand seat = (ArmorStand) Bukkit.getWorld(player.getWorld().getName()).spawnEntity(location, EntityType.ARMOR_STAND);
-        seat.setVisible(false);
-        seat.setInvulnerable(true);
         seat.setCustomName(seatName);
+        seat.setVisible(false);
+        seat.setAI(false);
+        seat.setInvulnerable(true);
         seat.setGravity(false);
+        seat.setCanMove(false);
+        seat.setCanTick(false);
+        seat.setCollidable(false);
         seat.addPassenger(player);
 
         aliveSeats.put(seat.getWorld().getBlockAt(seat.getLocation().clone().add(-0.5, 1.75 - 0.00001, -0.5)).getLocation(), seat);
@@ -101,31 +105,31 @@ public class Sit implements CommandExecutor, Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onChunkLoad(ChunkLoadEvent event) {
-
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
-
-        Entity[] entities = event.getChunk().getEntities();
-
-        for (Entity entity : entities) {
-
-            if (entity.getCustomName() == null) continue;
-            if (!entity.getCustomName().equals(seatName)) continue;
-            if (!entity.getPassengers().isEmpty()) continue;
-
-            for (Map.Entry<Location, Entity> entry : aliveSeats.entrySet()) {
-                if (entry.getValue().equals(entity)) {
-                    aliveSeats.remove(entry.getKey());
-                }
-            }
-            entity.remove();
-
-            Main.getInstance().getLogger().info(entity.getType() + " deleted at " + entity.getLocation() + " with onChunkLoad");
-
-        }
-
-    }
+//    @EventHandler(priority = EventPriority.HIGHEST)
+//    public void onChunkLoad(ChunkLoadEvent event) {
+//
+//        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
+//
+//        Entity[] entities = event.getChunk().getEntities();
+//
+//        for (Entity entity : entities) {
+//
+//            if (entity.getCustomName() == null) continue;
+//            if (!entity.getCustomName().equals(seatName)) continue;
+//            if (!entity.getPassengers().isEmpty()) continue;
+//
+//            for (Map.Entry<Location, Entity> entry : aliveSeats.entrySet()) {
+//                if (entry.getValue().equals(entity)) {
+//                    aliveSeats.remove(entry.getKey());
+//                }
+//            }
+//            entity.remove();
+//
+//            Main.getInstance().getLogger().info(entity.getType() + " deleted at " + entity.getLocation() + " with onChunkLoad");
+//
+//        }
+//
+//    }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDismount(EntityDismountEvent event) {
@@ -310,7 +314,7 @@ public class Sit implements CommandExecutor, Listener {
 
     }
 
-    public static void startCheckingSeatYaw() {
+    public static void startCheckingSeats() {
 
         new BukkitRunnable() {
             @Override
@@ -324,39 +328,47 @@ public class Sit implements CommandExecutor, Listener {
                     if (player.getVehicle().getCustomName() == null) continue;
                     if (!player.getVehicle().getCustomName().equals(seatName)) continue;
 
-                    recentLocations.computeIfAbsent(player, k -> new ArrayList<Location>());
-
-                    recentLocations.get(player).add(player.getLocation());
-                    while (recentLocations.get(player).size() > 3)
-                        recentLocations.get(player).remove(0);
-
-                    if (recentLocations.get(player).size() < 3) continue;
-
-                    if (lastYawTeleportLocation.get(player) == null)
-                        lastYawTeleportLocation.put(player, player.getLocation());
-
-                    if (!recentLocations.get(player).get(0).equals(recentLocations.get(player).get(1))) continue;
-                    if (!recentLocations.get(player).get(1).equals(recentLocations.get(player).get(2))) continue;
-
-                    if (lastYawTeleportLocation.get(player).equals(recentLocations.get(player).get(0))) continue;
-
-                    lastYawTeleportLocation.put(player, player.getLocation());
-
                     ArmorStand seat = (ArmorStand) player.getVehicle();
 
-                    Location changedYaw = seat.getLocation().clone();
-                    changedYaw.setYaw(player.getLocation().getYaw());
+                    seat.setRotation(player.getLocation().getYaw(), seat.getLocation().getPitch());
 
-                    seat.remove();
+                    if (seat.getLocation().getWorld().getBlockAt(seat.getLocation().clone().add(0, 1.75 - 0.00001, 0)).getType().equals(Material.AIR))
+                        seat.eject();
 
-                    seat = (ArmorStand) player.getWorld().spawnEntity(changedYaw, EntityType.ARMOR_STAND);
-                    seat.setVisible(false);
-                    seat.setInvulnerable(true);
-                    seat.setCustomName(seatName);
-                    seat.setGravity(false);
-                    seat.addPassenger(player);
-
-                    aliveSeats.put(seat.getWorld().getBlockAt(seat.getLocation().add(-0.5, 1.75 - 0.00001, -0.5)).getLocation(), seat);
+//                    recentLocations.computeIfAbsent(player, k -> new ArrayList<Location>());
+//
+//                    recentLocations.get(player).add(player.getLocation());
+//                    while (recentLocations.get(player).size() > 3)
+//                        recentLocations.get(player).remove(0);
+//
+//                    if (recentLocations.get(player).size() < 3) continue;
+//
+//                    if (lastYawTeleportLocation.get(player) == null)
+//                        lastYawTeleportLocation.put(player, player.getLocation());
+//
+//                    if (!recentLocations.get(player).get(0).equals(recentLocations.get(player).get(1))) continue;
+//                    if (!recentLocations.get(player).get(1).equals(recentLocations.get(player).get(2))) continue;
+//
+//                    if (lastYawTeleportLocation.get(player).equals(recentLocations.get(player).get(0))) continue;
+//
+//                    lastYawTeleportLocation.put(player, player.getLocation());
+//
+//                    ArmorStand seat = (ArmorStand) player.getVehicle();
+//
+//                    Location changedYaw = seat.getLocation().clone();
+//                    changedYaw.setYaw(player.getLocation().getYaw());
+//
+//                    seat.remove();
+//
+//                    seat = (ArmorStand) player.getWorld().spawnEntity(changedYaw, EntityType.ARMOR_STAND);
+//                    seat.setVisible(false);
+//                    seat.setInvulnerable(true);
+//                    seat.setCustomName(seatName);
+//                    seat.setGravity(false);
+//                    seat.addPassenger(player);
+//                    seat.setCanMove(false);
+//
+//                    aliveSeats.put(seat.getWorld().getBlockAt(seat.getLocation().add(-0.5, 1.75 - 0.00001, -0.5)).getLocation(), seat);
 
                 }
 

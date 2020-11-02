@@ -1,6 +1,7 @@
 package com.darko.main.utilities.flags;
 
 import com.darko.main.Main;
+import com.destroystokyo.paper.event.block.AnvilDamagedEvent;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
@@ -11,8 +12,8 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -108,15 +109,12 @@ public class Flags implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onDamagedAnvilClick(PlayerInteractEvent event) {
+    public void onAnvilDamaged(AnvilDamagedEvent event){
 
-        if (event.useInteractedBlock().equals(Event.Result.DENY)) return;
+        if(event.isCancelled()) return;
         if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags")) return;
 
-        if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
-        if (!event.getClickedBlock().getType().toString().toLowerCase().contains("anvil")) return;
-
-        com.sk89q.worldedit.util.Location location = BukkitAdapter.adapt(event.getClickedBlock().getLocation());
+        com.sk89q.worldedit.util.Location location = BukkitAdapter.adapt(event.getInventory().getLocation());
 
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
         RegionQuery query = container.createQuery();
@@ -124,26 +122,59 @@ public class Flags implements Listener {
 
         if (set.size() != 0) {
 
-            LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(event.getPlayer());
+            Player player = (Player) event.getInventory().getViewers().get(0);
+
+            LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
             RegionContainer container1 = WorldGuard.getInstance().getPlatform().getRegionContainer();
             RegionQuery query1 = container1.createQuery();
 
             if (query1.testState(location, localPlayer, Flags.ANVIL_REPAIR)) {
 
-                String dataString = event.getClickedBlock().getBlockData().getAsString();
-                if (dataString.contains("chipped_")) {
-                    dataString = dataString.replace("chipped_", "");
-                } else if (dataString.contains("damaged_")) {
-                    dataString = dataString.replace("damaged_", "");
-                }
-
-                event.getClickedBlock().setBlockData(Bukkit.createBlockData(dataString));
+                event.setDamageState(AnvilDamagedEvent.DamageState.FULL);
 
             }
 
         }
 
     }
+
+//    @EventHandler(priority = EventPriority.HIGHEST)
+//    public void onDamagedAnvilClick(PlayerInteractEvent event) {
+//
+//        if (event.useInteractedBlock().equals(Event.Result.DENY)) return;
+//        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags")) return;
+//
+//        if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
+//        if (!event.getClickedBlock().getType().toString().toLowerCase().contains("anvil")) return;
+//
+//        com.sk89q.worldedit.util.Location location = BukkitAdapter.adapt(event.getClickedBlock().getLocation());
+//
+//        RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+//        RegionQuery query = container.createQuery();
+//        ApplicableRegionSet set = query.getApplicableRegions(location);
+//
+//        if (set.size() != 0) {
+//
+//            LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(event.getPlayer());
+//            RegionContainer container1 = WorldGuard.getInstance().getPlatform().getRegionContainer();
+//            RegionQuery query1 = container1.createQuery();
+//
+//            if (query1.testState(location, localPlayer, Flags.ANVIL_REPAIR)) {
+//
+//                String dataString = event.getClickedBlock().getBlockData().getAsString();
+//                if (dataString.contains("chipped_")) {
+//                    dataString = dataString.replace("chipped_", "");
+//                } else if (dataString.contains("damaged_")) {
+//                    dataString = dataString.replace("damaged_", "");
+//                }
+//
+//                event.getClickedBlock().setBlockData(Bukkit.createBlockData(dataString));
+//
+//            }
+//
+//        }
+//
+//    }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEnchantingTableClick(PlayerInteractEvent event) {

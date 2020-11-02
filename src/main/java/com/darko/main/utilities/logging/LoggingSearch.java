@@ -148,7 +148,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         outputFilePath = outputFilePath.concat(("-"));
                         outputFilePath = outputFilePath.concat((sender.getName()));
                         outputFilePath = outputFilePath.concat(("-"));
-                        outputFilePath = outputFilePath.concat(String.valueOf(new Random().nextInt(1000000)));
+                        outputFilePath = outputFilePath.concat(String.valueOf(System.currentTimeMillis()));
                         outputFilePath = outputFilePath.concat(silent);
                         outputFilePath = outputFilePath.concat(".txt");
 
@@ -403,7 +403,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         outputFilePath = outputFilePath.concat(("-"));
                         outputFilePath = outputFilePath.concat((sender.getName()));
                         outputFilePath = outputFilePath.concat(("-"));
-                        outputFilePath = outputFilePath.concat(String.valueOf(new Random().nextInt(1000000)));
+                        outputFilePath = outputFilePath.concat(String.valueOf(System.currentTimeMillis()));
                         outputFilePath = outputFilePath.concat(silent);
                         outputFilePath = outputFilePath.concat(".txt");
 
@@ -422,12 +422,13 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                             lineReader:
                             while ((line = bufferedReader.readLine()) != null) {
 
-                                if (!line.startsWith("|") || !line.endsWith("|")) {
-                                    Main.getInstance().getLogger().warning("Error reading line " + line);
+                                String lineCopy = line;
+
+                                if (!lineCopy.startsWith("|") || !lineCopy.endsWith("|")) {
+                                    Main.getInstance().getLogger().warning("Error reading line " + lineCopy);
                                     continue lineReader;
                                 }
 
-                                String lineCopy = line;
                                 HashMap<String, String> lineArguments = new HashMap<>();
 
                                 while (lineCopy.indexOf("|") + 1 != lineCopy.length() && lineCopy.contains(":")) {
@@ -449,7 +450,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                                 try {
                                     for (Map.Entry<String, String> inputArguments : arguments.entrySet()) {
 
-                                        if (!lineArguments.get(inputArguments.getKey()).toLowerCase().contains(inputArguments.getValue().toLowerCase())) {
+                                        if (!lineArguments.containsKey(inputArguments.getKey()) || !lineArguments.get(inputArguments.getKey()).toLowerCase().contains(inputArguments.getValue().toLowerCase())) {
                                             continue lineReader;
                                         }
 
@@ -546,6 +547,30 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                     if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
                         completions.add(s);
                     }
+                }
+
+                return completions;
+
+            }
+
+            if (args.length == 2 && args[0].toLowerCase().equals("normal") && args[1].isEmpty()) {
+
+                List<String> completions = new ArrayList<>();
+
+                for (Integer i = 0; i < 10; i++) {
+                    completions.add(i.toString());
+                }
+
+                return completions;
+
+            }
+
+            if (args.length == 3 && args[0].toLowerCase().equals("special") && args[2].isEmpty()) {
+
+                List<String> completions = new ArrayList<>();
+
+                for (Integer i = 0; i < 10; i++) {
+                    completions.add(i.toString());
                 }
 
                 return completions;
@@ -694,6 +719,24 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             arguments.add("User:");
             arguments.add("InventoryName:");
             arguments.add("ClickedItem:");
+            arguments.add("Location:");
+
+            return arguments;
+
+        } else if (logName.equals("itemsBroken")) {
+
+            arguments.add("Time:");
+            arguments.add("User:");
+            arguments.add("Item:");
+            arguments.add("Location:");
+
+            return arguments;
+
+        } else if (logName.equals("numberOfClaimsNotification")) {
+
+            arguments.add("Time:");
+            arguments.add("User:");
+            arguments.add("NumberOfClaims:");
 
             return arguments;
 

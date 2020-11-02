@@ -27,6 +27,8 @@ public class Logging {
     public static String spawnLimitReachedLogName = "spawnLimitReached";
     public static String pickedUpItemsLogName = "pickedUpItems";
     public static String uiClicksLogName = "uiClicks";
+    public static String itemsBrokenLogName = "itemsBroken";
+    public static String numberOfClaimsNotificationLogName = "numberOfClaimsNotification";
 
     public static void initiate() {
 
@@ -43,6 +45,8 @@ public class Logging {
         logNamesAndConfigPaths.put(spawnLimitReachedLogName, "Logging.SpawnLimitReachedLog");
         logNamesAndConfigPaths.put(pickedUpItemsLogName, "Logging.PickedUpItemsLog");
         logNamesAndConfigPaths.put(uiClicksLogName, "Logging.UIClicksLog");
+        logNamesAndConfigPaths.put(itemsBrokenLogName, "Logging.ItemsBrokenLog");
+        logNamesAndConfigPaths.put(numberOfClaimsNotificationLogName, "Logging.NumberOfClaimsNotification");
 
         List<String> directories = new ArrayList<>();
         directories.add("logs");
@@ -161,11 +165,18 @@ public class Logging {
         new BukkitRunnable() {
             public void run() {
                 try {
+
+                    String messageCopy = message;
+                    messageCopy = messageCopy.replace("\n", "\\n");
+                    if (!messageCopy.equals("")) messageCopy = messageCopy.concat("\n");
+//                    messageCopy = ChatColor.stripColor(messageCopy);
+
                     String logPath = "/logs/" + new Methods().getDateString() + "-" + logName + ".txt";
+
                     FileWriter writer = new FileWriter(Main.getInstance().getDataFolder() + logPath, true);
-                    writer.write(message);
-                    if (!message.equals("")) writer.write("\n");
+                    writer.write(messageCopy);
                     writer.close();
+
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }

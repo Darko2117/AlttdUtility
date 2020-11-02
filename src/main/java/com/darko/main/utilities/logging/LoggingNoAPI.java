@@ -2,16 +2,11 @@ package com.darko.main.utilities.logging;
 
 import com.darko.main.API.APIs;
 import com.darko.main.Main;
-import com.darko.main.other.Methods;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -22,7 +17,6 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.util.Vector;
 
 import java.util.Date;
 
@@ -76,11 +70,10 @@ public class LoggingNoAPI implements Listener {
         String user = event.getPlayer().getName();
 
         String item = event.getItemDrop().getItemStack().toString();
-        if (item.length() > 1000) {
-            item = item.substring(0, 1000);
-            item = item.concat(" Item string too long, ending at 1000 characters.");
-        }
-        item = item.replace("\n", "\\n");
+//        if (item.length() > 1000) {
+//            item = item.substring(0, 1000);
+//            item = item.concat(" Item string too long, ending at 1000 characters.");
+//        }
 
         String location = Logging.getBetterLocationString(event.getItemDrop().getLocation());
 
@@ -118,11 +111,10 @@ public class LoggingNoAPI implements Listener {
                     String user = event.getPlayer().getName();
 
                     String item = event.getPlayer().getInventory().getItemInMainHand().toString();
-                    if (item.length() > 1000) {
-                        item = item.substring(0, 1000);
-                        item = item.concat(" Item string too long, ending at 1000 characters.");
-                    }
-                    item = item.replace("\n", "\\n");
+//                    if (item.length() > 1000) {
+//                        item = item.substring(0, 1000);
+//                        item = item.concat(" Item string too long, ending at 1000 characters.");
+//                    }
 
                     String location = Logging.getBetterLocationString(event.getRightClicked().getLocation());
 
@@ -163,11 +155,10 @@ public class LoggingNoAPI implements Listener {
                 String user = event.getDamager().getName();
 
                 String item = ((ItemFrame) event.getEntity()).getItem().toString();
-                if (item.length() > 1000) {
-                    item = item.substring(0, 1000);
-                    item = item.concat(" Item string too long, ending at 1000 characters.");
-                }
-                item = item.replace("\n", "\\n");
+//                if (item.length() > 1000) {
+//                    item = item.substring(0, 1000);
+//                    item = item.concat(" Item string too long, ending at 1000 characters.");
+//                }
 
                 String location = Logging.getBetterLocationString(event.getEntity().getLocation());
 
@@ -209,11 +200,10 @@ public class LoggingNoAPI implements Listener {
                         String user = event.getPlayer().getName();
 
                         String item = event.getPlayer().getInventory().getItemInMainHand().toString();
-                        if (item.length() > 1000) {
-                            item = item.substring(0, 1000);
-                            item = item.concat(" Item string too long, ending at 1000 characters.");
-                        }
-                        item = item.replace("\n", "\\n");
+//                        if (item.length() > 1000) {
+//                            item = item.substring(0, 1000);
+//                            item = item.concat(" Item string too long, ending at 1000 characters.");
+//                        }
 
                         String message = "";
                         message = message.concat("|");
@@ -250,11 +240,10 @@ public class LoggingNoAPI implements Listener {
         String user = event.getEntity().getName();
 
         String item = event.getItem().getItemStack().toString();
-        if (item.length() > 1000) {
-            item = item.substring(0, 1000);
-            item = item.concat(" Item string too long, ending at 1000 characters.");
-        }
-        item = item.replace("\n", "\\n");
+//        if (item.length() > 1000) {
+//            item = item.substring(0, 1000);
+//            item = item.concat(" Item string too long, ending at 1000 characters.");
+//        }
 
         String location = Logging.getBetterLocationString(event.getItem().getLocation());
 
@@ -328,11 +317,12 @@ public class LoggingNoAPI implements Listener {
         String clickedItem = "";
         if (event.getCurrentItem() != null && !event.getCurrentItem().getType().equals(Material.AIR))
             clickedItem = event.getCurrentItem().toString();
-        if (clickedItem.length() > 1000) {
-            clickedItem = clickedItem.substring(0, 1000);
-            clickedItem = clickedItem.concat(" Item string too long, ending at 1000 characters.");
-        }
-        clickedItem = clickedItem.replace("\n", "\\n");
+//        if (clickedItem.length() > 1000) {
+//            clickedItem = clickedItem.substring(0, 1000);
+//            clickedItem = clickedItem.concat(" Item string too long, ending at 1000 characters.");
+//        }
+
+        String location = Logging.getBetterLocationString(event.getWhoClicked().getLocation());
 
         String message = "";
         message = message.concat("|");
@@ -348,8 +338,44 @@ public class LoggingNoAPI implements Listener {
         message = message.concat("ClickedItem:");
         message = message.concat(clickedItem);
         message = message.concat("|");
+        message = message.concat("Location:");
+        message = message.concat(location);
+        message = message.concat("|");
 
         Logging.WriteToFile(Logging.uiClicksLogName, message);
+
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public static void onPlayerItemBreak(PlayerItemBreakEvent event) {
+
+        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.itemsBrokenLogName) + ".Enabled"))
+            return;
+
+        String time = new Date(System.currentTimeMillis()).toString();
+
+        String user = event.getPlayer().getName();
+
+        String item = event.getBrokenItem().toString();
+
+        String location = Logging.getBetterLocationString(event.getPlayer().getLocation());
+
+        String message = "";
+        message = message.concat("|");
+        message = message.concat("Time:");
+        message = message.concat(time);
+        message = message.concat("|");
+        message = message.concat("User:");
+        message = message.concat(user);
+        message = message.concat("|");
+        message = message.concat("Item:");
+        message = message.concat(item);
+        message = message.concat("|");
+        message = message.concat("Location:");
+        message = message.concat(location);
+        message = message.concat("|");
+
+        Logging.WriteToFile(Logging.itemsBrokenLogName, message);
 
     }
 

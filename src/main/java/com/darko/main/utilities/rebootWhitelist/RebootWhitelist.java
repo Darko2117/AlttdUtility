@@ -64,8 +64,9 @@ public class RebootWhitelist implements CommandExecutor, TabCompleter, Listener 
 
         if (enabled) {
 
-            for (String s : Main.getInstance().getConfig().getStringList("RebootWhitelist.CommandsOnEnable"))
+            for (String s : Main.getInstance().getConfig().getStringList("RebootWhitelist.CommandsOnEnable")) {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s);
+            }
 
             Main.getInstance().getConfig().set("RebootWhitelist.Enabled", true);
             Main.getInstance().saveConfig();

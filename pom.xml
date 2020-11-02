@@ -87,6 +87,13 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/mcMMO.jar</systemPath>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.liteflags</groupId>-->
+<!--            <artifactId>liteflags</artifactId>-->
+<!--            <version>1.0</version>-->
+<!--            <scope>system</scope>-->
+<!--            <systemPath>${project.basedir}/lib/LiteFlags.jar</systemPath>-->
+<!--        </dependency>-->
     </dependencies>
 
 </project>

@@ -23,73 +23,60 @@ public class APIs extends JavaPlugin {
 
     public static void APIConnect() {
 
-        if (GriefPreventionApiCheck() != null) {
+        if (GriefPreventionApiCheck() != null)
             GriefPreventionFound = true;
-        }
 
-        if (WorldGuardApiCheck() != null) {
+        if (WorldGuardApiCheck() != null)
             WorldGuardFound = true;
-        }
 
-        if (LuckPermsApiCheck() != null) {
+        if (LuckPermsApiCheck() != null)
             LuckPermsFound = true;
-        }
 
-        if (MyPetApiCheck() != null) {
+        if (MyPetApiCheck() != null)
             MyPetFound = true;
-        }
 
-        if (CrazyCratesApiCheck() != null) {
+        if (CrazyCratesApiCheck() != null)
             CrazyCratesFound = true;
-        }
 
-        if (mcMMOApiCheck() != null) {
+        if (mcMMOApiCheck() != null)
             mcMMOFound = true;
-        }
 
-        if (GriefPreventionFound) {
-            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "GriefPrevention found!... "
-                    + ConsoleColors.RESET + "Accesstrust is needed for /chair to work in claims. If it's enabled in the config, claim info is getting logged.");
-        } else {
-            Main.getInstance().getLogger().info(ConsoleColors.RED + "GriefPrevention not found!... "
-                    + ConsoleColors.RESET + "/chair will work in claims.");
-        }
 
-        if (WorldGuardFound) {
-            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "WorldGuard found!... "
-                    + ConsoleColors.RESET + "chair-sit custom flag allows players to sit in WG regions.");
-        } else {
-            Main.getInstance().getLogger().info(ConsoleColors.RED + "WorldGuard not found!... " + ConsoleColors.RESET
-                    + "players will be able to sit in all regions.");
-        }
+        if (GriefPreventionFound)
+            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "GriefPrevention found!... " + ConsoleColors.RESET);
+        else
+            Main.getInstance().getLogger().info(ConsoleColors.RED + "GriefPrevention not found!... " + ConsoleColors.RESET);
 
-        if (LuckPermsFound) {
-            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "LuckPerms found!... " + ConsoleColors.RESET
-                    + "/cooldown will show RTP and SuperCrate cooldowns. Prefix commands available.");
-        } else {
-            Main.getInstance().getLogger().info(ConsoleColors.RED + "LuckPerms not found!... " + ConsoleColors.RESET
-                    + "/cooldown will be disabled.");
-        }
 
-        if (MyPetFound) {
-            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "MyPet found!... " + ConsoleColors.RESET
-                    + "If GriefPrevention is also found, accesstrust is needed for petpickup to work in claims.");
-        } else {
+        if (WorldGuardFound)
+            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "WorldGuard found!... " + ConsoleColors.RESET);
+        else
+            Main.getInstance().getLogger().info(ConsoleColors.RED + "WorldGuard not found!... " + ConsoleColors.RESET);
+
+
+        if (LuckPermsFound)
+            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "LuckPerms found!... " + ConsoleColors.RESET);
+        else
+            Main.getInstance().getLogger().info(ConsoleColors.RED + "LuckPerms not found!... " + ConsoleColors.RESET);
+
+
+        if (MyPetFound)
+            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "MyPet found!... " + ConsoleColors.RESET);
+        else
             Main.getInstance().getLogger().info(ConsoleColors.RED + "MyPet not found!... " + ConsoleColors.RESET);
-        }
 
-        if (CrazyCratesFound) {
-            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "CrazyCrates found!... " + ConsoleColors.RESET
-                    + "If it's enabled in the config, prizes from crates are logged.");
-        } else {
+
+        if (CrazyCratesFound)
+            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "CrazyCrates found!... " + ConsoleColors.RESET);
+        else
             Main.getInstance().getLogger().info(ConsoleColors.RED + "CrazyCrates not found!... " + ConsoleColors.RESET);
-        }
 
-        if (mcMMOFound) {
+
+        if (mcMMOFound)
             Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "mcMMO found!... " + ConsoleColors.RESET);
-        } else {
+        else
             Main.getInstance().getLogger().info(ConsoleColors.RED + "mcMMO not found!... " + ConsoleColors.RESET);
-        }
+
 
     }
 

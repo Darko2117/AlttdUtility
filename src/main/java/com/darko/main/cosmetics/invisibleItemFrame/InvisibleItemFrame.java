@@ -3,10 +3,7 @@ package com.darko.main.cosmetics.invisibleItemFrame;
 import com.darko.main.Main;
 import com.darko.main.other.Methods;
 import com.destroystokyo.paper.ParticleBuilder;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -105,7 +102,7 @@ public class InvisibleItemFrame implements Listener, CommandExecutor {
 
         itemFrame.setVisible(!itemFrame.isVisible());
 
-        if (takeDiamond)
+        if (takeDiamond && !player.getGameMode().equals(GameMode.CREATIVE))
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
 
         event.setCancelled(true);

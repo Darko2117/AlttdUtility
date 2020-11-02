@@ -34,7 +34,7 @@ public class ReloadCommand implements CommandExecutor {
 
         SpawnLimiter.reload();
 
-        Sit.startCheckingSeatYaw();
+        Sit.startCheckingSeats();
 
         RebootWhitelist.reload();
 
