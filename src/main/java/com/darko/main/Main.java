@@ -6,6 +6,7 @@ import com.darko.main.utilities.reload.ReloadCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
+
     public static Main instance;
 
     public static Main getInstance() {

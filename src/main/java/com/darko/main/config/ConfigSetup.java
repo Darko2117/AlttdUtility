@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.*;
 
 import com.darko.main.utilities.logging.Logging;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.darko.main.Main;
@@ -46,7 +45,11 @@ public class ConfigSetup {
         IncorrectUsageSearchSpecialLogsCommand("Messages.IncorrectUsageSearchSpecialLogsCommand", "&cUsage of this command is /searchlogs <logName> <numberOfDays> <Argument1Name: Argument1> <Argument2Name: Argument2> <Argument3Name: Argument3>... Just follow what tab complete is giving you or check out the drive document."),
         SitCommandNotOnGroundMessage("Messages.SitCommandNotOnGroundMessage", "&cYou must be standing on the ground to do this command."),
         SeatOccupiedMessage("Messages.SeatOccupiedMessage", "&cThat seat is occupied."),
-        SeatInvalidBlock("Messages.SeatInvalidBlock", "&cYou can't sit on that block.");
+        SeatInvalidBlock("Messages.SeatInvalidBlock", "&cYou can't sit on that block."),
+        GriefPreventionNoBuildPermMessage("Messages.GriefPreventionNoBuildPermMessage", "&cYou don't have %player%'s permission to build here."),
+        GriefPreventionThatBelongsToMessage("Messages.GriefPreventionThatBelongsToMessage", "&cThat belongs to %player%."),
+        InvalidUsageCommandOnJoinMessage("Messages.InvalidUsageCommandOnJoinMessage", "&cUsage of this command is /commandonjoin <player> <command>."),
+        CommandOnJoinSetMessage("Messages.CommandOnJoinSetMessage", "&aSet command:%command% for player:%player%.");
 
         private final String path;
         private final String message;
@@ -93,6 +96,8 @@ public class ConfigSetup {
         toggles.add("LavaSponge");
         toggles.add("Sit");
         toggles.add("ToggleGCCommand");
+        toggles.add("CommandOnJoin");
+        toggles.add("NamedMobClaimDamageProtection");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
@@ -325,6 +330,17 @@ public class ConfigSetup {
         if (!config.contains("NumberOfClaimsFlag.ClaimDataDirectory")) {
             config.set("NumberOfClaimsFlag.ClaimDataDirectory", new File("plugins/GriefPreventionData/ClaimData/").getAbsolutePath());
             Main.getInstance().getLogger().info("NumberOfClaimsFlag.ClaimDataDirectory not found in the config, creating it now.");
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
+        // CommandOnJoin
+
+        if (!config.contains("CommandOnJoin")) {
+            List<String> playersAndCommands = new ArrayList<>();
+            playersAndCommands.add("Player:playerNameGoesHere Command:commandGoesHere");
+            config.set("CommandOnJoin", playersAndCommands);
+            Main.getInstance().getLogger().info("CommandOnJoin not found in the config, creating it now.");
         }
 
         // ----------------------------------------------------------------------------------------------------

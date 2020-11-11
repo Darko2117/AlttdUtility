@@ -41,3 +41,5 @@ commands:
     permission: utility.sit
   togglegc:
     permission: utility.togglegc
+  commandonjoin:
+    permission: utility.commandonjoin

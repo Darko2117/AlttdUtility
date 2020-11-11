@@ -14,6 +14,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
@@ -376,6 +377,34 @@ public class LoggingNoAPI implements Listener {
         message = message.concat("|");
 
         Logging.WriteToFile(Logging.itemsBrokenLogName, message);
+
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public static void onItemDespawn(ItemDespawnEvent event) {
+
+        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.itemsDespawnedLogName) + ".Enabled"))
+            return;
+
+        String time = new Date(System.currentTimeMillis()).toString();
+
+        String item = event.getEntity().getItemStack().toString();
+
+        String location = Logging.getBetterLocationString(event.getLocation());
+
+        String message = "";
+        message = message.concat("|");
+        message = message.concat("Time:");
+        message = message.concat(time);
+        message = message.concat("|");
+        message = message.concat("Item:");
+        message = message.concat(item);
+        message = message.concat("|");
+        message = message.concat("Location:");
+        message = message.concat(location);
+        message = message.concat("|");
+
+        Logging.WriteToFile(Logging.itemsDespawnedLogName, message);
 
     }
 

@@ -6,6 +6,7 @@ import com.darko.main.cosmetics.invisibleItemFrame.InvisibleItemFrame;
 import com.darko.main.cosmetics.sit.Sit;
 import com.darko.main.database.Database;
 import com.darko.main.utilities.atPlayers.NameInChatNotification;
+import com.darko.main.utilities.commandOnJoin.CommandOnJoin;
 import com.darko.main.utilities.crash.Crash;
 import com.darko.main.utilities.deathMessage.DeathMessage;
 import com.darko.main.utilities.destro.claimanimals.DamageListener;
@@ -17,6 +18,7 @@ import com.darko.main.utilities.logging.LoggingGriefPrevention;
 import com.darko.main.utilities.itemPickup.ItemPickup;
 import com.darko.main.utilities.logging.LoggingNoAPI;
 import com.darko.main.utilities.logging.LoggingSearch;
+import com.darko.main.utilities.namedMobClaimDamage.NamedMobClaimDamage;
 import com.darko.main.utilities.playerList.PlayerList;
 import com.darko.main.utilities.prefixes.RemovePrefix;
 import com.darko.main.utilities.prefixes.SetPrefix;
@@ -57,7 +59,8 @@ public class Register extends JavaPlugin {
                 new InvisibleItemFrame(),
                 new RebootWhitelist(),
                 new LavaSponge(),
-                new Sit()
+                new Sit(),
+                new CommandOnJoin()
         );
 
         if (APIs.MyPetFound) {
@@ -67,7 +70,9 @@ public class Register extends JavaPlugin {
             registerEvents(new LoggingCrazyCrates());
         }
         if (APIs.GriefPreventionFound) {
-            registerEvents(new LoggingGriefPrevention());
+            registerEvents(new LoggingGriefPrevention(),
+                    new NamedMobClaimDamage()
+            );
         }
         if (APIs.WorldGuardFound) {
             registerEvents(new Flags());
@@ -97,10 +102,13 @@ public class Register extends JavaPlugin {
         Main.getInstance().getCommand("rebootwhitelist").setExecutor(new RebootWhitelist());
         Main.getInstance().getCommand("togglegc").setExecutor(new ToggleGC());
         Main.getInstance().getCommand("sit").setExecutor(new Sit());
+        Main.getInstance().getCommand("commandonjoin").setExecutor(new CommandOnJoin());
 
         Main.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         Main.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());
         Main.getInstance().getCommand("rebootwhitelist").setTabCompleter(new RebootWhitelist());
+        Main.getInstance().getCommand("commandonjoin").setTabCompleter(new CommandOnJoin());
+
 
         Main.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(Main.getInstance(), "BungeeCord");
 

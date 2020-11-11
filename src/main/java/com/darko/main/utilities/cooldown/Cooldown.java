@@ -73,7 +73,7 @@ public class Cooldown implements CommandExecutor, TabCompleter {
         String permission = null;
 
         for (Map.Entry<String, String> entry : getCooldownCommandInfo().entrySet()) {
-            if (entry.getValue().equals(permissionName)) {
+            if (entry.getValue().equalsIgnoreCase(permissionName)) {
                 permission = entry.getKey();
                 break;
             }

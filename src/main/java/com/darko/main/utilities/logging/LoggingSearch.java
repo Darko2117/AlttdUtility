@@ -740,6 +740,14 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             return arguments;
 
+        } else if (logName.equals("itemsDespawned")) {
+
+            arguments.add("Time:");
+            arguments.add("Item:");
+            arguments.add("Location:");
+
+            return arguments;
+
         }
 
         return null;

@@ -29,6 +29,7 @@ public class Logging {
     public static String uiClicksLogName = "uiClicks";
     public static String itemsBrokenLogName = "itemsBroken";
     public static String numberOfClaimsNotificationLogName = "numberOfClaimsNotification";
+    public static String itemsDespawnedLogName = "itemsDespawned";
 
     public static void initiate() {
 
@@ -47,6 +48,7 @@ public class Logging {
         logNamesAndConfigPaths.put(uiClicksLogName, "Logging.UIClicksLog");
         logNamesAndConfigPaths.put(itemsBrokenLogName, "Logging.ItemsBrokenLog");
         logNamesAndConfigPaths.put(numberOfClaimsNotificationLogName, "Logging.NumberOfClaimsNotification");
+        logNamesAndConfigPaths.put(itemsDespawnedLogName, "Logging.ItemsDespawned");
 
         List<String> directories = new ArrayList<>();
         directories.add("logs");

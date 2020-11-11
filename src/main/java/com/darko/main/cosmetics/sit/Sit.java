@@ -9,7 +9,6 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
-import me.badbones69.crazycrates.controllers.ParticleEffect;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.*;
@@ -64,7 +63,7 @@ public class Sit implements CommandExecutor, Listener {
             new Methods().sendConfigMessage(player, "Messages.SeatInvalidBlock");
             return true;
         }
-        if (!claimCheck(player, block)) return true;
+        //if (!claimCheck(player, block)) return true;
         if (!regionCheck(player, block)) return true;
 
         Location location = block.getLocation().add(0.5, 0, 0.5);
