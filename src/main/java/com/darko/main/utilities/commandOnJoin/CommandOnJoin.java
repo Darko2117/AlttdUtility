@@ -47,12 +47,14 @@ public class CommandOnJoin implements CommandExecutor, Listener, TabCompleter {
         Main.getInstance().getConfig().set("CommandOnJoin", commands);
         Main.getInstance().saveConfig();
 
-        return false;
+        return true;
 
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
+
+        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CommandOnJoin")) return;
 
         try {
 
@@ -88,7 +90,12 @@ public class CommandOnJoin implements CommandExecutor, Listener, TabCompleter {
 
             for (Player p : Bukkit.getOnlinePlayers()) {
 
-                names.add(p.getName());
+                List<String> completions = new ArrayList<>();
+                if (p.getName().startsWith(args[0])) {
+                    completions.add(p.getName());
+                }
+
+                return completions;
 
             }
 

@@ -3,6 +3,7 @@ package com.darko.main.config;
 import java.io.File;
 import java.util.*;
 
+import com.darko.main.other.Methods;
 import com.darko.main.utilities.logging.Logging;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -40,16 +41,18 @@ public class ConfigSetup {
         CrashCommandInvalidUsage("Messages.CrashCommandInvalidUsage", "&cUsage of this command is /crash <player>."),
         CrashCommandOfflinePlayer("Messages.CrashCommandOfflinePlayer", "&cThe player you are trying to crash is offline."),
         RebootWhitelistKickMessage("Messages.RebootWhitelistKickMessage", "&fThe server is rebooting, you will be able to join shortly."),
-        IncorrectUsageSearchLogsCommand("Messages.IncorrectUsageSearchLogsCommand", "&cUsage of this command is /searchlogs <normal/special>."),
-        IncorrectUsageSearchNormalLogsCommand("Messages.IncorrectUsageSearchNormalLogsCommand", "&cUsage of this command is /searchlogs <normal> <day> <search-string>."),
-        IncorrectUsageSearchSpecialLogsCommand("Messages.IncorrectUsageSearchSpecialLogsCommand", "&cUsage of this command is /searchlogs <logName> <numberOfDays> <Argument1Name: Argument1> <Argument2Name: Argument2> <Argument3Name: Argument3>... Just follow what tab complete is giving you or check out the drive document."),
+        IncorrectUsageSearchLogsCommand("Messages.IncorrectUsageSearchLogsCommand", "&cUsage of this command is /searchlogs <normal/special/additional>."),
+        IncorrectUsageSearchNormalLogsCommand("Messages.IncorrectUsageSearchNormalLogsCommand", "&cUsage of this command is /searchlogs normal <numberOfDays> <search-string>."),
+        IncorrectUsageSearchSpecialLogsCommand("Messages.IncorrectUsageSearchSpecialLogsCommand", "&cUsage of this command is /searchlogs special <logName> <numberOfDays> <Argument1Name: Argument1> <Argument2Name: Argument2> <Argument3Name: Argument3>... Just follow what tab complete is giving you or check out the drive document."),
+        IncorrectUsageSearchAdditionalLogsCommand("Messages.IncorrectUsageSearchAdditionalLogsCommand", "&cUsage of this command is /searchlogs additional <logName> <numberOfDays> <search-string>."),
         SitCommandNotOnGroundMessage("Messages.SitCommandNotOnGroundMessage", "&cYou must be standing on the ground to do this command."),
         SeatOccupiedMessage("Messages.SeatOccupiedMessage", "&cThat seat is occupied."),
         SeatInvalidBlock("Messages.SeatInvalidBlock", "&cYou can't sit on that block."),
         GriefPreventionNoBuildPermMessage("Messages.GriefPreventionNoBuildPermMessage", "&cYou don't have %player%'s permission to build here."),
         GriefPreventionThatBelongsToMessage("Messages.GriefPreventionThatBelongsToMessage", "&cThat belongs to %player%."),
         InvalidUsageCommandOnJoinMessage("Messages.InvalidUsageCommandOnJoinMessage", "&cUsage of this command is /commandonjoin <player> <command>."),
-        CommandOnJoinSetMessage("Messages.CommandOnJoinSetMessage", "&aSet command:%command% for player:%player%.");
+        CommandOnJoinSetMessage("Messages.CommandOnJoinSetMessage", "&aSet command:%command% for player:%player%."),
+        CustomChatMessagesUsage("Messages.CustomChatMessagesUsage", "&cUsage of this command is\n/ccm <add/remove/edit> <messageName> <message>\nor\n/ccm <messageName>.");
 
         private final String path;
         private final String message;
@@ -90,6 +93,7 @@ public class ConfigSetup {
         toggles.add("SpawnLimiter");
         toggles.add("SearchNormalLogsCommand");
         toggles.add("SearchSpecialLogsCommand");
+        toggles.add("SearchAdditionalLogsCommand");
         toggles.add("InvisibleItemFrames");
         toggles.add("InvisibleItemFramesCommand");
         toggles.add("RebootWhitelist");
@@ -98,11 +102,12 @@ public class ConfigSetup {
         toggles.add("ToggleGCCommand");
         toggles.add("CommandOnJoin");
         toggles.add("NamedMobClaimDamageProtection");
+        toggles.add("CustomChatMessagesCommand");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
                 config.set("FeatureToggles." + string, true);
-                Main.getInstance().getLogger().info("FeatureToggles." + string + " not found in the config, creating it now.");
+                notFoundInConfigMessage("FeatureToggles." + string);
             }
         }
 
@@ -113,7 +118,7 @@ public class ConfigSetup {
         for (Messages message : Messages.values()) {
             if (!config.contains(message.path)) {
                 config.set(message.path, message.message);
-                Main.getInstance().getLogger().info(message.path + " not found in the config, creating it now.");
+                notFoundInConfigMessage(message.path);
             }
         }
 
@@ -123,19 +128,19 @@ public class ConfigSetup {
 
         if (!config.contains("LavaSponge.DrySpongeRange")) {
             config.set("LavaSponge.DrySpongeRange", 6);
-            Main.getInstance().getLogger().info("LavaSponge.DrySpongeRange not found in the config, creating it now.");
+            notFoundInConfigMessage("LavaSponge.DrySpongeRange");
         }
         if (!config.contains("LavaSponge.DrySpongeAbsorbLimit")) {
             config.set("LavaSponge.DrySpongeAbsorbLimit", 55);
-            Main.getInstance().getLogger().info("LavaSponge.DrySpongeAbsorbLimit not found in the config, creating it now.");
+            notFoundInConfigMessage("LavaSponge.DrySpongeAbsorbLimit");
         }
         if (!config.contains("LavaSponge.WetSpongeRange")) {
             config.set("LavaSponge.WetSpongeRange", 7);
-            Main.getInstance().getLogger().info("LavaSponge.WetSpongeRange not found in the config, creating it now.");
+            notFoundInConfigMessage("LavaSponge.WetSpongeRange");
         }
         if (!config.contains("LavaSponge.WetSpongeAbsorbLimit")) {
             config.set("LavaSponge.WetSpongeAbsorbLimit", 65);
-            Main.getInstance().getLogger().info("LavaSponge.WetSpongeAbsorbLimit not found in the config, creating it now.");
+            notFoundInConfigMessage("LavaSponge.WetSpongeAbsorbLimit");
         }
 
         //-----------------------------------------------------------------------------------------------------
@@ -150,7 +155,7 @@ public class ConfigSetup {
 
             config.set("CooldownCommandPermissions", permissions);
 
-            Main.getInstance().getLogger().info("CooldownCommandPermissions not found in the config, creating it now.");
+            notFoundInConfigMessage("CooldownCommandPermissions");
 
         }
 
@@ -196,7 +201,7 @@ public class ConfigSetup {
             config.set("ListGroups.Donors", Donors);
             config.set("ListGroups.Other", Other);
 
-            Main.getInstance().getLogger().info("ListGroups not found in the config, creating it now.");
+            notFoundInConfigMessage("ListGroups");
 
         }
 
@@ -212,7 +217,7 @@ public class ConfigSetup {
 
             config.set("PrefixAvailableGroups", groups);
 
-            Main.getInstance().getLogger().info("PrefixAvailableGroups not found in the config, creating it now.");
+            notFoundInConfigMessage("PrefixAvailableGroups");
 
         }
 
@@ -232,7 +237,7 @@ public class ConfigSetup {
             config.set("SpawnLimiter.IRON_GOLEM.TimeLimit", spawnTimeLimit);
             config.set("SpawnLimiter.IRON_GOLEM.SpawnLimit", spawnLimit);
 
-            Main.getInstance().getLogger().info("SpawnLimiter not found in the config, creating it now.");
+            notFoundInConfigMessage("SpawnLimiter");
 
         }
 
@@ -247,7 +252,7 @@ public class ConfigSetup {
                 config.set(entry.getValue() + ".Enabled", true);
                 config.set(entry.getValue() + ".NumberOfLogsToKeep", 365);
 
-                Main.getInstance().getLogger().info(entry.getValue() + " not found in the config, creating it now.");
+                notFoundInConfigMessage(entry.getValue());
 
             }
 
@@ -259,16 +264,16 @@ public class ConfigSetup {
 
         if (!config.contains("SearchLogs.OutputPath")) {
             config.set("SearchLogs.OutputPath", new File(Main.getInstance().getDataFolder() + "/search-output/").getAbsolutePath());
-            Main.getInstance().getLogger().info("SearchLogs.OutputPath not found in the config, creating it now.");
+            notFoundInConfigMessage("SearchLogs.OutputPath");
         }
         if (!config.contains("SearchLogs.MaxFileSizeWithoutCompression")) {
             config.set("SearchLogs.MaxFileSizeWithoutCompression", 8);
-            Main.getInstance().getLogger().info("SearchLogs.MaxFileSizeWithoutCompression not found in the config, creating it now.");
+            notFoundInConfigMessage("SearchLogs.MaxFileSizeWithoutCompression");
         }
         if (!config.contains("SearchLogs.NormalSearchBlacklistedStrings")) {
             List<String> blacklistedStrings = new ArrayList<>();
             config.set("SearchLogs.NormalSearchBlacklistedStrings", blacklistedStrings);
-            Main.getInstance().getLogger().info("SearchLogs.NormalSearchBlacklistedStrings not found in the config, creating it now.");
+            notFoundInConfigMessage("SearchLogs.NormalSearchBlacklistedStrings");
         }
 
         // ----------------------------------------------------------------------------------------------------
@@ -277,27 +282,27 @@ public class ConfigSetup {
 
         if (!config.contains("Database.driver")) {
             config.set("Database.driver", "mariadb");
-            Main.getInstance().getLogger().info("Database.driver not found in the config, creating it now.");
+            notFoundInConfigMessage("Database.driver");
         }
         if (!config.contains("Database.ip")) {
             config.set("Database.ip", "localhost");
-            Main.getInstance().getLogger().info("Database.ip not found in the config, creating it now.");
+            notFoundInConfigMessage("Database.ip");
         }
         if (!config.contains("Database.port")) {
             config.set("Database.port", "3306");
-            Main.getInstance().getLogger().info("Database.port not found in the config, creating it now.");
+            notFoundInConfigMessage("Database.port");
         }
         if (!config.contains("Database.name")) {
             config.set("Database.name", "alttdutility");
-            Main.getInstance().getLogger().info("Database.name not found in the config, creating it now.");
+            notFoundInConfigMessage("Database.name");
         }
         if (!config.contains("Database.username")) {
             config.set("Database.username", "root");
-            Main.getInstance().getLogger().info("Database.username not found in the config, creating it now.");
+            notFoundInConfigMessage("Database.username");
         }
         if (!config.contains("Database.password")) {
             config.set("Database.password", "");
-            Main.getInstance().getLogger().info("Database.password not found in the config, creating it now.");
+            notFoundInConfigMessage("Database.password");
         }
 
         // ----------------------------------------------------------------------------------------------------
@@ -308,15 +313,15 @@ public class ConfigSetup {
             List<String> commandsOnEnable = new ArrayList<>();
             commandsOnEnable.add("mpdb saveandkick");
             config.set("RebootWhitelist.CommandsOnEnable", commandsOnEnable);
-            Main.getInstance().getLogger().info("RebootWhitelist.CommandsOnEnable not found in the config, creating it now.");
+            notFoundInConfigMessage("RebootWhitelist.CommandsOnEnable");
         }
         if (!config.contains("RebootWhitelist.DisableTimeAfterBoot")) {
             config.set("RebootWhitelist.DisableTimeAfterBoot", 15);
-            Main.getInstance().getLogger().info("RebootWhitelist.DisableTimeAfterBoot not found in the config, creating it now.");
+            notFoundInConfigMessage("RebootWhitelist.DisableTimeAfterBoot");
         }
         if (!config.contains("RebootWhitelist.Enabled")) {
             config.set("RebootWhitelist.Enabled", false);
-            Main.getInstance().getLogger().info("RebootWhitelist.Enabled not found in the config, creating it now.");
+            notFoundInConfigMessage("RebootWhitelist.Enabled");
         }
 
         // ----------------------------------------------------------------------------------------------------
@@ -325,11 +330,11 @@ public class ConfigSetup {
 
         if (!config.contains("NumberOfClaimsFlag.MinNumberOfClaimsToLog")) {
             config.set("NumberOfClaimsFlag.MinNumberOfClaimsToLog", 40);
-            Main.getInstance().getLogger().info("NumberOfClaimsFlag.MinNumberOfClaimsToLog not found in the config, creating it now.");
+            notFoundInConfigMessage("NumberOfClaimsFlag.MinNumberOfClaimsToLog");
         }
         if (!config.contains("NumberOfClaimsFlag.ClaimDataDirectory")) {
             config.set("NumberOfClaimsFlag.ClaimDataDirectory", new File("plugins/GriefPreventionData/ClaimData/").getAbsolutePath());
-            Main.getInstance().getLogger().info("NumberOfClaimsFlag.ClaimDataDirectory not found in the config, creating it now.");
+            notFoundInConfigMessage("NumberOfClaimsFlag.ClaimDataDirectory");
         }
 
         // ----------------------------------------------------------------------------------------------------
@@ -340,12 +345,58 @@ public class ConfigSetup {
             List<String> playersAndCommands = new ArrayList<>();
             playersAndCommands.add("Player:playerNameGoesHere Command:commandGoesHere");
             config.set("CommandOnJoin", playersAndCommands);
-            Main.getInstance().getLogger().info("CommandOnJoin not found in the config, creating it now.");
+            notFoundInConfigMessage("CommandOnJoin");
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
+        // NamedMobClaimDamage
+
+        if (!config.contains("NamedMobClaimDamage.Names")) {
+            List<String> names = new ArrayList<>();
+            names.add("Muted");
+            names.add("Silent");
+            names.add("Silence me");
+            names.add("Protected");
+            names.add("Protect me");
+            config.set("NamedMobClaimDamage.Names", names);
+            notFoundInConfigMessage("NamedMobClaimDamage.Names");
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
+        // AdditionalLogs
+
+        if (!config.contains("AdditionalLogs")) {
+
+            List<String> logNamesAndPaths = new ArrayList<>();
+
+            String sellItemsLogName = "SellItems";
+            String sellItemsLogPath = new Methods().getServerJarPath() + "logs/SellItems";
+            logNamesAndPaths.add("Name:" + sellItemsLogName + " " + "Path:" + sellItemsLogPath);
+
+            String shopLogName = "Shop";
+            String shopLogPath = new Methods().getServerJarPath() + "logs/Shop";
+            logNamesAndPaths.add("Name:" + shopLogName + " " + "Path:" + shopLogPath);
+
+            String moneyLogName = "Money";
+            String moneyLogPath = new Methods().getServerJarPath() + "plugins/CMI/moneyLog";
+            logNamesAndPaths.add("Name:" + moneyLogName + " " + "Path:" + moneyLogPath);
+
+            config.set("AdditionalLogs", logNamesAndPaths);
+            notFoundInConfigMessage("AdditionalLogs");
+
         }
 
         // ----------------------------------------------------------------------------------------------------
 
         Main.getInstance().saveConfig();
+
+    }
+
+    static void notFoundInConfigMessage(String string){
+
+        Main.getInstance().getLogger().info(string + " not found in the config, creating it now.");
 
     }
 

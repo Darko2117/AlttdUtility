@@ -2,6 +2,7 @@ package com.darko.main.API;
 
 import com.darko.main.Main;
 import com.darko.main.other.ConsoleColors;
+import com.gmail.filoghost.farmlimiter.FarmLimiter;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import de.Keyle.MyPet.MyPetPlugin;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
@@ -19,6 +20,7 @@ public class APIs extends JavaPlugin {
     public static Boolean MyPetFound = false;
     public static Boolean CrazyCratesFound = false;
     public static Boolean mcMMOFound = false;
+    public static Boolean FarmLimiterFound = false;
 
 
     public static void APIConnect() {
@@ -41,42 +43,44 @@ public class APIs extends JavaPlugin {
         if (mcMMOApiCheck() != null)
             mcMMOFound = true;
 
+        if (FarmLimiterApiCheck() != null)
+            FarmLimiterFound = true;
+
 
         if (GriefPreventionFound)
             Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "GriefPrevention found!... " + ConsoleColors.RESET);
         else
             Main.getInstance().getLogger().info(ConsoleColors.RED + "GriefPrevention not found!... " + ConsoleColors.RESET);
 
-
         if (WorldGuardFound)
             Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "WorldGuard found!... " + ConsoleColors.RESET);
         else
             Main.getInstance().getLogger().info(ConsoleColors.RED + "WorldGuard not found!... " + ConsoleColors.RESET);
-
 
         if (LuckPermsFound)
             Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "LuckPerms found!... " + ConsoleColors.RESET);
         else
             Main.getInstance().getLogger().info(ConsoleColors.RED + "LuckPerms not found!... " + ConsoleColors.RESET);
 
-
         if (MyPetFound)
             Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "MyPet found!... " + ConsoleColors.RESET);
         else
             Main.getInstance().getLogger().info(ConsoleColors.RED + "MyPet not found!... " + ConsoleColors.RESET);
-
 
         if (CrazyCratesFound)
             Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "CrazyCrates found!... " + ConsoleColors.RESET);
         else
             Main.getInstance().getLogger().info(ConsoleColors.RED + "CrazyCrates not found!... " + ConsoleColors.RESET);
 
-
         if (mcMMOFound)
             Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "mcMMO found!... " + ConsoleColors.RESET);
         else
             Main.getInstance().getLogger().info(ConsoleColors.RED + "mcMMO not found!... " + ConsoleColors.RESET);
 
+        if (FarmLimiterFound)
+            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "FarmLimiter found!... " + ConsoleColors.RESET);
+        else
+            Main.getInstance().getLogger().info(ConsoleColors.RED + "FarmLimiter not found!... " + ConsoleColors.RESET);
 
     }
 
@@ -132,6 +136,15 @@ public class APIs extends JavaPlugin {
         Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("mcMMO");
         if (plugin instanceof com.gmail.nossr50.mcMMO) {
             return (com.gmail.nossr50.mcMMO) plugin;
+        } else {
+            return null;
+        }
+    }
+
+    public static FarmLimiter FarmLimiterApiCheck() {
+        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("FarmLimiter");
+        if (plugin instanceof FarmLimiter) {
+            return (FarmLimiter) plugin;
         } else {
             return null;
         }

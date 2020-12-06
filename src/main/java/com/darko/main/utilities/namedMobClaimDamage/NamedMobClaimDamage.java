@@ -13,6 +13,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
 
+import java.util.List;
+
 public class NamedMobClaimDamage implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -25,6 +27,7 @@ public class NamedMobClaimDamage implements Listener {
         Entity entity = event.getEntity();
 
         if (entity.getCustomName() == null) return;
+        if (!checkIfNameIsProtected(entity.getCustomName())) return;
 
         //Player
 
@@ -126,6 +129,7 @@ public class NamedMobClaimDamage implements Listener {
         for (Entity entity : event.getAffectedEntities()) {
 
             if (entity.getCustomName() == null) continue;
+            if (!checkIfNameIsProtected(entity.getCustomName())) continue;
 
             if (claimCheck(potionThrower, entity.getLocation()) != null) {
 
@@ -148,6 +152,20 @@ public class NamedMobClaimDamage implements Listener {
         if (claim.allowBuild(player, Material.STONE) != null) return claim.getOwnerName();
 
         return null;
+
+    }
+
+    Boolean checkIfNameIsProtected(String name) {
+
+        List<String> protectedNames = Main.getInstance().getConfig().getStringList("NamedMobClaimDamage.Names");
+
+        for (String s : protectedNames) {
+
+            if (s.toLowerCase().equals(name.toLowerCase())) return true;
+
+        }
+
+        return false;
 
     }
 

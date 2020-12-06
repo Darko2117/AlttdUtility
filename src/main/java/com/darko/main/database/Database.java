@@ -21,7 +21,6 @@ public class Database implements Listener {
 
     public static Connection connection = null;
 
-//    public static List<Player> chairEnabledPlayers = new ArrayList<>();
     public static List<Player> autofixEnabledPlayers = new ArrayList<>();
     public static List<Player> blockItemPickupEnabledPlayers = new ArrayList<>();
 
@@ -54,19 +53,7 @@ public class Database implements Listener {
                 }
 
                 createUsersTable();
-//                createClaimCreatedLogTable();
-//                createClaimDeletedLogTable();
-//                createClaimExpiredLogTable();
-//                createClaimModifiedLogTable();
-//                createEggLogTable();
-//                createDroppedItemsLogTable();
-//                createItemsPlacedInItemFramesLogTable();
-//                createItemsTakenOutOfItemFramesLogTable();
-//                createMCMMORepairUseLogTable();
-//                createPickedUpItemsLogTable();
-//                createCratePrizeLogTable();
-//                createSpawnLimiterLogTable();
-//                createUIClicksLogTable();
+                createCCMTable();
 
                 Database.reloadLoadedValues();
 
@@ -78,7 +65,7 @@ public class Database implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerJoin(PlayerJoinEvent event) {
+    public void onPlayerJoin_UsersTable(PlayerJoinEvent event) {
 
         new BukkitRunnable() {
             @Override
@@ -133,7 +120,50 @@ public class Database implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerJoin1(PlayerJoinEvent event) {
+    public void onPlayerJoin_CCMTable(PlayerJoinEvent event) {
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+
+                if (Database.connection == null) return;
+
+                Player player = event.getPlayer();
+                String uuid = player.getUniqueId().toString();
+                String username = player.getName();
+
+                String statement = "SELECT * FROM ccm WHERE UUID = '" + uuid + "';";
+
+                try {
+
+                    ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
+
+                    while (rs.next()){
+
+                        String existingUsername = rs.getString("Username");
+
+                        if (!existingUsername.equals(username)) {
+
+                            statement = "UPDATE ccm SET Username = '" + username + "' WHERE UUID = '" + uuid + "';";
+
+                            Database.connection.prepareStatement(statement).executeUpdate();
+                            Main.getInstance().getLogger().info(username + " had a different username in the database (" + existingUsername + "). Updated it.");
+
+                        }
+
+                    }
+
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+
+            }
+        }.runTaskAsynchronously(Main.getInstance());
+
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerJoin_ReloadLoadedValues(PlayerJoinEvent event) {
 
         if (Database.connection == null) return;
 
@@ -147,7 +177,7 @@ public class Database implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerQuit(PlayerQuitEvent event) {
+    public void onPlayerQuit_ReloadLoadedValues(PlayerQuitEvent event) {
 
         if (Database.connection == null) return;
 
@@ -166,14 +196,6 @@ public class Database implements Listener {
 
             ResultSet rs;
             String statement;
-
-//            statement = "SELECT UUID FROM users WHERE chair_enabled = true;";
-//            rs = Database.connection.prepareStatement(statement).executeQuery();
-//            chairEnabledPlayers.clear();
-//            while (rs.next()) {
-//                Player player = Bukkit.getPlayer(UUID.fromString(rs.getString("UUID")));
-//                if (Bukkit.getOnlinePlayers().contains(player)) chairEnabledPlayers.add(player);
-//            }
 
             statement = "SELECT UUID FROM users WHERE autofix_enabled = true;";
             rs = Database.connection.prepareStatement(statement).executeQuery();
@@ -211,7 +233,6 @@ public class Database implements Listener {
         List<String> columns = new ArrayList<>();
         columns.add("ALTER TABLE users ADD UUID TEXT NOT NULL");
         columns.add("ALTER TABLE users ADD Username TEXT NOT NULL");
-//        columns.add("ALTER TABLE users ADD chair_enabled BOOLEAN NOT NULL");
         columns.add("ALTER TABLE users ADD autofix_enabled BOOLEAN NOT NULL");
         columns.add("ALTER TABLE users ADD block_item_pickup_enabled BOOLEAN NOT NULL");
         for (String string : columns) {
@@ -223,364 +244,29 @@ public class Database implements Listener {
 
     }
 
-//    static void createClaimCreatedLogTable(){
-//
-//        try {
-//            String usersTableQuery = "CREATE TABLE IF NOT EXISTS logging_claimcreated("
-//                    + "ID INT NOT NULL AUTO_INCREMENT,"
-//                    + "PRIMARY KEY (ID))";
-//            connection.prepareStatement(usersTableQuery).executeUpdate();
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
-//
-//        List<String> columns = new ArrayList<>();
-//        columns.add("ALTER TABLE logging_claimcreated ADD Server TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimcreated ADD Time BIGINT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimcreated ADD Date TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimcreated ADD CreatorUUID TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimcreated ADD CreatorUsername TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimcreated ADD Area TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimcreated ADD LowestY TEXT NOT NULL");
-//        for (String string : columns) {
-//            try {
-//                connection.prepareStatement(string).executeUpdate();
-//            } catch (Throwable ignored) {
-//            }
-//        }
-//
-//    }
-//
-//    static void createClaimDeletedLogTable(){
-//
-//        try {
-//            String usersTableQuery = "CREATE TABLE IF NOT EXISTS logging_claimdeleted("
-//                    + "ID INT NOT NULL AUTO_INCREMENT,"
-//                    + "PRIMARY KEY (ID))";
-//            connection.prepareStatement(usersTableQuery).executeUpdate();
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
-//
-//        List<String> columns = new ArrayList<>();
-//        columns.add("ALTER TABLE logging_claimdeleted ADD Server TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimdeleted ADD Time BIGINT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimdeleted ADD Date TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimdeleted ADD OwnerUUID TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimdeleted ADD OwnerUsername TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimdeleted ADD Area TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimdeleted ADD LowestY TEXT NOT NULL");
-//        for (String string : columns) {
-//            try {
-//                connection.prepareStatement(string).executeUpdate();
-//            } catch (Throwable ignored) {
-//            }
-//        }
-//
-//    }
-//
-//    static void createClaimExpiredLogTable(){
-//
-//        try {
-//            String usersTableQuery = "CREATE TABLE IF NOT EXISTS logging_claimexpired("
-//                    + "ID INT NOT NULL AUTO_INCREMENT,"
-//                    + "PRIMARY KEY (ID))";
-//            connection.prepareStatement(usersTableQuery).executeUpdate();
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
-//
-//        List<String> columns = new ArrayList<>();
-//        columns.add("ALTER TABLE logging_claimexpired ADD Server TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimexpired ADD Time BIGINT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimexpired ADD Date TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimexpired ADD OwnerUUID TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimexpired ADD OwnerUsername TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimexpired ADD Area TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimexpired ADD LowestY TEXT NOT NULL");
-//        for (String string : columns) {
-//            try {
-//                connection.prepareStatement(string).executeUpdate();
-//            } catch (Throwable ignored) {
-//            }
-//        }
-//
-//    }
-//
-//    static void createClaimModifiedLogTable(){
-//
-//        try {
-//            String usersTableQuery = "CREATE TABLE IF NOT EXISTS logging_claimmodified("
-//                    + "ID INT NOT NULL AUTO_INCREMENT,"
-//                    + "PRIMARY KEY (ID))";
-//            connection.prepareStatement(usersTableQuery).executeUpdate();
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
-//
-//        List<String> columns = new ArrayList<>();
-//        columns.add("ALTER TABLE logging_claimmodified ADD Server TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimmodified ADD Time BIGINT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimmodified ADD Date TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimmodified ADD OwnerUUID TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimmodified ADD OwnerUsername TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimmodified ADD Area TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_claimmodified ADD LowestY TEXT NOT NULL");
-//        for (String string : columns) {
-//            try {
-//                connection.prepareStatement(string).executeUpdate();
-//            } catch (Throwable ignored) {
-//            }
-//        }
-//
-//    }
-//
-//    static void createEggLogTable(){
-//
-//        try {
-//            String usersTableQuery = "CREATE TABLE IF NOT EXISTS logging_egg("
-//                    + "ID INT NOT NULL AUTO_INCREMENT,"
-//                    + "PRIMARY KEY (ID))";
-//            connection.prepareStatement(usersTableQuery).executeUpdate();
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
-//
-//        List<String> columns = new ArrayList<>();
-//        columns.add("ALTER TABLE logging_egg ADD Server TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_egg ADD Time BIGINT NOT NULL");
-//        columns.add("ALTER TABLE logging_egg ADD Date TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_egg ADD ThrowerUUID TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_egg ADD ThrowerUsername TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_egg ADD Location TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_egg ADD InClaimOf TEXT NOT NULL");
-//        for (String string : columns) {
-//            try {
-//                connection.prepareStatement(string).executeUpdate();
-//            } catch (Throwable ignored) {
-//            }
-//        }
-//
-//    }
-//
-//    static void createDroppedItemsLogTable(){
-//
-//        try {
-//            String usersTableQuery = "CREATE TABLE IF NOT EXISTS logging_droppeditems("
-//                    + "ID INT NOT NULL AUTO_INCREMENT,"
-//                    + "PRIMARY KEY (ID))";
-//            connection.prepareStatement(usersTableQuery).executeUpdate();
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
-//
-//        List<String> columns = new ArrayList<>();
-//        columns.add("ALTER TABLE logging_droppeditems ADD Server TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_droppeditems ADD Time BIGINT NOT NULL");
-//        columns.add("ALTER TABLE logging_droppeditems ADD Date TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_droppeditems ADD UUID TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_droppeditems ADD Username TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_droppeditems ADD Location TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_droppeditems ADD Item TEXT NOT NULL");
-//        for (String string : columns) {
-//            try {
-//                connection.prepareStatement(string).executeUpdate();
-//            } catch (Throwable ignored) {
-//            }
-//        }
-//
-//    }
-//
-//    static void createItemsPlacedInItemFramesLogTable(){
-//
-//        try {
-//            String usersTableQuery = "CREATE TABLE IF NOT EXISTS logging_itemsplacedinitemframes("
-//                    + "ID INT NOT NULL AUTO_INCREMENT,"
-//                    + "PRIMARY KEY (ID))";
-//            connection.prepareStatement(usersTableQuery).executeUpdate();
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
-//
-//        List<String> columns = new ArrayList<>();
-//        columns.add("ALTER TABLE logging_itemsplacedinitemframes ADD Server TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_itemsplacedinitemframes ADD Time BIGINT NOT NULL");
-//        columns.add("ALTER TABLE logging_itemsplacedinitemframes ADD Date TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_itemsplacedinitemframes ADD UUID TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_itemsplacedinitemframes ADD Username TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_itemsplacedinitemframes ADD Location TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_itemsplacedinitemframes ADD Item TEXT NOT NULL");
-//        for (String string : columns) {
-//            try {
-//                connection.prepareStatement(string).executeUpdate();
-//            } catch (Throwable ignored) {
-//            }
-//        }
-//
-//    }
-//
-//    static void createItemsTakenOutOfItemFramesLogTable(){
-//
-//        try {
-//            String usersTableQuery = "CREATE TABLE IF NOT EXISTS logging_itemstakenoutofitemframes("
-//                    + "ID INT NOT NULL AUTO_INCREMENT,"
-//                    + "PRIMARY KEY (ID))";
-//            connection.prepareStatement(usersTableQuery).executeUpdate();
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
-//
-//        List<String> columns = new ArrayList<>();
-//        columns.add("ALTER TABLE logging_itemstakenoutofitemframes ADD Server TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_itemstakenoutofitemframes ADD Time BIGINT NOT NULL");
-//        columns.add("ALTER TABLE logging_itemstakenoutofitemframes ADD Date TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_itemstakenoutofitemframes ADD UUID TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_itemstakenoutofitemframes ADD Username TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_itemstakenoutofitemframes ADD Location TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_itemstakenoutofitemframes ADD Item TEXT NOT NULL");
-//        for (String string : columns) {
-//            try {
-//                connection.prepareStatement(string).executeUpdate();
-//            } catch (Throwable ignored) {
-//            }
-//        }
-//
-//    }
-//
-//    static void createMCMMORepairUseLogTable(){
-//
-//        try {
-//            String usersTableQuery = "CREATE TABLE IF NOT EXISTS logging_mcmmorepairuse("
-//                    + "ID INT NOT NULL AUTO_INCREMENT,"
-//                    + "PRIMARY KEY (ID))";
-//            connection.prepareStatement(usersTableQuery).executeUpdate();
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
-//
-//        List<String> columns = new ArrayList<>();
-//        columns.add("ALTER TABLE logging_mcmmorepairuse ADD Server TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_mcmmorepairuse ADD Time BIGINT NOT NULL");
-//        columns.add("ALTER TABLE logging_mcmmorepairuse ADD Date TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_mcmmorepairuse ADD UUID TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_mcmmorepairuse ADD Username TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_mcmmorepairuse ADD Item TEXT NOT NULL");
-//        for (String string : columns) {
-//            try {
-//                connection.prepareStatement(string).executeUpdate();
-//            } catch (Throwable ignored) {
-//            }
-//        }
-//
-//    }
-//
-//    static void createPickedUpItemsLogTable(){
-//
-//        try {
-//            String usersTableQuery = "CREATE TABLE IF NOT EXISTS logging_pickedupitems("
-//                    + "ID INT NOT NULL AUTO_INCREMENT,"
-//                    + "PRIMARY KEY (ID))";
-//            connection.prepareStatement(usersTableQuery).executeUpdate();
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
-//
-//        List<String> columns = new ArrayList<>();
-//        columns.add("ALTER TABLE logging_pickedupitems ADD Server TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_pickedupitems ADD Time BIGINT NOT NULL");
-//        columns.add("ALTER TABLE logging_pickedupitems ADD Date TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_pickedupitems ADD UUID TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_pickedupitems ADD Username TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_pickedupitems ADD Location TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_pickedupitems ADD Item TEXT NOT NULL");
-//        for (String string : columns) {
-//            try {
-//                connection.prepareStatement(string).executeUpdate();
-//            } catch (Throwable ignored) {
-//            }
-//        }
-//
-//    }
-//
-//    static void createCratePrizeLogTable(){
-//
-//        try {
-//            String usersTableQuery = "CREATE TABLE IF NOT EXISTS logging_crateprize("
-//                    + "ID INT NOT NULL AUTO_INCREMENT,"
-//                    + "PRIMARY KEY (ID))";
-//            connection.prepareStatement(usersTableQuery).executeUpdate();
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
-//
-//        List<String> columns = new ArrayList<>();
-//        columns.add("ALTER TABLE logging_crateprize ADD Server TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_crateprize ADD Time BIGINT NOT NULL");
-//        columns.add("ALTER TABLE logging_crateprize ADD Date TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_crateprize ADD UUID TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_crateprize ADD Username TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_crateprize ADD Text TEXT NOT NULL");
-//        for (String string : columns) {
-//            try {
-//                connection.prepareStatement(string).executeUpdate();
-//            } catch (Throwable ignored) {
-//            }
-//        }
-//
-//    }
-//
-//    static void createSpawnLimiterLogTable(){
-//
-//        try {
-//            String usersTableQuery = "CREATE TABLE IF NOT EXISTS logging_spawnlimiter("
-//                    + "ID INT NOT NULL AUTO_INCREMENT,"
-//                    + "PRIMARY KEY (ID))";
-//            connection.prepareStatement(usersTableQuery).executeUpdate();
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
-//
-//        List<String> columns = new ArrayList<>();
-//        columns.add("ALTER TABLE logging_spawnlimiter ADD Server TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_spawnlimiter ADD Time BIGINT NOT NULL");
-//        columns.add("ALTER TABLE logging_spawnlimiter ADD Date TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_spawnlimiter ADD Entity TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_spawnlimiter ADD Location TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_spawnlimiter ADD InClaimOf TEXT NOT NULL");
-//        for (String string : columns) {
-//            try {
-//                connection.prepareStatement(string).executeUpdate();
-//            } catch (Throwable ignored) {
-//            }
-//        }
-//
-//    }
-//
-//    static void createUIClicksLogTable(){
-//
-//        try {
-//            String usersTableQuery = "CREATE TABLE IF NOT EXISTS logging_uiclicks("
-//                    + "ID INT NOT NULL AUTO_INCREMENT,"
-//                    + "PRIMARY KEY (ID))";
-//            connection.prepareStatement(usersTableQuery).executeUpdate();
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
-//
-//        List<String> columns = new ArrayList<>();
-//        columns.add("ALTER TABLE logging_uiclicks ADD Server TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_uiclicks ADD Time BIGINT NOT NULL");
-//        columns.add("ALTER TABLE logging_uiclicks ADD Date TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_uiclicks ADD UUID TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_uiclicks ADD Username TEXT NOT NULL");
-//        columns.add("ALTER TABLE logging_uiclicks ADD Message TEXT NOT NULL");
-//        for (String string : columns) {
-//            try {
-//                connection.prepareStatement(string).executeUpdate();
-//            } catch (Throwable ignored) {
-//            }
-//        }
-//
-//    }
+    static void createCCMTable() {
+
+        try {
+            String CCMTableQuery = "CREATE TABLE IF NOT EXISTS ccm("
+                    + "ID INT NOT NULL AUTO_INCREMENT,"
+                    + "PRIMARY KEY (ID))";
+            connection.prepareStatement(CCMTableQuery).executeUpdate();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+
+        List<String> columns = new ArrayList<>();
+        columns.add("ALTER TABLE ccm ADD UUID TEXT NOT NULL");
+        columns.add("ALTER TABLE ccm ADD Username TEXT NOT NULL");
+        columns.add("ALTER TABLE ccm ADD MessageName TEXT NOT NULL");
+        columns.add("ALTER TABLE ccm ADD Message TEXT NOT NULL");
+        for (String string : columns) {
+            try {
+                connection.prepareStatement(string).executeUpdate();
+            } catch (Throwable ignored) {
+            }
+        }
+
+    }
 
 }

@@ -23,12 +23,12 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (args.length == 0 || (!args[0].toLowerCase().equals("normal") && !args[0].toLowerCase().equals("special"))) {
+        if (args.length == 0 || !(args[0].equals("normal") || args[0].equals("special") || args[0].equals("additional"))) {
             new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchLogsCommand");
             return true;
         }
 
-        if (args[0].toLowerCase().equals("normal")) {
+        if (args[0].equals("normal")) {
 
             if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.SearchNormalLogsCommand")) return true;
 
@@ -141,13 +141,13 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         //The file is first written to /temporary-files/. It'll get moved after the whole search is completed.
                         String outputFilePath = "";
                         outputFilePath = outputFilePath.concat(Main.getInstance().getDataFolder() + "/temporary-files/");
-                        outputFilePath = outputFilePath.concat(("/"));
+                        outputFilePath = outputFilePath.concat("/");
                         outputFilePath = outputFilePath.concat(serverName);
                         outputFilePath = outputFilePath.concat("-");
-                        outputFilePath = outputFilePath.concat(("normalLogs"));
-                        outputFilePath = outputFilePath.concat(("-"));
-                        outputFilePath = outputFilePath.concat((sender.getName()));
-                        outputFilePath = outputFilePath.concat(("-"));
+                        outputFilePath = outputFilePath.concat("normalLogs");
+                        outputFilePath = outputFilePath.concat("-");
+                        outputFilePath = outputFilePath.concat(sender.getName());
+                        outputFilePath = outputFilePath.concat("-");
                         outputFilePath = outputFilePath.concat(String.valueOf(System.currentTimeMillis()));
                         outputFilePath = outputFilePath.concat(silent);
                         outputFilePath = outputFilePath.concat(".txt");
@@ -237,7 +237,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 }
             }.runTaskAsynchronously(Main.getInstance());
 
-        } else if (args[0].toLowerCase().equals("special")) {
+        } else if (args[0].equals("special")) {
 
             if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.SearchSpecialLogsCommand")) return true;
 
@@ -343,9 +343,9 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         for (File file : filesToRead) {
                             try {
 
-                                Integer day = new Methods().getDateValuesFromStringDDMMYYYY(file.getName().substring(0, 10))[0];
-                                Integer month = new Methods().getDateValuesFromStringDDMMYYYY(file.getName().substring(0, 10))[1];
-                                Integer year = new Methods().getDateValuesFromStringDDMMYYYY(file.getName().substring(0, 10))[2];
+                                Integer day = new Methods().getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[0];
+                                Integer month = new Methods().getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[1];
+                                Integer year = new Methods().getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[2];
                                 LocalDate fileDateLD = LocalDate.of(year, month, day);
 
                                 Integer epochDayOfFileCreation = Math.toIntExact(fileDateLD.toEpochDay());
@@ -525,6 +525,222 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 }
             }.runTaskAsynchronously(Main.getInstance());
 
+        } else if (args[0].equals("additional")) {
+
+            if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.SearchAdditionalLogsCommand")) return true;
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+
+                    try {
+
+                        //Waiting until other searches finish. Only one can be active at the time.
+                        while (inUse) {
+                            Main.getInstance().getLogger().info("Waiting until the last search finishes to start this one.");
+                            Thread.sleep(1000);
+                        }
+
+                        inUse = true;
+                        sender.sendMessage(ChatColor.YELLOW + "Search started.");
+                        Main.getInstance().getLogger().info("Search started.");
+                        Long startingTime = System.currentTimeMillis();
+
+                        //Deleting all the temporary files in case some are left.
+                        clearTemporaryFiles();
+
+                        if (args.length < 4) {
+                            new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchAdditionalLogsCommand");
+                            inUse = false;
+                            return;
+                        }
+
+                        String logName = args[1];
+
+                        if (!getAdditionalLogNames().contains(logName)) {
+                            new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchAdditionalLogsCommand");
+                            inUse = false;
+                            return;
+                        }
+
+                        Integer days;
+                        try {
+                            days = Integer.parseInt(args[2]);
+                        } catch (Throwable throwable) {
+                            new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchSpecialLogsCommand");
+                            inUse = false;
+                            return;
+                        }
+
+                        String silent = "";
+                        for (String arg : args) {
+                            if (arg.equals("-silent")) {
+                                silent = "-silent";
+                                break;
+                            }
+                        }
+
+                        String searchString = "";
+                        for (Integer i = 3; i < args.length; i++) {
+                            if (args[i].equals("-silent")) continue;
+                            if (!searchString.isEmpty())
+                                searchString = searchString.concat(" ");
+                            searchString = searchString.concat(args[i]);
+                        }
+                        searchString = searchString.toLowerCase();
+
+                        String logsDirectoryPath = null;
+
+                        for (String s : Main.getInstance().getConfig().getStringList("AdditionalLogs")) {
+                            if (s.contains("Name:" + logName)) {
+                                logsDirectoryPath = s.substring(s.indexOf("Path:") + 5);
+                            }
+                        }
+
+                        if (logsDirectoryPath == null) {
+                            new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchSpecialLogsCommand");
+                            inUse = false;
+                            return;
+                        }
+
+                        //Getting a list of all the log files.
+                        List<File> filesToRead = new ArrayList<>(Arrays.asList(new File(logsDirectoryPath).listFiles()));
+
+                        //Removing from that list all the ones that aren't in the defined time limit.
+                        List<File> filesToRemove = new ArrayList<>();
+                        for (File file : filesToRead) {
+                            try {
+
+                                Integer day = new Methods().getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[0];
+                                Integer month = new Methods().getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[1];
+                                Integer year = new Methods().getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[2];
+                                LocalDate fileDateLD = LocalDate.of(year, month, day);
+
+                                Integer epochDayOfFileCreation = Math.toIntExact(fileDateLD.toEpochDay());
+                                Integer epochDayRightNow = Math.toIntExact(LocalDate.now().toEpochDay());
+
+                                if (epochDayRightNow - days > epochDayOfFileCreation) {
+                                    filesToRemove.add(file);
+                                }
+
+                            } catch (Throwable throwable) {
+                                throwable.printStackTrace();
+                            }
+                        }
+                        filesToRead.removeAll(filesToRemove);
+
+                        //Copying all the files that need to be read to /temporary-files/.
+                        for (File f : filesToRead) {
+                            new Methods().copyPasteFile(new File(f.getAbsolutePath()), new File(Main.getInstance().getDataFolder() + "/temporary-files/" + f.getName()));
+                        }
+
+                        //Reloading the list of files that need to be read with the files from /temporary-files/.
+                        filesToRead.clear();
+                        filesToRead.addAll(Arrays.asList(new File(Main.getInstance().getDataFolder() + "/temporary-files").listFiles()));
+                        filesToRead.sort(Comparator.naturalOrder());
+
+                        String serverName = Main.getInstance().getDataFolder().getAbsolutePath().replace("\\", "/");
+                        try {
+                            serverName = serverName.substring(0, serverName.indexOf("/plugins"));
+                            serverName = serverName.substring(serverName.lastIndexOf("/") + 1);
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                            serverName = "unknownServerName";
+                        }
+
+                        //The file is first written to /temporary-files/. It'll get moved after the whole search is completed.
+                        String outputFilePath = "";
+                        outputFilePath = outputFilePath.concat(Main.getInstance().getDataFolder() + "/temporary-files/");
+                        outputFilePath = outputFilePath.concat("/");
+                        outputFilePath = outputFilePath.concat(serverName);
+                        outputFilePath = outputFilePath.concat("-");
+                        outputFilePath = outputFilePath.concat(logName);
+                        outputFilePath = outputFilePath.concat("-");
+                        outputFilePath = outputFilePath.concat(sender.getName());
+                        outputFilePath = outputFilePath.concat("-");
+                        outputFilePath = outputFilePath.concat(String.valueOf(System.currentTimeMillis()));
+                        outputFilePath = outputFilePath.concat(silent);
+                        outputFilePath = outputFilePath.concat(".txt");
+
+                        //Searching through the files for the arguments.
+                        File outputFile = new File(outputFilePath);
+                        FileWriter writer = new FileWriter(outputFile, true);
+                        writer.write("");
+
+                        for (File f : filesToRead) {
+
+                            BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
+                            String line;
+
+                            lineReader:
+                            while ((line = bufferedReader.readLine()) != null) {
+
+                                if (!line.toLowerCase().matches("(.*)" + searchString + "(.*)")) continue lineReader;
+
+                                //Writes only those lines which contain the provided search string, it skips over the rest.
+                                writer.write(f.getName() + ":" + line + "\n");
+
+                            }
+
+                            bufferedReader.close();
+
+                        }
+
+                        writer.close();
+
+                        //The maxFileSizeWithoutCompression is in MB so it's multiplied by 1mil to get the size in bytes.
+                        Integer maxFileSizeWithoutCompression = Main.getInstance().getConfig().getInt("SearchLogs.MaxFileSizeWithoutCompression");
+                        maxFileSizeWithoutCompression *= 1000000;
+
+                        //If the file is bigger than the defined limit, it gets compressed.
+                        if (outputFile.length() > maxFileSizeWithoutCompression) {
+
+                            new Methods().compressFile(outputFile.getAbsolutePath(), outputFile.getAbsolutePath().concat(".gz"));
+
+                            outputFile = new File(outputFile.getAbsolutePath().concat(".gz"));
+
+                        }
+
+                        //The file with all the results is copied to the defined output path and all the other files are removed.
+                        String tempOutputFilePathString = outputFile.getAbsolutePath().replace("\\", "/");
+                        tempOutputFilePathString = tempOutputFilePathString.substring(tempOutputFilePathString.lastIndexOf("/") + 1);
+                        tempOutputFilePathString = Main.getInstance().getConfig().getString("SearchLogs.OutputPath") + "/" + tempOutputFilePathString;
+
+                        if (outputFile.length() != 0)
+                            new Methods().copyPasteFile(outputFile, (new File(tempOutputFilePathString)));
+                        else {
+                            sender.sendMessage(ChatColor.RED + "The results file is empty, not sending it.");
+                        }
+
+                        Long endingTime = System.currentTimeMillis();
+                        Long totalTime = endingTime - startingTime;
+                        Integer seconds = 0;
+                        while (totalTime >= 1000) {
+                            seconds += 1;
+                            totalTime -= 1000;
+                        }
+
+                        Double totalFileSize = 0d;
+                        for (File file : filesToRead)
+                            totalFileSize += file.length();
+                        totalFileSize /= 1000000;
+
+                        clearTemporaryFiles();
+
+                        sender.sendMessage(ChatColor.GREEN + "Search completed, took " + seconds + "." + totalTime + "s. Scanned " + filesToRead.size() + " files with a total size of " + Math.round(totalFileSize * 100.0) / 100.0 + "MB.");
+                        Main.getInstance().getLogger().info("Search completed, took " + seconds + "." + totalTime + "s. Scanned " + filesToRead.size() + " files with a total size of " + Math.round(totalFileSize * 100.0) / 100.0 + "MB.");
+
+                        inUse = false;
+
+                    } catch (Throwable throwable) {
+                        new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchNormalLogsCommand");
+                        throwable.printStackTrace();
+                        inUse = false;
+                    }
+
+                }
+            }.runTaskAsynchronously(Main.getInstance());
+
         }
 
         return true;
@@ -541,10 +757,11 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 List<String> choices = new ArrayList<>();
                 choices.add("normal");
                 choices.add("special");
+                choices.add("additional");
 
                 List<String> completions = new ArrayList<>();
                 for (String s : choices) {
-                    if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
+                    if (s.startsWith(args[0])) {
                         completions.add(s);
                     }
                 }
@@ -553,7 +770,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             }
 
-            if (args.length == 2 && args[0].toLowerCase().equals("normal") && args[1].isEmpty()) {
+            if (args.length == 2 && args[0].equals("normal") && args[1].isEmpty()) {
 
                 List<String> completions = new ArrayList<>();
 
@@ -565,7 +782,19 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             }
 
-            if (args.length == 3 && args[0].toLowerCase().equals("special") && args[2].isEmpty()) {
+            if (args.length == 3 && args[0].equals("special") && args[2].isEmpty()) {
+
+                List<String> completions = new ArrayList<>();
+
+                for (Integer i = 0; i < 10; i++) {
+                    completions.add(i.toString());
+                }
+
+                return completions;
+
+            }
+
+            if (args.length == 3 && args[0].equals("additional") && args[2].isEmpty()) {
 
                 List<String> completions = new ArrayList<>();
 
@@ -611,6 +840,26 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                     for (String argument : getArgumentListFromLogName(logNameArgument)) {
                         if (argument.toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
                             completions.add(argument);
+                        }
+                    }
+
+                    return completions;
+
+                }
+
+            }
+
+            if (args[0].equals("additional")) {
+
+                if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.SearchAdditionalLogsCommand"))
+                    return null;
+
+                if (args.length == 2) {
+
+                    List<String> completions = new ArrayList<>();
+                    for (String name : getAdditionalLogNames()) {
+                        if (name.startsWith(args[1])) {
+                            completions.add(name);
                         }
                     }
 
@@ -751,6 +1000,23 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
         }
 
         return null;
+
+    }
+
+    static List<String> getAdditionalLogNames() {
+
+        List<String> logNames = new ArrayList<>();
+
+        for (String s : Main.getInstance().getConfig().getStringList("AdditionalLogs")) {
+
+            s = s.substring(s.indexOf("Name:") + 5);
+            s = s.substring(0, s.indexOf(" "));
+
+            logNames.add(s);
+
+        }
+
+        return logNames;
 
     }
 

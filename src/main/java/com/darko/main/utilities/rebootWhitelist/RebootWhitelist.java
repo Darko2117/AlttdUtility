@@ -93,7 +93,7 @@ public class RebootWhitelist implements CommandExecutor, TabCompleter, Listener 
 
             List<String> completions = new ArrayList<>();
             for (String s : choices) {
-                if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
+                if (s.startsWith(args[0])) {
                     completions.add(s);
                 }
             }

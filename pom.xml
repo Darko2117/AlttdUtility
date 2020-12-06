@@ -87,6 +87,13 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/mcMMO.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>me.filoghost.farmlimiter.api.FarmLimitEvent</groupId>
+            <artifactId>FarmLimiter</artifactId>
+            <version>1.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/FarmLimiter.jar</systemPath>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.liteflags</groupId>-->
 <!--            <artifactId>liteflags</artifactId>-->

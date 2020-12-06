@@ -8,16 +8,14 @@ import com.darko.main.database.Database;
 import com.darko.main.utilities.atPlayers.NameInChatNotification;
 import com.darko.main.utilities.commandOnJoin.CommandOnJoin;
 import com.darko.main.utilities.crash.Crash;
+import com.darko.main.utilities.customChatMessage.CustomChatMessage;
 import com.darko.main.utilities.deathMessage.DeathMessage;
 import com.darko.main.utilities.destro.claimanimals.DamageListener;
 import com.darko.main.utilities.destro.kickFromBungee.KickFromBungeeCommand;
 import com.darko.main.utilities.flags.*;
 import com.darko.main.utilities.lavaSponge.LavaSponge;
-import com.darko.main.utilities.logging.LoggingCrazyCrates;
-import com.darko.main.utilities.logging.LoggingGriefPrevention;
+import com.darko.main.utilities.logging.*;
 import com.darko.main.utilities.itemPickup.ItemPickup;
-import com.darko.main.utilities.logging.LoggingNoAPI;
-import com.darko.main.utilities.logging.LoggingSearch;
 import com.darko.main.utilities.namedMobClaimDamage.NamedMobClaimDamage;
 import com.darko.main.utilities.playerList.PlayerList;
 import com.darko.main.utilities.prefixes.RemovePrefix;
@@ -77,6 +75,9 @@ public class Register extends JavaPlugin {
         if (APIs.WorldGuardFound) {
             registerEvents(new Flags());
         }
+        if(APIs.FarmLimiterFound){
+            registerEvents(new LoggingFarmLimiter());
+        }
 
     }
 
@@ -103,6 +104,7 @@ public class Register extends JavaPlugin {
         Main.getInstance().getCommand("togglegc").setExecutor(new ToggleGC());
         Main.getInstance().getCommand("sit").setExecutor(new Sit());
         Main.getInstance().getCommand("commandonjoin").setExecutor(new CommandOnJoin());
+        Main.getInstance().getCommand("ccm").setExecutor(new CustomChatMessage());
 
         Main.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         Main.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());

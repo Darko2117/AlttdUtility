@@ -43,3 +43,5 @@ commands:
     permission: utility.togglegc
   commandonjoin:
     permission: utility.commandonjoin
+  ccm:
+    permission: utility.ccm

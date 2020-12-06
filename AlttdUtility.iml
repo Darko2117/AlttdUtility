@@ -125,5 +125,14 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Maven: me.filoghost.farmlimiter.api.FarmLimitEvent:FarmLimiter:1.2">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/FarmLimiter.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

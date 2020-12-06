@@ -30,6 +30,8 @@ public class Logging {
     public static String itemsBrokenLogName = "itemsBroken";
     public static String numberOfClaimsNotificationLogName = "numberOfClaimsNotification";
     public static String itemsDespawnedLogName = "itemsDespawned";
+    public static String farmLimiterLogName = "farmLimiter";
+
 
     public static void initiate() {
 
@@ -49,6 +51,7 @@ public class Logging {
         logNamesAndConfigPaths.put(itemsBrokenLogName, "Logging.ItemsBrokenLog");
         logNamesAndConfigPaths.put(numberOfClaimsNotificationLogName, "Logging.NumberOfClaimsNotification");
         logNamesAndConfigPaths.put(itemsDespawnedLogName, "Logging.ItemsDespawned");
+        logNamesAndConfigPaths.put(farmLimiterLogName, "Logging.FarmLimiter");
 
         List<String> directories = new ArrayList<>();
         directories.add("logs");
@@ -81,7 +84,7 @@ public class Logging {
 
             File log = new File(Main.getInstance().getDataFolder() + "/logs/" + logName);
 
-            if (log.getName().startsWith(new Methods().getDateString())) continue;
+            if (log.getName().startsWith(new Methods().getDateStringYYYYMMDD())) continue;
 
             try {
                 if (new Methods().compressFile(log.getAbsolutePath(), log.getAbsolutePath().replace("\\logs\\", "\\compressed-logs\\").replace("/logs/", "/compressed-logs/").concat(".gz"))) {
@@ -112,9 +115,9 @@ public class Logging {
 
                 if (numberOfLogsToKeepFromConfig == 0) throw new Throwable();
 
-                Integer day = new Methods().getDateValuesFromStringDDMMYYYY(fileName.substring(0, 10))[0];
-                Integer month = new Methods().getDateValuesFromStringDDMMYYYY(fileName.substring(0, 10))[1];
-                Integer year = new Methods().getDateValuesFromStringDDMMYYYY(fileName.substring(0, 10))[2];
+                Integer day = new Methods().getDateValuesFromStringYYYYMMDD(fileName.substring(0, 10))[0];
+                Integer month = new Methods().getDateValuesFromStringYYYYMMDD(fileName.substring(0, 10))[1];
+                Integer year = new Methods().getDateValuesFromStringYYYYMMDD(fileName.substring(0, 10))[2];
                 LocalDate fileDateLD = LocalDate.of(year, month, day);
 
                 Integer epochDayOfFileCreation = Math.toIntExact(fileDateLD.toEpochDay());
@@ -129,7 +132,7 @@ public class Logging {
                 }
 
             } catch (Throwable throwable) {
-                Main.getInstance().getLogger().warning(fileName + " has an invalid name. Please set it to dd-mm-yyyy format if you want the plugin to keep track of it and delete it after the specified time.");
+                Main.getInstance().getLogger().warning(fileName + " has an invalid name. Please set it to yyyy-mm-dd format if you want the plugin to keep track of it and delete it after the specified time.");
             }
 
         }
@@ -173,7 +176,7 @@ public class Logging {
                     if (!messageCopy.equals("")) messageCopy = messageCopy.concat("\n");
 //                    messageCopy = ChatColor.stripColor(messageCopy);
 
-                    String logPath = "/logs/" + new Methods().getDateString() + "-" + logName + ".txt";
+                    String logPath = "/logs/" + new Methods().getDateStringYYYYMMDD() + "-" + logName + ".txt";
 
                     FileWriter writer = new FileWriter(Main.getInstance().getDataFolder() + logPath, true);
                     writer.write(messageCopy);

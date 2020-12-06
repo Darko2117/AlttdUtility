@@ -16,7 +16,7 @@ public class Methods {
 
     }
 
-    public String getDateString() {
+    public String getDateStringDDMMYYYY() {
 
         Integer day = LocalDate.now().getDayOfMonth();
         Integer month = LocalDate.now().getMonthValue();
@@ -34,6 +34,32 @@ public class Methods {
         date = date.concat(month.toString());
         date = date.concat("-");
         date = date.concat(year.toString());
+
+        return date;
+
+    }
+
+    public String getDateStringYYYYMMDD() {
+
+        Integer day = LocalDate.now().getDayOfMonth();
+        Integer month = LocalDate.now().getMonthValue();
+        Integer year = LocalDate.now().getYear();
+
+        String date = "";
+
+        date = date.concat(year.toString());
+        date = date.concat("-");
+
+        if (month < 10) {
+            date = date.concat("0");
+        }
+        date = date.concat(month.toString());
+        date = date.concat("-");
+
+        if (day < 10) {
+            date = date.concat("0");
+        }
+        date = date.concat(day.toString());
 
         return date;
 
@@ -150,6 +176,14 @@ public class Methods {
                 os.write(buffer, 0, length);
             }
         }
+
+    }
+
+    public String getServerJarPath(){
+
+        String path = new File(".").getAbsolutePath();
+        path = path.substring(0, path.length() - 1);
+        return path;
 
     }
 

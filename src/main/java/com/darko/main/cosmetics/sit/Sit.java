@@ -207,7 +207,7 @@ public class Sit implements CommandExecutor, Listener {
 
         Block blockAbove = block.getLocation().getWorld().getBlockAt(block.getLocation().add(0, 1, 0));
 
-        if (!blockAbove.getType().equals(Material.AIR)) {
+        if (!(blockAbove.getType().equals(Material.AIR) || blockAbove.getType().equals(Material.CAVE_AIR) || blockAbove.getType().equals(Material.VOID_AIR))) {
             new Methods().sendConfigMessage(player, "Messages.SeatInvalidBlock");
             return false;
         }
