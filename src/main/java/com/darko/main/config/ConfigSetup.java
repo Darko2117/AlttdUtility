@@ -14,9 +14,6 @@ public class ConfigSetup {
     private enum Messages {
 
         NoPermission("Messages.NoPermission", "&cYou do not have permission to do this."),
-        //        ChairEnabled("Messages.ChairEnabled", "&aChair mode enabled, right click on any stairs to sit on them."),
-//        ChairDisabled("Messages.ChairDisabled", "&cChair mode disabled."),
-//        InvalidChairBlock("Messages.InvalidChairBlock", "&cInvalid block found above/below the stairs."),
         SeatNoClaimPerm("Messages.SeatNoClaimPerm", "&cYou don't have %player%'s permission to use that."),
         SeatNoRegionPerm("Messages.SeatNoRegionPerm", "&cYou can't sit in this region."),
         HatNoItem("Messages.HatNoItem", "&eHold the item that you wish to put on your head."),
@@ -51,8 +48,13 @@ public class ConfigSetup {
         GriefPreventionNoBuildPermMessage("Messages.GriefPreventionNoBuildPermMessage", "&cYou don't have %player%'s permission to build here."),
         GriefPreventionThatBelongsToMessage("Messages.GriefPreventionThatBelongsToMessage", "&cThat belongs to %player%."),
         InvalidUsageCommandOnJoinMessage("Messages.InvalidUsageCommandOnJoinMessage", "&cUsage of this command is /commandonjoin <player> <command>."),
-        CommandOnJoinSetMessage("Messages.CommandOnJoinSetMessage", "&aSet command:%command% for player:%player%."),
-        CustomChatMessagesUsage("Messages.CustomChatMessagesUsage", "&cUsage of this command is\n/ccm <add/remove/edit> <messageName> <message>\nor\n/ccm <messageName>.");
+        CommandOnJoinSetMessage("Messages.CommandOnJoinSetMessage", "&aSet command: %command% for player: %player%."),
+        CustomChatMessageUsage("Messages.CustomChatMessageUsage", "&cUsage of this command is\n/ccm <add/edit> <messageName> <message>\nor /ccm remove <messageName>\nor /ccm <messageName>."),
+        CustomChatMessageSavedMessage("Messages.CustomChatMessageSavedMessage", "&aMessage saved. MessageName: %messageName% Message: %message%"),
+        CustomChatMessageAlreadyExists("Messages.CustomChatMessageAlreadyExists", "&cA custom message with that name already exists, please chose another one."),
+        CustomChatMessageDoesntExist("Messages.CustomChatMessageDoesntExist", "&cA custom message with that name doesn't exist."),
+        CustomChatMessageRemovedMessage("Messages.CustomChatMessageRemovedMessage", "&aMessage removed."),
+        CustomChatMessageEdited("Messages.CustomChatMessageEdited", "&aMessage edited.");
 
         private final String path;
         private final String message;
@@ -102,7 +104,7 @@ public class ConfigSetup {
         toggles.add("ToggleGCCommand");
         toggles.add("CommandOnJoin");
         toggles.add("NamedMobClaimDamageProtection");
-        toggles.add("CustomChatMessagesCommand");
+        toggles.add("CustomChatMessageCommand");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
@@ -339,17 +341,6 @@ public class ConfigSetup {
 
         // ----------------------------------------------------------------------------------------------------
 
-        // CommandOnJoin
-
-        if (!config.contains("CommandOnJoin")) {
-            List<String> playersAndCommands = new ArrayList<>();
-            playersAndCommands.add("Player:playerNameGoesHere Command:commandGoesHere");
-            config.set("CommandOnJoin", playersAndCommands);
-            notFoundInConfigMessage("CommandOnJoin");
-        }
-
-        // ----------------------------------------------------------------------------------------------------
-
         // NamedMobClaimDamage
 
         if (!config.contains("NamedMobClaimDamage.Names")) {
@@ -394,7 +385,7 @@ public class ConfigSetup {
 
     }
 
-    static void notFoundInConfigMessage(String string){
+    static void notFoundInConfigMessage(String string) {
 
         Main.getInstance().getLogger().info(string + " not found in the config, creating it now.");
 

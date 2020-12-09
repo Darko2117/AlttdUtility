@@ -2,7 +2,6 @@ package com.darko.main.register;
 
 import com.darko.main.API.APIs;
 import com.darko.main.cosmetics.invisibleItemFrame.InvisibleItemFrame;
-//import com.darko.main.cosmetics.sit.Sit;
 import com.darko.main.cosmetics.sit.Sit;
 import com.darko.main.database.Database;
 import com.darko.main.utilities.atPlayers.NameInChatNotification;
@@ -110,6 +109,8 @@ public class Register extends JavaPlugin {
         Main.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());
         Main.getInstance().getCommand("rebootwhitelist").setTabCompleter(new RebootWhitelist());
         Main.getInstance().getCommand("commandonjoin").setTabCompleter(new CommandOnJoin());
+        Main.getInstance().getCommand("ccm").setTabCompleter(new CustomChatMessage());
+
 
 
         Main.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(Main.getInstance(), "BungeeCord");

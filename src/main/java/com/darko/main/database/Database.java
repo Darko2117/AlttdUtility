@@ -53,7 +53,8 @@ public class Database implements Listener {
                 }
 
                 createUsersTable();
-                createCCMTable();
+                createCustomChatMessageTable();
+                createCommandOnJoinTable();
 
                 Database.reloadLoadedValues();
 
@@ -65,19 +66,23 @@ public class Database implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerJoin_UsersTable(PlayerJoinEvent event) {
+    public void onPlayerJoin_TablesUpdate(PlayerJoinEvent event) {
+
+        if (Database.connection == null) return;
 
         new BukkitRunnable() {
             @Override
             public void run() {
 
-                if (Database.connection == null) return;
-
                 Player player = event.getPlayer();
                 String uuid = player.getUniqueId().toString();
                 String username = player.getName();
 
-                String statement = "SELECT * FROM users WHERE UUID = '" + uuid + "';";
+                String statement;
+
+                //Users table
+
+                statement = "SELECT * FROM users WHERE UUID = '" + uuid + "';";
 
                 try {
 
@@ -104,7 +109,7 @@ public class Database implements Listener {
                             statement = "UPDATE users SET Username = '" + username + "' WHERE UUID = '" + uuid + "';";
 
                             Database.connection.prepareStatement(statement).executeUpdate();
-                            Main.getInstance().getLogger().info(username + " had a different username in the database (" + existingUsername + "). Updated it.");
+                            Main.getInstance().getLogger().info(username + " had a different username in the users table (" + existingUsername + "). Updated it.");
 
                         }
 
@@ -114,40 +119,24 @@ public class Database implements Listener {
                     throwable.printStackTrace();
                 }
 
-            }
-        }.runTaskAsynchronously(Main.getInstance());
+                //Custom chat message table
 
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerJoin_CCMTable(PlayerJoinEvent event) {
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-
-                if (Database.connection == null) return;
-
-                Player player = event.getPlayer();
-                String uuid = player.getUniqueId().toString();
-                String username = player.getName();
-
-                String statement = "SELECT * FROM ccm WHERE UUID = '" + uuid + "';";
+                statement = "SELECT * FROM custom_chat_message WHERE UUID = '" + uuid + "';";
 
                 try {
 
                     ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
 
-                    while (rs.next()){
+                    while (rs.next()) {
 
                         String existingUsername = rs.getString("Username");
 
                         if (!existingUsername.equals(username)) {
 
-                            statement = "UPDATE ccm SET Username = '" + username + "' WHERE UUID = '" + uuid + "';";
+                            statement = "UPDATE custom_chat_message SET Username = '" + username + "' WHERE UUID = '" + uuid + "';";
 
                             Database.connection.prepareStatement(statement).executeUpdate();
-                            Main.getInstance().getLogger().info(username + " had a different username in the database (" + existingUsername + "). Updated it.");
+                            Main.getInstance().getLogger().info(username + " had a different username in the custom_chat_message table (" + existingUsername + "). Updated it.");
 
                         }
 
@@ -244,22 +233,45 @@ public class Database implements Listener {
 
     }
 
-    static void createCCMTable() {
+    static void createCustomChatMessageTable() {
 
         try {
-            String CCMTableQuery = "CREATE TABLE IF NOT EXISTS ccm("
+            String customChatMessageTableQuery = "CREATE TABLE IF NOT EXISTS custom_chat_message("
                     + "ID INT NOT NULL AUTO_INCREMENT,"
                     + "PRIMARY KEY (ID))";
-            connection.prepareStatement(CCMTableQuery).executeUpdate();
+            connection.prepareStatement(customChatMessageTableQuery).executeUpdate();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
 
         List<String> columns = new ArrayList<>();
-        columns.add("ALTER TABLE ccm ADD UUID TEXT NOT NULL");
-        columns.add("ALTER TABLE ccm ADD Username TEXT NOT NULL");
-        columns.add("ALTER TABLE ccm ADD MessageName TEXT NOT NULL");
-        columns.add("ALTER TABLE ccm ADD Message TEXT NOT NULL");
+        columns.add("ALTER TABLE custom_chat_message ADD UUID TEXT NOT NULL");
+        columns.add("ALTER TABLE custom_chat_message ADD Username TEXT NOT NULL");
+        columns.add("ALTER TABLE custom_chat_message ADD MessageName TEXT NOT NULL");
+        columns.add("ALTER TABLE custom_chat_message ADD Message TEXT NOT NULL");
+        for (String string : columns) {
+            try {
+                connection.prepareStatement(string).executeUpdate();
+            } catch (Throwable ignored) {
+            }
+        }
+
+    }
+
+    static void createCommandOnJoinTable() {
+
+        try {
+            String commandOnJoinTableQuery = "CREATE TABLE IF NOT EXISTS command_on_join("
+                    + "ID INT NOT NULL AUTO_INCREMENT,"
+                    + "PRIMARY KEY (ID))";
+            connection.prepareStatement(commandOnJoinTableQuery).executeUpdate();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+
+        List<String> columns = new ArrayList<>();
+        columns.add("ALTER TABLE command_on_join ADD Username TEXT NOT NULL");
+        columns.add("ALTER TABLE command_on_join ADD Command TEXT NOT NULL");
         for (String string : columns) {
             try {
                 connection.prepareStatement(string).executeUpdate();

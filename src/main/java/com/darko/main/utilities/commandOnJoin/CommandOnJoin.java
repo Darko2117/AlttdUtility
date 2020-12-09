@@ -1,6 +1,7 @@
 package com.darko.main.utilities.commandOnJoin;
 
 import com.darko.main.Main;
+import com.darko.main.database.Database;
 import com.darko.main.other.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,7 +14,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,13 +42,20 @@ public class CommandOnJoin implements CommandExecutor, Listener, TabCompleter {
 
         }
 
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig()
-                .getString("Messages.CommandOnJoinSetMessage").replace("%player%", playerName).replace("%command%", commandToSet)));
+        String statement = "INSERT INTO command_on_join(Username, Command) VALUES("
+                + "'" + playerName + "', "
+                + "'" + commandToSet + "'"
+                + ");";
 
-        List<String> commands = Main.getInstance().getConfig().getStringList("CommandOnJoin");
-        commands.add("Player:" + playerName + " " + "Command:" + commandToSet);
-        Main.getInstance().getConfig().set("CommandOnJoin", commands);
-        Main.getInstance().saveConfig();
+        try {
+
+            Database.connection.prepareStatement(statement).executeUpdate();
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig()
+                    .getString("Messages.CommandOnJoinSetMessage").replace("%player%", playerName).replace("%command%", commandToSet)));
+
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
 
         return true;
 
@@ -56,26 +66,41 @@ public class CommandOnJoin implements CommandExecutor, Listener, TabCompleter {
 
         if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CommandOnJoin")) return;
 
-        try {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
 
-            for (String s : Main.getInstance().getConfig().getStringList("CommandOnJoin")) {
+                if (Database.connection == null) return;
 
-                s = s.substring(s.indexOf("Player:") + 7);
-                String name = s.substring(0, s.indexOf(" "));
+                String playerName = event.getPlayer().getName();
 
-                s = s.substring(s.indexOf("Command:") + 8);
-                String command = s;
+                String statement = "SELECT * FROM command_on_join WHERE Username = '" + playerName + "';";
 
-                if (event.getPlayer().getName().equals(name)) {
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
-                    Main.getInstance().getLogger().info("Ran the command:" + command + " because " + name + " joined.");
+                try {
+
+                    ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
+
+                    while (rs.next()) {
+
+                        String command = rs.getString("Command");
+
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+
+                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+                                Main.getInstance().getLogger().info("Ran the command: " + command + " because " + playerName + " joined.");
+
+                            }
+                        }.runTask(Main.getInstance());
+                    }
+
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
                 }
 
             }
-
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
+        }.runTaskAsynchronously(Main.getInstance());
 
     }
 
@@ -86,20 +111,17 @@ public class CommandOnJoin implements CommandExecutor, Listener, TabCompleter {
 
         if (args.length == 1) {
 
-            List<String> names = new ArrayList<>();
+            List<String> completions = new ArrayList<>();
 
-            for (Player p : Bukkit.getOnlinePlayers()) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
 
-                List<String> completions = new ArrayList<>();
-                if (p.getName().startsWith(args[0])) {
-                    completions.add(p.getName());
+                if (player.getName().toLowerCase().startsWith(args[0].toLowerCase())) {
+                    completions.add(player.getName());
                 }
-
-                return completions;
 
             }
 
-            return names;
+            return completions;
 
         }
 

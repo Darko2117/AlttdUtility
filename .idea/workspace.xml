@@ -27,8 +27,35 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49bc6783-8dae-497b-9e1b-b9252310cd10" name="Default Changelist" comment="">
+    <list default="true" id="49bc6783-8dae-497b-9e1b-b9252310cd10" name="Default Changelist" comment="Added a FarmLimiter log.">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/FarmLimiter.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/FarmLimiter.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/config/ConfigSetup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/config/ConfigSetup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/database/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/database/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/register/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/register/Register.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/commandOnJoin/CommandOnJoin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/commandOnJoin/CommandOnJoin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/customChatMessage/CustomChatMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/darko/main/utilities/customChatMessage/CustomChatMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/cosmetics/hat/Hat.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/cosmetics/hat/Hat.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/database/Database$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/database/Database$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/database/Database.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/database/Database.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/cooldown/Cooldown.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/cooldown/Cooldown.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/deathMessage/DeathMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/deathMessage/DeathMessage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/claimanimals/DamageListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/claimanimals/DamageListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/claimraids/RaidListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/claimraids/RaidListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/kickFromBungee/KickFromBungeeCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/kickFromBungee/KickFromBungeeCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/petpickup/PetPickupListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/petpickup/PetPickupListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/tamedexpire/onEntityInteractWithLead.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/destro/tamedexpire/onEntityInteractWithLead.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/flags/Flags.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/flags/Flags.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/logging/Logging.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/playerList/PlayerList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/playerList/PlayerList.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/prefixes/RemovePrefix.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/prefixes/RemovePrefix.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/prefixes/SetPrefix.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/prefixes/SetPrefix.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/servermsg/Servermsg.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/darko/main/utilities/servermsg/Servermsg.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,21 +107,15 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.35977012" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Darko\IntelliJ\AlttdUtilityMaven" />
       <recent name="C:\Users\Darko\IntelliJ\AlttdUtilityMaven\src\main\java" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.darko.main.utilities.logging.ItemsLogging" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Darko\IntelliJ\AlttdUtility\src\main\java\com\darko\main\utilities\prefixes" />
@@ -102,6 +123,12 @@
       <recent name="C:\Users\Darko\IntelliJ\AlttdUtility\src\main\java\com\darko\main\utilities\config" />
       <recent name="C:\Users\Darko\IntelliJ\AlttdUtility\src\main\java\com\darko\main" />
       <recent name="C:\Users\Darko\IntelliJ\AlttdUtility\src\main\java\com\darko\main\utilities\other" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.darko.main.utilities.logging.ItemsLogging" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -179,7 +206,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604347661276</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Added a FarmLimiter log.">
+      <created>1607237661270</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1607237661271</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -208,6 +242,7 @@
     <MESSAGE value="Added a /searchlogs command." />
     <MESSAGE value="Added /sit, LavaSponge and some other stuff." />
     <MESSAGE value="Added a numberOfClaimsNotification log." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added a numberOfClaimsNotification log." />
+    <MESSAGE value="Added a FarmLimiter log." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added a FarmLimiter log." />
   </component>
 </project>
