@@ -24,7 +24,7 @@ public class LoggingFarmLimiter implements Listener {
 
             String time = new Date(System.currentTimeMillis()).toString();
 
-            String entity = entityToRemove.toString();
+            String entity = entityToRemove.getType().toString();
 
             String location = Logging.getBetterLocationString(entityToRemove.getLocation());
 
