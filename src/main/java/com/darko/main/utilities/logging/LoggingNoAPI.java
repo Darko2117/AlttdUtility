@@ -2,19 +2,18 @@ package com.darko.main.utilities.logging;
 
 import com.darko.main.API.APIs;
 import com.darko.main.Main;
+import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityPickupItemEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
-import org.bukkit.event.entity.ItemDespawnEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
@@ -405,6 +404,41 @@ public class LoggingNoAPI implements Listener {
         message = message.concat("|");
 
         Logging.WriteToFile(Logging.itemsDespawnedLogName, message);
+
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public static void onEntityDamage(EntityDamageEvent event) {
+
+        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.itemsDestroyedLogName) + ".Enabled"))
+            return;
+
+        if(!(event.getEntity() instanceof Item)) return;
+
+        String time = new Date(System.currentTimeMillis()).toString();
+
+        String item = ((Item) event.getEntity()).getItemStack().toString();
+
+        String location = Logging.getBetterLocationString(event.getEntity().getLocation());
+
+        String cause = event.getCause().toString();
+
+        String message = "";
+        message = message.concat("|");
+        message = message.concat("Time:");
+        message = message.concat(time);
+        message = message.concat("|");
+        message = message.concat("Item:");
+        message = message.concat(item);
+        message = message.concat("|");
+        message = message.concat("Location:");
+        message = message.concat(location);
+        message = message.concat("|");
+        message = message.concat("Cause:");
+        message = message.concat(cause);
+        message = message.concat("|");
+
+        Logging.WriteToFile(Logging.itemsDestroyedLogName, message);
 
     }
 

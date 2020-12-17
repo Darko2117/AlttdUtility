@@ -31,6 +31,8 @@ public class Logging {
     public static String numberOfClaimsNotificationLogName = "numberOfClaimsNotification";
     public static String itemsDespawnedLogName = "itemsDespawned";
     public static String farmLimiterLogName = "farmLimiter";
+    public static String itemsDestroyedLogName = "itemsDestroyed";
+    public static String tridentsLogName = "tridents";
 
 
     public static void initiate() {
@@ -52,6 +54,8 @@ public class Logging {
         logNamesAndConfigPaths.put(numberOfClaimsNotificationLogName, "Logging.NumberOfClaimsNotification");
         logNamesAndConfigPaths.put(itemsDespawnedLogName, "Logging.ItemsDespawned");
         logNamesAndConfigPaths.put(farmLimiterLogName, "Logging.FarmLimiter");
+        logNamesAndConfigPaths.put(itemsDestroyedLogName, "Logging.ItemsDestroyed");
+        logNamesAndConfigPaths.put(tridentsLogName, "Logging.Tridents");
 
         List<String> directories = new ArrayList<>();
         directories.add("logs");

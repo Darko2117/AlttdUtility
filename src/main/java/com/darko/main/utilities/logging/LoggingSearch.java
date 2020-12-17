@@ -997,6 +997,15 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             return arguments;
 
+        } else if (logName.equals("itemsDestroyed")) {
+
+            arguments.add("Time:");
+            arguments.add("Item:");
+            arguments.add("Location:");
+            arguments.add("Cause:");
+
+            return arguments;
+
         }
 
         return null;
