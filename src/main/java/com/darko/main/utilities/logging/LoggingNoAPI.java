@@ -415,6 +415,8 @@ public class LoggingNoAPI implements Listener {
 
         if(!(event.getEntity() instanceof Item)) return;
 
+        if(((Item) event.getEntity()).getItemStack().getType().equals(Material.CACTUS)) return;
+
         String time = new Date(System.currentTimeMillis()).toString();
 
         String item = ((Item) event.getEntity()).getItemStack().toString();
