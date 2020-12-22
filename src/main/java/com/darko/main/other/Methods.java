@@ -3,6 +3,10 @@ package com.darko.main.other;
 import com.darko.main.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.io.BukkitObjectInputStream;
+import org.bukkit.util.io.BukkitObjectOutputStream;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -184,6 +188,53 @@ public class Methods {
         String path = new File(".").getAbsolutePath();
         path = path.substring(0, path.length() - 1);
         return path;
+
+    }
+
+    public static String serializeItemStack(ItemStack itemStack){
+
+        try {
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
+
+            dataOutput.writeInt(1);
+
+            dataOutput.writeObject(itemStack);
+
+            dataOutput.close();
+
+            return Base64Coder.encodeLines(outputStream.toByteArray());
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+        return null;
+
+    }
+
+    public static ItemStack deserializeItemStack(String string) {
+
+        try {
+
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(string));
+            BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
+            ItemStack[] items = new ItemStack[dataInput.readInt()];
+
+            for (int i = 0; i < items.length; i++) {
+                items[i] = (ItemStack) dataInput.readObject();
+            }
+
+            dataInput.close();
+
+            return items[0];
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+        return null;
 
     }
 

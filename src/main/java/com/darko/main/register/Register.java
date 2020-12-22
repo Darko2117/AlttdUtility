@@ -4,6 +4,9 @@ import com.darko.main.API.APIs;
 import com.darko.main.cosmetics.invisibleItemFrame.InvisibleItemFrame;
 import com.darko.main.cosmetics.sit.Sit;
 import com.darko.main.database.Database;
+import com.darko.main.temporary_holiday_presents.PresentClaimingListener;
+import com.darko.main.temporary_holiday_presents.PresentCommand;
+import com.darko.main.temporary_holiday_presents.SetPresentCommand;
 import com.darko.main.utilities.atPlayers.NameInChatNotification;
 import com.darko.main.utilities.commandOnJoin.CommandOnJoin;
 import com.darko.main.utilities.crash.Crash;
@@ -57,7 +60,8 @@ public class Register extends JavaPlugin {
                 new RebootWhitelist(),
                 new LavaSponge(),
                 new Sit(),
-                new CommandOnJoin()
+                new CommandOnJoin(),
+                new PresentClaimingListener()
         );
 
         if (APIs.MyPetFound) {
@@ -104,6 +108,8 @@ public class Register extends JavaPlugin {
         Main.getInstance().getCommand("sit").setExecutor(new Sit());
         Main.getInstance().getCommand("commandonjoin").setExecutor(new CommandOnJoin());
         Main.getInstance().getCommand("ccm").setExecutor(new CustomChatMessage());
+        Main.getInstance().getCommand("setpresent").setExecutor(new SetPresentCommand());
+        Main.getInstance().getCommand("present").setExecutor(new PresentCommand());
 
         Main.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         Main.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());

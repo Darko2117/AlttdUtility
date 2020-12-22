@@ -45,3 +45,7 @@ commands:
     permission: utility.commandonjoin
   ccm:
     permission: utility.ccm
+  setpresent:
+    permission: utility.setpresent
+  present:
+    permission: utility.present

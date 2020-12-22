@@ -45,4 +45,5 @@ public class Hat implements CommandExecutor {
         return true;
 
     }
+
 }
