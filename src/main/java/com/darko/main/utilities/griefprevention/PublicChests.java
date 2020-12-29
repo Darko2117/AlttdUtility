@@ -17,7 +17,7 @@ import org.bukkit.inventory.InventoryHolder;
 public class PublicChests {
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onRaidStart(PlayerInteractEvent event) {
+    public void onChestOpen(PlayerInteractEvent event) {
         //if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.AllowNamedPublicChests")) return;//TODO add this toggle
 
         if (event.isCancelled() && event.hasBlock()) {
