@@ -6,11 +6,12 @@ import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 
 /**
  * https://discordapp.com/channels/141644560005595136/677219092717109289/784166704250880021
  */
-public class TNTProtection {
+public class TNTProtection implements Listener {
 
     public void onTNTPrime(TNTPrimeEvent event) {
         if(event.getReason() == TNTPrimeEvent.PrimeReason.PROJECTILE) {

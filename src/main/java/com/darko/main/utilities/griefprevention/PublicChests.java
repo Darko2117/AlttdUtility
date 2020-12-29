@@ -7,6 +7,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.InventoryHolder;
 
@@ -14,7 +15,7 @@ import org.bukkit.inventory.InventoryHolder;
  * https://discordapp.com/channels/141644560005595136/677219092717109289/788689097064579083
  * adapted to be for all chests, barrels and shulkers
  */
-public class PublicChests {
+public class PublicChests implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onChestOpen(PlayerInteractEvent event) {

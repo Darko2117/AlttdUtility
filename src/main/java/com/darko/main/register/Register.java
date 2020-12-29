@@ -15,6 +15,9 @@ import com.darko.main.utilities.deathMessage.DeathMessage;
 import com.darko.main.utilities.destro.claimanimals.DamageListener;
 import com.darko.main.utilities.destro.kickFromBungee.KickFromBungeeCommand;
 import com.darko.main.utilities.flags.*;
+import com.darko.main.utilities.griefprevention.PublicChests;
+import com.darko.main.utilities.griefprevention.PublicTraders;
+import com.darko.main.utilities.griefprevention.TNTProtection;
 import com.darko.main.utilities.lavaSponge.LavaSponge;
 import com.darko.main.utilities.logging.*;
 import com.darko.main.utilities.itemPickup.ItemPickup;
@@ -61,7 +64,13 @@ public class Register extends JavaPlugin {
                 new LavaSponge(),
                 new Sit(),
                 new CommandOnJoin(),
-                new PresentClaimingListener()
+                new PresentClaimingListener(),
+
+                new PublicChests(),
+                new PublicTraders(),
+                new TNTProtection()
+
+
         );
 
         if (APIs.MyPetFound) {

@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.InventoryHolder;
@@ -17,7 +18,7 @@ import org.bukkit.inventory.InventoryHolder;
 /**
  * https://discordapp.com/channels/141644560005595136/677219092717109289/788192729787138048
  */
-public class PublicTraders {
+public class PublicTraders implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onVillagerTrade(PlayerInteractEntityEvent event) {
