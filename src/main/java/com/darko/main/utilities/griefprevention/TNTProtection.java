@@ -1,0 +1,32 @@
+package com.darko.main.utilities.griefprevention;
+
+import com.destroystokyo.paper.event.block.TNTPrimeEvent;
+import me.ryanhamshire.GriefPrevention.Claim;
+import me.ryanhamshire.GriefPrevention.GriefPrevention;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+
+/**
+ * https://discordapp.com/channels/141644560005595136/677219092717109289/784166704250880021
+ */
+public class TNTProtection {
+
+    public void onTNTPrime(TNTPrimeEvent event) {
+        if(event.getReason() == TNTPrimeEvent.PrimeReason.PROJECTILE) {
+            Entity entity = event.getPrimerEntity();
+            if(entity instanceof Arrow) {
+                Arrow arrow = (Arrow) entity;
+                if(arrow.getShooter() instanceof Player) {
+                    Player player = (Player) arrow.getShooter();
+                    Claim claim = GriefPrevention.instance.dataStore.getClaimAt(event.getBlock().getLocation(), true, null);
+                    if (claim != null) {
+                        if (claim.allowAccess(player) != null) {
+                            event.setCancelled(false);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
