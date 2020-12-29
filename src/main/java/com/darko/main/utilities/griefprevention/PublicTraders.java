@@ -1,5 +1,6 @@
 package com.darko.main.utilities.griefprevention;
 
+import com.darko.main.Main;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.ChatColor;
@@ -19,7 +20,7 @@ public class PublicTraders implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onVillagerTrade(PlayerInteractEntityEvent event) {
-        //if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.AllowNamedPublicVillagers")) return;//TODO add this toggle
+        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.AllowNamedPublicVillagers", false)) return;
 
         if (event.isCancelled()) {
             Entity entity = event.getRightClicked();

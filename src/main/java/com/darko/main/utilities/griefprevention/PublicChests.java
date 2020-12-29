@@ -1,5 +1,6 @@
 package com.darko.main.utilities.griefprevention;
 
+import com.darko.main.Main;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.ChatColor;
@@ -20,7 +21,7 @@ public class PublicChests implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onChestOpen(PlayerInteractEvent event) {
-        //if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.AllowNamedPublicChests")) return;//TODO add this toggle
+        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.AllowNamedPublicChests", false)) return;
 
         if (event.isCancelled() && event.hasBlock()) {
             Block block = event.getClickedBlock();
