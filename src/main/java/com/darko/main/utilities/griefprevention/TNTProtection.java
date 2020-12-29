@@ -6,6 +6,8 @@ import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 /**
@@ -13,6 +15,7 @@ import org.bukkit.event.Listener;
  */
 public class TNTProtection implements Listener {
 
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onTNTPrime(TNTPrimeEvent event) {
         if(event.getReason() == TNTPrimeEvent.PrimeReason.PROJECTILE) {
             Entity entity = event.getPrimerEntity();
@@ -23,7 +26,7 @@ public class TNTProtection implements Listener {
                     Claim claim = GriefPrevention.instance.dataStore.getClaimAt(event.getBlock().getLocation(), true, null);
                     if (claim != null) {
                         if (claim.allowAccess(player) != null) {
-                            event.setCancelled(false);
+                            event.setCancelled(true);
                         }
                     }
                 }

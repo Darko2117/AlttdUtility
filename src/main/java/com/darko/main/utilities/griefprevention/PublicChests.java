@@ -2,6 +2,7 @@ package com.darko.main.utilities.griefprevention;
 
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
+import org.bukkit.ChatColor;
 import org.bukkit.Nameable;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -28,14 +29,14 @@ public class PublicChests implements Listener {
              * This should cover all chests, enderchests, barrels, furnacetypes, lectern, ....
              */
             if(block.getState() instanceof InventoryHolder) {
-                // Do we need to check for claims? i assume it's cancelled because of no permission as we only continue if the event is canceled
-                // we don't need to check for worldguard regions either as spawn should also be claimed?
-                Claim claim = GriefPrevention.instance.dataStore.getClaimAt(block.getLocation(), true, null);
-                if (claim != null) {
-                    if (claim.allowAccess(player) != null) {
-                        if (block.getState() instanceof Nameable) {
-                            Nameable nameable = (Nameable) block.getState();
-                            if (nameable.getCustomName().equalsIgnoreCase("public")) {
+                if (block.getState() instanceof Nameable) {
+                    Nameable nameable = (Nameable) block.getState();
+                    if (ChatColor.stripColor(nameable.getCustomName()).equalsIgnoreCase("public")) {
+                        // Do we need to check for claims? i assume it's cancelled because of no permission as we only continue if the event is canceled
+                        // we don't need to check for worldguard regions either as spawn should also be claimed?
+                        Claim claim = GriefPrevention.instance.dataStore.getClaimAt(block.getLocation(), true, null);
+                        if (claim != null) {
+                            if (claim.allowAccess(player) != null) {
                                 event.setCancelled(false);
                             }
                         }
