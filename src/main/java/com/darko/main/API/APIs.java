@@ -5,6 +5,7 @@ import com.darko.main.other.ConsoleColors;
 import com.gmail.filoghost.farmlimiter.FarmLimiter;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import de.Keyle.MyPet.MyPetPlugin;
+import me.NoChance.PvPManager.PvPManager;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
@@ -21,6 +22,7 @@ public class APIs extends JavaPlugin {
     public static Boolean CrazyCratesFound = false;
     public static Boolean mcMMOFound = false;
     public static Boolean FarmLimiterFound = false;
+    public static Boolean PvPManagerFound = false;
 
 
     public static void APIConnect() {
@@ -46,6 +48,8 @@ public class APIs extends JavaPlugin {
         if (FarmLimiterApiCheck() != null)
             FarmLimiterFound = true;
 
+        if (PvPManagerAPICheck() != null)
+            PvPManagerFound = true;
 
         if (GriefPreventionFound)
             Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "GriefPrevention found!... " + ConsoleColors.RESET);
@@ -81,6 +85,11 @@ public class APIs extends JavaPlugin {
             Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "FarmLimiter found!... " + ConsoleColors.RESET);
         else
             Main.getInstance().getLogger().info(ConsoleColors.RED + "FarmLimiter not found!... " + ConsoleColors.RESET);
+
+        if (PvPManagerFound)
+            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "PvPManager found!... " + ConsoleColors.RESET);
+        else
+            Main.getInstance().getLogger().info(ConsoleColors.RED + "PvPManager not found!... " + ConsoleColors.RESET);
 
     }
 
@@ -145,6 +154,15 @@ public class APIs extends JavaPlugin {
         Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("FarmLimiter");
         if (plugin instanceof FarmLimiter) {
             return (FarmLimiter) plugin;
+        } else {
+            return null;
+        }
+    }
+
+    public static PvPManager PvPManagerAPICheck() {
+        Plugin plugin = Bukkit.getPluginManager().getPlugin("PvPManager");
+        if (plugin instanceof PvPManager) {
+            return (PvPManager) plugin;
         } else {
             return null;
         }

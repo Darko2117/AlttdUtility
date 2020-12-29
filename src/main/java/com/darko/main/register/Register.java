@@ -12,6 +12,7 @@ import com.darko.main.utilities.commandOnJoin.CommandOnJoin;
 import com.darko.main.utilities.crash.Crash;
 import com.darko.main.utilities.customChatMessage.CustomChatMessage;
 import com.darko.main.utilities.deathMessage.DeathMessage;
+import com.darko.main.utilities.destro.PvPFishing;
 import com.darko.main.utilities.destro.claimanimals.DamageListener;
 import com.darko.main.utilities.destro.kickFromBungee.KickFromBungeeCommand;
 import com.darko.main.utilities.flags.*;
@@ -89,6 +90,9 @@ public class Register extends JavaPlugin {
         }
         if(APIs.FarmLimiterFound){
             registerEvents(new LoggingFarmLimiter());
+        }
+        if(APIs.PvPManagerFound) {
+            registerEvents(new PvPFishing());
         }
 
     }
