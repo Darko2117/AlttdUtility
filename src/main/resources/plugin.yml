@@ -5,8 +5,6 @@ author: Daki
 main: com.darko.main.Main
 api-version: 1.16
 commands:
-#  chair:
-#    permission: utility.chair
   hat:
     permission: utility.hat
   servermsg:
@@ -45,7 +43,3 @@ commands:
     permission: utility.commandonjoin
   ccm:
     permission: utility.ccm
-  setpresent:
-    permission: utility.setpresent
-  present:
-    permission: utility.present
