@@ -1,4 +1,4 @@
-package com.darko.main.utilities.griefprevention;
+package com.darko.main.utilities.destro.griefprevention;
 
 import com.darko.main.Main;
 import com.destroystokyo.paper.event.block.TNTPrimeEvent;

@@ -1,4 +1,4 @@
-package com.darko.main.utilities.destro;
+package com.darko.main.utilities.destro.pvpFishing;
 
 import com.darko.main.Main;
 import me.NoChance.PvPManager.PvPlayer;

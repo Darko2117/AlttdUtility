@@ -9,13 +9,13 @@ import com.darko.main.utilities.commandOnJoin.CommandOnJoin;
 import com.darko.main.utilities.crash.Crash;
 import com.darko.main.utilities.customChatMessage.CustomChatMessage;
 import com.darko.main.utilities.deathMessage.DeathMessage;
-import com.darko.main.utilities.destro.PvPFishing;
+import com.darko.main.utilities.destro.pvpFishing.PvPFishing;
 import com.darko.main.utilities.destro.claimanimals.DamageListener;
 import com.darko.main.utilities.destro.kickFromBungee.KickFromBungeeCommand;
 import com.darko.main.utilities.flags.*;
-import com.darko.main.utilities.griefprevention.PublicChests;
-import com.darko.main.utilities.griefprevention.PublicTraders;
-import com.darko.main.utilities.griefprevention.TNTProtection;
+import com.darko.main.utilities.destro.griefprevention.PublicChests;
+import com.darko.main.utilities.destro.griefprevention.PublicTraders;
+import com.darko.main.utilities.destro.griefprevention.TNTProtection;
 import com.darko.main.utilities.lavaSponge.LavaSponge;
 import com.darko.main.utilities.logging.*;
 import com.darko.main.utilities.itemPickup.ItemPickup;
@@ -55,7 +55,6 @@ public class Register extends JavaPlugin {
                 new DeathMessage(),
                 new NameInChatNotification(),
                 new Database(),
-//                new Chair(),
                 new LoggingNoAPI(),
                 new InvisibleItemFrame(),
                 new RebootWhitelist(),
@@ -75,7 +74,8 @@ public class Register extends JavaPlugin {
             registerEvents(new LoggingCrazyCrates());
         }
         if (APIs.GriefPreventionFound) {
-            registerEvents(new LoggingGriefPrevention(),
+            registerEvents(
+                    new LoggingGriefPrevention(),
                     new NamedMobClaimDamage()
             );
         }
@@ -103,7 +103,6 @@ public class Register extends JavaPlugin {
         Main.getInstance().getCommand("blockitempickup").setExecutor(new ItemPickup());
         Main.getInstance().getCommand("hat").setExecutor(new Hat());
         Main.getInstance().getCommand("servermsg").setExecutor(new Servermsg());
-//        Main.getInstance().getCommand("chair").setExecutor(new Chair());
         Main.getInstance().getCommand("alttdutilityreload").setExecutor(new ReloadCommand());
         Main.getInstance().getCommand("list").setExecutor(new PlayerList());
         Main.getInstance().getCommand("kickfrombungee").setExecutor(new KickFromBungeeCommand());
@@ -121,8 +120,6 @@ public class Register extends JavaPlugin {
         Main.getInstance().getCommand("rebootwhitelist").setTabCompleter(new RebootWhitelist());
         Main.getInstance().getCommand("commandonjoin").setTabCompleter(new CommandOnJoin());
         Main.getInstance().getCommand("ccm").setTabCompleter(new CustomChatMessage());
-
-
 
         Main.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(Main.getInstance(), "BungeeCord");
 
