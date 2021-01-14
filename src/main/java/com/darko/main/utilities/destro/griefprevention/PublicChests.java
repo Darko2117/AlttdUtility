@@ -21,7 +21,7 @@ public class PublicChests implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onChestOpen(PlayerInteractEvent event) {
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.AllowNamedPublicChests", false)) return;
+        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.AllowNamedPublicChests")) return;
 
         if (event.isCancelled() && event.hasBlock()) {
             Block block = event.getClickedBlock();

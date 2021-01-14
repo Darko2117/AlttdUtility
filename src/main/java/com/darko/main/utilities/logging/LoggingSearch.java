@@ -997,12 +997,30 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             return arguments;
 
+        } else if (logName.equals("farmLimiter")) {
+
+            arguments.add("Time:");
+            arguments.add("Entity:");
+            arguments.add("Location:");
+            arguments.add("ClaimOwner:");
+
+            return arguments;
+
         } else if (logName.equals("itemsDestroyed")) {
 
             arguments.add("Time:");
             arguments.add("Item:");
             arguments.add("Location:");
             arguments.add("Cause:");
+
+            return arguments;
+
+        } else if (logName.equals("commandsWithLocation")) {
+
+            arguments.add("Time:");
+            arguments.add("User:");
+            arguments.add("Command:");
+            arguments.add("Location:");
 
             return arguments;
 

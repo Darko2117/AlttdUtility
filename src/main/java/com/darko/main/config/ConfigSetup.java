@@ -73,7 +73,6 @@ public class ConfigSetup {
         //Toggles
 
         List<String> toggles = new ArrayList<>();
-//        toggles.add("Chair");
         toggles.add("Hat");
         toggles.add("ChatAtPlayers");
         toggles.add("BlockOfflinePay");
@@ -105,6 +104,10 @@ public class ConfigSetup {
         toggles.add("CommandOnJoin");
         toggles.add("NamedMobClaimDamageProtection");
         toggles.add("CustomChatMessageCommand");
+        toggles.add("PreventNoPvPFishing");
+        toggles.add("AllowNamedPublicChests");
+        toggles.add("AllowNamedPublicVillagers");
+        toggles.add("ProtectTNTArrowDamage");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {

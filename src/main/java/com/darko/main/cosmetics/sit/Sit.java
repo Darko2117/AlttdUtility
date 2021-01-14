@@ -25,6 +25,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -100,6 +101,18 @@ public class Sit implements CommandExecutor, Listener {
             } else {
                 event.setCancelled(true);
             }
+        }
+
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
+
+        if (event.isCancelled()) return;
+        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
+
+        if (aliveSeats.containsValue(event.getRightClicked())) {
+            event.setCancelled(true);
         }
 
     }
@@ -207,7 +220,7 @@ public class Sit implements CommandExecutor, Listener {
 
         Block blockAbove = block.getLocation().getWorld().getBlockAt(block.getLocation().add(0, 1, 0));
 
-        if (!(blockAbove.getType().equals(Material.AIR) || blockAbove.getType().equals(Material.CAVE_AIR) || blockAbove.getType().equals(Material.VOID_AIR))) {
+        if (!(blockAbove.getBlockData().getMaterial().isAir() || blockAbove.isLiquid())) {
             new Methods().sendConfigMessage(player, "Messages.SeatInvalidBlock");
             return false;
         }

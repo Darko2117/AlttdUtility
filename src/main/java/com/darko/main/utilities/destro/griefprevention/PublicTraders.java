@@ -20,7 +20,7 @@ public class PublicTraders implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onVillagerTrade(PlayerInteractEntityEvent event) {
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.AllowNamedPublicVillagers", false)) return;
+        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.AllowNamedPublicVillagers")) return;
 
         if (event.isCancelled()) {
             Entity entity = event.getRightClicked();

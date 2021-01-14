@@ -413,9 +413,9 @@ public class LoggingNoAPI implements Listener {
         if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.itemsDestroyedLogName) + ".Enabled"))
             return;
 
-        if(!(event.getEntity() instanceof Item)) return;
+        if (!(event.getEntity() instanceof Item)) return;
 
-        if(((Item) event.getEntity()).getItemStack().getType().equals(Material.CACTUS)) return;
+        if (((Item) event.getEntity()).getItemStack().getType().equals(Material.CACTUS)) return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -441,6 +441,38 @@ public class LoggingNoAPI implements Listener {
         message = message.concat("|");
 
         Logging.WriteToFile(Logging.itemsDestroyedLogName, message);
+
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public static void onPlayerCommandSend(PlayerCommandPreprocessEvent event) {
+
+        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.commandsWithLocation) + ".Enabled")) return;
+
+        String time = new Date(System.currentTimeMillis()).toString();
+
+        String user = event.getPlayer().getName();
+
+        String command = event.getMessage();
+
+        String location = Logging.getBetterLocationString(event.getPlayer().getLocation());
+
+        String message = "";
+        message = message.concat("|");
+        message = message.concat("Time:");
+        message = message.concat(time);
+        message = message.concat("|");
+        message = message.concat("User:");
+        message = message.concat(user);
+        message = message.concat("|");
+        message = message.concat("Command:");
+        message = message.concat(command);
+        message = message.concat("|");
+        message = message.concat("Location:");
+        message = message.concat(location);
+        message = message.concat("|");
+
+        Logging.WriteToFile(Logging.commandsWithLocation, message);
 
     }
 

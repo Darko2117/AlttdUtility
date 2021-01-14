@@ -18,7 +18,7 @@ public class TNTProtection implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onTNTPrime(TNTPrimeEvent event) {
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.ProtectTNTArrowDamage", false)) return;
+        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.ProtectTNTArrowDamage")) return;
         if(event.getReason() == TNTPrimeEvent.PrimeReason.PROJECTILE) {
             Entity entity = event.getPrimerEntity();
             if(entity instanceof Arrow) {
