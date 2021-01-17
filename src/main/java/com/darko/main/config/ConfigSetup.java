@@ -54,7 +54,12 @@ public class ConfigSetup {
         CustomChatMessageAlreadyExists("Messages.CustomChatMessageAlreadyExists", "&cA custom message with that name already exists, please chose another one."),
         CustomChatMessageDoesntExist("Messages.CustomChatMessageDoesntExist", "&cA custom message with that name doesn't exist."),
         CustomChatMessageRemovedMessage("Messages.CustomChatMessageRemovedMessage", "&aMessage removed."),
-        CustomChatMessageEdited("Messages.CustomChatMessageEdited", "&aMessage edited.");
+        CustomChatMessageEdited("Messages.CustomChatMessageEdited", "&aMessage edited."),
+        FreezeMailSuccessfullySend("Messages.FreezeMailSuccessfullySend", "&aSuccessfully send freezemail to %player%!"),
+        FreezeMailPlayerDoesntExist("Messages.FreezeMailPlayerDoesntExist", "&c%target% Is not a valid player!"),
+        FreezeMailSpecifyPlayer("Messages.FreezeMailSpecifyPlayer", "&cSpecify a player and a message to send them"),
+        FreezeMailSuccessfullyCompleted("Messages.FreezeMailSuccessfullyCompleted", "&aThank you! You are now able to move and talk again!"),
+        FreezeMailNotAcceptedYet("Messages.FreezeMailNotAcceptedYet", "You won't be able to move, speak, or send commands until you've acknowledged you've read the following mails and will do as they say. To acknowledge these mails, type &6I read the mail &r");
 
         private final String path;
         private final String message;

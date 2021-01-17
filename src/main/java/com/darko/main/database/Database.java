@@ -55,6 +55,7 @@ public class Database implements Listener {
                 createUsersTable();
                 createCustomChatMessageTable();
                 createCommandOnJoinTable();
+                createFreezeMessageTable();
 
                 Database.reloadLoadedValues();
 
@@ -279,6 +280,20 @@ public class Database implements Listener {
             }
         }
 
+    }
+
+    static void createFreezeMessageTable() {
+        try {
+            String freezeMessageTableQuery = "CREATE TABLE IF NOT EXISTS freeze_message("
+                    + "Id int NOT NULL AUTO_INCREMENT,"
+                    + "UUID VARCHAR(36) NOT NULL,"
+                    + "Message VARCHAR(256) NOT NULL,"
+                    + "IsRead SMALLINT(1) DEFAULT 0,"
+                    + "PRIMARY KEY (Id))";
+            connection.prepareStatement(freezeMessageTableQuery).executeUpdate();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
     }
 
 }
