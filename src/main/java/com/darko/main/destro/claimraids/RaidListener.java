@@ -1,4 +1,4 @@
-package com.darko.main.utilities.destro.claimraids;
+package com.darko.main.destro.claimraids;
 
 import com.darko.main.Main;
 import org.bukkit.Raid;

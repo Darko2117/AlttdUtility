@@ -1,4 +1,4 @@
-package com.darko.main.utilities.destro.tamedexpire;
+package com.darko.main.destro.tamedexpire;
 
 import java.util.concurrent.TimeUnit;
 

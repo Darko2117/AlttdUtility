@@ -1,4 +1,4 @@
-package com.darko.main.utilities.destro.petpickup;
+package com.darko.main.destro.petpickup;
 
 import com.darko.main.Main;
 import org.bukkit.entity.Player;

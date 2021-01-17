@@ -1,4 +1,4 @@
-package com.darko.main.utilities.destro.claimanimals;
+package com.darko.main.destro.claimanimals;
 
 import com.darko.main.Main;
 import org.bukkit.entity.Animals;

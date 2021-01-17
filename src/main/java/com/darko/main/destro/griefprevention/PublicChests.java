@@ -1,4 +1,4 @@
-package com.darko.main.utilities.destro.griefprevention;
+package com.darko.main.destro.griefprevention;
 
 import com.darko.main.Main;
 import me.ryanhamshire.GriefPrevention.Claim;
