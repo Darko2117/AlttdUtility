@@ -32,6 +32,7 @@ public class PublicChests implements Listener {
             if(block.getState() instanceof InventoryHolder) {
                 if (block.getState() instanceof Nameable) {
                     Nameable nameable = (Nameable) block.getState();
+                    if(nameable.getCustomName() == null) return;
                     if (ChatColor.stripColor(nameable.getCustomName()).equalsIgnoreCase("public")) {
                         // Do we need to check for claims? i assume it's cancelled because of no permission as we only continue if the event is canceled
                         // we don't need to check for worldguard regions either as spawn should also be claimed?
