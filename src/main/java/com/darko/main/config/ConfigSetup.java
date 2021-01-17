@@ -59,8 +59,9 @@ public class ConfigSetup {
         FreezeMailPlayerDoesntExist("Messages.FreezeMailPlayerDoesntExist", "&c%target% Is not a valid player!"),
         FreezeMailSpecifyPlayer("Messages.FreezeMailSpecifyPlayer", "&cSpecify a player and a message to send them"),
         FreezeMailSuccessfullyCompleted("Messages.FreezeMailSuccessfullyCompleted", "&aThank you! You are now able to move and talk again!"),
-        FreezeMailNotAcceptedYet("Messages.FreezeMailNotAcceptedYet", "You won't be able to move, speak, or send commands until you've acknowledged you've read the following mails and will do as they say. To acknowledge these mails, type &6I read the mail &r");
-
+        FreezeMailNotAcceptedYet("Messages.FreezeMailNotAcceptedYet", "You won't be able to move, speak, or send commands until you've acknowledged you've read the following messages and will do as they say. To acknowledge these messages, type &6I read the message &r"),
+        FreezeMailTitle("Messages.FreezeMailTitle", "&6Read your messages"),
+        FreezeMailSubTitle("Messages.FreezeMailSubTitle", "&aYou won't be able to move until you do");
         private final String path;
         private final String message;
 
@@ -113,6 +114,7 @@ public class ConfigSetup {
         toggles.add("AllowNamedPublicChests");
         toggles.add("AllowNamedPublicVillagers");
         toggles.add("ProtectTNTArrowDamage");
+        toggles.add("FreezeMail");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {

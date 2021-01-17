@@ -3,13 +3,12 @@ package com.darko.main.utilities.teri.FreezeMail;
 import com.darko.main.Main;
 import com.darko.main.database.Database;
 import com.sk89q.worldguard.bukkit.event.entity.DamageEntityEvent;
-import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.data.DataMutateResult;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,7 +25,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class PlayerListener implements Listener {
+public class FreezeMailPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoin (PlayerJoinEvent event) {
@@ -42,6 +41,11 @@ public class PlayerListener implements Listener {
                             //TODO some error
                         }
                     });
+                    FileConfiguration config = Main.getInstance().getConfig();
+                    String title = ChatColor.translateAlternateColorCodes('&', config.getString("Messages.FreezeMailTitle"));
+                    String subTitle = ChatColor.translateAlternateColorCodes('&', config.getString("Messages.FreezeMailSubTitle"));
+
+                    event.getPlayer().sendTitle(title, subTitle, 20, 200, 20);
                     resendMessage(event.getPlayer());
                 }
             }
@@ -116,7 +120,7 @@ public class PlayerListener implements Listener {
         if (event.getPlayer().hasPermission("utility.dontfuckingmove")){
             event.setCancelled(true);
 
-            if (event.getMessage().equalsIgnoreCase("I read the mail")){
+            if (event.getMessage().equalsIgnoreCase("I read the message")){
                 new BukkitRunnable() {
                     @Override
                     public void run() {

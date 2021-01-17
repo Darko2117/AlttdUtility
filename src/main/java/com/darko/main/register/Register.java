@@ -27,7 +27,7 @@ import com.darko.main.utilities.rebootWhitelist.RebootWhitelist;
 import com.darko.main.utilities.reload.ReloadCommand;
 import com.darko.main.utilities.spawnLimiter.SpawnLimiter;
 import com.darko.main.utilities.teri.FreezeMail.FreezeMail;
-import com.darko.main.utilities.teri.FreezeMail.PlayerListener;
+import com.darko.main.utilities.teri.FreezeMail.FreezeMailPlayerListener;
 import com.darko.main.utilities.toggleGC.ToggleGC;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -65,11 +65,13 @@ public class Register extends JavaPlugin {
                 new CommandOnJoin(),
                 new PublicChests(),
                 new PublicTraders(),
-                new TNTProtection(),
-                new PlayerListener()
+                new TNTProtection()
 
         );
 
+        if (Main.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")) {
+            registerEvents(new FreezeMailPlayerListener());
+        }
         if (APIs.MyPetFound) {
             registerEvents(new PetPickupListener());
         }
@@ -123,7 +125,8 @@ public class Register extends JavaPlugin {
         Main.getInstance().getCommand("rebootwhitelist").setTabCompleter(new RebootWhitelist());
         Main.getInstance().getCommand("commandonjoin").setTabCompleter(new CommandOnJoin());
         Main.getInstance().getCommand("ccm").setTabCompleter(new CustomChatMessage());
-        Main.getInstance().getCommand("freezemail").setExecutor(new FreezeMail());
+
+        Main.getInstance().getCommand("freezemail").setExecutor(new FreezeMail());//This does not need to be disabled since it's just to send the mail which can be done from anywhere
 
         Main.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(Main.getInstance(), "BungeeCord");
 
