@@ -38,7 +38,7 @@ public class FreezeMailPlayerListener implements Listener {
                     LuckPermsProvider.get().getUserManager().modifyUser(event.getPlayer().getUniqueId(), (User user) -> {
                         DataMutateResult result = user.data().add(node);
                         if (!result.wasSuccessful()){
-                            //TODO some error
+                            Main.getInstance().getLogger().warning("Unable to give " + event.getPlayer().getName() + " the utility.dontfuckingmove permission.");
                         }
                     });
                     FileConfiguration config = Main.getInstance().getConfig();
@@ -55,7 +55,7 @@ public class FreezeMailPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerMove (PlayerMoveEvent event){
-        if (event.getPlayer().hasPermission("utility.dontfuckingmove")
+        if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")
                 && (event.getFrom().getX() != event.getTo().getX()
                 || event.getFrom().getY() != event.getTo().getY()
                 || event.getFrom().getZ() != event.getTo().getZ())){
@@ -65,7 +65,7 @@ public class FreezeMailPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPlaceEvent(BlockPlaceEvent event){
-        if (event.getPlayer().hasPermission("utility.dontfuckingmove")){
+        if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")){
             event.setCancelled(true);
             resendMessage(event.getPlayer());
         }
@@ -73,7 +73,7 @@ public class FreezeMailPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBreakEvent(BlockBreakEvent event){
-        if (event.getPlayer().hasPermission("utility.dontfuckingmove")){
+        if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")){
             event.setCancelled(true);
             resendMessage(event.getPlayer());
         }
@@ -81,7 +81,7 @@ public class FreezeMailPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamageEntityEvent(DamageEntityEvent event){
-        if (event.getCause().getFirstPlayer() != null && event.getCause().getFirstPlayer().hasPermission("utility.dontfuckingmove")){
+        if (event.getCause().getFirstPlayer() != null && !event.getCause().getFirstPlayer().isOp() && event.getCause().getFirstPlayer().hasPermission("utility.dontfuckingmove")){
             event.setCancelled(true);
             resendMessage(event.getCause().getFirstPlayer());
         }
@@ -91,7 +91,7 @@ public class FreezeMailPlayerListener implements Listener {
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event){
         if (event.getEntity() instanceof Player){
             Player player = (Player) event.getEntity();
-            if (player.hasPermission("utility.dontfuckingmove")) {
+            if (!player.isOp() && player.hasPermission("utility.dontfuckingmove")) {
                 event.setCancelled(true);
             }
         }
@@ -101,7 +101,7 @@ public class FreezeMailPlayerListener implements Listener {
     public void onEntityAirChangeEvent (EntityAirChangeEvent event){
         if (event.getEntity() instanceof Player){
             Player player = (Player) event.getEntity();
-            if (player.hasPermission("utility.dontfuckingmove")) {
+            if (!player.isOp() && player.hasPermission("utility.dontfuckingmove")) {
                 event.setCancelled(true);
             }
         }
@@ -109,7 +109,7 @@ public class FreezeMailPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerCommand (PlayerCommandPreprocessEvent event){
-        if (event.getPlayer().hasPermission("utility.dontfuckingmove")){
+        if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")){
             event.setCancelled(true);
             resendMessage(event.getPlayer());
         }
@@ -117,7 +117,7 @@ public class FreezeMailPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerChatEvent (AsyncPlayerChatEvent event){
-        if (event.getPlayer().hasPermission("utility.dontfuckingmove")){
+        if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")){
             event.setCancelled(true);
 
             if (event.getMessage().equalsIgnoreCase("I read the message")){
@@ -128,7 +128,7 @@ public class FreezeMailPlayerListener implements Listener {
                         LuckPermsProvider.get().getUserManager().modifyUser(event.getPlayer().getUniqueId(), (User user) -> {
                             DataMutateResult result = user.data().remove(node);
                             if (!result.wasSuccessful()){
-                                //TODO some error
+                                Main.getInstance().getLogger().warning("Unable to remove the utility.dontfuckingmove permission from " + event.getPlayer().getName() + ".");
                             }
                         });
                         setMailRead(event.getPlayer().getUniqueId());
@@ -154,7 +154,7 @@ public class FreezeMailPlayerListener implements Listener {
                     LuckPermsProvider.get().getUserManager().modifyUser(player.getUniqueId(), (User user) -> {
                         DataMutateResult result = user.data().remove(node);
                         if (!result.wasSuccessful()){
-                            //TODO some error
+                            Main.getInstance().getLogger().warning("Unable to remove the utility.dontfuckingmove permission from " + player.getName() + ".");
                         }
                     });
                     return;
