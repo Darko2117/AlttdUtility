@@ -2,6 +2,7 @@ package com.darko.main.utilities.logging;
 
 import com.darko.main.Main;
 import com.darko.main.other.Methods;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -167,6 +168,36 @@ public class Logging {
         message = message.concat(Z);
 
         return message;
+
+    }
+
+    public static Location getLocationFromBetterLocationString(String string){
+
+        string = string.substring(7);
+
+        String worldName = string.substring(0, string.indexOf(" "));
+
+        string = string.substring(string.indexOf(" ") + 1);
+        string = string.substring(12);
+
+        String dimension = string.substring(0, string.indexOf(" "));
+
+        string = string.substring(string.indexOf(" ") + 1);
+        string = string.substring(2);
+
+        String X = string.substring(0, string.indexOf(" "));
+
+        string = string.substring(string.indexOf(" ") + 1);
+        string = string.substring(2);
+
+        String Y = string.substring(0, string.indexOf(" "));
+
+        string = string.substring(string.indexOf(" ") + 1);
+        string = string.substring(2);
+
+        String Z = string;
+
+        return new Location(Bukkit.getWorld(worldName), Double.parseDouble(X), Double.parseDouble(Y), Double.parseDouble(Z));
 
     }
 

@@ -299,7 +299,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                             String argumentKey;
                             String argumentValues = "";
 
-                            if (args[i].toLowerCase().equals("-silent")) continue;
+                            if (args[i].equalsIgnoreCase("-silent")) continue;
                             if (!args[i].contains(":")) continue;
 
                             argumentKey = args[i].replace(":", "");
