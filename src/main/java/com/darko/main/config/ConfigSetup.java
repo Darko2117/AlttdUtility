@@ -61,7 +61,9 @@ public class ConfigSetup {
         FreezeMailSuccessfullyCompleted("Messages.FreezeMailSuccessfullyCompleted", "&aThank you! You are now able to move and talk again!"),
         FreezeMailNotAcceptedYet("Messages.FreezeMailNotAcceptedYet", "You won't be able to move, speak, or send commands until you've acknowledged you've read the following messages and will do as they say. To acknowledge these messages, type &6I read the message &r"),
         FreezeMailTitle("Messages.FreezeMailTitle", "&6Read your messages"),
-        FreezeMailSubTitle("Messages.FreezeMailSubTitle", "&aYou won't be able to move until you do");
+        FreezeMailSubTitle("Messages.FreezeMailSubTitle", "&aYou won't be able to move until you do"),
+        FreezeMailListRead("Messages.FreezeMailListRead", "&fShowing all unread freeze mails for: &d%player%&f. To see all mails do &6/freezemail list %player% all&f:"),
+        FreezeMailListAll("Messages.FreezeMailListAll", "&fShowing all freeze mails for &d%player%&f:");
         private final String path;
         private final String message;
 
