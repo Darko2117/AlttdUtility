@@ -67,12 +67,16 @@ public class ConfigSetup {
         NickChanged("Messages.NickChanged", "&eYou changed your nickname to %nickname%."),
         NickReset("Messages.NickReset", "&eNickname changed back to normal."),
         NickChangedOthers("Messages.NickChangedOthers", "&6%targetplayer%'s &enickname was changed to %nickname%."),
-        NickargetNickChange("Messages.NickTargetNickChange", "&eYour nickname was changed to %nickname% &eby %sendernick%"),
+        NickTargetNickChange("Messages.NickTargetNickChange", "&eYour nickname was changed to %nickname% &eby %sendernick%"),
         NickResetOthers("Messages.NickResetOthers", "&6%player%'s &enickname was reset back to normal."),
         NickInvalidCharacters("Messages.NickInvalidCharacters", "&eYou can only use letters and numbers in nicknames."),
         NickLengthInvalid("Messages.NickLengthInvalid", "&eNicknames need to be between 3 to 16 characters long."),
         NickPlayerNotOnline("Messages.NickPlayerNotOnline", "&cThat player is not online."),
-        NickBlockedColorCodes("Messages.NickBlockedColorCodes", "&eYou have blocked color codes in that nickname.");
+        NickBlockedColorCodes("Messages.NickBlockedColorCodes", "&eYou have blocked color codes in that nickname."),
+        NickUserNotFound("Messages.NickUserNotFound", "&cFailed to set nickname from player, try again from a server this player has been on before."),
+        NickAccepted("Message.NickAccepted", "&aYou accepted %targetPlayer%'s nickname. They are now called %newNick%&a."),
+        NickDenied("Messages.NickDenied", "&aYou denied %targetPlayer%'s nickname. They are still called %oldNick%&a."),
+        NickAlreadyHandled("Messages.NickAlreadyHandled", "&c%targetPlayer%'s nickname was already accepted or denied.");
 
 
         private final String path;
@@ -401,6 +405,23 @@ public class ConfigSetup {
             config.set("AdditionalLogs", logNamesAndPaths);
             notFoundInConfigMessage("AdditionalLogs");
 
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
+        // Nicknames
+
+        if (!config.contains("Nicknames.Lore")){
+            List<String> lore = new ArrayList<>();
+
+            lore.add("&bNew nick: %newNick%");
+            lore.add("&bOld nick: %oldNick%");
+            lore.add("&bLast changed: %lastChanged%");
+            lore.add("&aLeft click to Accept &d| &cRight click to Deny");
+
+            config.set("Nicknames.Lore", lore);
+
+            notFoundInConfigMessage("Nicknames.Lore");
         }
 
         // ----------------------------------------------------------------------------------------------------
