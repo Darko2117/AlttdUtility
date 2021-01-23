@@ -28,6 +28,8 @@ import com.darko.main.utilities.reload.ReloadCommand;
 import com.darko.main.utilities.spawnLimiter.SpawnLimiter;
 import com.darko.main.utilities.teri.FreezeMail.FreezeMail;
 import com.darko.main.utilities.teri.FreezeMail.FreezeMailPlayerListener;
+import com.darko.main.utilities.teri.Nicknames.Nicknames;
+import com.darko.main.utilities.teri.Nicknames.NicknamesEvents;
 import com.darko.main.utilities.toggleGC.ToggleGC;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -66,7 +68,6 @@ public class Register extends JavaPlugin {
                 new PublicChests(),
                 new PublicTraders(),
                 new TNTProtection()
-
         );
 
         if (Main.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")) {
@@ -92,6 +93,9 @@ public class Register extends JavaPlugin {
         }
         if(APIs.PvPManagerFound) {
             registerEvents(new PvPFishing());
+        }
+        if(APIs.CMIApiFound && Main.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")){
+            registerEvents(new NicknamesEvents());
         }
 
     }
@@ -143,6 +147,10 @@ public class Register extends JavaPlugin {
 
         if (APIs.WorldGuardFound) {
             Flags.FlagsEnable();
+        }
+
+        if(APIs.CMIApiFound && Main.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")){
+            Main.getInstance().getCommand("nick").setExecutor(new Nicknames());
         }
 
     }

@@ -63,7 +63,18 @@ public class ConfigSetup {
         FreezeMailSubTitle("Messages.FreezeMailSubTitle", "&aYou won't be able to move until you do"),
         FreezeMailListRead("Messages.FreezeMailListRead", "&fShowing all unread freeze mails for: &d%player%&f. To see all mails do &6/freezemail list %player% all&f:"),
         FreezeMailListAll("Messages.FreezeMailListAll", "&fShowing all freeze mails for &d%player%&f:"),
-        FreezeMailListAllUnread("Messages.FreezeMailListAllUnread", "&fShowing all unread freeze mails:");
+        FreezeMailListAllUnread("Messages.FreezeMailListAllUnread", "&fShowing all unread freeze mails:"),
+        NickChanged("Messages.NickChanged", "&eYou changed your nickname to %nickname%."),
+        NickReset("Messages.NickReset", "&eNickname changed back to normal."),
+        NickChangedOthers("Messages.NickChangedOthers", "&6%targetplayer%'s &enickname was changed to %nickname%."),
+        NickargetNickChange("Messages.NickTargetNickChange", "&eYour nickname was changed to %nickname% &eby %sendernick%"),
+        NickResetOthers("Messages.NickResetOthers", "&6%player%'s &enickname was reset back to normal."),
+        NickInvalidCharacters("Messages.NickInvalidCharacters", "&eYou can only use letters and numbers in nicknames."),
+        NickLengthInvalid("Messages.NickLengthInvalid", "&eNicknames need to be between 3 to 16 characters long."),
+        NickPlayerNotOnline("Messages.NickPlayerNotOnline", "&cThat player is not online."),
+        NickBlockedColorCodes("Messages.NickBlockedColorCodes", "&eYou have blocked color codes in that nickname.");
+
+
         private final String path;
         private final String message;
 
@@ -117,6 +128,7 @@ public class ConfigSetup {
         toggles.add("AllowNamedPublicVillagers");
         toggles.add("ProtectTNTArrowDamage");
         toggles.add("FreezeMail");
+        toggles.add("Nicknames");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
