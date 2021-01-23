@@ -4,15 +4,12 @@ import com.Zrips.CMI.Containers.CMIUser;
 import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.utils.Util;
 import com.darko.main.Main;
-import com.darko.main.register.Register;
 import org.bukkit.Bukkit;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.CommandExecutor;
-import org.bukkit.inventory.InventoryHolder;
 
 import java.sql.SQLException;
 
@@ -29,6 +26,9 @@ public class Nicknames implements CommandExecutor {
         allowedColorCodes = new String[] { "&0", "&1", "&2", "&3", "&4", "&5", "&6", "&7", "&8", "&9", "&a", "&b", "&c", "&d", "&e", "&f", "&r" };
     }
 
+    //TODO add command for player to request new nick
+    //TODO add command for staff to open GUI
+    //TODO when a player requests a new nick notify all staff online on bungee
     public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
         if (sender instanceof Player) {
             final Player player = (Player)sender;
@@ -130,7 +130,7 @@ public class Nicknames implements CommandExecutor {
                 player.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NoPermission")));
             }
             if (false){
-                NicknamesGui nicknamesGui = new NicknamesGui(sender.getName());
+                NicknamesGui nicknamesGui = new NicknamesGui();
                 Main.getInstance().getServer().getPluginManager().registerEvents(nicknamesGui, Main.getInstance());
                 nicknamesGui.openInventory(sender.getServer().getPlayer(sender.getName()));
             }

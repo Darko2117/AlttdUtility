@@ -23,13 +23,11 @@ import static com.darko.main.utilities.teri.Nicknames.Nicknames.format;
 
 public class NicknamesGui implements Listener {
     private Inventory inv;
-    private String inventoryOwnerName;
     private int currentPage;
 
-    public NicknamesGui(String inventoryOwnerName) {
-        this.inventoryOwnerName = inventoryOwnerName;
+    public NicknamesGui() {
         // Create a new inventory, with no owner (as this isn't a real inventory)
-        inv = Bukkit.createInventory(null, 36, "Nicknames Page ");
+        inv = Bukkit.createInventory(null, 36, "Nicknames GUI");
 
         // Put the items into the inventory
         currentPage = 1;
@@ -111,7 +109,6 @@ public class NicknamesGui implements Listener {
 
         final ItemStack clickedItem = e.getCurrentItem();
 
-        // verify current item is not null
         if (clickedItem == null || clickedItem.getType() == Material.AIR) return;
 
         final Player p = (Player) e.getWhoClicked();
@@ -155,9 +152,6 @@ public class NicknamesGui implements Listener {
                 }
             }
         }
-
-        // Using slots click is a best option for your inventory click's
-        p.sendMessage("You clicked at slot " + e.getRawSlot());
     }
 
     // Cancel dragging in our inventory
