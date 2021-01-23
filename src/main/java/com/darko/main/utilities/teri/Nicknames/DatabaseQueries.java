@@ -5,6 +5,7 @@ import com.darko.main.database.Database;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class DatabaseQueries
@@ -36,7 +37,26 @@ public class DatabaseQueries
         insert.executeUpdate();
         insert.close();
     }
-    
+
+    public static ArrayList<Nick> getNicknamesList(int begin, int end) {
+        //TODO implement
+        return null;
+    }
+
+    public static boolean hasNextPage(int currentPage) {
+        //TODO implement
+        return false;
+    }
+
+    public static Nick getNickChange(UUID uniqueId) {
+        //TODO implement
+        return null;
+    }
+
+    public static void denyNewNickname(UUID uniqueId) {
+        //TODO implement
+    }
+
     private static ResultSet getStringResult(final String query, final String... parameters) throws SQLException {
         final PreparedStatement statement = Database.connection.prepareStatement(query);
         for (int i = 1; i < parameters.length + 1; ++i) {
