@@ -310,6 +310,13 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 }
             }
 
+            Double playerX = null;
+            Double playerZ = null;
+            if (sender instanceof Player) {
+                playerX = ((Player) sender).getLocation().getX();
+                playerZ = ((Player) sender).getLocation().getZ();
+            }
+
             String radiusString = "-1";
 
             HashMap<String, String> arguments = new HashMap<>();
@@ -449,75 +456,78 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
                 lineReader:
                 while ((line = bufferedReader.readLine()) != null) {
+                    try {
 
-                    String lineCopy = line;
+                        String lineCopy = line;
 
-                    if (!lineCopy.startsWith("|") || !lineCopy.endsWith("|")) {
-                        Main.getInstance().getLogger().warning("Error reading line " + lineCopy);
-                        continue lineReader;
-                    }
+                        if (!lineCopy.startsWith("|") || !lineCopy.endsWith("|")) {
+                            Main.getInstance().getLogger().warning("Error reading line " + lineCopy);
+                            continue lineReader;
+                        }
 
-                    HashMap<String, String> lineArguments = new HashMap<>();
+                        HashMap<String, String> lineArguments = new HashMap<>();
 
-                    while (lineCopy.indexOf("|") + 1 != lineCopy.length() && lineCopy.contains(":")) {
+                        while (lineCopy.indexOf("|") + 1 != lineCopy.length() && lineCopy.contains(":")) {
+                            try {
+
+                                lineCopy = lineCopy.substring(lineCopy.indexOf("|") + 1);
+                                String argumentName = lineCopy.substring(0, lineCopy.indexOf(":"));
+                                lineCopy = lineCopy.substring(lineCopy.indexOf(":") + 1);
+                                String argument = lineCopy.substring(0, lineCopy.indexOf("|"));
+                                lineCopy = lineCopy.substring(lineCopy.indexOf("|"));
+
+                                lineArguments.put(argumentName, argument);
+
+                            } catch (Throwable throwable) {
+                                Main.getInstance().getLogger().warning("Error reading line " + line);
+                            }
+                        }
+
                         try {
+                            for (Map.Entry<String, String> inputArguments : arguments.entrySet()) {
 
-                            lineCopy = lineCopy.substring(lineCopy.indexOf("|") + 1);
-                            String argumentName = lineCopy.substring(0, lineCopy.indexOf(":"));
-                            lineCopy = lineCopy.substring(lineCopy.indexOf(":") + 1);
-                            String argument = lineCopy.substring(0, lineCopy.indexOf("|"));
-                            lineCopy = lineCopy.substring(lineCopy.indexOf("|"));
+                                if (!lineArguments.containsKey(inputArguments.getKey()) || !lineArguments.get(inputArguments.getKey()).toLowerCase().contains(inputArguments.getValue().toLowerCase())) {
+                                    continue lineReader;
+                                }
 
-                            lineArguments.put(argumentName, argument);
-
+                            }
                         } catch (Throwable throwable) {
                             Main.getInstance().getLogger().warning("Error reading line " + line);
+                            errorReadLines = errorReadLines.concat("Encountered an error while reading the line, probably doesn't contain the searched arguments:" + line + "\n");
                         }
-                    }
 
-                    try {
-                        for (Map.Entry<String, String> inputArguments : arguments.entrySet()) {
+                        //Writes only those lines which contain all the provided arguments, it skips over the rest. If the radius is provided checks that.
+                        if (!radiusString.equals("-1")) {
 
-                            if (!lineArguments.containsKey(inputArguments.getKey()) || !lineArguments.get(inputArguments.getKey()).toLowerCase().contains(inputArguments.getValue().toLowerCase())) {
-                                continue lineReader;
-                            }
+                            if (!(sender instanceof Player)) continue lineReader;
+
+                            Player player = (Player) sender;
+
+                            lineCopy = line;
+                            if (!lineCopy.contains("Location:")) continue lineReader;
+
+                            lineCopy = lineCopy.substring(lineCopy.indexOf("Location:") + 9);
+                            lineCopy = lineCopy.substring(0, lineCopy.indexOf("|"));
+
+                            Location location = Logging.getLocationFromBetterLocationString(lineCopy);
+
+                            if (!player.getLocation().getWorld().equals(location.getWorld())) continue lineReader;
+
+                            Double logX = location.getX();
+                            Double logZ = location.getZ();
+
+                            Double distance = Math.sqrt(Math.pow((logX - playerX), 2) + Math.pow((logZ - playerZ), 2));
+
+                            System.out.println(distance);
+
+                            if (distance > Double.parseDouble(radiusString)) continue lineReader;
 
                         }
-                    } catch (Throwable throwable) {
-                        Main.getInstance().getLogger().warning("Error reading line " + line);
-                        errorReadLines = errorReadLines.concat("Encountered an error while reading the line, probably doesn't contain the searched arguments:" + line + "\n");
-                    }
-
-                    //Writes only those lines which contain all the provided arguments, it skips over the rest. If the radius is provided checks that.
-                    if (radiusString.equals("-1")) {
 
                         writer.write(f.getName() + ":" + line + "\n");
 
-                    } else {
-                        try {
-
-                            if (sender instanceof Player) {
-
-                                lineCopy = line;
-                                if (lineCopy.contains("Location:")) {
-
-                                    lineCopy = lineCopy.substring(lineCopy.indexOf("Location:") + 9);
-                                    lineCopy = lineCopy.substring(0, lineCopy.indexOf("|"));
-
-                                    Location location = Logging.getLocationFromBetterLocationString(lineCopy);
-
-                                    if ((((Player) sender).getLocation().distance(location) <= Double.parseDouble(radiusString))) {
-
-                                        writer.write(f.getName() + ":" + line + "\n");
-
-                                    }
-
-                                }
-                            }
-
-                        } catch (Throwable ignored) {
-                        }
-
+                    } catch (Throwable throwable) {
+                        throwable.printStackTrace();
                     }
                 }
 
@@ -573,7 +583,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             inUse = false;
 
-        } catch (Throwable throwable) {
+        } catch (
+                Throwable throwable) {
             new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchSpecialLogsCommand");
             throwable.printStackTrace();
             inUse = false;
