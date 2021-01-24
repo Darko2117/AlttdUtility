@@ -285,10 +285,10 @@ public class Database implements Listener {
     static void createFreezeMessageTable() {
         try {
             String freezeMessageTableQuery = "CREATE TABLE IF NOT EXISTS freeze_message("
-                    + "Id int NOT NULL AUTO_INCREMENT,"
-                    + "UUID VARCHAR(36) NOT NULL,"
-                    + "Message VARCHAR(256) NOT NULL,"
-                    + "IsRead SMALLINT(1) DEFAULT 0,"
+                    + "Id int NOT NULL AUTO_INCREMENT, "
+                    + "UUID VARCHAR(36) NOT NULL, "
+                    + "Message VARCHAR(256) NOT NULL, "
+                    + "IsRead SMALLINT(1) DEFAULT 0, "
                     + "PRIMARY KEY (Id))";
             connection.createStatement().execute(freezeMessageTableQuery);
         } catch (Throwable throwable) {
@@ -300,8 +300,8 @@ public class Database implements Listener {
         final String nicknamesTableQuery = "CREATE TABLE IF NOT EXISTS nicknames " +
                 "(uuid VARCHAR(48) NOT NULL, " +
                 "nickname VARCHAR(192), " +
-                "date_changed BIGINT, " +
-                "PRIMARY KEY(uuid));";
+                "date_changed BIGINT default 0, " +
+                "PRIMARY KEY(uuid))";
         try {
             connection.createStatement().execute(nicknamesTableQuery);
         }
@@ -314,8 +314,8 @@ public class Database implements Listener {
         final String requestedNicknamesTableQuery = "CREATE TABLE IF NOT EXISTS requested_nicknames " +
                 "(uuid VARCHAR(48) NOT NULL, " +
                 "nickname VARCHAR(192), " +
-                "date_requested BIGINT, " +
-                "PRIMARY KEY(uuid));";
+                "date_requested BIGINT default 0, " +
+                "PRIMARY KEY(uuid))";
         try {
             connection.createStatement().execute(requestedNicknamesTableQuery);
         }
