@@ -1,153 +1,341 @@
 package com.darko.main.utilities.teri.Nicknames;
 
-import com.Zrips.CMI.Containers.CMIUser;
 import com.Zrips.CMI.CMI;
+import com.Zrips.CMI.Containers.CMIUser;
 import com.Zrips.CMI.utils.Util;
+import com.darko.main.API.APIs;
 import com.darko.main.Main;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
+import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
-import net.md_5.bungee.api.ChatColor;
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class Nicknames implements CommandExecutor {
 
-    public DatabaseQueries database;
     String[] blockedCodes;
     String[] allowedColorCodes;
     static Nicknames instance;
+    HashMap <UUID, Nick> NickCache;
+    boolean nickCacheUpdate = false; //TODO check if this bungee shit works
 
     public Nicknames() {
         instance = this;
-        blockedCodes = new String[] { "&k", "&l", "&n", "&m", "&o" }; //TODO put in config
-        allowedColorCodes = new String[] { "&0", "&1", "&2", "&3", "&4", "&5", "&6", "&7", "&8", "&9", "&a", "&b", "&c", "&d", "&e", "&f", "&r" };
+        NickCache = new HashMap<>();
+        blockedCodes = Main.getInstance().getConfig().getStringList("Nicknames.BlockedColorCodes").toArray(new String[0]);
+        allowedColorCodes = Main.getInstance().getConfig().getStringList("Nicknames.AllowedColorCodes").toArray(new String[0]);
     }
 
-    //TODO add command for player to request new nick
-    //TODO add command for staff to open GUI
-    //TODO when a player requests a new nick notify all staff online on bungee
     public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
         if (sender instanceof Player) {
-            final Player player = (Player)sender;
-            if (player.hasPermission("nicknames.setnicknames")) {
-                if (args.length == 0 || args.length > 2) {
-                    player.sendMessage(ChatColor.YELLOW + "Usage: " + ChatColor.GOLD + "/nick " + ChatColor.WHITE + "(playername) [nickname/off]");
-                }
-                if (args.length == 1) {
-                    final String getNick = args[0];
-                    if (getNick.equalsIgnoreCase("off")) {
-                        try {
-                            resetNick(player);
-                            DatabaseQueries.removePlayerFromDataBase(player.getUniqueId());
-                        }
-                        catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                        player.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickReset")));
-                    }
-                    else if (noBlockedCodes(getNick)) {
-                        String nickLength = Utilities.removeHexColors(getNick);
-                        for (final String colorCodes : allowedColorCodes) {
-                            nickLength = nickLength.replace(colorCodes, "");
-                        }
-                        if (nickLength.length() >= 3 && nickLength.length() <= 16) {
-                            if (getNick.matches("[a-zA-Z0-9 &_{}<>#]*")) {
-                                setNick(player, getNick);
-                                DatabaseQueries.setNicknameInDatabase(player.getUniqueId(), Util.CMIChatColor.deColorize(getNick(player)));
-                                player.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickChanged")
-                                        .replace("%nickname%", getNick(player))));
-                            }
-                            else {
-                                player.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickInvalidCharacters")));
-                            }
-                        }
-                        else {
-                            player.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickLengthInvalid")));
-                        }
-                    }
-                    else {
-                        player.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickBlockedColorCodes")));
-                    }
-                }
-                if (args.length == 2) {
-                    if (player.hasPermission("nicknames.setnicknames.others")) {
-                        final Player target = Bukkit.getServer().getPlayer(args[0]);
-                        if (target != null && target.isOnline()) {
-                            final String getNick2 = args[1];
-                            if (getNick2.equalsIgnoreCase("off")) {
-                                try {
-                                    resetNick(target);
-                                    DatabaseQueries.removePlayerFromDataBase(player.getUniqueId());
-                                }
-                                catch (SQLException e2) {
-                                    e2.printStackTrace();
-                                }
-                                player.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickResetOthers")
-                                        .replace("%player%", target.getName())));
-                            }
-                            else if (noBlockedCodes(getNick2)) {
-                                String nickLength2 = Utilities.removeHexColors(getNick2);
-                                for (final String colorCodes2 : allowedColorCodes) {
-                                    nickLength2 = nickLength2.replace(colorCodes2, "");
-                                }
-                                if (nickLength2.length() >= 3 && nickLength2.length() <= 16) {
-                                    if (getNick2.matches("[a-zA-Z0-9 &_{}#<>]*")) {
-                                        setNick(target, getNick2);
-                                        DatabaseQueries.setNicknameInDatabase(target.getUniqueId(), Util.CMIChatColor.deColorize(getNick(target)));
-                                        player.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickChangedOthers")
-                                                .replace("%targetplayer%", target.getName())
-                                                .replace("%nickname%", getNick(target))));
-                                        target.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickTargetNickChange")
-                                                .replace("%nickname%", getNick(target))
-                                                .replace("%sendernick%", getNick(player))
-                                                .replace("%player%", player.getName())));
-                                    }
-                                    else {
-                                        player.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickInvalidCharacters")));
-                                    }
-                                }
-                                else {
-                                    player.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickLengthInvalid")));
-                                }
-                            }
-                            else {
-                                player.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickBlockedColorCodes")));
-                            }
-                        }
-                        else {
-                            player.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickPlayerNotOnline")));
-                        }
-                    }
-                    else {
-                        player.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NoPermission")));
-                    }
-                }
+            Player player = (Player) sender;
+            if (args.length == 0) {
+                sender.sendMessage(format(helpMessage(sender, HelpType.ALL)));
+                return true;
             }
-            else {
-                player.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NoPermission")));
+            switch (args[0].toLowerCase()){
+                case "set":
+                    if (args.length == 2 && hasPermission(sender, "utility.nick.set")){
+                        handleNick(player, player, args[1]);
+                    } else if (args.length == 3 && hasPermission(sender, "utility.nick.set.others")){
+                        OfflinePlayer offlinePlayer = sender.getServer().getOfflinePlayer(args[1]);
+
+                        if (offlinePlayer.isOnline() || offlinePlayer.hasPlayedBefore()){
+                            handleNick(player, offlinePlayer, args[2]);
+                        } else {
+                            sender.sendMessage(format(helpMessage(sender, HelpType.SET_OTHERS)));
+                        }
+                    } else if (args.length > 3){
+                        sender.sendMessage(format(helpMessage(sender, HelpType.SET_SELF, HelpType.SET_OTHERS)));
+                    }
+                    break;
+                case "review":
+                    if (args.length == 1 && hasPermission(sender, "utility.nick.review")){
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                NicknamesGui nicknamesGui = new NicknamesGui();
+                                Main.getInstance().getServer().getPluginManager().registerEvents(nicknamesGui, Main.getInstance());
+                                nicknamesGui.openInventory(player);
+                            }
+                        }.runTaskAsynchronously(Main.getInstance());
+                    } else {
+                        sender.sendMessage(format(helpMessage(sender, HelpType.REVIEW)));
+                    }
+                    break;
+                case "request":
+                    if (args.length == 2 && hasPermission(sender, "utility.nick.request")){
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                handleNickRequest(player, args[1]);
+                            }
+                        }.runTaskAsynchronously(Main.getInstance());
+                    } else {
+                        sender.sendMessage(format(helpMessage(sender, HelpType.REQUEST)));
+                    }
+                    break;
+                case "try":
+                    if (args.length == 2 && hasPermission(sender, "utility.nick.try")){
+                        LuckPerms api = APIs.LuckPermsApiCheck();
+                        if (api != null){
+                            if (validNick(player, args[1])) {
+                                sender.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickTryout")
+                                        .replace("%prefix", api.getUserManager().getUser(player.getUniqueId())
+                                                .getCachedData().getMetaData().getPrefix())
+                                        .replace("%nick%", args[1])));
+                            }
+                        } else {
+                            sender.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickNoLuckPerms")));
+                        }
+                    } else {
+                        sender.sendMessage(format(helpMessage(sender, HelpType.TRY)));
+                    }
+                    break;
+                default:
+                    sender.sendMessage(format(helpMessage(sender, HelpType.ALL)));
             }
-            if (false){
-                NicknamesGui nicknamesGui = new NicknamesGui();
-                Main.getInstance().getServer().getPluginManager().registerEvents(nicknamesGui, Main.getInstance());
-                nicknamesGui.openInventory(sender.getServer().getPlayer(sender.getName()));
-            }
-        }
-        else {
+        } else {
             sender.sendMessage("Console commands are disabled.");
         }
         return true;
     }
 
-//    public void resetNick(final Player player) {
-//        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cmi nick off " + player.getName());
-//    }
+    private void handleNickRequest(Player player, String nickName) {
+        if (!validNick(player, nickName)){
+            return;
+        }
 
-    public void resetNick(final Player player){//TODO test this
+        if (nickCacheUpdate){
+            DatabaseQueries.getNicknamesList().forEach(nick -> Nicknames.getInstance().NickCache.put(nick.getUuid(), nick));
+        }
+
+        UUID uniqueId = player.getUniqueId();
+
+        if (NickCache.containsKey(uniqueId)){
+            Nick nick = NickCache.get(uniqueId);
+            long timeSinceLastChange =  new Date().getTime() - nick.getLastChangedDate();
+            long waitTime = Main.getInstance().getConfig().getLong("Nicknames.WaitTime");
+            if (timeSinceLastChange > waitTime){
+                if (nick.hasRequest()){
+                    player.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickRequestReplaced")
+                            .replace("%oldRequestedNick%", nick.getNewNick())
+                            .replace("%newRequestedNick%", nickName)));
+                }
+                nick.setRequest(true);
+                nick.setNewNick(nickName);
+                nick.setRequestedDate(new Date().getTime());
+            } else {
+                player.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickTooSoon")
+                        .replace("%time%", formatTime((timeSinceLastChange-waitTime)*-1))));
+                return;
+            }
+        } else {
+            NickCache.put(uniqueId, new Nick(uniqueId, null, 0, nickName, new Date().getTime()));
+        }
+        DatabaseQueries.newNicknameRequest(uniqueId, nickName);
+        bungeeMessage(player);
+        player.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickRequested")
+                .replace("%nick%", nickName)));
+    }
+
+    private void bungeeMessage(Player player) {
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("Forward"); // So BungeeCord knows to forward it
+        out.writeUTF("ALL");
+        out.writeUTF("NickNames"); // The channel name to check if this your data
+
+        ByteArrayOutputStream msgbytes = new ByteArrayOutputStream();
+        DataOutputStream msgout = new DataOutputStream(msgbytes);
+        try {
+            msgout.writeUTF(player.getName());
+        } catch (IOException exception){
+            exception.printStackTrace();
+            return;
+        }
+        byte[] bytes = msgbytes.toByteArray();
+        out.writeShort(bytes.length);
+        out.write(bytes);
+
+        player.sendPluginMessage(Main.getInstance(), "BungeeCord", out.toByteArray());
+    }
+
+    private String formatTime(long timeInMillis){
+        long second = (timeInMillis / 1000) % 60;
+        long minute = (timeInMillis / (1000 * 60)) % 60;
+        long hour = (timeInMillis / (1000 * 60 * 60)) % 24;
+        long days = (timeInMillis / (1000 * 60 * 60 * 24));
+
+        StringBuilder stringBuilder = new StringBuilder();
+        if (days!=0){
+            stringBuilder.append(days).append(" days ");
+        }
+        if (days!=0 || hour!=0){
+            stringBuilder.append(hour).append(" hours ");
+        }
+        if (days!=0 || hour!=0 || minute != 0){
+            stringBuilder.append(minute).append(" minutes and ");
+        }
+        stringBuilder.append(second).append(" seconds");
+        return stringBuilder.toString();
+    }
+
+    private void handleNick(Player sender, OfflinePlayer target, final String nickName) {
+        if (nickName.equalsIgnoreCase("off")) {
+
+            try {
+                if (target.isOnline()){
+                    resetNick(target.getPlayer());
+                }
+                DatabaseQueries.removePlayerFromDataBase(target.getUniqueId());
+                NickCache.remove(target.getUniqueId());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            if (!sender.equals(target)){
+                sender.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickResetOthers")
+                        .replace("%player%", target.getName())));
+            }
+
+            if (target.isOnline()){
+                target.getPlayer().sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickReset")));
+            }
+
+        } else if (validNick(sender, nickName)) {
+            if (target.isOnline()) {
+                setNick(target.getPlayer(), nickName);
+            }
+
+            DatabaseQueries.setNicknameInDatabase(target.getUniqueId(), nickName);
+
+            if (NickCache.containsKey(target.getUniqueId())){
+                Nick nick = NickCache.get(target.getUniqueId());
+                nick.setCurrentNick(nickName);
+                nick.setLastChangedDate(new Date().getTime());
+            } else {
+                NickCache.put(target.getUniqueId(), new Nick(target.getUniqueId(), nickName, new Date().getTime()));
+            }
+
+            if (!sender.equals(target)){
+                sender.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickChangedOthers")
+                        .replace("%targetplayer%", target.getName())
+                        .replace("%nickname%", nickName)));
+                if (target.isOnline()) {
+                    target.getPlayer().sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickTargetNickChange")
+                            .replace("%nickname%", getNick(target.getPlayer()))
+                            .replace("%sendernick%", getNick(sender))
+                            .replace("%player%", target.getName())));
+                }
+            } else if (target.isOnline()){
+                target.getPlayer().sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickChanged")
+                        .replace("%nickname%", getNick(target.getPlayer()))));
+            }
+        }
+    }
+
+    private boolean validNick(Player sender, String nickName) {
+        if (noBlockedCodes(nickName)) {
+
+            String cleanNick = Utilities.removeHexColors(nickName);
+
+            for (final String colorCodes : allowedColorCodes) {
+                cleanNick = cleanNick.replace(colorCodes, "");
+            }
+
+            if (cleanNick.length() >= 3 && cleanNick.length() <= 16) {
+
+                if (cleanNick.matches("[a-zA-Z0-9_]*") && nickName.matches("[a-zA-Z0-9 &_{}<>#]*")) {
+
+                    return true;
+
+                } else {
+                    sender.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickInvalidCharacters")));
+                }
+            } else {
+                sender.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickLengthInvalid")));
+            }
+        } else {
+            sender.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickBlockedColorCodes")));
+        }
+        return false;
+    }
+
+    private String helpMessage(final CommandSender sender, final HelpType... helpTypes) {
+        StringBuilder message = new StringBuilder();
+        for (HelpType helpType : helpTypes){
+            if (helpType.equals(HelpType.ALL)){
+                return helpMessage(sender, helpType);
+            }
+            message.append(helpMessage(sender, helpType));
+        }
+        return message.toString();
+    }
+
+    private String helpMessage(CommandSender sender, HelpType type) {
+        StringBuilder message = new StringBuilder();
+        switch (type){
+            case ALL:
+                message.append(helpMessage(sender, HelpType.SET_SELF));
+                message.append(helpMessage(sender, HelpType.SET_OTHERS));
+                message.append(helpMessage(sender, HelpType.REQUEST));
+                message.append(helpMessage(sender, HelpType.REVIEW));
+                message.append(helpMessage(sender, HelpType.TRY));
+                break;
+            case SET_SELF:
+                if (sender.hasPermission("utility.nick.set")){
+                    message.append("&6/nick set <nickname>&f - Sets your nickname to the specified name.\n");
+                }
+                break;
+            case SET_OTHERS:
+                if (sender.hasPermission("utility.nick.set.others")){
+                    message.append("&6/nick set <username> <nickname>&f - Sets the specified user's nickname to the specified name.\n");
+                }
+                break;
+            case REQUEST:
+                if (sender.hasPermission("utility.nick.request")){
+                    message.append("&6/nick request <nickname>&f - Requests a username to be reviewed by staff.\n" +
+                            "   &7Try using &8/nick try <nickname>&7 to see if you like the name, you can only change it once per week!\n");
+                }
+                break;
+            case REVIEW:
+                if (sender.hasPermission("utility.nick.review")){
+                    message.append("&6/nick review&f - Opens the nickname review GUI (left click to accept a nick, right click to deny it)\n");
+                }
+                break;
+            case TRY:
+                if (sender.hasPermission("utility.nick.try")){
+                    message.append("&6/nick try <nickname>&f - Shows you what your nickname will look like in chat.\n");
+                }
+        }
+        return message.toString();
+    }
+
+    private boolean hasPermission(CommandSender sender, String permission) {
+        if (!sender.hasPermission(permission)){
+            sender.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NoPermission")));
+            return false;
+        }
+        return true;
+    }
+
+    public void resetNick(final Player player){
         final CMIUser user = CMI.getInstance().getPlayerManager().getUser(player);
         user.setNickName(null, true);
+        user.updateDisplayName();
     }
 
     public String getNick(final Player player) {
@@ -157,7 +345,11 @@ public class Nicknames implements CommandExecutor {
 
     public void setNick(final Player player, final String nickName) {
         final CMIUser user = CMI.getInstance().getPlayerManager().getUser(player);
-        user.setNickName(Util.CMIChatColor.translateAlternateColorCodes(nickName), true);
+        if (nickName == null){
+            user.setNickName(null, true);
+        } else {
+            user.setNickName(Util.CMIChatColor.translateAlternateColorCodes(nickName), true);
+        }
         user.updateDisplayName();
     }
 
@@ -181,5 +373,14 @@ public class Nicknames implements CommandExecutor {
 
     public static Nicknames getInstance() {
         return Nicknames.instance;
+    }
+
+    private enum HelpType {
+        ALL,
+        SET_SELF,
+        SET_OTHERS,
+        REVIEW,
+        REQUEST,
+        TRY
     }
 }

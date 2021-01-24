@@ -9,19 +9,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static com.darko.main.utilities.teri.Nicknames.Nicknames.format;
 
 public class NicknamesGui implements Listener {
+
     private Inventory inv;
     private int currentPage;
 
@@ -36,7 +37,24 @@ public class NicknamesGui implements Listener {
 
     public void setItems(int currentPage) {
         inv.clear();
-        ArrayList<Nick> nicks = DatabaseQueries.getNicknamesList(currentPage*9-9, currentPage*9-1);
+        if (Nicknames.getInstance().nickCacheUpdate){
+            DatabaseQueries.getNicknamesList().forEach(nick -> Nicknames.getInstance().NickCache.put(nick.getUuid(), nick));
+        }
+        boolean hasNextPage = false;
+        int i = (currentPage-1)*27; //TODO set to 1 or 2 to test
+        int limit = i/27;
+
+        for (Nick nick : Nicknames.getInstance().NickCache.values()){
+            if (nick.hasRequest()){
+                if (limit >= i/27) {
+                    inv.setItem(i % 27, createPlayerSkull(nick, Main.getInstance().getConfig().getStringList("Nicknames.Lore")));
+                    i++;
+                } else {
+                    hasNextPage = true;
+                    break;
+                }
+            }
+        }
 
         if (currentPage != 1){
             inv.setItem(28, createGuiItem(Material.PAPER, "§bPrevious page",
@@ -44,16 +62,10 @@ public class NicknamesGui implements Listener {
                     "§aPrevious page: %previousPage%".replace("%previousPage%", String.valueOf(currentPage - 1))));
         }
 
-        if (DatabaseQueries.hasNextPage(currentPage)) {
+        if (hasNextPage) {
             inv.setItem(36, createGuiItem(Material.PAPER, "§bNext page",
                     "§aCurrent page: %page%".replace("%page%", String.valueOf(currentPage)),
                     "§aNext page: §b%nextPage%".replace("%nextPage%", String.valueOf(currentPage + 1))));
-        }
-
-        if (nicks != null) {
-            for (int i = 0; i < nicks.size(); i++) {
-                inv.setItem(i, createPlayerSkull(nicks.get(i), Main.getInstance().getConfig().getStringList("Nicknames.Lore")));
-            }
         }
     }
 
@@ -68,8 +80,8 @@ public class NicknamesGui implements Listener {
         for (int ii = 0; ii < lore.size(); ii++){
             lore.set(ii, format(lore.get(ii)
                     .replace("%newNick%", nick.getNewNick())
-                    .replace("%oldNick%", nick.getOldNick())
-                    .replace("%lastChanged%", nick.getLastChanged())));
+                    .replace("%oldNick%", nick.getCurrentNick() == null ? "None" : nick.getCurrentNick())
+                    .replace("%lastChanged%", nick.getLastChangedDate() == 0 ? "Not Applicable" : nick.getLastChangedDateFormatted())));
         }
 
         meta.setLore(lore);
@@ -95,12 +107,12 @@ public class NicknamesGui implements Listener {
     }
 
     // You can open the inventory with this
-    public void openInventory(final HumanEntity ent) {
-        setItems(1);
+    public void openInventory(final HumanEntity ent) {//Possibly with a boolean to show if it should get from cache or update cache
         ent.openInventory(inv);
     }
 
     // Check for clicks on items
+
     @EventHandler
     public void onInventoryClick(final InventoryClickEvent e) {
         if (e.getInventory() != inv) return;
@@ -117,40 +129,103 @@ public class NicknamesGui implements Listener {
             if (clickedItem.getItemMeta().getDisplayName().equals("Next Page")){
                 setItems(currentPage + 1);
             }
-        } else {
+        } else if (clickedItem.getType().equals(Material.PLAYER_HEAD)){
             SkullMeta meta = (SkullMeta) clickedItem.getItemMeta();
+            if (meta.hasEnchants()){
+                return;
+            }
             OfflinePlayer owningPlayer = meta.getOwningPlayer();
 
             if (owningPlayer == null){
-                e.getWhoClicked().sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickUserNotFound")));
-                return;
-            }
-            Nick nick = DatabaseQueries.getNickChange(owningPlayer.getUniqueId());
-
-            if (nick == null){
-                e.getWhoClicked().sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickAlreadyHandled")));
+                p.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickUserNotFound")));
                 return;
             }
 
-            if (e.isLeftClick() && clickedItem.getType().equals(Material.PLAYER_HEAD)){
-                Nicknames.getInstance().setNick(owningPlayer.getPlayer(), nick.getNewNick());
-                if (owningPlayer.isOnline()){
-                    owningPlayer.getPlayer().sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickChanged")
-                            .replace("%nickname%", nick.getNewNick())));
-                    e.getWhoClicked().sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickAccepted")
-                            .replace("%targetPlayer%", owningPlayer.getName())
-                            .replace("%newNick%", nick.getNewNick())
-                            .replace("oldNick", nick.getOldNick())));
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    Nick nick;
+                    UUID uniqueId = owningPlayer.getUniqueId();
+                    if (Nicknames.getInstance().NickCache.containsKey(uniqueId)){
+                        nick = Nicknames.getInstance().NickCache.get(uniqueId);
+                    } else {
+                        nick = DatabaseQueries.getNick(uniqueId);
+                    }
+
+                    if (nick == null){
+                        p.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickAlreadyHandled")));
+                        return;
+                    }
+
+                    if (e.isLeftClick()){
+                        if (owningPlayer.hasPlayedBefore()) {
+                            DatabaseQueries.acceptNewNickname(uniqueId, nick.getNewNick());
+                            if (owningPlayer.isOnline()){
+                                Nicknames.getInstance().setNick(owningPlayer.getPlayer(), nick.getNewNick());
+                                owningPlayer.getPlayer().sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickChanged")
+                                        .replace("%nickname%", nick.getNewNick())));
+
+                                nick.setCurrentNick(nick.getNewNick());
+                                nick.setLastChangedDate(new Date().getTime());
+                                nick.setRequest(false);
+                                nick.setNewNick(null);
+                                nick.setRequestedDate(0);
+
+                                Nicknames.getInstance().NickCache.put(uniqueId, nick);
+
+                            } else {
+                                Nicknames.getInstance().NickCache.remove(uniqueId);
+                            }
+                            p.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickAccepted")
+                                    .replace("%targetPlayer%", clickedItem.getItemMeta().getDisplayName())
+                                    .replace("%newNick%", nick.getNewNick())
+                                    .replace("%oldNick%", nick.getCurrentNick() == null ? clickedItem.getItemMeta().getDisplayName() : nick.getCurrentNick())));
+
+                            ItemStack itemStack = new ItemStack(Material.SKELETON_SKULL);
+                            ItemMeta itemMeta = itemStack.getItemMeta();
+                            itemMeta.setDisplayName(clickedItem.getItemMeta().getDisplayName());
+                            itemMeta.setLore(clickedItem.getLore());
+                            itemStack.setItemMeta(itemMeta);
+                            e.getInventory().setItem(e.getSlot(), itemStack);
+                            p.updateInventory();
+                        } else {
+                            p.sendMessage(format(Main.getInstance().getConfig().getString("Messages.CantFindPlayer")
+                                    .replace("%playerName%", clickedItem.getItemMeta().getDisplayName())));
+                        }
+
+                    } else if (e.isRightClick()){
+                        if (owningPlayer.hasPlayedBefore()) {
+                            DatabaseQueries.denyNewNickname(uniqueId);
+                            p.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickDenied")
+                                    .replace("%targetPlayer%", owningPlayer.getName())
+                                    .replace("%newNick%", nick.getNewNick())
+                                    .replace("%oldNick%", nick.getCurrentNick() == null ? owningPlayer.getName() : nick.getCurrentNick())));
+
+                            if (owningPlayer.isOnline()
+                                    && Nicknames.getInstance().NickCache.containsKey(uniqueId)
+                                    && Nicknames.getInstance().NickCache.get(uniqueId).getCurrentNick() != null){
+                                nick.setRequest(false);
+                                nick.setNewNick(null);
+                                nick.setRequestedDate(0);
+                                Nicknames.getInstance().NickCache.put(uniqueId, nick);
+                            } else {
+                                Nicknames.getInstance().NickCache.remove(uniqueId);
+                            }
+
+                            ItemStack itemStack = new ItemStack(Material.SKELETON_SKULL);
+                            ItemMeta itemMeta = itemStack.getItemMeta();
+                            itemMeta.setDisplayName(clickedItem.getItemMeta().getDisplayName());
+                            itemMeta.setLore(clickedItem.getLore());
+                            itemStack.setItemMeta(itemMeta);
+                            e.getInventory().setItem(e.getSlot(), itemStack);
+                            p.updateInventory();
+                        } else {
+                            p.sendMessage(format(Main.getInstance().getConfig().getString("Messages.CantFindPlayer")
+                                    .replace("%playerName%", clickedItem.getItemMeta().getDisplayName())));
+                        }
+                    }
                 }
-            } else if (e.isRightClick() && clickedItem.getType().equals(Material.PLAYER_HEAD)){
-                DatabaseQueries.denyNewNickname(owningPlayer.getUniqueId());
-                if (owningPlayer.hasPlayedBefore()) {
-                    e.getWhoClicked().sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickDenied")
-                            .replace("%targetPlayer%", owningPlayer.getName())
-                            .replace("%newNick%", nick.getNewNick())
-                            .replace("oldNick", nick.getOldNick())));
-                }
-            }
+            }.runTaskAsynchronously(Main.getInstance());
         }
     }
 
@@ -160,5 +235,12 @@ public class NicknamesGui implements Listener {
         if (e.getInventory() == inv) {
             e.setCancelled(true);
         }
+    }
+
+    //When the inventory is closed don't listen to it anymore
+    @EventHandler
+    public void onInventoryClose(final InventoryCloseEvent e){
+        if (e.getInventory() != inv) return;
+        InventoryCloseEvent.getHandlerList().unregister(this);
     }
 }

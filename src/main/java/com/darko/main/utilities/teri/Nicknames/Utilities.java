@@ -78,18 +78,22 @@ public class Utilities
                 if (lesser && lastColorMatters) {
                     stringBuilder.append(hexGradient(hexColor1.getColor(), hexColor2.getColor(), split[i]));
                 } else {
-                    stringBuilder.append(split[i]);
+                    stringBuilder.append(hexColor1).append(split[i]);
                 }
 
+                hexColor1 = hexColor2;
                 lastColorMatters = bigger;
                 i++;
+            }
+            if (split.length > i){
+                stringBuilder.append(hexColor1).append(split[i]);
             }
         }
         return stringBuilder.length()==0 ? message : stringBuilder.toString();
     }
     
     public static String removeHexColors(final String message) {
-        return message.replaceAll("\\{#.*?}", "");
+        return message.replaceAll("[\\{#A-Fa-f0-9}<>]{9,11}", "");
     }
     
     static {
@@ -99,8 +103,8 @@ public class Utilities
 
     public static String hexGradient(Color color1, Color color2, String text){
         double r = color1.getRed();
-        double g = color1.getBlue();
-        double b = color1.getGreen();
+        double g = color1.getGreen();
+        double b = color1.getBlue();
 
         double rDifference = (color1.getRed() - color2.getRed()) / ((double) text.length() - 1);
         double gDifference = (color1.getGreen() - color2.getGreen()) / ((double) text.length() - 1);
@@ -110,9 +114,9 @@ public class Utilities
         char[] chars = text.toCharArray();
         for (int i = 0; i < text.length(); i++) {
             if (i > 0) {
-                r = color1.getRed() > color2.getRed() ? r - rDifference : r + rDifference;
-                g = color1.getGreen() > color2.getGreen() ? g - gDifference : g + gDifference;
-                b = color1.getBlue() > color2.getBlue() ? b - bDifference : b + bDifference;
+                r = r - rDifference;
+                g = g - gDifference;
+                b = b - bDifference;
             }
             stringBuilder.append(ChatColor.of(new Color((int) r, (int) g, (int) b))).append(chars[i]);
         }

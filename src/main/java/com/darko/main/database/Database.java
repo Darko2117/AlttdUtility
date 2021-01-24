@@ -55,6 +55,7 @@ public class Database implements Listener {
                 createCommandOnJoinTable();
                 createFreezeMessageTable();
                 createNicknamesTable();
+                createRequestedNicknamesTable();
 
                 Database.reloadLoadedValues();
 
@@ -296,9 +297,27 @@ public class Database implements Listener {
     }
 
     static void createNicknamesTable(){
-        final String nicknamesTableQuery = "CREATE TABLE IF NOT EXISTS nicknames (uuid VARCHAR(48) NOT NULL, nickname VARCHAR(192), PRIMARY KEY(uuid));";
+        final String nicknamesTableQuery = "CREATE TABLE IF NOT EXISTS nicknames " +
+                "(uuid VARCHAR(48) NOT NULL, " +
+                "nickname VARCHAR(192), " +
+                "date_changed BIGINT, " +
+                "PRIMARY KEY(uuid));";
         try {
             connection.createStatement().execute(nicknamesTableQuery);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void createRequestedNicknamesTable() {
+        final String requestedNicknamesTableQuery = "CREATE TABLE IF NOT EXISTS requested_nicknames " +
+                "(uuid VARCHAR(48) NOT NULL, " +
+                "nickname VARCHAR(192), " +
+                "date_requested BIGINT, " +
+                "PRIMARY KEY(uuid));";
+        try {
+            connection.createStatement().execute(requestedNicknamesTableQuery);
         }
         catch (SQLException e) {
             e.printStackTrace();

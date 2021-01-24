@@ -71,7 +71,7 @@ public class Register extends JavaPlugin {
                 new TNTProtection()
         );
 
-        if (Main.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")) {
+        if (Main.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail") && APIs.WorldGuardFound) {
             registerEvents(new FreezeMailPlayerListener());
         }
         if (APIs.MyPetFound) {

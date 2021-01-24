@@ -5,31 +5,80 @@ import java.util.Date;
 import java.util.UUID;
 
 public class Nick {
-    private String oldNick;
+    private final UUID uuid;
+    private String currentNick;
+    private long lastChangedDate;
     private String newNick;
-    private UUID uuid;
-    private String lastChanged;
+    private long requestedDate;
+    private boolean hasRequest;
 
-    public Nick(String oldNick, String newNick, UUID uuid, long lastChanged) {
-        this.oldNick = oldNick;
-        this.newNick = newNick;
+    public Nick(UUID uuid, String currentNick, long lastChangedDate) {
         this.uuid = uuid;
-        this.lastChanged = new SimpleDateFormat("yyyy-MM-dd").format(new Date(lastChanged));
+        this.currentNick = currentNick;
+        this.lastChangedDate = lastChangedDate;
+        newNick = null;
+        requestedDate = 0;
+        hasRequest = false;
     }
 
-    public String getOldNick() {
-        return oldNick;
-    }
-
-    public String getNewNick() {
-        return newNick;
+    public Nick(UUID uuid, String currentNick, long lastChangedDate, String newNick, long requestedDate) {
+        this.uuid = uuid;
+        this.currentNick = currentNick;
+        this.lastChangedDate = lastChangedDate;
+        this.newNick = newNick;
+        this.requestedDate = requestedDate;
+        hasRequest = newNick != null;
     }
 
     public UUID getUuid() {
         return uuid;
     }
 
-    public String getLastChanged() {
-        return lastChanged;
+    public String getCurrentNick() {
+        return currentNick;
+    }
+
+    public void setCurrentNick(String currentNick) {
+        this.currentNick = currentNick;
+    }
+
+    public long getLastChangedDate(){
+        return lastChangedDate;
+    }
+
+    public String getLastChangedDateFormatted() {
+        return new SimpleDateFormat("yyyy-MM-dd").format(new Date(lastChangedDate));
+    }
+
+    public void setLastChangedDate(long lastChangedDate) {
+        this.lastChangedDate = lastChangedDate;
+    }
+
+    public String getNewNick() {
+        return newNick;
+    }
+
+    public void setNewNick(String newNick) {
+        this.newNick = newNick;
+    }
+
+    public long getRequestedDate(){
+        return requestedDate;
+    }
+
+    public String getRequestedDateFormatted() {
+        return new SimpleDateFormat("yyyy-MM-dd").format(new Date(requestedDate));
+    }
+
+    public void setRequestedDate(long requestedDate) {
+        this.requestedDate = requestedDate;
+    }
+
+    public boolean hasRequest() {
+        return hasRequest;
+    }
+
+    public void setRequest(boolean hasRequest) {
+        this.hasRequest = hasRequest;
     }
 }
