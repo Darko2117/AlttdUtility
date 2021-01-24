@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
@@ -30,13 +31,14 @@ public class Nicknames implements CommandExecutor {
     String[] allowedColorCodes;
     static Nicknames instance;
     HashMap <UUID, Nick> NickCache;
-    boolean nickCacheUpdate = false; //TODO check if this bungee shit works
+    ArrayList<UUID> nickCacheUpdate; //TODO check if this bungee shit works
 
     public Nicknames() {
         instance = this;
         NickCache = new HashMap<>();
         blockedCodes = Main.getInstance().getConfig().getStringList("Nicknames.BlockedColorCodes").toArray(new String[0]);
         allowedColorCodes = Main.getInstance().getConfig().getStringList("Nicknames.AllowedColorCodes").toArray(new String[0]);
+        nickCacheUpdate = new ArrayList<>();
     }
 
     public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
@@ -119,10 +121,7 @@ public class Nicknames implements CommandExecutor {
             return;
         }
 
-        if (nickCacheUpdate){
-            DatabaseQueries.getNicknamesList().forEach(nick -> Nicknames.getInstance().NickCache.put(nick.getUuid(), nick));
-        }
-
+        Utilities.updateCache();
         UUID uniqueId = player.getUniqueId();
 
         if (NickCache.containsKey(uniqueId)){
@@ -161,7 +160,7 @@ public class Nicknames implements CommandExecutor {
         ByteArrayOutputStream msgbytes = new ByteArrayOutputStream();
         DataOutputStream msgout = new DataOutputStream(msgbytes);
         try {
-            msgout.writeUTF(player.getName());
+            msgout.writeUTF(player.getUniqueId().toString());
         } catch (IOException exception){
             exception.printStackTrace();
             return;

@@ -79,15 +79,15 @@ public class NicknamesEvents implements Listener, PluginMessageListener
             in.readFully(msgbytes);
 
             DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
-            String playerName = msgin.readUTF();
+            String playerUUID = msgin.readUTF();
             String notification = Utilities.applyColor(Main.getInstance().getConfig().getString("Messages.NickNewRequest")
-                    .replace("%player", playerName));
+                    .replace("%player", playerUUID));
             Main.getInstance().getServer().getOnlinePlayers().forEach(p ->{
                 if (p.hasPermission("utility.nick.review")){
                     p.sendMessage(notification);
                 }
             });
-            Nicknames.getInstance().nickCacheUpdate = true;
+            Nicknames.getInstance().nickCacheUpdate.add(UUID.fromString(playerUUID));
 
         } catch (Exception e) {
             e.printStackTrace();

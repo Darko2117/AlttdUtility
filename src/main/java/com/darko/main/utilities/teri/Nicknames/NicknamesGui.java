@@ -36,37 +36,40 @@ public class NicknamesGui implements Listener {
     }
 
     public void setItems(int currentPage) {
-        inv.clear();
-        if (Nicknames.getInstance().nickCacheUpdate){
-            DatabaseQueries.getNicknamesList().forEach(nick -> Nicknames.getInstance().NickCache.put(nick.getUuid(), nick));
-        }
-        boolean hasNextPage = false;
-        int i = (currentPage-1)*27; //TODO set to 1 or 2 to test
-        int limit = i/27;
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                inv.clear();
+                Utilities.updateCache();
+                boolean hasNextPage = false;
+                int i = (currentPage-1)*27; //TODO set to 1 or 2 to test
+                int limit = i/27;
 
-        for (Nick nick : Nicknames.getInstance().NickCache.values()){
-            if (nick.hasRequest()){
-                if (limit >= i/27) {
-                    inv.setItem(i % 27, createPlayerSkull(nick, Main.getInstance().getConfig().getStringList("Nicknames.Lore")));
-                    i++;
-                } else {
-                    hasNextPage = true;
-                    break;
+                for (Nick nick : Nicknames.getInstance().NickCache.values()){
+                    if (nick.hasRequest()){
+                        if (limit >= i/27) {
+                            inv.setItem(i % 27, createPlayerSkull(nick, Main.getInstance().getConfig().getStringList("Nicknames.Lore")));
+                            i++;
+                        } else {
+                            hasNextPage = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (currentPage != 1){
+                    inv.setItem(28, createGuiItem(Material.PAPER, "§bPrevious page",
+                            "§aCurrent page: %page%".replace("%page%", String.valueOf(currentPage)),
+                            "§aPrevious page: %previousPage%".replace("%previousPage%", String.valueOf(currentPage - 1))));
+                }
+
+                if (hasNextPage) {
+                    inv.setItem(36, createGuiItem(Material.PAPER, "§bNext page",
+                            "§aCurrent page: %page%".replace("%page%", String.valueOf(currentPage)),
+                            "§aNext page: §b%nextPage%".replace("%nextPage%", String.valueOf(currentPage + 1))));
                 }
             }
-        }
-
-        if (currentPage != 1){
-            inv.setItem(28, createGuiItem(Material.PAPER, "§bPrevious page",
-                    "§aCurrent page: %page%".replace("%page%", String.valueOf(currentPage)),
-                    "§aPrevious page: %previousPage%".replace("%previousPage%", String.valueOf(currentPage - 1))));
-        }
-
-        if (hasNextPage) {
-            inv.setItem(36, createGuiItem(Material.PAPER, "§bNext page",
-                    "§aCurrent page: %page%".replace("%page%", String.valueOf(currentPage)),
-                    "§aNext page: §b%nextPage%".replace("%nextPage%", String.valueOf(currentPage + 1))));
-        }
+        }.runTaskAsynchronously(Main.getInstance());
     }
 
     private ItemStack createPlayerSkull(Nick nick, List<String> lore){
@@ -144,6 +147,8 @@ public class NicknamesGui implements Listener {
             new BukkitRunnable() {
                 @Override
                 public void run() {
+                    Utilities.updateCache();
+
                     Nick nick;
                     UUID uniqueId = owningPlayer.getUniqueId();
                     if (Nicknames.getInstance().NickCache.containsKey(uniqueId)){
@@ -235,12 +240,5 @@ public class NicknamesGui implements Listener {
         if (e.getInventory() == inv) {
             e.setCancelled(true);
         }
-    }
-
-    //When the inventory is closed don't listen to it anymore
-    @EventHandler
-    public void onInventoryClose(final InventoryCloseEvent e){
-        if (e.getInventory() != inv) return;
-        InventoryCloseEvent.getHandlerList().unregister(this);
     }
 }

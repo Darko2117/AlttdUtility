@@ -2,6 +2,7 @@ package com.darko.main.utilities.teri.Nicknames;
 
 import java.awt.*;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,5 +123,17 @@ public class Utilities
         }
 
         return stringBuilder.toString();
+    }
+
+    public static void updateCache() {
+        if (!Nicknames.getInstance().nickCacheUpdate.isEmpty()){
+            Nicknames.getInstance().nickCacheUpdate.forEach(uuid ->{
+                Nicknames.getInstance().NickCache.remove(uuid);
+                if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(uuid))) {
+                    Nicknames.getInstance().NickCache.put(uuid, DatabaseQueries.getNick(uuid));
+                }
+            });
+            DatabaseQueries.getNicknamesList().forEach(nick -> Nicknames.getInstance().NickCache.put(nick.getUuid(), nick));
+        }
     }
 }
