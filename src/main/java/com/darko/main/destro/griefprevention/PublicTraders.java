@@ -28,10 +28,11 @@ public class PublicTraders implements Listener {
             /*
              * This should cover all chests, enderchests, barrels, furnacetypes, lectern, ....
              */
-            if(entity.getType() == EntityType.VILLAGER) {
+            if (entity.getType() == EntityType.VILLAGER) {
                 // early check for custom name to not waste time on getting the claim if not needed?
                 Villager villager = (Villager) entity;
-                if(ChatColor.stripColor(villager.getCustomName()).equalsIgnoreCase("public")) {
+                if (villager.getCustomName() == null) return;
+                if (ChatColor.stripColor(villager.getCustomName()).equalsIgnoreCase("public")) {
                     // Do we need to check for claims? i assume it's cancelled because of no permission as we only continue if the event is canceled
                     // we don't need to check for worldguard regions either as spawn should also be claimed?
                     Claim claim = GriefPrevention.instance.dataStore.getClaimAt(entity.getLocation(), true, null);
