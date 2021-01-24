@@ -320,7 +320,12 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 String argumentKey;
                 String argumentValues = "";
 
-                if (args[i].equalsIgnoreCase("-radius:")) continue;
+                if (args[i].equalsIgnoreCase("-radius:")) {
+
+                    radiusString = args[i + 1];
+                    continue;
+
+                }
 
                 if (args[i].equalsIgnoreCase("-silent")) continue;
 
@@ -329,13 +334,6 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 argumentKey = args[i].replace(":", "");
 
                 for (Integer j = i + 1; j < args.length; j++) {
-
-                    if (args[j].equalsIgnoreCase("-radius:")) {
-
-                        radiusString = args[j + 1];
-                        break;
-
-                    }
 
                     if (args[j].equalsIgnoreCase("-silent")) break;
                     if (args[j].contains(":")) break;
