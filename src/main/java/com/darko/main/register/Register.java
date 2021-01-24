@@ -96,7 +96,10 @@ public class Register extends JavaPlugin {
             registerEvents(new PvPFishing());
         }
         if(APIs.CMIApiFound && Main.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")){
-            registerEvents(new NicknamesEvents());
+            NicknamesEvents nicknamesEvents = new NicknamesEvents();
+            registerEvents(nicknamesEvents);
+//            Main.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(Main.getInstance(), "BungeeCord"); //des already registers this
+            Main.getInstance().getServer().getMessenger().registerIncomingPluginChannel(Main.getInstance(), "BungeeCord", nicknamesEvents);
         }
 
     }
