@@ -18,8 +18,6 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.util.UUID;
 
-import static com.darko.main.utilities.teri.Nicknames.Nicknames.format;
-
 public class NicknamesEvents implements Listener, PluginMessageListener
 {
     @EventHandler
@@ -121,7 +119,7 @@ public class NicknamesEvents implements Listener, PluginMessageListener
                     if (target != null && nick != null && nick.getCurrentNick() != null) {
                         Nicknames.getInstance().setNick(target, nick.getCurrentNick());
                         target.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickChanged")
-                                .replace("%nickname%", nick.getNewNick())));
+                                .replace("%nickname%", nick.getCurrentNick())));
                     }
                 }
                 break;

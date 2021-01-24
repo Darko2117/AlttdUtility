@@ -83,7 +83,8 @@ public class ConfigSetup {
         NickNewRequest("Messages.NickNewRequest", "&aNew nickname request by %player%&a!"),
         NickTryout("Messages.NickTryout", "&f%prefix&f %nick%&7: &fHi, this is what my new nickname could look like!"),
         CantFindPlayer("Messages.CantFindPlayer", "&cCould not find %playerName%&c try again on a server they've played on before."),
-        NickRequested("Messages.NickRequested", "&aYour requested to be nicked %nick%&a has been received. Staff will accept or deny this request asap!");
+        NickRequested("Messages.NickRequested", "&aYour requested to be nicknamed %nick%&a has been received. Staff will accept or deny this request asap!"),
+        NickReviewWaiting("Messages.NickReviewWaiting", "&aThere are %amount% nicknames waiting for review!");
 
 
         private final String path;
