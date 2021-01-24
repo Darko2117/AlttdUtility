@@ -64,7 +64,7 @@ public class ConfigSetup {
         FreezeMailListRead("Messages.FreezeMailListRead", "&fShowing all unread freeze mails for: &d%player%&f. To see all mails do &6/freezemail list %player% all&f:"),
         FreezeMailListAll("Messages.FreezeMailListAll", "&fShowing all freeze mails for &d%player%&f:"),
         FreezeMailListAllUnread("Messages.FreezeMailListAllUnread", "&fShowing all unread freeze mails:"),
-        NickChanged("Messages.NickChanged", "&eYou changed your nickname to %nickname%&e."),
+        NickChanged("Messages.NickChanged", "&eYour nickname was changed to %nickname%&e."),
         NickReset("Messages.NickReset", "&eNickname changed back to normal."),
         NickChangedOthers("Messages.NickChangedOthers", "&6%targetplayer%&e's nickname was changed to %nickname%&e."),
         NickTargetNickChange("Messages.NickTargetNickChange", "&eYour nickname was changed to %nickname% &eby %sendernick%&e"),

@@ -1,11 +1,20 @@
 package com.darko.main.utilities.teri.Nicknames;
 
 import java.awt.*;
+
+import com.darko.main.Main;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Utilities
 {
@@ -129,5 +138,27 @@ public class Utilities
             });
             DatabaseQueries.getNicknamesList().forEach(nick -> Nicknames.getInstance().NickCache.put(nick.getUuid(), nick));
         }
+    }
+
+    public static void bungeeMessageHandled(UUID uniqueId, Player player, String channel) {
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+
+        out.writeUTF("Forward"); // So BungeeCord knows to forward it
+        out.writeUTF("ALL");
+        out.writeUTF("NickName" + channel); // The channel name to check if this your data
+
+        ByteArrayOutputStream msgbytes = new ByteArrayOutputStream();
+        DataOutputStream msgout = new DataOutputStream(msgbytes);
+        try {
+            msgout.writeUTF(uniqueId.toString());
+        } catch (IOException exception){
+            exception.printStackTrace();
+            return;
+        }
+        byte[] bytes = msgbytes.toByteArray();
+        out.writeShort(bytes.length);
+        out.write(bytes);
+
+        player.sendPluginMessage(Main.getInstance(), "BungeeCord", out.toByteArray());
     }
 }

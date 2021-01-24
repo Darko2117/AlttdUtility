@@ -4,6 +4,8 @@ import com.Zrips.CMI.utils.Util;
 import com.darko.main.Main;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -15,6 +17,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.util.UUID;
+
+import static com.darko.main.utilities.teri.Nicknames.Nicknames.format;
 
 public class NicknamesEvents implements Listener, PluginMessageListener
 {
@@ -67,29 +71,66 @@ public class NicknamesEvents implements Listener, PluginMessageListener
         }
         ByteArrayDataInput in = ByteStreams.newDataInput(message);
         String subChannel = in.readUTF();
-        if(!subChannel.equals("NickNames")) {
+        if(!subChannel.equals("NickNameRequest") && !subChannel.equals("NickNameAccepted")
+                && !subChannel.equals("NickNameDenied") && !subChannel.equals("NickNameSet")) {
             return;
         }
-
+        UUID playerUUID;
+        OfflinePlayer offlinePlayer;
+        String name;
         try {
             short len = in.readShort();
             byte[] msgbytes = new byte[len];
             in.readFully(msgbytes);
 
             DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
-            String playerUUID = msgin.readUTF();
-            String notification = Utilities.applyColor(Main.getInstance().getConfig().getString("Messages.NickNewRequest")
-                    .replace("%player", playerUUID));
-            Main.getInstance().getServer().getOnlinePlayers().forEach(p ->{
-                if (p.hasPermission("utility.nick.review")){
-                    p.sendMessage(notification);
-                }
-            });
-            Nicknames.getInstance().nickCacheUpdate.add(UUID.fromString(playerUUID));
+            playerUUID = UUID.fromString(msgin.readUTF());
+            offlinePlayer = Main.getInstance().getServer().getOfflinePlayer(playerUUID);
+            name = offlinePlayer.getName();
 
         } catch (Exception e) {
             e.printStackTrace();
+            return;
         }
 
+        switch (subChannel){
+            case "NickNameRequest":
+                String notification = Utilities.applyColor(Main.getInstance().getConfig().getString("Messages.NickNewRequest")
+                        .replace("%player%", name == null ? playerUUID.toString() : name));
+                Main.getInstance().getServer().getOnlinePlayers().forEach(p ->{
+                    if (p.hasPermission("utility.nick.review")){
+                        p.sendMessage(notification);
+                    }
+                });
+                Nicknames.getInstance().nickCacheUpdate.add(playerUUID);
+
+                if (offlinePlayer.isOnline()){
+                    Nick nick = DatabaseQueries.getNick(playerUUID);
+                    if (nick != null && nick.getCurrentNick() != null) {
+                        Nicknames.getInstance().setNick(offlinePlayer.getPlayer(), nick.getCurrentNick());
+                    }
+                }
+                break;
+            case "NickNameAccepted":
+                //No break on purpose
+            case "NickNameSet":
+                Nicknames.getInstance().nickCacheUpdate.add(playerUUID);
+                if (offlinePlayer.isOnline()){
+                    Nick nick = DatabaseQueries.getNick(playerUUID);
+                    Player target = Bukkit.getPlayer(playerUUID);
+                    if (target != null && nick != null && nick.getCurrentNick() != null) {
+                        Nicknames.getInstance().setNick(target, nick.getCurrentNick());
+                        target.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickChanged")
+                                .replace("%nickname%", nick.getNewNick())));
+                    }
+                }
+                break;
+            case "NickNameDenied":
+                Nicknames.getInstance().NickCache.remove(playerUUID);
+                break;
+        }
+    }
+    public static String format(final String m) {
+        return Utilities.applyColor(m);
     }
 }

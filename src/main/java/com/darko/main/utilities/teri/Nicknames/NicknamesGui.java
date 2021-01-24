@@ -1,6 +1,8 @@
 package com.darko.main.utilities.teri.Nicknames;
 
 import com.darko.main.Main;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -9,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -17,6 +18,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.*;
 
 import static com.darko.main.utilities.teri.Nicknames.Nicknames.format;
@@ -184,6 +188,7 @@ public class NicknamesGui implements Listener {
                                 Nicknames.getInstance().NickCache.put(uniqueId, nick);
 
                             } else {
+                                Utilities.bungeeMessageHandled(uniqueId, e.getWhoClicked().getServer().getPlayer(e.getWhoClicked().getName()), "Accepted");
                                 Nicknames.getInstance().NickCache.remove(uniqueId);
                             }
 
@@ -216,6 +221,7 @@ public class NicknamesGui implements Listener {
                                 Nicknames.getInstance().NickCache.put(uniqueId, nick);
                             } else {
                                 Nicknames.getInstance().NickCache.remove(uniqueId);
+                                Utilities.bungeeMessageHandled(uniqueId, e.getWhoClicked().getServer().getPlayer(e.getWhoClicked().getName()), "Denied");
                             }
 
                             ItemStack itemStack = new ItemStack(Material.SKELETON_SKULL);

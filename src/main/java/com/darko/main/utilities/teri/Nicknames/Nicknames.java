@@ -184,19 +184,19 @@ public class Nicknames implements CommandExecutor, TabCompleter {
             NickCache.put(uniqueId, new Nick(uniqueId, null, 0, nickName, new Date().getTime()));
         }
         DatabaseQueries.newNicknameRequest(uniqueId, nickName);
-        bungeeMessage(player);
+        bungeeMessageRequest(player);
         player.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickRequested")
                 .replace("%nick%", nickName)));
     }
 
-    private void bungeeMessage(Player player) {
+    private void bungeeMessageRequest(Player player) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
 
         UUID uniqueId = player.getUniqueId();
 
         out.writeUTF("Forward"); // So BungeeCord knows to forward it
         out.writeUTF("ALL");
-        out.writeUTF("NickNames"); // The channel name to check if this your data
+        out.writeUTF("NickNameRequest"); // The channel name to check if this your data
 
         ByteArrayOutputStream msgbytes = new ByteArrayOutputStream();
         DataOutputStream msgout = new DataOutputStream(msgbytes);
@@ -213,7 +213,7 @@ public class Nicknames implements CommandExecutor, TabCompleter {
         player.sendPluginMessage(Main.getInstance(), "BungeeCord", out.toByteArray());
 
         String notification = Utilities.applyColor(Main.getInstance().getConfig().getString("Messages.NickNewRequest")
-                .replace("%player", uniqueId.toString()));
+                .replace("%player%", player.getName()));
 
         Main.getInstance().getServer().getOnlinePlayers().forEach(p ->{
             if (p.hasPermission("utility.nick.review")){
@@ -268,6 +268,8 @@ public class Nicknames implements CommandExecutor, TabCompleter {
         } else if (validNick(sender, nickName)) {
             if (target.isOnline()) {
                 setNick(target.getPlayer(), nickName);
+            } else {
+                Utilities.bungeeMessageHandled(target.getUniqueId(), sender, "Set");
             }
 
             DatabaseQueries.setNicknameInDatabase(target.getUniqueId(), nickName);
