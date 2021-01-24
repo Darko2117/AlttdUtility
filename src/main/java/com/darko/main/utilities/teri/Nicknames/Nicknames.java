@@ -27,7 +27,7 @@ public class Nicknames implements CommandExecutor, TabCompleter {
 
     static Nicknames instance;
     HashMap <UUID, Nick> NickCache;
-    ArrayList<UUID> nickCacheUpdate; //TODO check if this bungee shit works
+    ArrayList<UUID> nickCacheUpdate;
 
     public Nicknames() {
         instance = this;
@@ -96,6 +96,10 @@ public class Nicknames implements CommandExecutor, TabCompleter {
                         sender.sendMessage(format(helpMessage(sender, HelpType.TRY)));
                     }
                     break;
+                case "help":
+                    sender.sendMessage(format(helpMessage(sender, HelpType.ALL)
+                            + "For more info on nicknames and how to use rgb colors go to: &bhttps://alttd.com/nicknames&f"));
+                    break;
                 default:
                     sender.sendMessage(format(helpMessage(sender, HelpType.ALL)));
             }
@@ -124,6 +128,7 @@ public class Nicknames implements CommandExecutor, TabCompleter {
             if (sender.hasPermission("utility.nick.try")) {
                 choices.add("try");
             }
+            choices.add("help");
 
             for (String s : choices) {
                 if (s.startsWith(args[0])) {

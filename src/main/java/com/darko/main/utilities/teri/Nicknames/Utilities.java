@@ -155,7 +155,7 @@ public class Utilities
 
                     if (!cleanNick.equalsIgnoreCase(target.getName())){
                         for (Nick nick : Nicknames.getInstance().NickCache.values()){
-                            if ((nick.getCurrentNickNoColor() != null && nick.getCurrentNickNoColor().equalsIgnoreCase(cleanNick))
+                            if (!nick.getUuid().equals(target.getUniqueId()) && (nick.getCurrentNickNoColor() != null && nick.getCurrentNickNoColor().equalsIgnoreCase(cleanNick))
                                     || (nick.getNewNickNoColor() != null && nick.getNewNickNoColor().equalsIgnoreCase(cleanNick))){
                                 sender.sendMessage(applyColor(Main.getInstance().getConfig().getString("Messages.NickTaken")));
                                 return false;
