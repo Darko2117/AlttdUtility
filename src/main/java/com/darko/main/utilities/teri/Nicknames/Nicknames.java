@@ -13,6 +13,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -20,12 +21,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
-public class Nicknames implements CommandExecutor {
+public class Nicknames implements CommandExecutor, TabCompleter {
 
     String[] blockedCodes;
     String[] allowedColorCodes;
@@ -66,14 +64,9 @@ public class Nicknames implements CommandExecutor {
                     break;
                 case "review":
                     if (args.length == 1 && hasPermission(sender, "utility.nick.review")){
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                NicknamesGui nicknamesGui = new NicknamesGui();
-                                Main.getInstance().getServer().getPluginManager().registerEvents(nicknamesGui, Main.getInstance());
-                                nicknamesGui.openInventory(player);
-                            }
-                        }.runTaskAsynchronously(Main.getInstance());
+                        NicknamesGui nicknamesGui = new NicknamesGui();
+                        Main.getInstance().getServer().getPluginManager().registerEvents(nicknamesGui, Main.getInstance());
+                        nicknamesGui.openInventory(player);
                     } else {
                         sender.sendMessage(format(helpMessage(sender, HelpType.REVIEW)));
                     }
@@ -116,6 +109,51 @@ public class Nicknames implements CommandExecutor {
         return true;
     }
 
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+        List<String> completions = new ArrayList<>();
+        if (!sender.hasPermission("utility.nick")) return completions;
+
+        if (args.length == 1){
+            List<String> choices = new ArrayList<>();
+            if (sender.hasPermission("utility.nick.set")) {
+                choices.add("set");
+            }
+            if (sender.hasPermission("utility.nick.review")) {
+                choices.add("review");
+            }
+            if (sender.hasPermission("utility.nick.request")) {
+                choices.add("request");
+            }
+            if (sender.hasPermission("utility.nick.try")) {
+                choices.add("try");
+            }
+
+            for (String s : choices) {
+                if (s.startsWith(args[0])) {
+                    completions.add(s);
+                }
+            }
+        } else if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("set")) {
+                List<String> choices = new ArrayList<>();
+                List<String> onlinePlayers = new ArrayList<>();
+                Bukkit.getOnlinePlayers().forEach(a -> onlinePlayers.add(a.getName()));
+
+                if (sender.hasPermission("utility.nick.set.others")) {
+                    choices.addAll(onlinePlayers);
+                }
+
+                for (String s : choices) {
+                    if (s.startsWith(args[1])) {
+                        completions.add(s);
+                    }
+                }
+            }
+        }
+        return completions;
+    }
+
     private void handleNickRequest(Player player, String nickName) {
         if (!validNick(player, nickName)){
             return;
@@ -153,6 +191,9 @@ public class Nicknames implements CommandExecutor {
 
     private void bungeeMessage(Player player) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
+
+        UUID uniqueId = player.getUniqueId();
+
         out.writeUTF("Forward"); // So BungeeCord knows to forward it
         out.writeUTF("ALL");
         out.writeUTF("NickNames"); // The channel name to check if this your data
@@ -160,7 +201,7 @@ public class Nicknames implements CommandExecutor {
         ByteArrayOutputStream msgbytes = new ByteArrayOutputStream();
         DataOutputStream msgout = new DataOutputStream(msgbytes);
         try {
-            msgout.writeUTF(player.getUniqueId().toString());
+            msgout.writeUTF(uniqueId.toString());
         } catch (IOException exception){
             exception.printStackTrace();
             return;
@@ -170,6 +211,16 @@ public class Nicknames implements CommandExecutor {
         out.write(bytes);
 
         player.sendPluginMessage(Main.getInstance(), "BungeeCord", out.toByteArray());
+
+        String notification = Utilities.applyColor(Main.getInstance().getConfig().getString("Messages.NickNewRequest")
+                .replace("%player", uniqueId.toString()));
+
+        Main.getInstance().getServer().getOnlinePlayers().forEach(p ->{
+            if (p.hasPermission("utility.nick.review")){
+                p.sendMessage(notification);
+            }
+        });
+        Nicknames.getInstance().nickCacheUpdate.add(uniqueId);
     }
 
     private String formatTime(long timeInMillis){
@@ -257,7 +308,7 @@ public class Nicknames implements CommandExecutor {
 
             if (cleanNick.length() >= 3 && cleanNick.length() <= 16) {
 
-                if (cleanNick.matches("[a-zA-Z0-9_]*") && nickName.matches("[a-zA-Z0-9 &_{}<>#]*")) {
+                if (cleanNick.matches("[a-zA-Z0-9_]*") && nickName.length()<=192) {//192 is if someone puts {#xxxxxx<>} in front of every letter
 
                     return true;
 

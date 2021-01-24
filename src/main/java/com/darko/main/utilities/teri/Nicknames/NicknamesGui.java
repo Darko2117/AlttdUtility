@@ -165,6 +165,11 @@ public class NicknamesGui implements Listener {
                     if (e.isLeftClick()){
                         if (owningPlayer.hasPlayedBefore()) {
                             DatabaseQueries.acceptNewNickname(uniqueId, nick.getNewNick());
+                            p.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickAccepted")
+                                    .replace("%targetPlayer%", clickedItem.getItemMeta().getDisplayName())
+                                    .replace("%newNick%", nick.getNewNick())
+                                    .replace("%oldNick%", nick.getCurrentNick() == null ? clickedItem.getItemMeta().getDisplayName() : nick.getCurrentNick())));
+
                             if (owningPlayer.isOnline()){
                                 Nicknames.getInstance().setNick(owningPlayer.getPlayer(), nick.getNewNick());
                                 owningPlayer.getPlayer().sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickChanged")
@@ -181,10 +186,6 @@ public class NicknamesGui implements Listener {
                             } else {
                                 Nicknames.getInstance().NickCache.remove(uniqueId);
                             }
-                            p.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickAccepted")
-                                    .replace("%targetPlayer%", clickedItem.getItemMeta().getDisplayName())
-                                    .replace("%newNick%", nick.getNewNick())
-                                    .replace("%oldNick%", nick.getCurrentNick() == null ? clickedItem.getItemMeta().getDisplayName() : nick.getCurrentNick())));
 
                             ItemStack itemStack = new ItemStack(Material.SKELETON_SKULL);
                             ItemMeta itemMeta = itemStack.getItemMeta();

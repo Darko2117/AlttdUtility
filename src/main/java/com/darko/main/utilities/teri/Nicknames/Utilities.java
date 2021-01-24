@@ -6,12 +6,10 @@ import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class Utilities
 {
     public static String stringRegen;
-    private static final Pattern hexPattern;
     List<String> matchList;
     
     public Utilities() {
@@ -20,7 +18,7 @@ public class Utilities
     
     public static String applyColor(String message) {
         ChatColor hexColor1 = null;
-        ChatColor hexColor2 = null;
+        ChatColor hexColor2;
         StringBuilder stringBuilder = new StringBuilder();
         message = ChatColor.translateAlternateColorCodes('&', message);
         boolean startsWithColor = false;
@@ -28,9 +26,6 @@ public class Utilities
 
         if (message.matches(".*" + Utilities.stringRegen + ".*")) {
             String[] split = message.split(Utilities.stringRegen);
-            for (String s : split){
-                System.out.println(s);
-            }
 
             ArrayList<String> list = new ArrayList<>();
             int nextIndex = 0;
@@ -94,12 +89,11 @@ public class Utilities
     }
     
     public static String removeHexColors(final String message) {
-        return message.replaceAll("[\\{#A-Fa-f0-9}<>]{9,11}", "");
+        return message.replaceAll("\\{#[A-Fa-f0-9]{6}(<)?(>)?}", "");
     }
-    
+
     static {
         Utilities.stringRegen = "\\{#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})(<)?(>)?}";
-        hexPattern = Pattern.compile(Utilities.stringRegen);
     }
 
     public static String hexGradient(Color color1, Color color2, String text){

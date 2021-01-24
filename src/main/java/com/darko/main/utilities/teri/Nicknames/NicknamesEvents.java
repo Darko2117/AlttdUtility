@@ -32,20 +32,18 @@ public class NicknamesEvents implements Listener, PluginMessageListener
                 final Nick nick = DatabaseQueries.getNick(player.getUniqueId());
 
                 if (nick == null){
-                    Nicknames.getInstance().setNick(player, null);
+                    Nicknames.getInstance().resetNick(player);
                     return;
                 }
 
                 String nickName = nick.getCurrentNick();
                 final String cmiNick = Util.CMIChatColor.deColorize(Nicknames.getInstance().getNick(player));
 
-                if (cmiNick != null) {
-                    if (nickName == null) {
-                        Nicknames.getInstance().resetNick(player);
-                    }
-                    else if (!nickName.equals(cmiNick)) {
-                        Nicknames.getInstance().setNick(player, nickName);
-                    }
+                if (nickName == null) {
+                    Nicknames.getInstance().resetNick(player);
+                }
+                else if (!nickName.equals(cmiNick)) {
+                    Nicknames.getInstance().setNick(player, nickName);
                 }
 
                 Nicknames.getInstance().NickCache.put(e.getPlayer().getUniqueId(), nick);

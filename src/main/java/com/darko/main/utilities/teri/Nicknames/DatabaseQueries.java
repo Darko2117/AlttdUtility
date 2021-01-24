@@ -57,9 +57,9 @@ public class DatabaseQueries
         return nickList;
     }
 
-    public static Nick getNick(UUID uniqueId) {
+    public static Nick  getNick(UUID uniqueId) {
         String getNick = "SELECT nickname, date_changed, uuid FROM nicknames WHERE uuid = ?";
-        String getRequest = "SELECT nickname, date_requested uuid FROM requested_nicknames WHERE uuid = ?";
+        String getRequest = "SELECT nickname, date_requested, uuid FROM requested_nicknames WHERE uuid = ?";
 
         try {
             ResultSet resultSetNick = getStringResult(getNick, uniqueId.toString());
