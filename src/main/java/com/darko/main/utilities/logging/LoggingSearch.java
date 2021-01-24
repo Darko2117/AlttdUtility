@@ -447,8 +447,6 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             FileWriter writer = new FileWriter(outputFile, true);
             writer.write("");
 
-            String errorReadLines = "";
-
             for (File f : filesToRead) {
 
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
@@ -460,10 +458,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
                         String lineCopy = line;
 
-                        if (!lineCopy.startsWith("|") || !lineCopy.endsWith("|")) {
-                            Main.getInstance().getLogger().warning("Error reading line " + lineCopy);
+                        if (!lineCopy.startsWith("|") || !lineCopy.endsWith("|"))
                             continue lineReader;
-                        }
 
                         HashMap<String, String> lineArguments = new HashMap<>();
 
@@ -478,49 +474,50 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
                                 lineArguments.put(argumentName, argument);
 
-                            } catch (Throwable throwable) {
-                                Main.getInstance().getLogger().warning("Error reading line " + line);
+                            } catch (Throwable ignored) {
                             }
                         }
 
                         try {
                             for (Map.Entry<String, String> inputArguments : arguments.entrySet()) {
 
-                                if (!lineArguments.containsKey(inputArguments.getKey()) || !lineArguments.get(inputArguments.getKey()).toLowerCase().contains(inputArguments.getValue().toLowerCase())) {
+                                if (!lineArguments.containsKey(inputArguments.getKey()))
                                     continue lineReader;
-                                }
+
+                                if (!lineArguments.get(inputArguments.getKey()).toLowerCase().contains(inputArguments.getValue().toLowerCase()))
+                                    continue lineReader;
 
                             }
-                        } catch (Throwable throwable) {
-                            Main.getInstance().getLogger().warning("Error reading line " + line);
-                            errorReadLines = errorReadLines.concat("Encountered an error while reading the line, probably doesn't contain the searched arguments:" + line + "\n");
+                        } catch (Throwable ignored) {
                         }
 
                         //Writes only those lines which contain all the provided arguments, it skips over the rest. If the radius is provided checks that.
                         if (!radiusString.equals("-1")) {
 
-                            if (!(sender instanceof Player)) continue lineReader;
+                            if (!(sender instanceof Player))
+                                continue lineReader;
 
                             Player player = (Player) sender;
 
                             lineCopy = line;
-                            if (!lineCopy.contains("Location:")) continue lineReader;
+                            if (!lineCopy.contains("Location:"))
+                                continue lineReader;
 
                             lineCopy = lineCopy.substring(lineCopy.indexOf("Location:") + 9);
                             lineCopy = lineCopy.substring(0, lineCopy.indexOf("|"));
 
                             Location location = Logging.getLocationFromBetterLocationString(lineCopy);
 
-                            if (!player.getLocation().getWorld().equals(location.getWorld())) continue lineReader;
+                            if (!player.getLocation().getWorld().equals(location.getWorld()))
+                                continue lineReader;
 
                             Double logX = location.getX();
                             Double logZ = location.getZ();
 
                             Double distance = Math.sqrt(Math.pow((logX - playerX), 2) + Math.pow((logZ - playerZ), 2));
 
-                            System.out.println(distance);
-
-                            if (distance > Double.parseDouble(radiusString)) continue lineReader;
+                            if (distance > Double.parseDouble(radiusString))
+                                continue lineReader;
 
                         }
 
@@ -534,8 +531,6 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 bufferedReader.close();
 
             }
-
-            writer.write(errorReadLines);
 
             writer.close();
 
