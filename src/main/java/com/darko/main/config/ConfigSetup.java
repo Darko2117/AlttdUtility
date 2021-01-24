@@ -64,9 +64,9 @@ public class ConfigSetup {
         FreezeMailListRead("Messages.FreezeMailListRead", "&fShowing all unread freeze mails for: &d%player%&f. To see all mails do &6/freezemail list %player% all&f:"),
         FreezeMailListAll("Messages.FreezeMailListAll", "&fShowing all freeze mails for &d%player%&f:"),
         FreezeMailListAllUnread("Messages.FreezeMailListAllUnread", "&fShowing all unread freeze mails:"),
-        NickChanged("Messages.NickChanged", "&eYou changed your nickname to %nickname%."),
+        NickChanged("Messages.NickChanged", "&eYou changed your nickname to %nickname%&e."),
         NickReset("Messages.NickReset", "&eNickname changed back to normal."),
-        NickChangedOthers("Messages.NickChangedOthers", "&6%targetplayer%'s &enickname was changed to %nickname%&e."),
+        NickChangedOthers("Messages.NickChangedOthers", "&6%targetplayer%&e's nickname was changed to %nickname%&e."),
         NickTargetNickChange("Messages.NickTargetNickChange", "&eYour nickname was changed to %nickname% &eby %sendernick%&e"),
         NickResetOthers("Messages.NickResetOthers", "&6%player%&6's &enickname was reset back to normal."),
         NickInvalidCharacters("Messages.NickInvalidCharacters", "&eYou can only use letters and numbers in nicknames."),
@@ -78,12 +78,12 @@ public class ConfigSetup {
         NickDenied("Messages.NickDenied", "&aYou denied %targetPlayer%&a's nickname. They are still called %oldNick%&a."),
         NickAlreadyHandled("Messages.NickAlreadyHandled", "&c%targetPlayer%&c's nickname was already accepted or denied."),
         NickNoLuckperms("Messages.NickNoLuckPerms", "&cDue to an issue with LuckPerms /nick try won't work at the moment."),
-        NickTooSoon("Messages.NickTooSoon", "&cPlease wait %time% until requesting a new nickname"),
+        NickTooSoon("Messages.NickTooSoon", "&cPlease wait %time%&c until requesting a new nickname"),
         NickRequestReplaced("Messages.NickRequestReplaced", "&aReplaced your previous request %oldRequestedNick%&a with %newRequestedNick%&a."),
         NickNewRequest("Messages.NickNewRequest", "&aNew nickname request by %player%&a!"),
-        NickTryout("Messages.NickTryout", "&f[%prefix&f] &f%nick%&7: &fHi, this is what my new nickname could look like!"),
-        CantFindPlayer("Messages.CantFindPlayer", "&cCould not find %playerName% try again on a server they've played on before."),
-        NickRequested("Messages.NickRequested", "&aYour requested to be nicked %nick% has been received. Staff will accept or deny this request asap!");
+        NickTryout("Messages.NickTryout", "&f%prefix&f %nick%&7: &fHi, this is what my new nickname could look like!"),
+        CantFindPlayer("Messages.CantFindPlayer", "&cCould not find %playerName%&c try again on a server they've played on before."),
+        NickRequested("Messages.NickRequested", "&aYour requested to be nicked %nick%&a has been received. Staff will accept or deny this request asap!");
 
 
         private final String path;
