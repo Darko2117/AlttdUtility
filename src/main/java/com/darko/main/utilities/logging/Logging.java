@@ -33,8 +33,8 @@ public class Logging {
     public static String itemsDespawnedLogName = "itemsDespawned";
     public static String farmLimiterLogName = "farmLimiter";
     public static String itemsDestroyedLogName = "itemsDestroyed";
-    //public static String tridentsLogName = "tridents";
-    public static String commandsWithLocation = "commandsWithLocation";
+    public static String commandsWithLocationLogName = "commandsWithLocation";
+    public static String droppedItemsOnDeathLogName = "droppedItemsOnDeath";
 
     public static void initiate() {
 
@@ -56,8 +56,8 @@ public class Logging {
         logNamesAndConfigPaths.put(itemsDespawnedLogName, "Logging.ItemsDespawned");
         logNamesAndConfigPaths.put(farmLimiterLogName, "Logging.FarmLimiter");
         logNamesAndConfigPaths.put(itemsDestroyedLogName, "Logging.ItemsDestroyed");
-        //logNamesAndConfigPaths.put(tridentsLogName, "Logging.Tridents");
-        logNamesAndConfigPaths.put(commandsWithLocation, "Logging.CommandsWithLocation");
+        logNamesAndConfigPaths.put(commandsWithLocationLogName, "Logging.CommandsWithLocation");
+        logNamesAndConfigPaths.put(droppedItemsOnDeathLogName, "Logging.DroppedItemsOnDeath");
 
         List<String> directories = new ArrayList<>();
         directories.add("logs");
@@ -171,7 +171,7 @@ public class Logging {
 
     }
 
-    public static Location getLocationFromBetterLocationString(String string){
+    public static Location getLocationFromBetterLocationString(String string) {
 
         string = string.substring(7);
 
@@ -223,6 +223,151 @@ public class Logging {
                 }
             }
         }.runTaskAsynchronously(Main.getInstance());
+
+    }
+
+    static List<String> getArgumentListFromLogName(String logName) {
+
+        List<String> arguments = new ArrayList<>();
+
+        if (logName.equals("claimsCreated") || logName.equals("claimsDeleted") || logName.equals("claimsExpired") || logName.equals("claimsModified")) {
+
+            arguments.add("Time:");
+            arguments.add("User:");
+            arguments.add("LowestY:");
+            arguments.add("Area:");
+
+        } else if (logName.equals("eggsThrown")) {
+
+            arguments.add("Time:");
+            arguments.add("User:");
+            arguments.add("Location:");
+            arguments.add("ClaimOwner:");
+
+        } else if (logName.equals("droppedItems")) {
+
+            arguments.add("Time:");
+            arguments.add("User:");
+            arguments.add("Item:");
+            arguments.add("Location:");
+
+        } else if (logName.equals("itemsPlacedInItemFrames")) {
+
+            arguments.add("Time:");
+            arguments.add("User:");
+            arguments.add("Item:");
+            arguments.add("Location:");
+
+        } else if (logName.equals("itemsTakenOutOfItemFrames")) {
+
+            arguments.add("Time:");
+            arguments.add("User:");
+            arguments.add("Item:");
+            arguments.add("Location:");
+
+        } else if (logName.equals("mcmmoRepairUse")) {
+
+            arguments.add("Time:");
+            arguments.add("User:");
+            arguments.add("Item:");
+
+        } else if (logName.equals("cratePrizes")) {
+
+            arguments.add("Time:");
+            arguments.add("User:");
+            arguments.add("Items:");
+            arguments.add("Commands:");
+            arguments.add("Crate:");
+
+        } else if (logName.equals("spawnLimitReached")) {
+
+            arguments.add("Time:");
+            arguments.add("EntityType:");
+            arguments.add("Location:");
+            arguments.add("ClaimOwner:");
+
+        } else if (logName.equals("pickedUpItems")) {
+
+            arguments.add("Time:");
+            arguments.add("User:");
+            arguments.add("Item:");
+            arguments.add("Location:");
+
+        } else if (logName.equals("uiClicks")) {
+
+            arguments.add("Time:");
+            arguments.add("User:");
+            arguments.add("InventoryName:");
+            arguments.add("ClickedItem:");
+            arguments.add("Location:");
+
+        } else if (logName.equals("itemsBroken")) {
+
+            arguments.add("Time:");
+            arguments.add("User:");
+            arguments.add("Item:");
+            arguments.add("Location:");
+
+        } else if (logName.equals("numberOfClaimsNotification")) {
+
+            arguments.add("Time:");
+            arguments.add("User:");
+            arguments.add("NumberOfClaims:");
+
+        } else if (logName.equals("itemsDespawned")) {
+
+            arguments.add("Time:");
+            arguments.add("Item:");
+            arguments.add("Location:");
+
+        } else if (logName.equals("farmLimiter")) {
+
+            arguments.add("Time:");
+            arguments.add("Entity:");
+            arguments.add("Location:");
+            arguments.add("ClaimOwner:");
+
+        } else if (logName.equals("itemsDestroyed")) {
+
+            arguments.add("Time:");
+            arguments.add("Item:");
+            arguments.add("Location:");
+            arguments.add("Cause:");
+
+        } else if (logName.equals("commandsWithLocation")) {
+
+            arguments.add("Time:");
+            arguments.add("User:");
+            arguments.add("Command:");
+            arguments.add("Location:");
+
+        } else if (logName.equals("droppedItemsOnDeath")) {
+
+            arguments.add("Time:");
+            arguments.add("User:");
+            arguments.add("Items:");
+            arguments.add("Location:");
+
+        }
+
+        return arguments;
+
+    }
+
+    static List<String> getAdditionalLogNames() {
+
+        List<String> logNames = new ArrayList<>();
+
+        for (String s : Main.getInstance().getConfig().getStringList("AdditionalLogs")) {
+
+            s = s.substring(s.indexOf("Name:") + 5);
+            s = s.substring(0, s.indexOf(" "));
+
+            logNames.add(s);
+
+        }
+
+        return logNames;
 
     }
 

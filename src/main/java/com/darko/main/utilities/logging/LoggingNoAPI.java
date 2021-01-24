@@ -2,7 +2,6 @@ package com.darko.main.utilities.logging;
 
 import com.darko.main.API.APIs;
 import com.darko.main.Main;
-import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.Material;
@@ -17,6 +16,7 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Date;
 
@@ -447,7 +447,8 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public static void onPlayerCommandSend(PlayerCommandPreprocessEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.commandsWithLocation) + ".Enabled")) return;
+        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.commandsWithLocationLogName) + ".Enabled"))
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -472,7 +473,47 @@ public class LoggingNoAPI implements Listener {
         message = message.concat(location);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.commandsWithLocation, message);
+        Logging.WriteToFile(Logging.commandsWithLocationLogName, message);
+
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public static void onPlayerDeath(PlayerDeathEvent event) {
+
+        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.droppedItemsOnDeathLogName) + ".Enabled"))
+            return;
+
+        String time = new Date(System.currentTimeMillis()).toString();
+
+        String user = event.getEntity().getName();
+
+        String items = "";
+
+        for (ItemStack item : event.getDrops()) {
+            if (!items.isEmpty()) {
+                items = items.concat(", ");
+            }
+            items = items.concat(item.toString());
+        }
+
+        String location = Logging.getBetterLocationString(event.getEntity().getLocation());
+
+        String message = "";
+        message = message.concat("|");
+        message = message.concat("Time:");
+        message = message.concat(time);
+        message = message.concat("|");
+        message = message.concat("User:");
+        message = message.concat(user);
+        message = message.concat("|");
+        message = message.concat("Items:");
+        message = message.concat(items);
+        message = message.concat("|");
+        message = message.concat("Location:");
+        message = message.concat(location);
+        message = message.concat("|");
+
+        Logging.WriteToFile(Logging.droppedItemsOnDeathLogName, message);
 
     }
 

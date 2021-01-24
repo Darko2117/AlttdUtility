@@ -9,7 +9,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.BufferedReader;
@@ -602,7 +601,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             String logName = args[1];
 
-            if (!getAdditionalLogNames().contains(logName)) {
+            if (!Logging.getAdditionalLogNames().contains(logName)) {
                 new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchAdditionalLogsCommand");
                 inUse = false;
                 return;
@@ -790,6 +789,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
         try {
 
+            //The 3 types of logs you can search
+
             if (args.length == 1) {
 
                 List<String> choices = new ArrayList<>();
@@ -808,6 +809,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             }
 
+            //Returning 0-9 for the days argument in the normal search
+
             if (args.length == 2 && args[0].equals("normal") && args[1].isEmpty()) {
 
                 List<String> completions = new ArrayList<>();
@@ -819,6 +822,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 return completions;
 
             }
+
+            //Returning 0-9 for the days argument in the special search
 
             if (args.length == 3 && args[0].equals("special") && args[2].isEmpty()) {
 
@@ -832,6 +837,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             }
 
+            //Returning 0-9 for the days argument in the additional search
+
             if (args.length == 3 && args[0].equals("additional") && args[2].isEmpty()) {
 
                 List<String> completions = new ArrayList<>();
@@ -844,7 +851,9 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             }
 
-            if (args[0].toLowerCase().equals("special")) {
+            //Returning the arguments for the special search
+
+            if (args[0].equals("special")) {
 
                 if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.SearchSpecialLogsCommand"))
                     return null;
@@ -876,7 +885,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         logNameArgument = logNameArgument.substring(logNameArgument.lastIndexOf(",") + 1);
 
                     List<String> completions = new ArrayList<>();
-                    for (String argument : getArgumentListFromLogName(logNameArgument)) {
+                    for (String argument : Logging.getArgumentListFromLogName(logNameArgument)) {
                         if (argument.toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
                             completions.add(argument);
                         }
@@ -888,6 +897,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             }
 
+            //Returning the arguments for the additional search
+
             if (args[0].equals("additional")) {
 
                 if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.SearchAdditionalLogsCommand"))
@@ -896,7 +907,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 if (args.length == 2) {
 
                     List<String> completions = new ArrayList<>();
-                    for (String name : getAdditionalLogNames()) {
+                    for (String name : Logging.getAdditionalLogNames()) {
                         if (name.startsWith(args[1])) {
                             completions.add(name);
                         }
@@ -913,176 +924,6 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
         }
 
         return null;
-
-    }
-
-    static List<String> getArgumentListFromLogName(String logName) {
-
-        List<String> arguments = new ArrayList<>();
-
-        if (logName.equals("claimsCreated") || logName.equals("claimsDeleted") || logName.equals("claimsExpired") || logName.equals("claimsModified")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("LowestY:");
-            arguments.add("Area:");
-
-            return arguments;
-
-        } else if (logName.equals("eggsThrown")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Location:");
-            arguments.add("ClaimOwner:");
-
-            return arguments;
-
-        } else if (logName.equals("droppedItems")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Item:");
-            arguments.add("Location:");
-
-            return arguments;
-
-        } else if (logName.equals("itemsPlacedInItemFrames")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Item:");
-            arguments.add("Location:");
-
-            return arguments;
-
-        } else if (logName.equals("itemsTakenOutOfItemFrames")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Item:");
-            arguments.add("Location:");
-
-            return arguments;
-
-        } else if (logName.equals("mcmmoRepairUse")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Item:");
-
-            return arguments;
-
-        } else if (logName.equals("cratePrizes")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Items:");
-            arguments.add("Commands:");
-            arguments.add("Crate:");
-
-            return arguments;
-
-        } else if (logName.equals("spawnLimitReached")) {
-
-            arguments.add("Time:");
-            arguments.add("EntityType:");
-            arguments.add("Location:");
-            arguments.add("ClaimOwner:");
-
-            return arguments;
-
-        } else if (logName.equals("pickedUpItems")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Item:");
-            arguments.add("Location:");
-
-            return arguments;
-
-        } else if (logName.equals("uiClicks")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("InventoryName:");
-            arguments.add("ClickedItem:");
-            arguments.add("Location:");
-
-            return arguments;
-
-        } else if (logName.equals("itemsBroken")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Item:");
-            arguments.add("Location:");
-
-            return arguments;
-
-        } else if (logName.equals("numberOfClaimsNotification")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("NumberOfClaims:");
-
-            return arguments;
-
-        } else if (logName.equals("itemsDespawned")) {
-
-            arguments.add("Time:");
-            arguments.add("Item:");
-            arguments.add("Location:");
-
-            return arguments;
-
-        } else if (logName.equals("farmLimiter")) {
-
-            arguments.add("Time:");
-            arguments.add("Entity:");
-            arguments.add("Location:");
-            arguments.add("ClaimOwner:");
-
-            return arguments;
-
-        } else if (logName.equals("itemsDestroyed")) {
-
-            arguments.add("Time:");
-            arguments.add("Item:");
-            arguments.add("Location:");
-            arguments.add("Cause:");
-
-            return arguments;
-
-        } else if (logName.equals("commandsWithLocation")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Command:");
-            arguments.add("Location:");
-
-            return arguments;
-
-        }
-
-        return null;
-
-    }
-
-    static List<String> getAdditionalLogNames() {
-
-        List<String> logNames = new ArrayList<>();
-
-        for (String s : Main.getInstance().getConfig().getStringList("AdditionalLogs")) {
-
-            s = s.substring(s.indexOf("Name:") + 5);
-            s = s.substring(0, s.indexOf(" "));
-
-            logNames.add(s);
-
-        }
-
-        return logNames;
 
     }
 
