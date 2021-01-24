@@ -7,16 +7,20 @@ import java.util.UUID;
 public class Nick {
     private final UUID uuid;
     private String currentNick;
+    private String currentNickNoColor;
     private long lastChangedDate;
     private String newNick;
+    private String newNickNoColor;
     private long requestedDate;
     private boolean hasRequest;
 
     public Nick(UUID uuid, String currentNick, long lastChangedDate) {
         this.uuid = uuid;
         this.currentNick = currentNick;
+        currentNickNoColor = currentNick == null ? null : Utilities.removeAllColors(currentNick);
         this.lastChangedDate = lastChangedDate;
         newNick = null;
+        newNickNoColor = null;
         requestedDate = 0;
         hasRequest = false;
     }
@@ -24,8 +28,10 @@ public class Nick {
     public Nick(UUID uuid, String currentNick, long lastChangedDate, String newNick, long requestedDate) {
         this.uuid = uuid;
         this.currentNick = currentNick;
+        currentNickNoColor = currentNick == null ? null : Utilities.removeAllColors(currentNick);
         this.lastChangedDate = lastChangedDate;
         this.newNick = newNick;
+        newNickNoColor = newNick == null ? null : Utilities.removeAllColors(newNick);
         this.requestedDate = requestedDate;
         hasRequest = newNick != null;
     }
@@ -34,12 +40,18 @@ public class Nick {
         return uuid;
     }
 
+    public String getCurrentNickNoColor() {
+        return currentNickNoColor;
+    }
+
     public String getCurrentNick() {
         return currentNick;
     }
 
     public void setCurrentNick(String currentNick) {
         this.currentNick = currentNick;
+        currentNickNoColor = currentNick == null ? null : Utilities.removeAllColors(currentNick);
+        hasRequest = currentNick != null;
     }
 
     public long getLastChangedDate(){
@@ -54,12 +66,17 @@ public class Nick {
         this.lastChangedDate = lastChangedDate;
     }
 
+    public String getNewNickNoColor() {
+        return newNickNoColor;
+    }
+
     public String getNewNick() {
         return newNick;
     }
 
     public void setNewNick(String newNick) {
         this.newNick = newNick;
+        newNickNoColor = newNick == null ? null : Utilities.removeAllColors(newNick);
     }
 
     public long getRequestedDate(){
@@ -76,9 +93,5 @@ public class Nick {
 
     public boolean hasRequest() {
         return hasRequest;
-    }
-
-    public void setRequest(boolean hasRequest) {
-        this.hasRequest = hasRequest;
     }
 }

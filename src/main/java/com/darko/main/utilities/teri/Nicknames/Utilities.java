@@ -7,6 +7,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.io.ByteArrayOutputStream;
@@ -19,11 +20,8 @@ import java.util.UUID;
 public class Utilities
 {
     public static String stringRegen;
-    List<String> matchList;
-    
-    public Utilities() {
-        this.matchList = new ArrayList<>();
-    }
+    static String[] blockedCodes = Main.getInstance().getConfig().getStringList("Nicknames.BlockedColorCodes").toArray(new String[0]);;
+    static String[] allowedColorCodes = Main.getInstance().getConfig().getStringList("Nicknames.AllowedColorCodes").toArray(new String[0]);;
     
     public static String applyColor(String message) {
         ChatColor hexColor1 = null;
@@ -97,8 +95,13 @@ public class Utilities
         return stringBuilder.length()==0 ? message : stringBuilder.toString();
     }
     
-    public static String removeHexColors(final String message) {
-        return message.replaceAll("\\{#[A-Fa-f0-9]{6}(<)?(>)?}", "");
+    public static String removeAllColors(String string) {
+
+        for (final String colorCodes : allowedColorCodes) {
+            string = string.replace(colorCodes, "");
+        }
+
+        return string.replaceAll("\\{#[A-Fa-f0-9]{6}(<)?(>)?}", "");
     }
 
     static {
@@ -131,13 +134,56 @@ public class Utilities
     public static void updateCache() {
         if (!Nicknames.getInstance().nickCacheUpdate.isEmpty()){
             Nicknames.getInstance().nickCacheUpdate.forEach(uuid ->{
-                Nicknames.getInstance().NickCache.remove(uuid);
-                if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(uuid))) {
-                    Nicknames.getInstance().NickCache.put(uuid, DatabaseQueries.getNick(uuid));
+                Nick nick = DatabaseQueries.getNick(uuid);
+                if (nick == null){
+                    Nicknames.getInstance().NickCache.remove(uuid);
+                } else {
+                    Nicknames.getInstance().NickCache.put(uuid, nick);
                 }
             });
-            DatabaseQueries.getNicknamesList().forEach(nick -> Nicknames.getInstance().NickCache.put(nick.getUuid(), nick));
         }
+    }
+
+    public static boolean validNick(Player sender, OfflinePlayer target, String nickName) {
+        if (noBlockedCodes(nickName)) {
+
+            String cleanNick = Utilities.removeAllColors(nickName);
+
+            if (cleanNick.length() >= 3 && cleanNick.length() <= 16) {
+
+                if (cleanNick.matches("[a-zA-Z0-9_]*") && nickName.length()<=192) {//192 is if someone puts {#xxxxxx<>} in front of every letter
+
+                    if (!cleanNick.equalsIgnoreCase(target.getName())){
+                        for (Nick nick : Nicknames.getInstance().NickCache.values()){
+                            if ((nick.getCurrentNickNoColor() != null && nick.getCurrentNickNoColor().equalsIgnoreCase(cleanNick))
+                                    || (nick.getNewNickNoColor() != null && nick.getNewNickNoColor().equalsIgnoreCase(cleanNick))){
+                                sender.sendMessage(applyColor(Main.getInstance().getConfig().getString("Messages.NickTaken")));
+                                return false;
+                            }
+                        }
+                    }
+
+                    return true;
+
+                } else {
+                    sender.sendMessage(applyColor(Main.getInstance().getConfig().getString("Messages.NickInvalidCharacters")));
+                }
+            } else {
+                sender.sendMessage(applyColor(Main.getInstance().getConfig().getString("Messages.NickLengthInvalid")));
+            }
+        } else {
+            sender.sendMessage(applyColor(Main.getInstance().getConfig().getString("Messages.NickBlockedColorCodes")));
+        }
+        return false;
+    }
+
+    public static boolean noBlockedCodes(final String getNick) {
+        for (final String blockedCodes : blockedCodes) {
+            if (getNick.contains(blockedCodes)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static void bungeeMessageHandled(UUID uniqueId, Player player, String channel) {

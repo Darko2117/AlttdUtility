@@ -14,11 +14,12 @@ import java.util.UUID;
 public class DatabaseQueries
 {
     public static void setNicknameInDatabase(final UUID uuid, final String nickName) {
-        final String sql = "INSERT INTO nicknames (uuid, nickname) VALUES (?, ?) ON DUPLICATE KEY UPDATE nickname = ?";
+        final String sql = "INSERT INTO nicknames (uuid, nickname, date_changed) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE nickname = ?";
         try (final PreparedStatement statement = Database.connection.prepareStatement(sql)) {
             statement.setString(1, uuid.toString());
             statement.setString(2, nickName);
-            statement.setString(3, nickName);
+            statement.setLong(3, new Date().getTime());
+            statement.setString(4, nickName);
             statement.execute();
         }
         catch (SQLException e) {
@@ -35,20 +36,29 @@ public class DatabaseQueries
 
     public static ArrayList<Nick> getNicknamesList() {
         ArrayList<Nick> nickList = new ArrayList<>();
-        String query = "SELECT `requested_nicknames`.`nickname` AS new_nick, `requested_nicknames`.`date_requested`, " +
+        String queryNicknames = "SELECT uuid, nickname, date_changed FROM nicknames ";
+        String queryRequests = "SELECT `requested_nicknames`.`nickname` AS new_nick, `requested_nicknames`.`date_requested`, " +
                 "`nicknames`.`nickname` AS old_nick, `nicknames`.`date_changed`, `requested_nicknames`.`uuid` " +
                 "FROM `requested_nicknames`" +
                 "LEFT JOIN `nicknames` ON `requested_nicknames`.`uuid` = `nicknames`.`uuid` ";
 
         try {
-            ResultSet resultSet = getStringResult(query);
-            while (resultSet.next()){
+            ResultSet resultSetNicknames = getStringResult(queryNicknames);
+            while (resultSetNicknames.next()){
                 nickList.add(new Nick(
-                        UUID.fromString(resultSet.getString("uuid")),
-                        resultSet.getString("old_nick"),
-                        resultSet.getLong("date_changed"),
-                        resultSet.getString("new_nick"),
-                        resultSet.getLong("date_requested")));
+                        UUID.fromString(resultSetNicknames.getString("uuid")),
+                        resultSetNicknames.getString("nickname"),
+                        resultSetNicknames.getLong("date_changed")));
+            }
+
+            ResultSet resultSetRequests = getStringResult(queryRequests);
+            while (resultSetRequests.next()){
+                nickList.add(new Nick(
+                        UUID.fromString(resultSetRequests.getString("uuid")),
+                        resultSetRequests.getString("old_nick"),
+                        resultSetRequests.getLong("date_changed"),
+                        resultSetRequests.getString("new_nick"),
+                        resultSetRequests.getLong("date_requested")));
             }
         } catch (SQLException e) {
             Main.getInstance().getLogger().warning("Failed to get nicknames list\n" + Arrays.toString(e.getStackTrace())
@@ -57,7 +67,7 @@ public class DatabaseQueries
         return nickList;
     }
 
-    public static Nick  getNick(UUID uniqueId) {
+    public static Nick getNick(UUID uniqueId) {
         String getNick = "SELECT nickname, date_changed, uuid FROM nicknames WHERE uuid = ?";
         String getRequest = "SELECT nickname, date_requested, uuid FROM requested_nicknames WHERE uuid = ?";
 

@@ -25,8 +25,6 @@ import java.util.*;
 
 public class Nicknames implements CommandExecutor, TabCompleter {
 
-    String[] blockedCodes;
-    String[] allowedColorCodes;
     static Nicknames instance;
     HashMap <UUID, Nick> NickCache;
     ArrayList<UUID> nickCacheUpdate; //TODO check if this bungee shit works
@@ -34,8 +32,6 @@ public class Nicknames implements CommandExecutor, TabCompleter {
     public Nicknames() {
         instance = this;
         NickCache = new HashMap<>();
-        blockedCodes = Main.getInstance().getConfig().getStringList("Nicknames.BlockedColorCodes").toArray(new String[0]);
-        allowedColorCodes = Main.getInstance().getConfig().getStringList("Nicknames.AllowedColorCodes").toArray(new String[0]);
         nickCacheUpdate = new ArrayList<>();
     }
 
@@ -87,7 +83,7 @@ public class Nicknames implements CommandExecutor, TabCompleter {
                     if (args.length == 2 && hasPermission(sender, "utility.nick.try")){
                         LuckPerms api = APIs.LuckPermsApiCheck();
                         if (api != null){
-                            if (validNick(player, args[1])) {
+                            if (Utilities.validNick(player, player, args[1])) {
                                 sender.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickTryout")
                                         .replace("%prefix", api.getUserManager().getUser(player.getUniqueId())
                                                 .getCachedData().getMetaData().getPrefix())
@@ -155,7 +151,7 @@ public class Nicknames implements CommandExecutor, TabCompleter {
     }
 
     private void handleNickRequest(Player player, String nickName) {
-        if (!validNick(player, nickName)){
+        if (!Utilities.validNick(player, player, nickName)){
             return;
         }
 
@@ -172,7 +168,6 @@ public class Nicknames implements CommandExecutor, TabCompleter {
                             .replace("%oldRequestedNick%", nick.getNewNick())
                             .replace("%newRequestedNick%", nickName)));
                 }
-                nick.setRequest(true);
                 nick.setNewNick(nickName);
                 nick.setRequestedDate(new Date().getTime());
             } else {
@@ -252,6 +247,7 @@ public class Nicknames implements CommandExecutor, TabCompleter {
                 }
                 DatabaseQueries.removePlayerFromDataBase(target.getUniqueId());
                 NickCache.remove(target.getUniqueId());
+                nickCacheUpdate.add(target.getUniqueId());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -265,7 +261,7 @@ public class Nicknames implements CommandExecutor, TabCompleter {
                 target.getPlayer().sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickReset")));
             }
 
-        } else if (validNick(sender, nickName)) {
+        } else if (Utilities.validNick(sender, target, nickName)) {
             if (target.isOnline()) {
                 setNick(target.getPlayer(), nickName);
             } else {
@@ -297,33 +293,6 @@ public class Nicknames implements CommandExecutor, TabCompleter {
                         .replace("%nickname%", getNick(target.getPlayer()))));
             }
         }
-    }
-
-    private boolean validNick(Player sender, String nickName) {
-        if (noBlockedCodes(nickName)) {
-
-            String cleanNick = Utilities.removeHexColors(nickName);
-
-            for (final String colorCodes : allowedColorCodes) {
-                cleanNick = cleanNick.replace(colorCodes, "");
-            }
-
-            if (cleanNick.length() >= 3 && cleanNick.length() <= 16) {
-
-                if (cleanNick.matches("[a-zA-Z0-9_]*") && nickName.length()<=192) {//192 is if someone puts {#xxxxxx<>} in front of every letter
-
-                    return true;
-
-                } else {
-                    sender.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickInvalidCharacters")));
-                }
-            } else {
-                sender.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickLengthInvalid")));
-            }
-        } else {
-            sender.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickBlockedColorCodes")));
-        }
-        return false;
     }
 
     private String helpMessage(final CommandSender sender, final HelpType... helpTypes) {
@@ -412,15 +381,6 @@ public class Nicknames implements CommandExecutor, TabCompleter {
 
     public static String format(final String m) {
         return Utilities.applyColor(m);
-    }
-
-    public boolean noBlockedCodes(final String getNick) {
-        for (final String blockedCodes : blockedCodes) {
-            if (getNick.contains(blockedCodes)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public static Nicknames getInstance() {

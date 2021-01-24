@@ -1,8 +1,6 @@
 package com.darko.main.utilities.teri.Nicknames;
 
 import com.darko.main.Main;
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -18,10 +16,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 import static com.darko.main.utilities.teri.Nicknames.Nicknames.format;
 
@@ -161,7 +159,7 @@ public class NicknamesGui implements Listener {
                         nick = DatabaseQueries.getNick(uniqueId);
                     }
 
-                    if (nick == null){
+                    if (nick == null || !nick.hasRequest()){
                         p.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickAlreadyHandled")));
                         return;
                     }
@@ -179,18 +177,16 @@ public class NicknamesGui implements Listener {
                                 owningPlayer.getPlayer().sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickChanged")
                                         .replace("%nickname%", nick.getNewNick())));
 
-                                nick.setCurrentNick(nick.getNewNick());
-                                nick.setLastChangedDate(new Date().getTime());
-                                nick.setRequest(false);
-                                nick.setNewNick(null);
-                                nick.setRequestedDate(0);
-
-                                Nicknames.getInstance().NickCache.put(uniqueId, nick);
-
                             } else {
                                 Utilities.bungeeMessageHandled(uniqueId, e.getWhoClicked().getServer().getPlayer(e.getWhoClicked().getName()), "Accepted");
-                                Nicknames.getInstance().NickCache.remove(uniqueId);
                             }
+
+                            nick.setCurrentNick(nick.getNewNick());
+                            nick.setLastChangedDate(new Date().getTime());
+                            nick.setNewNick(null);
+                            nick.setRequestedDate(0);
+
+                            Nicknames.getInstance().NickCache.put(uniqueId, nick);
 
                             ItemStack itemStack = new ItemStack(Material.SKELETON_SKULL);
                             ItemMeta itemMeta = itemStack.getItemMeta();
@@ -212,15 +208,16 @@ public class NicknamesGui implements Listener {
                                     .replace("%newNick%", nick.getNewNick())
                                     .replace("%oldNick%", nick.getCurrentNick() == null ? owningPlayer.getName() : nick.getCurrentNick())));
 
-                            if (owningPlayer.isOnline()
-                                    && Nicknames.getInstance().NickCache.containsKey(uniqueId)
+                            if (Nicknames.getInstance().NickCache.containsKey(uniqueId)
                                     && Nicknames.getInstance().NickCache.get(uniqueId).getCurrentNick() != null){
-                                nick.setRequest(false);
                                 nick.setNewNick(null);
                                 nick.setRequestedDate(0);
                                 Nicknames.getInstance().NickCache.put(uniqueId, nick);
                             } else {
                                 Nicknames.getInstance().NickCache.remove(uniqueId);
+                            }
+
+                            if (owningPlayer.isOnline()) {
                                 Utilities.bungeeMessageHandled(uniqueId, e.getWhoClicked().getServer().getPlayer(e.getWhoClicked().getName()), "Denied");
                             }
 

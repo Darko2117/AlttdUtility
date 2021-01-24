@@ -10,7 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -51,15 +50,6 @@ public class NicknamesEvents implements Listener, PluginMessageListener
                 Nicknames.getInstance().NickCache.put(e.getPlayer().getUniqueId(), nick);
             }
         }.runTaskAsynchronously(Main.getInstance());
-    }
-
-    @EventHandler
-    public void onPlayerQuit(final PlayerQuitEvent e){
-        final UUID uuid = e.getPlayer().getUniqueId();
-
-        if (Nicknames.getInstance().NickCache.containsKey(uuid) && ! Nicknames.getInstance().NickCache.get(uuid).hasRequest()){
-            Nicknames.getInstance().NickCache.remove(uuid);
-        }
     }
 
     @Override
@@ -124,7 +114,14 @@ public class NicknamesEvents implements Listener, PluginMessageListener
                 }
                 break;
             case "NickNameDenied":
-                Nicknames.getInstance().NickCache.remove(playerUUID);
+                Nick nick = Nicknames.getInstance().NickCache.get(playerUUID);
+                if (nick.getCurrentNick() == null){
+                    Nicknames.getInstance().NickCache.remove(playerUUID);
+                } else {
+                    nick.setNewNick(null);
+                    nick.setRequestedDate(0);
+                    Nicknames.getInstance().NickCache.put(playerUUID, nick);
+                }
                 break;
         }
     }

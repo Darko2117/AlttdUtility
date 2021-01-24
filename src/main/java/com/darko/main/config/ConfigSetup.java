@@ -84,7 +84,8 @@ public class ConfigSetup {
         NickTryout("Messages.NickTryout", "&f%prefix&f %nick%&7: &fHi, this is what my new nickname could look like!"),
         CantFindPlayer("Messages.CantFindPlayer", "&cCould not find %playerName%&c try again on a server they've played on before."),
         NickRequested("Messages.NickRequested", "&aYour requested to be nicknamed %nick%&a has been received. Staff will accept or deny this request asap!"),
-        NickReviewWaiting("Messages.NickReviewWaiting", "&aThere are %amount% nicknames waiting for review!");
+        NickReviewWaiting("Messages.NickReviewWaiting", "&aThere are %amount% nicknames waiting for review!"),
+        NickTaken("Messages.NickTaken", "&cSomeone else already has this nickname, or has this name as their username.");
 
 
         private final String path;
