@@ -30,7 +30,6 @@ import com.darko.main.utilities.teri.FreezeMail.FreezeMail;
 import com.darko.main.utilities.teri.FreezeMail.FreezeMailPlayerListener;
 import com.darko.main.utilities.teri.Nicknames.Nicknames;
 import com.darko.main.utilities.teri.Nicknames.NicknamesEvents;
-import com.darko.main.utilities.teri.Nicknames.NicknamesGui;
 import com.darko.main.utilities.toggleGC.ToggleGC;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -95,7 +94,7 @@ public class Register extends JavaPlugin {
         if(APIs.PvPManagerFound) {
             registerEvents(new PvPFishing());
         }
-        if(APIs.CMIApiFound && Main.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")){
+        if(APIs.CMIFound && Main.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")){
             NicknamesEvents nicknamesEvents = new NicknamesEvents();
             registerEvents(nicknamesEvents);
 //            Main.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(Main.getInstance(), "BungeeCord"); //des already registers this
@@ -153,7 +152,7 @@ public class Register extends JavaPlugin {
             Flags.FlagsEnable();
         }
 
-        if(APIs.CMIApiFound && Main.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")){
+        if(APIs.CMIFound && Main.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")){
             Main.getInstance().getCommand("nick").setExecutor(new Nicknames());
         }
 

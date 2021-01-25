@@ -24,36 +24,28 @@ public class APIs extends JavaPlugin {
     public static Boolean mcMMOFound = false;
     public static Boolean FarmLimiterFound = false;
     public static Boolean PvPManagerFound = false;
-    public static Boolean CMIApiFound = false;
+    public static Boolean CMIFound = false;
 
 
     public static void APIConnect() {
 
-        if (GriefPreventionApiCheck() != null)
-            GriefPreventionFound = true;
+        GriefPreventionFound = GriefPreventionApiCheck() != null;
 
-        if (WorldGuardApiCheck() != null)
-            WorldGuardFound = true;
+        WorldGuardFound = WorldGuardApiCheck() != null;
 
-        if (LuckPermsApiCheck() != null)
-            LuckPermsFound = true;
+        LuckPermsFound = LuckPermsApiCheck() != null;
 
-        if (MyPetApiCheck() != null)
-            MyPetFound = true;
+        MyPetFound = MyPetApiCheck() != null;
 
-        if (CrazyCratesApiCheck() != null)
-            CrazyCratesFound = true;
+        CrazyCratesFound = CrazyCratesApiCheck() != null;
 
-        if (mcMMOApiCheck() != null)
-            mcMMOFound = true;
+        mcMMOFound = mcMMOApiCheck() != null;
 
-        if (FarmLimiterApiCheck() != null)
-            FarmLimiterFound = true;
+        FarmLimiterFound = FarmLimiterApiCheck() != null;
 
-        if (PvPManagerAPICheck() != null)
-            PvPManagerFound = true;
+        PvPManagerFound = PvPManagerAPICheck() != null;
 
-        CMIApiFound = CMIApiCheck() != null; //Kappa why not do it like this?
+        CMIFound = CMIApiCheck() != null;
 
         if (GriefPreventionFound)
             Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "GriefPrevention found!... " + ConsoleColors.RESET);
@@ -95,7 +87,10 @@ public class APIs extends JavaPlugin {
         else
             Main.getInstance().getLogger().info(ConsoleColors.RED + "PvPManager not found!... " + ConsoleColors.RESET);
 
-        Main.getInstance().getLogger().info((CMIApiFound ? ConsoleColors.BLUE_BRIGHT : ConsoleColors.RED) + "CMI " + (CMIApiFound ? "" : "not ") + "found!... " + ConsoleColors.RESET); //Lol one liners! I wouldn't be surprised if this was less efficient tho
+        if (CMIFound)
+            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "CMI found!... " + ConsoleColors.RESET);
+        else
+            Main.getInstance().getLogger().info(ConsoleColors.RED + "CMI not found!... " + ConsoleColors.RESET);
 
     }
 
@@ -174,9 +169,13 @@ public class APIs extends JavaPlugin {
         }
     }
 
-    public static CMI CMIApiCheck() { //Less code!
+    public static CMI CMIApiCheck() {
         Plugin plugin = Bukkit.getPluginManager().getPlugin("CMI");
-        return plugin instanceof CMI ? (CMI) plugin : null;
+        if (plugin instanceof CMI) {
+            return (CMI) plugin;
+        } else {
+            return null;
+        }
     }
 
 }
