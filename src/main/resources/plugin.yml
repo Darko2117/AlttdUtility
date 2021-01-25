@@ -4,6 +4,7 @@ description: A group of utilities made for Altitude
 author: Daki
 main: com.darko.main.Main
 api-version: 1.16
+softdepend: [CMI, GriefPrevention, Vault]
 commands:
   hat:
     permission: utility.hat
