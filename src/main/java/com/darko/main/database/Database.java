@@ -10,9 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -56,6 +54,8 @@ public class Database implements Listener {
                 createCustomChatMessageTable();
                 createCommandOnJoinTable();
                 createFreezeMessageTable();
+                createNicknamesTable();
+                createRequestedNicknamesTable();
 
                 Database.reloadLoadedValues();
 
@@ -285,14 +285,42 @@ public class Database implements Listener {
     static void createFreezeMessageTable() {
         try {
             String freezeMessageTableQuery = "CREATE TABLE IF NOT EXISTS freeze_message("
-                    + "Id int NOT NULL AUTO_INCREMENT,"
-                    + "UUID VARCHAR(36) NOT NULL,"
-                    + "Message VARCHAR(256) NOT NULL,"
-                    + "IsRead SMALLINT(1) DEFAULT 0,"
+                    + "Id int NOT NULL AUTO_INCREMENT, "
+                    + "UUID VARCHAR(36) NOT NULL, "
+                    + "Message VARCHAR(256) NOT NULL, "
+                    + "IsRead SMALLINT(1) DEFAULT 0, "
                     + "PRIMARY KEY (Id))";
-            connection.prepareStatement(freezeMessageTableQuery).executeUpdate();
+            connection.createStatement().execute(freezeMessageTableQuery);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
+        }
+    }
+
+    static void createNicknamesTable(){
+        final String nicknamesTableQuery = "CREATE TABLE IF NOT EXISTS nicknames " +
+                "(uuid VARCHAR(48) NOT NULL, " +
+                "nickname VARCHAR(192), " +
+                "date_changed BIGINT default 0, " +
+                "PRIMARY KEY(uuid))";
+        try {
+            connection.createStatement().execute(nicknamesTableQuery);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void createRequestedNicknamesTable() {
+        final String requestedNicknamesTableQuery = "CREATE TABLE IF NOT EXISTS requested_nicknames " +
+                "(uuid VARCHAR(48) NOT NULL, " +
+                "nickname VARCHAR(192), " +
+                "date_requested BIGINT default 0, " +
+                "PRIMARY KEY(uuid))";
+        try {
+            connection.createStatement().execute(requestedNicknamesTableQuery);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

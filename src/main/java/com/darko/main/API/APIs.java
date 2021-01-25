@@ -1,5 +1,6 @@
 package com.darko.main.API;
 
+import com.Zrips.CMI.CMI;
 import com.darko.main.Main;
 import com.darko.main.other.ConsoleColors;
 import com.gmail.filoghost.farmlimiter.FarmLimiter;
@@ -23,6 +24,7 @@ public class APIs extends JavaPlugin {
     public static Boolean mcMMOFound = false;
     public static Boolean FarmLimiterFound = false;
     public static Boolean PvPManagerFound = false;
+    public static Boolean CMIApiFound = false;
 
 
     public static void APIConnect() {
@@ -50,6 +52,8 @@ public class APIs extends JavaPlugin {
 
         if (PvPManagerAPICheck() != null)
             PvPManagerFound = true;
+
+        CMIApiFound = CMIApiCheck() != null; //Kappa why not do it like this?
 
         if (GriefPreventionFound)
             Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "GriefPrevention found!... " + ConsoleColors.RESET);
@@ -90,6 +94,8 @@ public class APIs extends JavaPlugin {
             Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "PvPManager found!... " + ConsoleColors.RESET);
         else
             Main.getInstance().getLogger().info(ConsoleColors.RED + "PvPManager not found!... " + ConsoleColors.RESET);
+
+        Main.getInstance().getLogger().info((CMIApiFound ? ConsoleColors.BLUE_BRIGHT : ConsoleColors.RED) + "CMI " + (CMIApiFound ? "" : "not ") + "found!... " + ConsoleColors.RESET); //Lol one liners! I wouldn't be surprised if this was less efficient tho
 
     }
 
@@ -166,6 +172,11 @@ public class APIs extends JavaPlugin {
         } else {
             return null;
         }
+    }
+
+    public static CMI CMIApiCheck() { //Less code!
+        Plugin plugin = Bukkit.getPluginManager().getPlugin("CMI");
+        return plugin instanceof CMI ? (CMI) plugin : null;
     }
 
 }

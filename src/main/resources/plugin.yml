@@ -45,3 +45,5 @@ commands:
     permission: utility.ccm
   freezemail:
     permission: utility.freezemail
+  nick:
+    permission: utility.nick
