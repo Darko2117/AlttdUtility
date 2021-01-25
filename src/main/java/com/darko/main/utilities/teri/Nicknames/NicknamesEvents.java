@@ -1,5 +1,6 @@
 package com.darko.main.utilities.teri.Nicknames;
 
+import com.Zrips.CMI.Containers.CMIChatColor;
 import com.Zrips.CMI.utils.Util;
 import com.darko.main.Main;
 import com.google.common.io.ByteArrayDataInput;
@@ -38,7 +39,8 @@ public class NicknamesEvents implements Listener, PluginMessageListener
                 }
 
                 String nickName = nick.getCurrentNick();
-                final String cmiNick = Util.CMIChatColor.deColorize(Nicknames.getInstance().getNick(player));
+                final String cmiNick = CMIChatColor.stripColor(Nicknames.getInstance().getNick(player));
+                //final String cmiNick = Util.CMIChatColor.deColorize(Nicknames.getInstance().getNick(player));
 
                 if (nickName == null) {
                     Nicknames.getInstance().resetNick(player);

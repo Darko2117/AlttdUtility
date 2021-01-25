@@ -14,18 +14,22 @@
     </properties>
 
     <repositories>
-    <repository>
-        <id>papermc</id>
-        <url>https://papermc.io/repo/repository/maven-public/</url>
-    </repository>
-    <repository>
-        <id>sk89q-repo</id>
-        <url>http://maven.sk89q.com/repo/</url>
-    </repository>
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
+        <repository>
+            <id>papermc</id>
+            <url>https://papermc.io/repo/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>sk89q-repo</id>
+            <url>http://maven.sk89q.com/repo/</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>nexus</id>
+            <url>https://nexus.badbones69.com/repository/maven-releases/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -62,16 +66,14 @@
         <dependency>
             <groupId>com.Zrips.CMI</groupId>
             <artifactId>cmi</artifactId>
-            <version>7.6.2.0</version>
+            <version>8.8.0.7</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/CMIAPI7.6.2.0.jar</systemPath>
+            <systemPath>${project.basedir}/lib/CMI.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>me.badbones69.crazycrates</groupId>
-            <artifactId>crazy-crates</artifactId>
-            <version>1.10-RELEASE</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/CrazyCrates.jar</systemPath>
+            <groupId>me.badbones69</groupId>
+            <artifactId>crazycrates-plugin</artifactId>
+            <version>1.10</version>
         </dependency>
         <dependency>
             <groupId>de.Kayle.MyPet</groupId>

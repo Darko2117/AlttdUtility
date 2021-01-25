@@ -1,6 +1,7 @@
 package com.darko.main.utilities.teri.Nicknames;
 
 import com.Zrips.CMI.CMI;
+import com.Zrips.CMI.Containers.CMIChatColor;
 import com.Zrips.CMI.Containers.CMIUser;
 import com.Zrips.CMI.utils.Util;
 import com.darko.main.API.APIs;
@@ -374,7 +375,7 @@ public class Nicknames implements CommandExecutor, TabCompleter {
         if (nickName == null){
             user.setNickName(null, true);
         } else {
-            user.setNickName(Util.CMIChatColor.translateAlternateColorCodes(nickName), true);
+            user.setNickName(CMIChatColor.translateAlternateColorCodes(nickName), true);
         }
         user.updateDisplayName();
     }
