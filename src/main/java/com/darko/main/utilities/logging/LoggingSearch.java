@@ -187,29 +187,33 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             writer.write("");
 
             for (File f : filesToRead) {
+                try {
 
-                BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
-                String line;
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
+                    String line;
 
-                lineReader:
-                while ((line = bufferedReader.readLine()) != null) {
+                    lineReader:
+                    while ((line = bufferedReader.readLine()) != null) {
 
-                    if (!line.toLowerCase().matches("(.*)" + searchString + "(.*)")) continue lineReader;
+                        if (!line.toLowerCase().matches("(.*)" + searchString + "(.*)")) continue lineReader;
 
-                    for (String s : blacklistedStrings) {
-                        if (line.toLowerCase().contains(s)) {
-                            writer.write(f.getName() + ":" + "This line contained a blacklisted string. Skipping it." + "\n");
-                            continue lineReader;
+                        for (String s : blacklistedStrings) {
+                            if (line.toLowerCase().contains(s)) {
+                                writer.write(f.getName() + ":" + "This line contained a blacklisted string. Skipping it." + "\n");
+                                continue lineReader;
+                            }
                         }
+
+                        //Writes only those lines which contain the provided search string, it skips over the rest.
+                        writer.write(f.getName() + ":" + line + "\n");
+
                     }
 
-                    //Writes only those lines which contain the provided search string, it skips over the rest.
-                    writer.write(f.getName() + ":" + line + "\n");
+                    bufferedReader.close();
 
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
                 }
-
-                bufferedReader.close();
-
             }
 
             writer.close();
@@ -448,88 +452,92 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             writer.write("");
 
             for (File f : filesToRead) {
+                try {
 
-                BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
-                String line;
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
+                    String line;
 
-                lineReader:
-                while ((line = bufferedReader.readLine()) != null) {
-                    try {
+                    lineReader:
+                    while ((line = bufferedReader.readLine()) != null) {
+                        try {
 
-                        String lineCopy = line;
+                            String lineCopy = line;
 
-                        if (!lineCopy.startsWith("|") || !lineCopy.endsWith("|"))
-                            continue lineReader;
+                            if (!lineCopy.startsWith("|") || !lineCopy.endsWith("|"))
+                                continue lineReader;
 
-                        HashMap<String, String> lineArguments = new HashMap<>();
+                            HashMap<String, String> lineArguments = new HashMap<>();
 
-                        while (lineCopy.indexOf("|") + 1 != lineCopy.length() && lineCopy.contains(":")) {
+                            while (lineCopy.indexOf("|") + 1 != lineCopy.length() && lineCopy.contains(":")) {
+                                try {
+
+                                    lineCopy = lineCopy.substring(lineCopy.indexOf("|") + 1);
+                                    String argumentName = lineCopy.substring(0, lineCopy.indexOf(":"));
+                                    lineCopy = lineCopy.substring(lineCopy.indexOf(":") + 1);
+                                    String argument = lineCopy.substring(0, lineCopy.indexOf("|"));
+                                    lineCopy = lineCopy.substring(lineCopy.indexOf("|"));
+
+                                    lineArguments.put(argumentName, argument);
+
+                                } catch (Throwable ignored) {
+                                }
+                            }
+
                             try {
+                                for (Map.Entry<String, String> inputArguments : arguments.entrySet()) {
 
-                                lineCopy = lineCopy.substring(lineCopy.indexOf("|") + 1);
-                                String argumentName = lineCopy.substring(0, lineCopy.indexOf(":"));
-                                lineCopy = lineCopy.substring(lineCopy.indexOf(":") + 1);
-                                String argument = lineCopy.substring(0, lineCopy.indexOf("|"));
-                                lineCopy = lineCopy.substring(lineCopy.indexOf("|"));
+                                    if (!lineArguments.containsKey(inputArguments.getKey()))
+                                        continue lineReader;
 
-                                lineArguments.put(argumentName, argument);
+                                    if (!lineArguments.get(inputArguments.getKey()).toLowerCase().contains(inputArguments.getValue().toLowerCase()))
+                                        continue lineReader;
 
+                                }
                             } catch (Throwable ignored) {
                             }
-                        }
 
-                        try {
-                            for (Map.Entry<String, String> inputArguments : arguments.entrySet()) {
+                            //Writes only those lines which contain all the provided arguments, it skips over the rest. If the radius is provided checks that.
+                            if (!radiusString.equals("-1")) {
 
-                                if (!lineArguments.containsKey(inputArguments.getKey()))
+                                if (!(sender instanceof Player))
                                     continue lineReader;
 
-                                if (!lineArguments.get(inputArguments.getKey()).toLowerCase().contains(inputArguments.getValue().toLowerCase()))
+                                Player player = (Player) sender;
+
+                                lineCopy = line;
+                                if (!lineCopy.contains("Location:"))
+                                    continue lineReader;
+
+                                lineCopy = lineCopy.substring(lineCopy.indexOf("Location:") + 9);
+                                lineCopy = lineCopy.substring(0, lineCopy.indexOf("|"));
+
+                                Location location = Logging.getLocationFromBetterLocationString(lineCopy);
+
+                                if (!player.getLocation().getWorld().equals(location.getWorld()))
+                                    continue lineReader;
+
+                                Double logX = location.getX();
+                                Double logZ = location.getZ();
+
+                                Double distance = Math.sqrt(Math.pow((logX - playerX), 2) + Math.pow((logZ - playerZ), 2));
+
+                                if (distance > Double.parseDouble(radiusString))
                                     continue lineReader;
 
                             }
-                        } catch (Throwable ignored) {
+
+                            writer.write(f.getName() + ":" + line + "\n");
+
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
                         }
-
-                        //Writes only those lines which contain all the provided arguments, it skips over the rest. If the radius is provided checks that.
-                        if (!radiusString.equals("-1")) {
-
-                            if (!(sender instanceof Player))
-                                continue lineReader;
-
-                            Player player = (Player) sender;
-
-                            lineCopy = line;
-                            if (!lineCopy.contains("Location:"))
-                                continue lineReader;
-
-                            lineCopy = lineCopy.substring(lineCopy.indexOf("Location:") + 9);
-                            lineCopy = lineCopy.substring(0, lineCopy.indexOf("|"));
-
-                            Location location = Logging.getLocationFromBetterLocationString(lineCopy);
-
-                            if (!player.getLocation().getWorld().equals(location.getWorld()))
-                                continue lineReader;
-
-                            Double logX = location.getX();
-                            Double logZ = location.getZ();
-
-                            Double distance = Math.sqrt(Math.pow((logX - playerX), 2) + Math.pow((logZ - playerZ), 2));
-
-                            if (distance > Double.parseDouble(radiusString))
-                                continue lineReader;
-
-                        }
-
-                        writer.write(f.getName() + ":" + line + "\n");
-
-                    } catch (Throwable throwable) {
-                        throwable.printStackTrace();
                     }
+
+                    bufferedReader.close();
+
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
                 }
-
-                bufferedReader.close();
-
             }
 
             writer.close();
@@ -718,22 +726,26 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             writer.write("");
 
             for (File f : filesToRead) {
+                try {
 
-                BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
-                String line;
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
+                    String line;
 
-                lineReader:
-                while ((line = bufferedReader.readLine()) != null) {
+                    lineReader:
+                    while ((line = bufferedReader.readLine()) != null) {
 
-                    if (!line.toLowerCase().matches("(.*)" + searchString + "(.*)")) continue lineReader;
+                        if (!line.toLowerCase().matches("(.*)" + searchString + "(.*)")) continue lineReader;
 
-                    //Writes only those lines which contain the provided search string, it skips over the rest.
-                    writer.write(f.getName() + ":" + line + "\n");
+                        //Writes only those lines which contain the provided search string, it skips over the rest.
+                        writer.write(f.getName() + ":" + line + "\n");
 
+                    }
+
+                    bufferedReader.close();
+
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
                 }
-
-                bufferedReader.close();
-
             }
 
             writer.close();
