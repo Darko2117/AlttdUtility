@@ -144,12 +144,18 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             //Copying all the files that need to be read to /temporary-files/. Uncompressing the compressed ones.
             for (File f : filesToRead) {
-                if (f.getName().contains(".gz")) {
-                    String outputPath = Main.getInstance().getDataFolder() + "/temporary-files/" + f.getName().replace(".gz", "");
-                    if (!new Methods().uncompressFileGZIP(f.getAbsolutePath(), outputPath))
-                        Main.getInstance().getLogger().warning("Something failed during extraction of the file " + f.getAbsolutePath());
-                } else {
-                    new Methods().copyPasteFile(new File(f.getAbsolutePath()), new File(Main.getInstance().getDataFolder() + "/temporary-files/" + f.getName()));
+                try {
+
+                    if (f.getName().contains(".gz")) {
+                        String outputPath = Main.getInstance().getDataFolder() + "/temporary-files/" + f.getName().replace(".gz", "");
+                        if (!new Methods().uncompressFileGZIP(f.getAbsolutePath(), outputPath))
+                            Main.getInstance().getLogger().warning("Something failed during extraction of the file " + f.getAbsolutePath());
+                    } else {
+                        new Methods().copyPasteFile(new File(f.getAbsolutePath()), new File(Main.getInstance().getDataFolder() + "/temporary-files/" + f.getName()));
+                    }
+
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
                 }
             }
 
@@ -402,12 +408,18 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             //Copying all the files that need to be read to /temporary-files/. Uncompressing the compressed ones.
             for (File f : filesToRead) {
-                if (f.getName().contains(".gz")) {
-                    String outputPath = Main.getInstance().getDataFolder() + "/temporary-files";
-                    if (!new Methods().uncompressFile(f.getAbsolutePath(), outputPath))
-                        Main.getInstance().getLogger().warning("Something failed during extraction of the file " + f.getAbsolutePath());
-                } else {
-                    new Methods().copyPasteFile(new File(f.getAbsolutePath()), new File(Main.getInstance().getDataFolder() + "/temporary-files/" + f.getName()));
+                try {
+
+                    if (f.getName().contains(".gz")) {
+                        String outputPath = Main.getInstance().getDataFolder() + "/temporary-files";
+                        if (!new Methods().uncompressFile(f.getAbsolutePath(), outputPath))
+                            Main.getInstance().getLogger().warning("Something failed during extraction of the file " + f.getAbsolutePath());
+                    } else {
+                        new Methods().copyPasteFile(new File(f.getAbsolutePath()), new File(Main.getInstance().getDataFolder() + "/temporary-files/" + f.getName()));
+                    }
+
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
                 }
             }
 
