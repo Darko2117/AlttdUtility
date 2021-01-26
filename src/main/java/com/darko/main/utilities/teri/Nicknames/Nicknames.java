@@ -375,7 +375,7 @@ public class Nicknames implements CommandExecutor, TabCompleter {
         if (nickName == null){
             user.setNickName(null, true);
         } else {
-            user.setNickName(CMIChatColor.translateAlternateColorCodes(nickName), true);
+            user.setNickName(Utilities.applyColor(nickName), true);
         }
         user.updateDisplayName();
     }

@@ -36,9 +36,9 @@ public class Utilities
 
             ArrayList<String> list = new ArrayList<>();
             int nextIndex = 0;
-            if (message.indexOf("}") <= 9) {
+            if (message.indexOf("}") <= 11) {
                 startsWithColor = true;
-                list.add(message.substring(0, message.indexOf("}")));
+                list.add(message.substring(0, message.indexOf("}") + 1));
             }
             for (String s : split) {
                 nextIndex += s.length();
@@ -105,7 +105,7 @@ public class Utilities
     }
 
     static {
-        Utilities.stringRegen = "\\{#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})(<)?(>)?}";
+        Utilities.stringRegen = "\\{#[A-Fa-f0-9]{6}(<)?(>)?}";
     }
 
     public static String hexGradient(Color color1, Color color2, String text){
