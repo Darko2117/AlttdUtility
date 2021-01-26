@@ -1,6 +1,6 @@
 package com.darko.main.utilities.servermsg;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.other.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,7 +13,7 @@ public class Servermsg implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.ServerMsgCommand")) return true;
+        if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ServerMsgCommand")) return true;
 
         if (args.length >= 2) {
 

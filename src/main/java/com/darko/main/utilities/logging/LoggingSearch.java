@@ -1,6 +1,6 @@
 package com.darko.main.utilities.logging;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.other.Methods;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -41,19 +41,19 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
                     //Waiting until other searches finish. Only one can be active at the time.
                     while (inUse) {
-                        Main.getInstance().getLogger().info("Waiting until the last search finishes to start this one.");
+                        AlttdUtility.getInstance().getLogger().info("Waiting until the last search finishes to start this one.");
                         Thread.sleep(1000);
                     }
 
-                    if (args[0].equals("normal") && Main.getInstance().getConfig().getBoolean("FeatureToggles.SearchNormalLogsCommand")) {
+                    if (args[0].equals("normal") && AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.SearchNormalLogsCommand")) {
                         normalSearch(sender, command, label, args);
                         return;
                     }
-                    if (args[0].equals("special") && Main.getInstance().getConfig().getBoolean("FeatureToggles.SearchSpecialLogsCommand")) {
+                    if (args[0].equals("special") && AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.SearchSpecialLogsCommand")) {
                         specialSearch(sender, command, label, args);
                         return;
                     }
-                    if (args[0].equals("additional") && Main.getInstance().getConfig().getBoolean("FeatureToggles.SearchAdditionalLogsCommand")) {
+                    if (args[0].equals("additional") && AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.SearchAdditionalLogsCommand")) {
                         additionalSearch(sender, command, label, args);
                         return;
                     }
@@ -62,7 +62,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                     throwable.printStackTrace();
                 }
             }
-        }.runTaskAsynchronously(Main.getInstance());
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
 
         return true;
 
@@ -74,7 +74,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             inUse = true;
             sender.sendMessage(ChatColor.YELLOW + "Search started.");
-            Main.getInstance().getLogger().info("Search started.");
+            AlttdUtility.getInstance().getLogger().info("Search started.");
             Long startingTime = System.currentTimeMillis();
 
             //Deleting all the temporary files in case some are left.
@@ -112,7 +112,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             }
             searchString = searchString.toLowerCase();
 
-            List<String> blacklistedStrings = Main.getInstance().getConfig().getStringList("SearchLogs.NormalSearchBlacklistedStrings");
+            List<String> blacklistedStrings = AlttdUtility.getInstance().getConfig().getStringList("SearchLogs.NormalSearchBlacklistedStrings");
 
             //Getting a list of all the log files.
             String logsDirectoryPath = new File(".").getAbsolutePath() + "/logs/";
@@ -147,11 +147,11 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 try {
 
                     if (f.getName().contains(".gz")) {
-                        String outputPath = Main.getInstance().getDataFolder() + "/temporary-files/" + f.getName().replace(".gz", "");
+                        String outputPath = AlttdUtility.getInstance().getDataFolder() + "/temporary-files/" + f.getName().replace(".gz", "");
                         if (!new Methods().uncompressFileGZIP(f.getAbsolutePath(), outputPath))
-                            Main.getInstance().getLogger().warning("Something failed during extraction of the file " + f.getAbsolutePath());
+                            AlttdUtility.getInstance().getLogger().warning("Something failed during extraction of the file " + f.getAbsolutePath());
                     } else {
-                        new Methods().copyPasteFile(new File(f.getAbsolutePath()), new File(Main.getInstance().getDataFolder() + "/temporary-files/" + f.getName()));
+                        new Methods().copyPasteFile(new File(f.getAbsolutePath()), new File(AlttdUtility.getInstance().getDataFolder() + "/temporary-files/" + f.getName()));
                     }
 
                 } catch (Throwable throwable) {
@@ -161,10 +161,10 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             //Reloading the list of files that need to be read with the files from /temporary-files/.
             filesToRead.clear();
-            filesToRead.addAll(Arrays.asList(new File(Main.getInstance().getDataFolder() + "/temporary-files").listFiles()));
+            filesToRead.addAll(Arrays.asList(new File(AlttdUtility.getInstance().getDataFolder() + "/temporary-files").listFiles()));
             filesToRead.sort(Comparator.naturalOrder());
 
-            String serverName = Main.getInstance().getDataFolder().getAbsolutePath().replace("\\", "/");
+            String serverName = AlttdUtility.getInstance().getDataFolder().getAbsolutePath().replace("\\", "/");
             try {
                 serverName = serverName.substring(0, serverName.indexOf("/plugins"));
                 serverName = serverName.substring(serverName.lastIndexOf("/") + 1);
@@ -175,7 +175,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             //The file is first written to /temporary-files/. It'll get moved after the whole search is completed.
             String outputFilePath = "";
-            outputFilePath = outputFilePath.concat(Main.getInstance().getDataFolder() + "/temporary-files/");
+            outputFilePath = outputFilePath.concat(AlttdUtility.getInstance().getDataFolder() + "/temporary-files/");
             outputFilePath = outputFilePath.concat("/");
             outputFilePath = outputFilePath.concat(serverName);
             outputFilePath = outputFilePath.concat("-");
@@ -225,7 +225,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             writer.close();
 
             //The maxFileSizeWithoutCompression is in MB so it's multiplied by 1mil to get the size in bytes.
-            Integer maxFileSizeWithoutCompression = Main.getInstance().getConfig().getInt("SearchLogs.MaxFileSizeWithoutCompression");
+            Integer maxFileSizeWithoutCompression = AlttdUtility.getInstance().getConfig().getInt("SearchLogs.MaxFileSizeWithoutCompression");
             maxFileSizeWithoutCompression *= 1000000;
 
             //If the file is bigger than the defined limit, it gets compressed.
@@ -240,7 +240,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             //The file with all the results is copied to the defined output path and all the other files are removed.
             String tempOutputFilePathString = outputFile.getAbsolutePath().replace("\\", "/");
             tempOutputFilePathString = tempOutputFilePathString.substring(tempOutputFilePathString.lastIndexOf("/") + 1);
-            tempOutputFilePathString = Main.getInstance().getConfig().getString("SearchLogs.OutputPath") + "/" + tempOutputFilePathString;
+            tempOutputFilePathString = AlttdUtility.getInstance().getConfig().getString("SearchLogs.OutputPath") + "/" + tempOutputFilePathString;
 
             if (outputFile.length() != 0)
                 new Methods().copyPasteFile(outputFile, (new File(tempOutputFilePathString)));
@@ -264,7 +264,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             clearTemporaryFiles();
 
             sender.sendMessage(ChatColor.GREEN + "Search completed, took " + seconds + "." + totalTime + "s. Scanned " + filesToRead.size() + " files with a total size of " + Math.round(totalFileSize * 100.0) / 100.0 + "MB.");
-            Main.getInstance().getLogger().info("Search completed, took " + seconds + "." + totalTime + "s. Scanned " + filesToRead.size() + " files with a total size of " + Math.round(totalFileSize * 100.0) / 100.0 + "MB.");
+            AlttdUtility.getInstance().getLogger().info("Search completed, took " + seconds + "." + totalTime + "s. Scanned " + filesToRead.size() + " files with a total size of " + Math.round(totalFileSize * 100.0) / 100.0 + "MB.");
 
             inUse = false;
 
@@ -282,7 +282,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             inUse = true;
             sender.sendMessage(ChatColor.YELLOW + "Search started.");
-            Main.getInstance().getLogger().info("Search started.");
+            AlttdUtility.getInstance().getLogger().info("Search started.");
             Long startingTime = System.currentTimeMillis();
 
             //Deleting all the temporary files in case some are left.
@@ -366,7 +366,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             //Getting a list of all the files with the correct log name from /logs/ and /compressed-logs/.
             List<File> filesToRead = new ArrayList<>();
-            for (File file : new File(Main.getInstance().getDataFolder() + "/logs/").listFiles()) {
+            for (File file : new File(AlttdUtility.getInstance().getDataFolder() + "/logs/").listFiles()) {
                 for (String s : logNames) {
                     if (file.getName().contains(s)) {
                         filesToRead.add(file);
@@ -374,7 +374,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                     }
                 }
             }
-            for (File file : new File(Main.getInstance().getDataFolder() + "/compressed-logs/").listFiles()) {
+            for (File file : new File(AlttdUtility.getInstance().getDataFolder() + "/compressed-logs/").listFiles()) {
                 for (String s : logNames) {
                     if (file.getName().contains(s)) {
                         filesToRead.add(file);
@@ -411,11 +411,11 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 try {
 
                     if (f.getName().contains(".gz")) {
-                        String outputPath = Main.getInstance().getDataFolder() + "/temporary-files";
+                        String outputPath = AlttdUtility.getInstance().getDataFolder() + "/temporary-files";
                         if (!new Methods().uncompressFile(f.getAbsolutePath(), outputPath))
-                            Main.getInstance().getLogger().warning("Something failed during extraction of the file " + f.getAbsolutePath());
+                            AlttdUtility.getInstance().getLogger().warning("Something failed during extraction of the file " + f.getAbsolutePath());
                     } else {
-                        new Methods().copyPasteFile(new File(f.getAbsolutePath()), new File(Main.getInstance().getDataFolder() + "/temporary-files/" + f.getName()));
+                        new Methods().copyPasteFile(new File(f.getAbsolutePath()), new File(AlttdUtility.getInstance().getDataFolder() + "/temporary-files/" + f.getName()));
                     }
 
                 } catch (Throwable throwable) {
@@ -425,10 +425,10 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             //Reloading the list of files that need to be read with the files from /temporary-files/.
             filesToRead.clear();
-            filesToRead.addAll(Arrays.asList(new File(Main.getInstance().getDataFolder() + "/temporary-files").listFiles()));
+            filesToRead.addAll(Arrays.asList(new File(AlttdUtility.getInstance().getDataFolder() + "/temporary-files").listFiles()));
             filesToRead.sort(Comparator.naturalOrder());
 
-            String serverName = Main.getInstance().getDataFolder().getAbsolutePath().replace("\\", "/");
+            String serverName = AlttdUtility.getInstance().getDataFolder().getAbsolutePath().replace("\\", "/");
             try {
                 serverName = serverName.substring(0, serverName.indexOf("/plugins"));
                 serverName = serverName.substring(serverName.lastIndexOf("/") + 1);
@@ -446,7 +446,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             //The file is first written to /temporary-files/. It'll get moved after the whole search is completed.
             String outputFilePath = "";
-            outputFilePath = outputFilePath.concat(Main.getInstance().getDataFolder() + "/temporary-files/");
+            outputFilePath = outputFilePath.concat(AlttdUtility.getInstance().getDataFolder() + "/temporary-files/");
             outputFilePath = outputFilePath.concat(("/"));
             outputFilePath = outputFilePath.concat(serverName);
             outputFilePath = outputFilePath.concat("-");
@@ -555,7 +555,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             writer.close();
 
             //The maxFileSizeWithoutCompression is in MB so it's multiplied by 1mil to get the size in bytes.
-            Integer maxFileSizeWithoutCompression = Main.getInstance().getConfig().getInt("SearchLogs.MaxFileSizeWithoutCompression");
+            Integer maxFileSizeWithoutCompression = AlttdUtility.getInstance().getConfig().getInt("SearchLogs.MaxFileSizeWithoutCompression");
             maxFileSizeWithoutCompression *= 1000000;
 
             //If the file is bigger than the defined limit, it gets compressed.
@@ -570,7 +570,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             //The file with all the results is copied to the defined output path and all the other files are removed.
             String tempOutputFilePathString = outputFile.getAbsolutePath().replace("\\", "/");
             tempOutputFilePathString = tempOutputFilePathString.substring(tempOutputFilePathString.lastIndexOf("/") + 1);
-            tempOutputFilePathString = Main.getInstance().getConfig().getString("SearchLogs.OutputPath") + "/" + tempOutputFilePathString;
+            tempOutputFilePathString = AlttdUtility.getInstance().getConfig().getString("SearchLogs.OutputPath") + "/" + tempOutputFilePathString;
 
             if (outputFile.length() != 0)
                 new Methods().copyPasteFile(outputFile, (new File(tempOutputFilePathString)));
@@ -594,7 +594,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             clearTemporaryFiles();
 
             sender.sendMessage(ChatColor.GREEN + "Search completed, took " + seconds + "." + totalTime + "s. Scanned " + filesToRead.size() + " files with a total size of " + Math.round(totalFileSize * 100.0) / 100.0 + "MB.");
-            Main.getInstance().getLogger().info("Search completed, took " + seconds + "." + totalTime + "s. Scanned " + filesToRead.size() + " files with a total size of " + Math.round(totalFileSize * 100.0) / 100.0 + "MB.");
+            AlttdUtility.getInstance().getLogger().info("Search completed, took " + seconds + "." + totalTime + "s. Scanned " + filesToRead.size() + " files with a total size of " + Math.round(totalFileSize * 100.0) / 100.0 + "MB.");
 
             inUse = false;
 
@@ -613,7 +613,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             inUse = true;
             sender.sendMessage(ChatColor.YELLOW + "Search started.");
-            Main.getInstance().getLogger().info("Search started.");
+            AlttdUtility.getInstance().getLogger().info("Search started.");
             Long startingTime = System.currentTimeMillis();
 
             //Deleting all the temporary files in case some are left.
@@ -661,7 +661,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             String logsDirectoryPath = null;
 
-            for (String s : Main.getInstance().getConfig().getStringList("AdditionalLogs")) {
+            for (String s : AlttdUtility.getInstance().getConfig().getStringList("AdditionalLogs")) {
                 if (s.contains("Name:" + logName)) {
                     logsDirectoryPath = s.substring(s.indexOf("Path:") + 5);
                 }
@@ -701,15 +701,15 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             //Copying all the files that need to be read to /temporary-files/.
             for (File f : filesToRead) {
-                new Methods().copyPasteFile(new File(f.getAbsolutePath()), new File(Main.getInstance().getDataFolder() + "/temporary-files/" + f.getName()));
+                new Methods().copyPasteFile(new File(f.getAbsolutePath()), new File(AlttdUtility.getInstance().getDataFolder() + "/temporary-files/" + f.getName()));
             }
 
             //Reloading the list of files that need to be read with the files from /temporary-files/.
             filesToRead.clear();
-            filesToRead.addAll(Arrays.asList(new File(Main.getInstance().getDataFolder() + "/temporary-files").listFiles()));
+            filesToRead.addAll(Arrays.asList(new File(AlttdUtility.getInstance().getDataFolder() + "/temporary-files").listFiles()));
             filesToRead.sort(Comparator.naturalOrder());
 
-            String serverName = Main.getInstance().getDataFolder().getAbsolutePath().replace("\\", "/");
+            String serverName = AlttdUtility.getInstance().getDataFolder().getAbsolutePath().replace("\\", "/");
             try {
                 serverName = serverName.substring(0, serverName.indexOf("/plugins"));
                 serverName = serverName.substring(serverName.lastIndexOf("/") + 1);
@@ -720,7 +720,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             //The file is first written to /temporary-files/. It'll get moved after the whole search is completed.
             String outputFilePath = "";
-            outputFilePath = outputFilePath.concat(Main.getInstance().getDataFolder() + "/temporary-files/");
+            outputFilePath = outputFilePath.concat(AlttdUtility.getInstance().getDataFolder() + "/temporary-files/");
             outputFilePath = outputFilePath.concat("/");
             outputFilePath = outputFilePath.concat(serverName);
             outputFilePath = outputFilePath.concat("-");
@@ -763,7 +763,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             writer.close();
 
             //The maxFileSizeWithoutCompression is in MB so it's multiplied by 1mil to get the size in bytes.
-            Integer maxFileSizeWithoutCompression = Main.getInstance().getConfig().getInt("SearchLogs.MaxFileSizeWithoutCompression");
+            Integer maxFileSizeWithoutCompression = AlttdUtility.getInstance().getConfig().getInt("SearchLogs.MaxFileSizeWithoutCompression");
             maxFileSizeWithoutCompression *= 1000000;
 
             //If the file is bigger than the defined limit, it gets compressed.
@@ -778,7 +778,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             //The file with all the results is copied to the defined output path and all the other files are removed.
             String tempOutputFilePathString = outputFile.getAbsolutePath().replace("\\", "/");
             tempOutputFilePathString = tempOutputFilePathString.substring(tempOutputFilePathString.lastIndexOf("/") + 1);
-            tempOutputFilePathString = Main.getInstance().getConfig().getString("SearchLogs.OutputPath") + "/" + tempOutputFilePathString;
+            tempOutputFilePathString = AlttdUtility.getInstance().getConfig().getString("SearchLogs.OutputPath") + "/" + tempOutputFilePathString;
 
             if (outputFile.length() != 0)
                 new Methods().copyPasteFile(outputFile, (new File(tempOutputFilePathString)));
@@ -802,7 +802,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             clearTemporaryFiles();
 
             sender.sendMessage(ChatColor.GREEN + "Search completed, took " + seconds + "." + totalTime + "s. Scanned " + filesToRead.size() + " files with a total size of " + Math.round(totalFileSize * 100.0) / 100.0 + "MB.");
-            Main.getInstance().getLogger().info("Search completed, took " + seconds + "." + totalTime + "s. Scanned " + filesToRead.size() + " files with a total size of " + Math.round(totalFileSize * 100.0) / 100.0 + "MB.");
+            AlttdUtility.getInstance().getLogger().info("Search completed, took " + seconds + "." + totalTime + "s. Scanned " + filesToRead.size() + " files with a total size of " + Math.round(totalFileSize * 100.0) / 100.0 + "MB.");
 
             inUse = false;
 
@@ -885,7 +885,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             if (args[0].equals("special")) {
 
-                if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.SearchSpecialLogsCommand"))
+                if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.SearchSpecialLogsCommand"))
                     return null;
 
                 if (args.length == 2) {
@@ -931,7 +931,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             if (args[0].equals("additional")) {
 
-                if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.SearchAdditionalLogsCommand"))
+                if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.SearchAdditionalLogsCommand"))
                     return null;
 
                 if (args.length == 2) {
@@ -959,9 +959,9 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
     static void clearTemporaryFiles() {
 
-        for (File file : new File(Main.getInstance().getDataFolder() + "/temporary-files").listFiles())
+        for (File file : new File(AlttdUtility.getInstance().getDataFolder() + "/temporary-files").listFiles())
             if (!file.delete())
-                Main.getInstance().getLogger().warning("Something failed during the deletion of temporary-files file " + file.getAbsolutePath());
+                AlttdUtility.getInstance().getLogger().warning("Something failed during the deletion of temporary-files file " + file.getAbsolutePath());
 
     }
 

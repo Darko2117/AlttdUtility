@@ -1,7 +1,7 @@
 package com.darko.main.utilities.lavaSponge;
 
 import com.darko.main.API.APIs;
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.destroystokyo.paper.ParticleBuilder;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.LocalPlayer;
@@ -41,7 +41,7 @@ public class LavaSponge implements Listener {
         if (!spongeBlock.getType().equals(Material.SPONGE) && !spongeBlock.getType().equals(Material.WET_SPONGE))
             return;
 
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.LavaSponge")) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.LavaSponge")) return;
 
         if (!checkOneBlockAroundSponge(spongeBlock)) return;
 
@@ -55,12 +55,12 @@ public class LavaSponge implements Listener {
         Integer absorbLimit;
 
         if (typeDryWet.equals("dry"))
-            radius = Main.getInstance().getConfig().getInt("LavaSponge.DrySpongeRange");
-        else radius = Main.getInstance().getConfig().getInt("LavaSponge.WetSpongeRange");
+            radius = AlttdUtility.getInstance().getConfig().getInt("LavaSponge.DrySpongeRange");
+        else radius = AlttdUtility.getInstance().getConfig().getInt("LavaSponge.WetSpongeRange");
 
         if (typeDryWet.equals("dry"))
-            absorbLimit = Main.getInstance().getConfig().getInt("LavaSponge.DrySpongeAbsorbLimit");
-        else absorbLimit = Main.getInstance().getConfig().getInt("LavaSponge.WetSpongeAbsorbLimit");
+            absorbLimit = AlttdUtility.getInstance().getConfig().getInt("LavaSponge.DrySpongeAbsorbLimit");
+        else absorbLimit = AlttdUtility.getInstance().getConfig().getInt("LavaSponge.WetSpongeAbsorbLimit");
 
         List<Block> blocksToDelete = new ArrayList<>();
 
@@ -114,7 +114,7 @@ public class LavaSponge implements Listener {
                     }
 
                 }
-            }.runTaskAsynchronously(Main.getInstance());
+            }.runTaskAsynchronously(AlttdUtility.getInstance());
 
             block.setType(Material.AIR);
 

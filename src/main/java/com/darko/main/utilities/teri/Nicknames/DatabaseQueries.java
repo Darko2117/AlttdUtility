@@ -1,6 +1,6 @@
 package com.darko.main.utilities.teri.Nicknames;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.database.Database;
 
 import java.sql.PreparedStatement;
@@ -61,7 +61,7 @@ public class DatabaseQueries
                         resultSetRequests.getLong("date_requested")));
             }
         } catch (SQLException e) {
-            Main.getInstance().getLogger().warning("Failed to get nicknames list\n" + Arrays.toString(e.getStackTrace())
+            AlttdUtility.getInstance().getLogger().warning("Failed to get nicknames list\n" + Arrays.toString(e.getStackTrace())
                     .replace(",", "\n"));
         }
         return nickList;
@@ -94,7 +94,7 @@ public class DatabaseQueries
                 return new Nick(UUID.fromString(uuid), currentNick, dateChanged, requestedNick, dateRequested);
             }
         } catch (SQLException e){
-            Main.getInstance().getLogger().warning("Failed to get nicknames for "
+            AlttdUtility.getInstance().getLogger().warning("Failed to get nicknames for "
                     + uniqueId.toString() + "\n" + Arrays.toString(e.getStackTrace())
                     .replace(",", "\n"));
 
@@ -109,7 +109,7 @@ public class DatabaseQueries
             statement.setString(1, uniqueId.toString());
             statement.execute();
         } catch (SQLException e) {
-            Main.getInstance().getLogger().warning("Failed to delete requested nickname for "
+            AlttdUtility.getInstance().getLogger().warning("Failed to delete requested nickname for "
                     + uniqueId.toString() + "\n" + Arrays.toString(e.getStackTrace())
                     .replace(",", "\n"));
         }
@@ -136,7 +136,7 @@ public class DatabaseQueries
 
             updateStatement.execute();
         } catch (SQLException e) {
-            Main.getInstance().getLogger().warning("Failed to accept requested nickname for "
+            AlttdUtility.getInstance().getLogger().warning("Failed to accept requested nickname for "
                     + uniqueId.toString() + "\n" + Arrays.toString(e.getStackTrace())
                     .replace(",", "\n"));
         }
@@ -166,7 +166,7 @@ public class DatabaseQueries
             nickPreparedStatement.execute();
 
         } catch (SQLException e) {
-            Main.getInstance().getLogger().warning("Failed to store requested nickname for "
+            AlttdUtility.getInstance().getLogger().warning("Failed to store requested nickname for "
                     + uniqueId.toString() + "\n" + Arrays.toString(e.getStackTrace())
                     .replace(",", "\n"));
         }

@@ -1,6 +1,6 @@
 package com.darko.main.utilities.toggleGC;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.other.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,7 +14,7 @@ public class ToggleGC implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.ToggleGCCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ToggleGCCommand")) return true;
 
         if (!(sender instanceof Player)) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");

@@ -1,8 +1,7 @@
 package com.darko.main.utilities.teri.Nicknames;
 
 import com.Zrips.CMI.Containers.CMIChatColor;
-import com.Zrips.CMI.utils.Util;
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import org.bukkit.Bukkit;
@@ -51,7 +50,7 @@ public class NicknamesEvents implements Listener, PluginMessageListener
 
                 Nicknames.getInstance().NickCache.put(e.getPlayer().getUniqueId(), nick);
             }
-        }.runTaskAsynchronously(Main.getInstance());
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
     }
 
     @Override
@@ -75,7 +74,7 @@ public class NicknamesEvents implements Listener, PluginMessageListener
 
             DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
             playerUUID = UUID.fromString(msgin.readUTF());
-            offlinePlayer = Main.getInstance().getServer().getOfflinePlayer(playerUUID);
+            offlinePlayer = AlttdUtility.getInstance().getServer().getOfflinePlayer(playerUUID);
             name = offlinePlayer.getName();
 
         } catch (Exception e) {
@@ -85,9 +84,9 @@ public class NicknamesEvents implements Listener, PluginMessageListener
 
         switch (subChannel){
             case "NickNameRequest":
-                String notification = Utilities.applyColor(Main.getInstance().getConfig().getString("Messages.NickNewRequest")
+                String notification = Utilities.applyColor(AlttdUtility.getInstance().getConfig().getString("Messages.NickNewRequest")
                         .replace("%player%", name == null ? playerUUID.toString() : name));
-                Main.getInstance().getServer().getOnlinePlayers().forEach(p ->{
+                AlttdUtility.getInstance().getServer().getOnlinePlayers().forEach(p ->{
                     if (p.hasPermission("utility.nick.review")){
                         p.sendMessage(notification);
                     }
@@ -110,7 +109,7 @@ public class NicknamesEvents implements Listener, PluginMessageListener
                     Player target = Bukkit.getPlayer(playerUUID);
                     if (target != null && nick != null && nick.getCurrentNick() != null) {
                         Nicknames.getInstance().setNick(target, nick.getCurrentNick());
-                        target.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickChanged")
+                        target.sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickChanged")
                                 .replace("%nickname%", nick.getCurrentNick())));
                     }
                 }

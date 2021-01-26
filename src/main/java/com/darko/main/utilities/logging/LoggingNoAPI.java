@@ -1,7 +1,7 @@
 package com.darko.main.utilities.logging;
 
 import com.darko.main.API.APIs;
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.Material;
@@ -25,7 +25,7 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerEggThrow(PlayerEggThrowEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.eggsThrownLogName) + ".Enabled"))
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.eggsThrownLogName) + ".Enabled"))
             return;
 
         String time = new Date(System.currentTimeMillis()).toString();
@@ -62,7 +62,7 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerDropItem(PlayerDropItemEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.droppedItemsLogName) + ".Enabled"))
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.droppedItemsLogName) + ".Enabled"))
             return;
 
         String time = new Date(System.currentTimeMillis()).toString();
@@ -103,7 +103,7 @@ public class LoggingNoAPI implements Listener {
             if (((ItemFrame) event.getRightClicked()).getItem().getType().equals(Material.AIR)) {
                 if (!event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
 
-                    if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.itemsPlacedInItemFramesLogName) + ".Enabled"))
+                    if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.itemsPlacedInItemFramesLogName) + ".Enabled"))
                         return;
 
                     String time = new Date(System.currentTimeMillis()).toString();
@@ -147,7 +147,7 @@ public class LoggingNoAPI implements Listener {
         if (event.getEntity() instanceof ItemFrame) {
             if (!((ItemFrame) event.getEntity()).getItem().getType().equals(Material.AIR)) {
 
-                if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.itemsTakenOutOfItemFramesLogName) + ".Enabled"))
+                if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.itemsTakenOutOfItemFramesLogName) + ".Enabled"))
                     return;
 
                 String time = new Date(System.currentTimeMillis()).toString();
@@ -192,7 +192,7 @@ public class LoggingNoAPI implements Listener {
                 if (event.getClickedBlock().getType().equals(Material.IRON_BLOCK)) {
                     if (!event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
 
-                        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.mcmmoRepairUseLogName) + ".Enabled"))
+                        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.mcmmoRepairUseLogName) + ".Enabled"))
                             return;
 
                         String time = new Date(System.currentTimeMillis()).toString();
@@ -230,7 +230,7 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityPickupItem(EntityPickupItemEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.pickedUpItemsLogName) + ".Enabled"))
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.pickedUpItemsLogName) + ".Enabled"))
             return;
 
         if (!(event.getEntity() instanceof Player)) return;
@@ -268,7 +268,7 @@ public class LoggingNoAPI implements Listener {
 
     public static void logCancelledSpawn(EntitySpawnEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.spawnLimitReachedLogName) + ".Enabled"))
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.spawnLimitReachedLogName) + ".Enabled"))
             return;
 
         String time = new Date(System.currentTimeMillis()).toString();
@@ -305,7 +305,7 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public static void onInventoryClick(InventoryClickEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.uiClicksLogName) + ".Enabled"))
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.uiClicksLogName) + ".Enabled"))
             return;
 
         String time = new Date(System.currentTimeMillis()).toString();
@@ -349,7 +349,7 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public static void onPlayerItemBreak(PlayerItemBreakEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.itemsBrokenLogName) + ".Enabled"))
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.itemsBrokenLogName) + ".Enabled"))
             return;
 
         String time = new Date(System.currentTimeMillis()).toString();
@@ -382,7 +382,7 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public static void onItemDespawn(ItemDespawnEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.itemsDespawnedLogName) + ".Enabled"))
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.itemsDespawnedLogName) + ".Enabled"))
             return;
 
         String time = new Date(System.currentTimeMillis()).toString();
@@ -410,7 +410,7 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public static void onEntityDamage(EntityDamageEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.itemsDestroyedLogName) + ".Enabled"))
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.itemsDestroyedLogName) + ".Enabled"))
             return;
 
         if (!(event.getEntity() instanceof Item)) return;
@@ -447,7 +447,7 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public static void onPlayerCommandSend(PlayerCommandPreprocessEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.commandsWithLocationLogName) + ".Enabled"))
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.commandsWithLocationLogName) + ".Enabled"))
             return;
 
         String time = new Date(System.currentTimeMillis()).toString();
@@ -480,7 +480,7 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public static void onPlayerDeath(PlayerDeathEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.droppedItemsOnDeathLogName) + ".Enabled"))
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.droppedItemsOnDeathLogName) + ".Enabled"))
             return;
 
         String time = new Date(System.currentTimeMillis()).toString();

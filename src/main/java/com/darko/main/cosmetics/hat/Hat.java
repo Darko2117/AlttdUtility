@@ -1,6 +1,6 @@
 package com.darko.main.cosmetics.hat;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.other.Methods;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -14,7 +14,7 @@ public class Hat implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.Hat")) return true;
+        if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Hat")) return true;
 
         if (!(sender instanceof Player)) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");

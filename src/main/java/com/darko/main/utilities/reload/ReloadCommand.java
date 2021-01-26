@@ -1,7 +1,7 @@
 package com.darko.main.utilities.reload;
 
 import com.darko.main.API.APIs;
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.config.ConfigSetup;
 import com.darko.main.cosmetics.sit.Sit;
 import com.darko.main.database.Database;
@@ -29,8 +29,8 @@ public class ReloadCommand implements CommandExecutor {
 
     public static void reload() {
 
-        Main.getInstance().saveDefaultConfig();
-        Main.getInstance().reloadConfig();
+        AlttdUtility.getInstance().saveDefaultConfig();
+        AlttdUtility.getInstance().reloadConfig();
 
         SpawnLimiter.reload();
 
@@ -51,7 +51,7 @@ public class ReloadCommand implements CommandExecutor {
                 if (Database.connection != null)
                     Database.reloadLoadedValues();
             }
-        }.runTaskAsynchronously(Main.getInstance());
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
 
     }
 

@@ -1,6 +1,6 @@
 package com.darko.main.utilities.teri.FreezeMail;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.database.Database;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -35,7 +35,7 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
                     public void run() {
                         handleList(sender, args);
                     }
-                }.runTaskAsynchronously(Main.getInstance());
+                }.runTaskAsynchronously(AlttdUtility.getInstance());
                 break;
             case "send":
                 if (sender.hasPermission("utility.freezemail.send")){
@@ -48,7 +48,7 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
                                 public void run() {
                                     storeMessage(offlinePlayer, message, sender);
                                 }
-                            }.runTaskAsynchronously(Main.getInstance());
+                            }.runTaskAsynchronously(AlttdUtility.getInstance());
                         }
                     } else {
                         sendHelpMessage(sender, HelpType.SEND);
@@ -128,14 +128,14 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
     }
 
     private void sendAllUnreadFreezeMail(CommandSender sender, HashMap<String, ArrayList<String>> allUnreadMessages){
-        String message = Main.getInstance().getConfig().getString("Messages.FreezeMailListAllUnread") +
+        String message = AlttdUtility.getInstance().getConfig().getString("Messages.FreezeMailListAllUnread") +
                 buildMessageFromMails(allUnreadMessages);
 
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
     private void sendPlayersFreezeMail(CommandSender sender, ArrayList<String> messagesForPlayerRead, String playerName) {
-        String message = Main.getInstance().getConfig().getString("Messages.FreezeMailListRead") +
+        String message = AlttdUtility.getInstance().getConfig().getString("Messages.FreezeMailListRead") +
                 buildMessageFromMails(messagesForPlayerRead);
 
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&' , message)
@@ -149,7 +149,7 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
         }
 
         StringBuilder message = new StringBuilder();
-        message.append(Main.getInstance().getConfig().getString("Messages.FreezeMailListAll"));
+        message.append(AlttdUtility.getInstance().getConfig().getString("Messages.FreezeMailListAll"));
 
         if (!messagesForPlayerRead.isEmpty()) {
             message.append("\n&fRead:");
@@ -256,7 +256,7 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
             throwable.printStackTrace();
         }
 
-        String messageToSend = ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig().getString("Messages.FreezeMailSuccessfullySend"));
+        String messageToSend = ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.FreezeMailSuccessfullySend"));
         sender.sendMessage(messageToSend.replace("%player%", player.getName()));
     }
 
@@ -264,7 +264,7 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
         if (offlinePlayer.hasPlayedBefore()){
             return true;
         } else {
-            String messageToSend = ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig().getString("Messages.FreezeMailPlayerDoesntExist"));
+            String messageToSend = ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.FreezeMailPlayerDoesntExist"));
             sender.sendMessage(messageToSend.replace("%target%", targetName));
             return false;
         }

@@ -34,7 +34,7 @@ import com.darko.main.utilities.toggleGC.ToggleGC;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.cosmetics.hat.Hat;
 import com.darko.main.utilities.offlinePay.onPayCommand;
 import com.darko.main.utilities.cooldown.Cooldown;
@@ -70,7 +70,7 @@ public class Register extends JavaPlugin {
                 new TNTProtection()
         );
 
-        if (Main.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail") && APIs.WorldGuardFound) {
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail") && APIs.WorldGuardFound) {
             registerEvents(new FreezeMailPlayerListener());
         }
         if (APIs.MyPetFound) {
@@ -94,57 +94,57 @@ public class Register extends JavaPlugin {
         if(APIs.PvPManagerFound) {
             registerEvents(new PvPFishing());
         }
-        if(APIs.CMIFound && Main.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")){
+        if(APIs.CMIFound && AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")){
             NicknamesEvents nicknamesEvents = new NicknamesEvents();
             registerEvents(nicknamesEvents);
 //            Main.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(Main.getInstance(), "BungeeCord"); //des already registers this
-            Main.getInstance().getServer().getMessenger().registerIncomingPluginChannel(Main.getInstance(), "BungeeCord", nicknamesEvents);
+            AlttdUtility.getInstance().getServer().getMessenger().registerIncomingPluginChannel(AlttdUtility.getInstance(), "BungeeCord", nicknamesEvents);
         }
 
     }
 
     private static void registerEvents(Listener... listeners) {
         for (Listener listener : listeners) {
-            Main.getInstance().getServer().getPluginManager().registerEvents(listener, Main.getInstance());
+            AlttdUtility.getInstance().getServer().getPluginManager().registerEvents(listener, AlttdUtility.getInstance());
         }
     }
 
     public static void registerCommands() {
 
-        Main.getInstance().getCommand("autofix").setExecutor(new AutoFix());
-        Main.getInstance().getCommand("blockitempickup").setExecutor(new ItemPickup());
-        Main.getInstance().getCommand("hat").setExecutor(new Hat());
-        Main.getInstance().getCommand("servermsg").setExecutor(new Servermsg());
-        Main.getInstance().getCommand("alttdutilityreload").setExecutor(new ReloadCommand());
-        Main.getInstance().getCommand("list").setExecutor(new PlayerList());
-        Main.getInstance().getCommand("kickfrombungee").setExecutor(new KickFromBungeeCommand());
-        Main.getInstance().getCommand("crash").setExecutor(new Crash());
-        Main.getInstance().getCommand("searchlogs").setExecutor(new LoggingSearch());
-        Main.getInstance().getCommand("invisitemframes").setExecutor(new InvisibleItemFrame());
-        Main.getInstance().getCommand("rebootwhitelist").setExecutor(new RebootWhitelist());
-        Main.getInstance().getCommand("togglegc").setExecutor(new ToggleGC());
-        Main.getInstance().getCommand("sit").setExecutor(new Sit());
-        Main.getInstance().getCommand("commandonjoin").setExecutor(new CommandOnJoin());
-        Main.getInstance().getCommand("ccm").setExecutor(new CustomChatMessage());
+        AlttdUtility.getInstance().getCommand("autofix").setExecutor(new AutoFix());
+        AlttdUtility.getInstance().getCommand("blockitempickup").setExecutor(new ItemPickup());
+        AlttdUtility.getInstance().getCommand("hat").setExecutor(new Hat());
+        AlttdUtility.getInstance().getCommand("servermsg").setExecutor(new Servermsg());
+        AlttdUtility.getInstance().getCommand("alttdutilityreload").setExecutor(new ReloadCommand());
+        AlttdUtility.getInstance().getCommand("list").setExecutor(new PlayerList());
+        AlttdUtility.getInstance().getCommand("kickfrombungee").setExecutor(new KickFromBungeeCommand());
+        AlttdUtility.getInstance().getCommand("crash").setExecutor(new Crash());
+        AlttdUtility.getInstance().getCommand("searchlogs").setExecutor(new LoggingSearch());
+        AlttdUtility.getInstance().getCommand("invisitemframes").setExecutor(new InvisibleItemFrame());
+        AlttdUtility.getInstance().getCommand("rebootwhitelist").setExecutor(new RebootWhitelist());
+        AlttdUtility.getInstance().getCommand("togglegc").setExecutor(new ToggleGC());
+        AlttdUtility.getInstance().getCommand("sit").setExecutor(new Sit());
+        AlttdUtility.getInstance().getCommand("commandonjoin").setExecutor(new CommandOnJoin());
+        AlttdUtility.getInstance().getCommand("ccm").setExecutor(new CustomChatMessage());
 
-        Main.getInstance().getCommand("list").setTabCompleter(new PlayerList());
-        Main.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());
-        Main.getInstance().getCommand("rebootwhitelist").setTabCompleter(new RebootWhitelist());
-        Main.getInstance().getCommand("commandonjoin").setTabCompleter(new CommandOnJoin());
-        Main.getInstance().getCommand("ccm").setTabCompleter(new CustomChatMessage());
+        AlttdUtility.getInstance().getCommand("list").setTabCompleter(new PlayerList());
+        AlttdUtility.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());
+        AlttdUtility.getInstance().getCommand("rebootwhitelist").setTabCompleter(new RebootWhitelist());
+        AlttdUtility.getInstance().getCommand("commandonjoin").setTabCompleter(new CommandOnJoin());
+        AlttdUtility.getInstance().getCommand("ccm").setTabCompleter(new CustomChatMessage());
 
-        Main.getInstance().getCommand("freezemail").setExecutor(new FreezeMail());//This does not need to be disabled since it's just to send the mail which can be done from anywhere
+        AlttdUtility.getInstance().getCommand("freezemail").setExecutor(new FreezeMail());//This does not need to be disabled since it's just to send the mail which can be done from anywhere
 
-        Main.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(Main.getInstance(), "BungeeCord");
+        AlttdUtility.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(AlttdUtility.getInstance(), "BungeeCord");
 
         if (APIs.LuckPermsFound) {
-            Main.getInstance().getCommand("cooldown").setExecutor(new Cooldown());
-            Main.getInstance().getCommand("cooldown").setTabCompleter(new Cooldown());
+            AlttdUtility.getInstance().getCommand("cooldown").setExecutor(new Cooldown());
+            AlttdUtility.getInstance().getCommand("cooldown").setTabCompleter(new Cooldown());
         }
 
         if (APIs.LuckPermsFound) {
-            Main.getInstance().getCommand("setprefix").setExecutor(new SetPrefix());
-            Main.getInstance().getCommand("removeprefix").setExecutor(new RemovePrefix());
+            AlttdUtility.getInstance().getCommand("setprefix").setExecutor(new SetPrefix());
+            AlttdUtility.getInstance().getCommand("removeprefix").setExecutor(new RemovePrefix());
             //Main.getInstance().getCommand("prefixhistory").setExecutor(new Cooldown());
         }
 
@@ -152,8 +152,8 @@ public class Register extends JavaPlugin {
             Flags.FlagsEnable();
         }
 
-        if(APIs.CMIFound && Main.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")){
-            Main.getInstance().getCommand("nick").setExecutor(new Nicknames());
+        if(APIs.CMIFound && AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")){
+            AlttdUtility.getInstance().getCommand("nick").setExecutor(new Nicknames());
         }
 
     }

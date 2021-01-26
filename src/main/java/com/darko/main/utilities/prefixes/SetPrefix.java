@@ -1,6 +1,6 @@
 package com.darko.main.utilities.prefixes;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.other.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,7 +14,7 @@ public class SetPrefix implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.SetPrefixCommand")) return true;
+        if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.SetPrefixCommand")) return true;
 
         Player player = (Player) sender;
 
@@ -40,12 +40,12 @@ public class SetPrefix implements CommandExecutor {
 
                 }
 
-                for (String group : Main.getInstance().getConfig().getStringList("PrefixAvailableGroups")) {
+                for (String group : AlttdUtility.getInstance().getConfig().getStringList("PrefixAvailableGroups")) {
 
                     if (actedPlayer.hasPermission("group." + group)) {
 
                         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + actedPlayer.getName() + " meta setprefix 100 " + prefix);
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig()
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
                                 .getString("Messages.PrefixSetConfirmedMessage").replace("%prefix%", prefix).replace("%player%", actedPlayer.getName())));
 
                     }

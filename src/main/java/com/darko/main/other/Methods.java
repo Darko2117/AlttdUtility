@@ -1,6 +1,6 @@
 package com.darko.main.other;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +16,7 @@ public class Methods {
 
     public void sendConfigMessage(CommandSender receiver, String path) {
 
-        receiver.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig().getString(path)));
+        receiver.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString(path)));
 
     }
 

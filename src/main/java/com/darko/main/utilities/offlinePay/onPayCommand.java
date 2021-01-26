@@ -8,7 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 
 public class onPayCommand implements Listener {
 
@@ -16,7 +16,7 @@ public class onPayCommand implements Listener {
     public void onPayCommands(PlayerCommandPreprocessEvent event) {
 
         if(event.isCancelled()) return;
-        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.BlockOfflinePay")) return;
+        if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockOfflinePay")) return;
 
         Player player = event.getPlayer();
         String command = event.getMessage();

@@ -1,6 +1,6 @@
 package com.darko.main.utilities.customChatMessage;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.database.Database;
 import com.darko.main.other.Methods;
 import org.bukkit.ChatColor;
@@ -19,7 +19,7 @@ public class CustomChatMessage implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CustomChatMessageCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CustomChatMessageCommand")) return true;
 
         if (!(sender instanceof Player)) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
@@ -70,7 +70,7 @@ public class CustomChatMessage implements CommandExecutor, TabCompleter {
             try {
 
                 Database.connection.prepareStatement(statement).executeUpdate();
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig()
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
                         .getString("Messages.CustomChatMessageSavedMessage").replace("%messageName%", messageName).replace("%message%", message)));
 
             } catch (Throwable throwable) {
@@ -167,7 +167,7 @@ public class CustomChatMessage implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CustomChatMessageCommand")) return null;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CustomChatMessageCommand")) return null;
 
         if (!(sender instanceof Player)) return null;
         Player player = (Player) sender;

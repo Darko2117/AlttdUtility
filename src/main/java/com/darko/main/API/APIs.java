@@ -1,7 +1,7 @@
 package com.darko.main.API;
 
 import com.Zrips.CMI.CMI;
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.other.ConsoleColors;
 import com.gmail.filoghost.farmlimiter.FarmLimiter;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -48,49 +48,49 @@ public class APIs extends JavaPlugin {
         CMIFound = CMIApiCheck() != null;
 
         if (GriefPreventionFound)
-            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "GriefPrevention found!... " + ConsoleColors.RESET);
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "GriefPrevention found!... " + ConsoleColors.RESET);
         else
-            Main.getInstance().getLogger().info(ConsoleColors.RED + "GriefPrevention not found!... " + ConsoleColors.RESET);
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "GriefPrevention not found!... " + ConsoleColors.RESET);
 
         if (WorldGuardFound)
-            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "WorldGuard found!... " + ConsoleColors.RESET);
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "WorldGuard found!... " + ConsoleColors.RESET);
         else
-            Main.getInstance().getLogger().info(ConsoleColors.RED + "WorldGuard not found!... " + ConsoleColors.RESET);
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "WorldGuard not found!... " + ConsoleColors.RESET);
 
         if (LuckPermsFound)
-            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "LuckPerms found!... " + ConsoleColors.RESET);
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "LuckPerms found!... " + ConsoleColors.RESET);
         else
-            Main.getInstance().getLogger().info(ConsoleColors.RED + "LuckPerms not found!... " + ConsoleColors.RESET);
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "LuckPerms not found!... " + ConsoleColors.RESET);
 
         if (MyPetFound)
-            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "MyPet found!... " + ConsoleColors.RESET);
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "MyPet found!... " + ConsoleColors.RESET);
         else
-            Main.getInstance().getLogger().info(ConsoleColors.RED + "MyPet not found!... " + ConsoleColors.RESET);
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "MyPet not found!... " + ConsoleColors.RESET);
 
         if (CrazyCratesFound)
-            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "CrazyCrates found!... " + ConsoleColors.RESET);
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "CrazyCrates found!... " + ConsoleColors.RESET);
         else
-            Main.getInstance().getLogger().info(ConsoleColors.RED + "CrazyCrates not found!... " + ConsoleColors.RESET);
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "CrazyCrates not found!... " + ConsoleColors.RESET);
 
         if (mcMMOFound)
-            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "mcMMO found!... " + ConsoleColors.RESET);
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "mcMMO found!... " + ConsoleColors.RESET);
         else
-            Main.getInstance().getLogger().info(ConsoleColors.RED + "mcMMO not found!... " + ConsoleColors.RESET);
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "mcMMO not found!... " + ConsoleColors.RESET);
 
         if (FarmLimiterFound)
-            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "FarmLimiter found!... " + ConsoleColors.RESET);
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "FarmLimiter found!... " + ConsoleColors.RESET);
         else
-            Main.getInstance().getLogger().info(ConsoleColors.RED + "FarmLimiter not found!... " + ConsoleColors.RESET);
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "FarmLimiter not found!... " + ConsoleColors.RESET);
 
         if (PvPManagerFound)
-            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "PvPManager found!... " + ConsoleColors.RESET);
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "PvPManager found!... " + ConsoleColors.RESET);
         else
-            Main.getInstance().getLogger().info(ConsoleColors.RED + "PvPManager not found!... " + ConsoleColors.RESET);
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "PvPManager not found!... " + ConsoleColors.RESET);
 
         if (CMIFound)
-            Main.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "CMI found!... " + ConsoleColors.RESET);
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "CMI found!... " + ConsoleColors.RESET);
         else
-            Main.getInstance().getLogger().info(ConsoleColors.RED + "CMI not found!... " + ConsoleColors.RESET);
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "CMI not found!... " + ConsoleColors.RESET);
 
     }
 

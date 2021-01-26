@@ -1,6 +1,6 @@
 package com.darko.main.destro.griefprevention;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.destroystokyo.paper.event.block.TNTPrimeEvent;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
@@ -18,7 +18,7 @@ public class TNTProtection implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onTNTPrime(TNTPrimeEvent event) {
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.ProtectTNTArrowDamage")) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ProtectTNTArrowDamage")) return;
         if(event.getReason() == TNTPrimeEvent.PrimeReason.PROJECTILE) {
             Entity entity = event.getPrimerEntity();
             if(entity instanceof Arrow) {

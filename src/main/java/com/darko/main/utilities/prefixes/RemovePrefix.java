@@ -1,6 +1,6 @@
 package com.darko.main.utilities.prefixes;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.other.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,7 +14,7 @@ public class RemovePrefix implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.RemovePrefixCommand")) return true;
+        if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.RemovePrefixCommand")) return true;
 
         Player player = (Player) sender;
 
@@ -40,7 +40,7 @@ public class RemovePrefix implements CommandExecutor {
 
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + actedPlayer.getName() + " meta removeprefix 100 ");
 
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig()
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
                     .getString("Messages.PrefixRemovedConfirmedMessage").replace("%player%", actedPlayer.getName())));
 
         } else {

@@ -1,6 +1,6 @@
 package com.darko.main.cosmetics.invisibleItemFrame;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.other.Methods;
 import com.destroystokyo.paper.ParticleBuilder;
 import org.bukkit.*;
@@ -27,7 +27,7 @@ public class InvisibleItemFrame implements Listener, CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.InvisibleItemFramesCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.InvisibleItemFramesCommand")) return true;
 
         if (!(sender instanceof Player)) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
@@ -73,7 +73,7 @@ public class InvisibleItemFrame implements Listener, CommandExecutor {
                         particleBuilder.spawn();
 
                     }
-                }.runTaskLater(Main.getInstance(), i);
+                }.runTaskLater(AlttdUtility.getInstance(), i);
             }
         }
 
@@ -84,7 +84,7 @@ public class InvisibleItemFrame implements Listener, CommandExecutor {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onItemFrameClick(PlayerInteractEntityEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.InvisibleItemFrames")) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.InvisibleItemFrames")) return;
 
         if (event.isCancelled()) return;
         if (!event.getHand().equals(EquipmentSlot.HAND)) return;

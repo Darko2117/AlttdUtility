@@ -1,6 +1,6 @@
 package com.darko.main.utilities.logging;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import me.badbones69.crazycrates.api.events.PlayerPrizeEvent;
 import me.badbones69.crazycrates.api.objects.ItemBuilder;
 import org.bukkit.event.EventHandler;
@@ -15,7 +15,7 @@ public class LoggingCrazyCrates implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerPrize(PlayerPrizeEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.cratePrizesLogName) + ".Enabled"))
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.cratePrizesLogName) + ".Enabled"))
             return;
 
         String time = new Date(System.currentTimeMillis()).toString();

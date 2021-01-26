@@ -1,6 +1,6 @@
 package com.darko.main.utilities.crash;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.other.Methods;
 import com.destroystokyo.paper.ParticleBuilder;
 import org.bukkit.Bukkit;
@@ -16,7 +16,7 @@ public class Crash implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CrashCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CrashCommand")) return true;
 
         if (args.length == 0) {
             new Methods().sendConfigMessage(sender, "Messages.CrashCommandInvalidUsage");
@@ -58,7 +58,7 @@ public class Crash implements CommandExecutor {
                 }
 
             }
-        }.runTaskAsynchronously(Main.getInstance());
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
 
         return true;
 

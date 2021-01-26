@@ -1,7 +1,7 @@
 package com.darko.main.cosmetics.sit;
 
 import com.darko.main.API.APIs;
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.other.Methods;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.LocalPlayer;
@@ -46,7 +46,7 @@ public class Sit implements CommandExecutor, Listener {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return true;
 
         if (!(sender instanceof Player)) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
@@ -93,7 +93,7 @@ public class Sit implements CommandExecutor, Listener {
     public void onBlockBreak(BlockBreakEvent event) {
 
         if (event.isCancelled()) return;
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
 
         if (aliveSeats.containsKey(event.getBlock().getLocation())) {
             if (event.getPlayer().hasPermission("utility.forcedismount")) {
@@ -109,7 +109,7 @@ public class Sit implements CommandExecutor, Listener {
     public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
 
         if (event.isCancelled()) return;
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
 
         if (aliveSeats.containsValue(event.getRightClicked())) {
             event.setCancelled(true);
@@ -147,7 +147,7 @@ public class Sit implements CommandExecutor, Listener {
     public void onEntityDismount(EntityDismountEvent event) {
 
         if (event.isCancelled()) return;
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
 
         Entity dismounted = event.getDismounted();
         Entity entity = event.getEntity();
@@ -171,14 +171,14 @@ public class Sit implements CommandExecutor, Listener {
                     entity.teleport(dismountLocation);
                 }
             }
-        }.runTaskLater(Main.getInstance(), 0);
+        }.runTaskLater(AlttdUtility.getInstance(), 0);
 
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerQuit(PlayerQuitEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
 
         Player player = event.getPlayer();
 
@@ -196,7 +196,7 @@ public class Sit implements CommandExecutor, Listener {
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
 
         if (event.isCancelled()) return;
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
 
         Player player = event.getPlayer();
 
@@ -264,7 +264,7 @@ public class Sit implements CommandExecutor, Listener {
         if (claim.allowAccess(player) == null) {
             return true;
         } else {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig()
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
                     .getString("Messages.SeatNoClaimPerm").replace("%player%", claim.getOwnerName())));
             return false;
         }
@@ -385,7 +385,7 @@ public class Sit implements CommandExecutor, Listener {
                 }
 
             }
-        }.runTaskTimer(Main.getInstance(), 20, 20);
+        }.runTaskTimer(AlttdUtility.getInstance(), 20, 20);
 
     }
 

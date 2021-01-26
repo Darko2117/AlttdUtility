@@ -1,6 +1,6 @@
 package com.darko.main.utilities.itemPickup;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.database.Database;
 import com.darko.main.other.Methods;
 import org.bukkit.command.Command;
@@ -20,7 +20,7 @@ public class ItemPickup implements CommandExecutor, Listener {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.ItemPickupCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ItemPickupCommand")) return true;
 
         if (!(sender instanceof Player)) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
@@ -67,7 +67,7 @@ public class ItemPickup implements CommandExecutor, Listener {
                     throwable.printStackTrace();
                 }
             }
-        }.runTaskAsynchronously(Main.getInstance());
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
 
         return true;
 
@@ -77,7 +77,7 @@ public class ItemPickup implements CommandExecutor, Listener {
     public void onItemPickup(EntityPickupItemEvent event) {
 
         if(event.isCancelled()) return;
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.ItemPickupCommand")) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ItemPickupCommand")) return;
 
         if (Database.connection == null) return;
 

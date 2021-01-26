@@ -1,6 +1,6 @@
 package com.darko.main.utilities.commandOnJoin;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.database.Database;
 import com.darko.main.other.Methods;
 import org.bukkit.Bukkit;
@@ -25,7 +25,7 @@ public class CommandOnJoin implements CommandExecutor, Listener, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CommandOnJoin")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CommandOnJoin")) return true;
 
         if (args.length < 2) {
             new Methods().sendConfigMessage(sender, "Messages.InvalidUsageCommandOnJoinMessage");
@@ -50,7 +50,7 @@ public class CommandOnJoin implements CommandExecutor, Listener, TabCompleter {
         try {
 
             Database.connection.prepareStatement(statement).executeUpdate();
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig()
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
                     .getString("Messages.CommandOnJoinSetMessage").replace("%player%", playerName).replace("%command%", commandToSet)));
 
         } catch (Throwable throwable) {
@@ -64,7 +64,7 @@ public class CommandOnJoin implements CommandExecutor, Listener, TabCompleter {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CommandOnJoin")) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CommandOnJoin")) return;
 
         new BukkitRunnable() {
             @Override
@@ -89,10 +89,10 @@ public class CommandOnJoin implements CommandExecutor, Listener, TabCompleter {
                             public void run() {
 
                                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
-                                Main.getInstance().getLogger().info("Ran the command: " + command + " because " + playerName + " joined.");
+                                AlttdUtility.getInstance().getLogger().info("Ran the command: " + command + " because " + playerName + " joined.");
 
                             }
-                        }.runTask(Main.getInstance());
+                        }.runTask(AlttdUtility.getInstance());
                     }
 
                 } catch (Throwable throwable) {
@@ -100,14 +100,14 @@ public class CommandOnJoin implements CommandExecutor, Listener, TabCompleter {
                 }
 
             }
-        }.runTaskAsynchronously(Main.getInstance());
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
 
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CommandOnJoin")) return null;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CommandOnJoin")) return null;
 
         if (args.length == 1) {
 

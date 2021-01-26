@@ -7,7 +7,7 @@ import com.darko.main.other.Methods;
 import com.darko.main.utilities.logging.Logging;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 
 public class ConfigSetup {
 
@@ -100,7 +100,7 @@ public class ConfigSetup {
 
     public static void configSetup() {
 
-        FileConfiguration config = Main.getInstance().getConfig();
+        FileConfiguration config = AlttdUtility.getInstance().getConfig();
 
         //Toggles
 
@@ -302,7 +302,7 @@ public class ConfigSetup {
         // SearchLogs
 
         if (!config.contains("SearchLogs.OutputPath")) {
-            config.set("SearchLogs.OutputPath", new File(Main.getInstance().getDataFolder() + "/search-output/").getAbsolutePath());
+            config.set("SearchLogs.OutputPath", new File(AlttdUtility.getInstance().getDataFolder() + "/search-output/").getAbsolutePath());
             notFoundInConfigMessage("SearchLogs.OutputPath");
         }
         if (!config.contains("SearchLogs.MaxFileSizeWithoutCompression")) {
@@ -453,13 +453,13 @@ public class ConfigSetup {
 
         // ----------------------------------------------------------------------------------------------------
 
-        Main.getInstance().saveConfig();
+        AlttdUtility.getInstance().saveConfig();
 
     }
 
     static void notFoundInConfigMessage(String string) {
 
-        Main.getInstance().getLogger().info(string + " not found in the config, creating it now.");
+        AlttdUtility.getInstance().getLogger().info(string + " not found in the config, creating it now.");
 
     }
 

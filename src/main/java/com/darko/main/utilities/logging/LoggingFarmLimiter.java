@@ -1,7 +1,7 @@
 package com.darko.main.utilities.logging;
 
 import com.darko.main.API.APIs;
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.gmail.filoghost.farmlimiter.api.FarmLimitEvent;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
@@ -17,7 +17,7 @@ public class LoggingFarmLimiter implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onFarmLimit(FarmLimitEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.farmLimiterLogName) + ".Enabled"))
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.farmLimiterLogName) + ".Enabled"))
             return;
 
         for (LivingEntity entityToRemove : event.getEntitiesToRemove()) {

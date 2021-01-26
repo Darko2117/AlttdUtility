@@ -1,7 +1,7 @@
 package com.darko.main.utilities.cooldown;
 
 import com.darko.main.API.APIs;
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.other.Methods;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.user.User;
@@ -22,7 +22,7 @@ public class Cooldown implements CommandExecutor, TabCompleter {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.CooldownCommand")) return true;
+        if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CooldownCommand")) return true;
 
         if (!(sender instanceof Player)) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
@@ -44,7 +44,7 @@ public class Cooldown implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 
-        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.CooldownCommand")) return null;
+        if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CooldownCommand")) return null;
 
         if (args.length == 1) {
 
@@ -126,7 +126,7 @@ public class Cooldown implements CommandExecutor, TabCompleter {
 
         HashMap<String, String> resultsHashMap = new HashMap<>();
 
-        List<String> resultsList = Main.getInstance().getConfig().getStringList("CooldownCommandPermissions");
+        List<String> resultsList = AlttdUtility.getInstance().getConfig().getStringList("CooldownCommandPermissions");
         if (resultsList == null) return resultsHashMap;
 
         for (String string : resultsList) {

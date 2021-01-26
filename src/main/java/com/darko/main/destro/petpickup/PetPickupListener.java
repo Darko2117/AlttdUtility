@@ -1,6 +1,6 @@
 package com.darko.main.destro.petpickup;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,7 +15,7 @@ public class PetPickupListener implements Listener {
     public void onPetPickup(MyPetPickupItemEvent event) {
 
         if(event.isCancelled()) return;
-        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.BlockPetPickupInClaimWithoutContainerTrust")) return;
+        if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockPetPickupInClaimWithoutContainerTrust")) return;
 
         if (event.isCancelled())
             return;

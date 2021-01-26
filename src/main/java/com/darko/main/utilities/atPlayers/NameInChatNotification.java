@@ -1,7 +1,7 @@
 package com.darko.main.utilities.atPlayers;
 
 import com.darko.main.API.APIs;
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -18,7 +18,7 @@ public class NameInChatNotification implements Listener {
     public void onChat(AsyncPlayerChatEvent event) {
 
         if (event.isCancelled()) return;
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.ChatAtPlayers")) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ChatAtPlayers")) return;
 
         StringBuilder message = new StringBuilder(event.getMessage());
 

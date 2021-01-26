@@ -1,6 +1,6 @@
 package com.darko.main.utilities.teri.FreezeMail;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.database.Database;
 import com.sk89q.worldguard.bukkit.event.entity.DamageEntityEvent;
 import net.luckperms.api.LuckPermsProvider;
@@ -38,10 +38,10 @@ public class FreezeMailPlayerListener implements Listener {
                     LuckPermsProvider.get().getUserManager().modifyUser(event.getPlayer().getUniqueId(), (User user) -> {
                         DataMutateResult result = user.data().add(node);
                         if (!result.wasSuccessful()){
-                            Main.getInstance().getLogger().warning("Unable to give " + event.getPlayer().getName() + " the utility.dontfuckingmove permission.");
+                            AlttdUtility.getInstance().getLogger().warning("Unable to give " + event.getPlayer().getName() + " the utility.dontfuckingmove permission.");
                         }
                     });
-                    FileConfiguration config = Main.getInstance().getConfig();
+                    FileConfiguration config = AlttdUtility.getInstance().getConfig();
                     String title = ChatColor.translateAlternateColorCodes('&', config.getString("Messages.FreezeMailTitle"));
                     String subTitle = ChatColor.translateAlternateColorCodes('&', config.getString("Messages.FreezeMailSubTitle"));
 
@@ -49,7 +49,7 @@ public class FreezeMailPlayerListener implements Listener {
                     resendMessage(event.getPlayer());
                 }
             }
-        }.runTaskAsynchronously(Main.getInstance());
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
 
     }
 
@@ -128,14 +128,14 @@ public class FreezeMailPlayerListener implements Listener {
                         LuckPermsProvider.get().getUserManager().modifyUser(event.getPlayer().getUniqueId(), (User user) -> {
                             DataMutateResult result = user.data().remove(node);
                             if (!result.wasSuccessful()){
-                                Main.getInstance().getLogger().warning("Unable to remove the utility.dontfuckingmove permission from " + event.getPlayer().getName() + ".");
+                                AlttdUtility.getInstance().getLogger().warning("Unable to remove the utility.dontfuckingmove permission from " + event.getPlayer().getName() + ".");
                             }
                         });
                         setMailRead(event.getPlayer().getUniqueId());
-                        String messageToSend = ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig().getString("Messages.FreezeMailSuccessfullyCompleted"));
+                        String messageToSend = ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.FreezeMailSuccessfullyCompleted"));
                         event.getPlayer().sendMessage(messageToSend.replace("%player%", event.getPlayer().getName()));
                     }
-                }.runTaskAsynchronously(Main.getInstance());
+                }.runTaskAsynchronously(AlttdUtility.getInstance());
                 return;
             }
 
@@ -154,7 +154,7 @@ public class FreezeMailPlayerListener implements Listener {
                     LuckPermsProvider.get().getUserManager().modifyUser(player.getUniqueId(), (User user) -> {
                         DataMutateResult result = user.data().remove(node);
                         if (!result.wasSuccessful()){
-                            Main.getInstance().getLogger().warning("Unable to remove the utility.dontfuckingmove permission from " + player.getName() + ".");
+                            AlttdUtility.getInstance().getLogger().warning("Unable to remove the utility.dontfuckingmove permission from " + player.getName() + ".");
                         }
                     });
                     return;
@@ -162,7 +162,7 @@ public class FreezeMailPlayerListener implements Listener {
 
                 StringBuilder finalMessage = new StringBuilder();
 
-                finalMessage.append(Main.getInstance().getConfig().getString("Messages.FreezeMailNotAcceptedYet")).append("\n");
+                finalMessage.append(AlttdUtility.getInstance().getConfig().getString("Messages.FreezeMailNotAcceptedYet")).append("\n");
                 int i = 1;
                 for (String message : playerMail){
                     finalMessage.append(i).append(". ").append(message).append("\n");
@@ -171,7 +171,7 @@ public class FreezeMailPlayerListener implements Listener {
 
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', finalMessage.toString()).replace("%player%", player.getName()));
             }
-        }.runTaskAsynchronously(Main.getInstance());
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
     }
 
     private void setMailRead(UUID uuid) {

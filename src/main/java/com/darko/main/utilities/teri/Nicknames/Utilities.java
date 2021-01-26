@@ -2,11 +2,10 @@ package com.darko.main.utilities.teri.Nicknames;
 
 import java.awt.*;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -14,14 +13,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class Utilities
 {
     public static String stringRegen;
-    static String[] blockedCodes = Main.getInstance().getConfig().getStringList("Nicknames.BlockedColorCodes").toArray(new String[0]);;
-    static String[] allowedColorCodes = Main.getInstance().getConfig().getStringList("Nicknames.AllowedColorCodes").toArray(new String[0]);;
+    static String[] blockedCodes = AlttdUtility.getInstance().getConfig().getStringList("Nicknames.BlockedColorCodes").toArray(new String[0]);;
+    static String[] allowedColorCodes = AlttdUtility.getInstance().getConfig().getStringList("Nicknames.AllowedColorCodes").toArray(new String[0]);;
     
     public static String applyColor(String message) {
         ChatColor hexColor1 = null;
@@ -157,7 +155,7 @@ public class Utilities
                         for (Nick nick : Nicknames.getInstance().NickCache.values()){
                             if (!nick.getUuid().equals(target.getUniqueId()) && (nick.getCurrentNickNoColor() != null && nick.getCurrentNickNoColor().equalsIgnoreCase(cleanNick))
                                     || (nick.getNewNickNoColor() != null && nick.getNewNickNoColor().equalsIgnoreCase(cleanNick))){
-                                sender.sendMessage(applyColor(Main.getInstance().getConfig().getString("Messages.NickTaken")));
+                                sender.sendMessage(applyColor(AlttdUtility.getInstance().getConfig().getString("Messages.NickTaken")));
                                 return false;
                             }
                         }
@@ -166,13 +164,13 @@ public class Utilities
                     return true;
 
                 } else {
-                    sender.sendMessage(applyColor(Main.getInstance().getConfig().getString("Messages.NickInvalidCharacters")));
+                    sender.sendMessage(applyColor(AlttdUtility.getInstance().getConfig().getString("Messages.NickInvalidCharacters")));
                 }
             } else {
-                sender.sendMessage(applyColor(Main.getInstance().getConfig().getString("Messages.NickLengthInvalid")));
+                sender.sendMessage(applyColor(AlttdUtility.getInstance().getConfig().getString("Messages.NickLengthInvalid")));
             }
         } else {
-            sender.sendMessage(applyColor(Main.getInstance().getConfig().getString("Messages.NickBlockedColorCodes")));
+            sender.sendMessage(applyColor(AlttdUtility.getInstance().getConfig().getString("Messages.NickBlockedColorCodes")));
         }
         return false;
     }
@@ -205,6 +203,6 @@ public class Utilities
         out.writeShort(bytes.length);
         out.write(bytes);
 
-        player.sendPluginMessage(Main.getInstance(), "BungeeCord", out.toByteArray());
+        player.sendPluginMessage(AlttdUtility.getInstance(), "BungeeCord", out.toByteArray());
     }
 }

@@ -1,6 +1,6 @@
 package com.darko.main.utilities.namedMobClaimDamage;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.ChatColor;
@@ -20,7 +20,7 @@ public class NamedMobClaimDamage implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean(("FeatureToggles.NamedMobClaimDamageProtection"))) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(("FeatureToggles.NamedMobClaimDamageProtection"))) return;
 
         if (event.isCancelled()) return;
 
@@ -37,7 +37,7 @@ public class NamedMobClaimDamage implements Listener {
 
             if (claimCheck(damagerPlayer, entity.getLocation()) != null) {
 
-                damagerPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig()
+                damagerPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
                         .getString("Messages.GriefPreventionThatBelongsToMessage").replace("%player%", claimCheck(damagerPlayer, entity.getLocation()))));
 
                 event.setCancelled(true);
@@ -58,7 +58,7 @@ public class NamedMobClaimDamage implements Listener {
 
             if (claimCheck(damagerPlayer, entity.getLocation()) != null) {
 
-                damagerPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig()
+                damagerPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
                         .getString("Messages.GriefPreventionThatBelongsToMessage").replace("%player%", claimCheck(damagerPlayer, entity.getLocation()))));
 
                 event.setCancelled(true);
@@ -79,7 +79,7 @@ public class NamedMobClaimDamage implements Listener {
 
             if (claimCheck(damagerPlayer, entity.getLocation()) != null) {
 
-                damagerPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig()
+                damagerPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
                         .getString("Messages.GriefPreventionThatBelongsToMessage").replace("%player%", claimCheck(damagerPlayer, entity.getLocation()))));
 
                 event.setCancelled(true);
@@ -100,7 +100,7 @@ public class NamedMobClaimDamage implements Listener {
 
             if (claimCheck(damagerPlayer, entity.getLocation()) != null) {
 
-                damagerPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig()
+                damagerPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
                         .getString("Messages.GriefPreventionThatBelongsToMessage").replace("%player%", claimCheck(damagerPlayer, entity.getLocation()))));
 
                 event.setCancelled(true);
@@ -116,7 +116,7 @@ public class NamedMobClaimDamage implements Listener {
 
         //PotionSplash
 
-        if (!Main.getInstance().getConfig().getBoolean(("FeatureToggles.NamedMobClaimDamageProtection"))) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(("FeatureToggles.NamedMobClaimDamageProtection"))) return;
 
         if (event.isCancelled()) return;
 
@@ -133,7 +133,7 @@ public class NamedMobClaimDamage implements Listener {
 
             if (claimCheck(potionThrower, entity.getLocation()) != null) {
 
-                potionThrower.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig()
+                potionThrower.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
                         .getString("Messages.GriefPreventionThatBelongsToMessage").replace("%player%", claimCheck(potionThrower, entity.getLocation()))));
 
                 event.setCancelled(true);
@@ -157,7 +157,7 @@ public class NamedMobClaimDamage implements Listener {
 
     Boolean checkIfNameIsProtected(String name) {
 
-        List<String> protectedNames = Main.getInstance().getConfig().getStringList("NamedMobClaimDamage.Names");
+        List<String> protectedNames = AlttdUtility.getInstance().getConfig().getStringList("NamedMobClaimDamage.Names");
 
         for (String s : protectedNames) {
 

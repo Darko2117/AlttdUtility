@@ -5,11 +5,11 @@ import com.darko.main.utilities.rebootWhitelist.RebootWhitelist;
 import com.darko.main.utilities.reload.ReloadCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Main extends JavaPlugin {
+public class AlttdUtility extends JavaPlugin {
 
-    public static Main instance;
+    public static AlttdUtility instance;
 
-    public static Main getInstance() {
+    public static AlttdUtility getInstance() {
         return instance;
     }
 
@@ -17,7 +17,7 @@ public class Main extends JavaPlugin {
     public void onEnable() {
 
         instance = this;
-        Main.getInstance().getLogger().info("--------------------------------------------------");
+        AlttdUtility.getInstance().getLogger().info("--------------------------------------------------");
 
         ReloadCommand.reload();
 
@@ -27,8 +27,8 @@ public class Main extends JavaPlugin {
 
         RebootWhitelist.disableAfterBoot();
 
-        Main.getInstance().getLogger().info("Utility plugin started...");
-        Main.getInstance().getLogger().info("--------------------------------------------------");
+        AlttdUtility.getInstance().getLogger().info("Utility plugin started...");
+        AlttdUtility.getInstance().getLogger().info("--------------------------------------------------");
 
     }
 

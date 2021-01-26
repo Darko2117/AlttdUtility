@@ -1,6 +1,6 @@
 package com.darko.main.utilities.rebootWhitelist;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -27,12 +27,12 @@ public class RebootWhitelist implements CommandExecutor, TabCompleter, Listener 
 
         if (!enabled) return;
 
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.RebootWhitelist")) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.RebootWhitelist")) return;
 
         event.setResult(PlayerLoginEvent.Result.KICK_OTHER);
-        event.setKickMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig().getString("Messages.RebootWhitelistKickMessage")));
+        event.setKickMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.RebootWhitelistKickMessage")));
 
-        Main.getInstance().getLogger().info(event.getPlayer().getName() + " attempted to join but RebootWhitelist is on.");
+        AlttdUtility.getInstance().getLogger().info(event.getPlayer().getName() + " attempted to join but RebootWhitelist is on.");
 
     }
 
@@ -43,19 +43,19 @@ public class RebootWhitelist implements CommandExecutor, TabCompleter, Listener 
             public void run() {
                 if (enabled) {
                     enabled = false;
-                    Main.getInstance().getConfig().set("RebootWhitelist.Enabled", false);
-                    Main.getInstance().saveConfig();
-                    Main.getInstance().getLogger().info("RebootWhitelist disabled.");
+                    AlttdUtility.getInstance().getConfig().set("RebootWhitelist.Enabled", false);
+                    AlttdUtility.getInstance().saveConfig();
+                    AlttdUtility.getInstance().getLogger().info("RebootWhitelist disabled.");
                 }
             }
-        }.runTaskLater(Main.getInstance(), Main.getInstance().getConfig().getInt("RebootWhitelist.DisableTimeAfterBoot") * 20);
+        }.runTaskLater(AlttdUtility.getInstance(), AlttdUtility.getInstance().getConfig().getInt("RebootWhitelist.DisableTimeAfterBoot") * 20);
 
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.RebootWhitelist")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.RebootWhitelist")) return true;
 
         if (args.length == 0)
             enabled = !enabled;
@@ -64,16 +64,16 @@ public class RebootWhitelist implements CommandExecutor, TabCompleter, Listener 
 
         if (enabled) {
 
-            for (String s : Main.getInstance().getConfig().getStringList("RebootWhitelist.CommandsOnEnable")) {
+            for (String s : AlttdUtility.getInstance().getConfig().getStringList("RebootWhitelist.CommandsOnEnable")) {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s);
             }
 
-            Main.getInstance().getConfig().set("RebootWhitelist.Enabled", true);
-            Main.getInstance().saveConfig();
+            AlttdUtility.getInstance().getConfig().set("RebootWhitelist.Enabled", true);
+            AlttdUtility.getInstance().saveConfig();
             sender.sendMessage(ChatColor.GREEN + "RebootWhitelist enabled.");
         } else {
-            Main.getInstance().getConfig().set("RebootWhitelist.Enabled", false);
-            Main.getInstance().saveConfig();
+            AlttdUtility.getInstance().getConfig().set("RebootWhitelist.Enabled", false);
+            AlttdUtility.getInstance().saveConfig();
             sender.sendMessage(ChatColor.RED + "RebootWhitelist disabled.");
         }
 
@@ -83,7 +83,7 @@ public class RebootWhitelist implements CommandExecutor, TabCompleter, Listener 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 
-        if (Main.getInstance().getConfig().getBoolean("FeatureToggles.RebootWhitelist")) return null;
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.RebootWhitelist")) return null;
 
         if (args.length == 1) {
 
@@ -108,7 +108,7 @@ public class RebootWhitelist implements CommandExecutor, TabCompleter, Listener 
 
     public static void reload() {
 
-        enabled = Main.getInstance().getConfig().getBoolean("RebootWhitelist.Enabled");
+        enabled = AlttdUtility.getInstance().getConfig().getBoolean("RebootWhitelist.Enabled");
 
     }
 

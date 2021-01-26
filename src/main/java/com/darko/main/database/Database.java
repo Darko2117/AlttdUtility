@@ -1,6 +1,6 @@
 package com.darko.main.database;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,12 +32,12 @@ public class Database implements Listener {
 
                 String driver, ip, port, name, username, password;
 
-                driver = Main.getInstance().getConfig().getString("Database.driver");
-                ip = Main.getInstance().getConfig().getString("Database.ip");
-                port = Main.getInstance().getConfig().getString("Database.port");
-                name = Main.getInstance().getConfig().getString("Database.name");
-                username = Main.getInstance().getConfig().getString("Database.username");
-                password = Main.getInstance().getConfig().getString("Database.password");
+                driver = AlttdUtility.getInstance().getConfig().getString("Database.driver");
+                ip = AlttdUtility.getInstance().getConfig().getString("Database.ip");
+                port = AlttdUtility.getInstance().getConfig().getString("Database.port");
+                name = AlttdUtility.getInstance().getConfig().getString("Database.name");
+                username = AlttdUtility.getInstance().getConfig().getString("Database.username");
+                password = AlttdUtility.getInstance().getConfig().getString("Database.password");
 
                 String url = "jdbc:mysql://" + ip + ":" + port + "/" + name;
 
@@ -45,7 +45,7 @@ public class Database implements Listener {
                     connection = DriverManager.getConnection(url, username, password);
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
-                    Main.getInstance().getLogger().severe("Connection to the database failed!");
+                    AlttdUtility.getInstance().getLogger().severe("Connection to the database failed!");
                     connection = null;
                     return;
                 }
@@ -59,10 +59,10 @@ public class Database implements Listener {
 
                 Database.reloadLoadedValues();
 
-                Main.getInstance().getLogger().info("Connected to the database!");
+                AlttdUtility.getInstance().getLogger().info("Connected to the database!");
 
             }
-        }.runTaskAsynchronously(Main.getInstance());
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
 
     }
 
@@ -99,7 +99,7 @@ public class Database implements Listener {
                                 + ");";
 
                         Database.connection.prepareStatement(statement).executeUpdate();
-                        Main.getInstance().getLogger().info(username + " was not in the database, adding them now.");
+                        AlttdUtility.getInstance().getLogger().info(username + " was not in the database, adding them now.");
 
                     } else {
 
@@ -110,7 +110,7 @@ public class Database implements Listener {
                             statement = "UPDATE users SET Username = '" + username + "' WHERE UUID = '" + uuid + "';";
 
                             Database.connection.prepareStatement(statement).executeUpdate();
-                            Main.getInstance().getLogger().info(username + " had a different username in the users table (" + existingUsername + "). Updated it.");
+                            AlttdUtility.getInstance().getLogger().info(username + " had a different username in the users table (" + existingUsername + "). Updated it.");
 
                         }
 
@@ -137,7 +137,7 @@ public class Database implements Listener {
                             statement = "UPDATE custom_chat_message SET Username = '" + username + "' WHERE UUID = '" + uuid + "';";
 
                             Database.connection.prepareStatement(statement).executeUpdate();
-                            Main.getInstance().getLogger().info(username + " had a different username in the custom_chat_message table (" + existingUsername + "). Updated it.");
+                            AlttdUtility.getInstance().getLogger().info(username + " had a different username in the custom_chat_message table (" + existingUsername + "). Updated it.");
 
                         }
 
@@ -148,7 +148,7 @@ public class Database implements Listener {
                 }
 
             }
-        }.runTaskAsynchronously(Main.getInstance());
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
 
     }
 
@@ -162,7 +162,7 @@ public class Database implements Listener {
             public void run() {
                 Database.reloadLoadedValues();
             }
-        }.runTaskAsynchronously(Main.getInstance());
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
 
     }
 
@@ -176,7 +176,7 @@ public class Database implements Listener {
             public void run() {
                 Database.reloadLoadedValues();
             }
-        }.runTaskAsynchronously(Main.getInstance());
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
 
     }
 

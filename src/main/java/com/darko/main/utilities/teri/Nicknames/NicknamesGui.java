@@ -1,6 +1,6 @@
 package com.darko.main.utilities.teri.Nicknames;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -50,7 +50,7 @@ public class NicknamesGui implements Listener {
                 for (Nick nick : Nicknames.getInstance().NickCache.values()){
                     if (nick.hasRequest()){
                         if (limit >= i/27) {
-                            inv.setItem(i % 27, createPlayerSkull(nick, Main.getInstance().getConfig().getStringList("Nicknames.Lore")));
+                            inv.setItem(i % 27, createPlayerSkull(nick, AlttdUtility.getInstance().getConfig().getStringList("Nicknames.Lore")));
                             i++;
                         } else {
                             hasNextPage = true;
@@ -71,7 +71,7 @@ public class NicknamesGui implements Listener {
                             "§aNext page: §b%nextPage%".replace("%nextPage%", String.valueOf(currentPage + 1))));
                 }
             }
-        }.runTaskAsynchronously(Main.getInstance());
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
     }
 
     private ItemStack createPlayerSkull(Nick nick, List<String> lore){
@@ -142,7 +142,7 @@ public class NicknamesGui implements Listener {
             OfflinePlayer owningPlayer = meta.getOwningPlayer();
 
             if (owningPlayer == null){
-                p.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickUserNotFound")));
+                p.sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickUserNotFound")));
                 return;
             }
 
@@ -160,21 +160,21 @@ public class NicknamesGui implements Listener {
                     }
 
                     if (nick == null || !nick.hasRequest()){
-                        p.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickAlreadyHandled")));
+                        p.sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickAlreadyHandled")));
                         return;
                     }
 
                     if (e.isLeftClick()){
                         if (owningPlayer.hasPlayedBefore()) {
                             DatabaseQueries.acceptNewNickname(uniqueId, nick.getNewNick());
-                            p.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickAccepted")
+                            p.sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickAccepted")
                                     .replace("%targetPlayer%", clickedItem.getItemMeta().getDisplayName())
                                     .replace("%newNick%", nick.getNewNick())
                                     .replace("%oldNick%", nick.getCurrentNick() == null ? clickedItem.getItemMeta().getDisplayName() : nick.getCurrentNick())));
 
                             if (owningPlayer.isOnline()){
                                 Nicknames.getInstance().setNick(owningPlayer.getPlayer(), nick.getNewNick());
-                                owningPlayer.getPlayer().sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickChanged")
+                                owningPlayer.getPlayer().sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickChanged")
                                         .replace("%nickname%", nick.getNewNick())));
 
                             } else {
@@ -196,14 +196,14 @@ public class NicknamesGui implements Listener {
                             e.getInventory().setItem(e.getSlot(), itemStack);
                             p.updateInventory();
                         } else {
-                            p.sendMessage(format(Main.getInstance().getConfig().getString("Messages.CantFindPlayer")
+                            p.sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.CantFindPlayer")
                                     .replace("%playerName%", clickedItem.getItemMeta().getDisplayName())));
                         }
 
                     } else if (e.isRightClick()){
                         if (owningPlayer.hasPlayedBefore()) {
                             DatabaseQueries.denyNewNickname(uniqueId);
-                            p.sendMessage(format(Main.getInstance().getConfig().getString("Messages.NickDenied")
+                            p.sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickDenied")
                                     .replace("%targetPlayer%", owningPlayer.getName())
                                     .replace("%newNick%", nick.getNewNick())
                                     .replace("%oldNick%", nick.getCurrentNick() == null ? owningPlayer.getName() : nick.getCurrentNick())));
@@ -229,12 +229,12 @@ public class NicknamesGui implements Listener {
                             e.getInventory().setItem(e.getSlot(), itemStack);
                             p.updateInventory();
                         } else {
-                            p.sendMessage(format(Main.getInstance().getConfig().getString("Messages.CantFindPlayer")
+                            p.sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.CantFindPlayer")
                                     .replace("%playerName%", clickedItem.getItemMeta().getDisplayName())));
                         }
                     }
                 }
-            }.runTaskAsynchronously(Main.getInstance());
+            }.runTaskAsynchronously(AlttdUtility.getInstance());
         }
     }
 

@@ -1,6 +1,6 @@
 package com.darko.main.utilities.spawnLimiter;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.utilities.logging.LoggingNoAPI;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
@@ -25,7 +25,7 @@ public class SpawnLimiter implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntitySpawn(EntitySpawnEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.SpawnLimiter")) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.SpawnLimiter")) return;
 
         EntityType entityType = event.getEntityType();
 
@@ -65,7 +65,7 @@ public class SpawnLimiter implements Listener {
                 spawnLocations.put(entityType, removedLocation);
 
             }
-        }.runTaskLater(Main.getInstance(), timeLimit1 * 20);
+        }.runTaskLater(AlttdUtility.getInstance(), timeLimit1 * 20);
 
     }
 
@@ -77,7 +77,7 @@ public class SpawnLimiter implements Listener {
         spawnLimit.clear();
         spawnLocations.clear();
 
-        for (String key : Main.getInstance().getConfig().getKeys(true)) {
+        for (String key : AlttdUtility.getInstance().getConfig().getKeys(true)) {
 
             StringBuilder entityTypeName = new StringBuilder(key);
 
@@ -96,9 +96,9 @@ public class SpawnLimiter implements Listener {
 
                         limitedEntities.add(entityType);
 
-                        radiusLimit.put(entityType, Main.getInstance().getConfig().getInt("SpawnLimiter." + entityTypeName + ".RadiusLimit"));
-                        timeLimit.put(entityType, Main.getInstance().getConfig().getInt("SpawnLimiter." + entityTypeName + ".TimeLimit"));
-                        spawnLimit.put(entityType, Main.getInstance().getConfig().getInt("SpawnLimiter." + entityTypeName + ".SpawnLimit"));
+                        radiusLimit.put(entityType, AlttdUtility.getInstance().getConfig().getInt("SpawnLimiter." + entityTypeName + ".RadiusLimit"));
+                        timeLimit.put(entityType, AlttdUtility.getInstance().getConfig().getInt("SpawnLimiter." + entityTypeName + ".TimeLimit"));
+                        spawnLimit.put(entityType, AlttdUtility.getInstance().getConfig().getInt("SpawnLimiter." + entityTypeName + ".SpawnLimit"));
                         spawnLocations.put(entityType, new ArrayList<>());
 
                         break;

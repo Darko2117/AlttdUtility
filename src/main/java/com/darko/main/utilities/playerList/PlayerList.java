@@ -1,6 +1,6 @@
 package com.darko.main.utilities.playerList;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.API.APIs;
 import com.darko.main.other.Methods;
 import net.luckperms.api.LuckPerms;
@@ -22,7 +22,7 @@ public class PlayerList implements CommandExecutor, TabCompleter {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if(!Main.getInstance().getConfig().getBoolean("FeatureToggles.PlayerListCommand")) return true;
+        if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.PlayerListCommand")) return true;
 
         if (args.length == 0) {
 
@@ -51,7 +51,7 @@ public class PlayerList implements CommandExecutor, TabCompleter {
 
             HashMap<String, List<String>> groupSectionsWithListsOfGroups = new LinkedHashMap<>();
 
-            for (String groupSection : Main.getInstance().getConfig().getKeys(true)) {
+            for (String groupSection : AlttdUtility.getInstance().getConfig().getKeys(true)) {
 
                 StringBuilder groupSectionString = new StringBuilder(groupSection);
 
@@ -59,7 +59,7 @@ public class PlayerList implements CommandExecutor, TabCompleter {
 
                     groupSectionString.delete(0, 11);
                     if (groupSectionString.length() != 0) {
-                        groupSectionsWithListsOfGroups.put(groupSectionString.toString(), Main.getInstance().getConfig().getStringList("ListGroups." + groupSectionString));
+                        groupSectionsWithListsOfGroups.put(groupSectionString.toString(), AlttdUtility.getInstance().getConfig().getStringList("ListGroups." + groupSectionString));
                     }
 
                 }
@@ -128,7 +128,7 @@ public class PlayerList implements CommandExecutor, TabCompleter {
                 if (message.length() != 0) {
 
                     message.delete(message.length() - 2, message.length());
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig()
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
                             .getString("Messages.ListGroup").replace("%group%", group)));
                     sender.sendMessage(message.toString());
 

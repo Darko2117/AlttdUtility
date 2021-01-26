@@ -1,6 +1,6 @@
 package com.darko.main.utilities.logging;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import me.ryanhamshire.GriefPrevention.events.ClaimCreatedEvent;
 import me.ryanhamshire.GriefPrevention.events.ClaimDeletedEvent;
 import me.ryanhamshire.GriefPrevention.events.ClaimExpirationEvent;
@@ -20,7 +20,7 @@ public class LoggingGriefPrevention implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onClaimCreated(ClaimCreatedEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.claimsCreatedLogName) + ".Enabled"))
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.claimsCreatedLogName) + ".Enabled"))
             return;
 
         String time = new Date(System.currentTimeMillis()).toString();
@@ -55,7 +55,7 @@ public class LoggingGriefPrevention implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onClaimDeleted(ClaimDeletedEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.claimsDeletedLogName) + ".Enabled"))
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.claimsDeletedLogName) + ".Enabled"))
             return;
 
         String time = new Date(System.currentTimeMillis()).toString();
@@ -90,7 +90,7 @@ public class LoggingGriefPrevention implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onClaimModified(ClaimModifiedEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.claimsModifiedLogName) + ".Enabled"))
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.claimsModifiedLogName) + ".Enabled"))
             return;
 
         String time = new Date(System.currentTimeMillis()).toString();
@@ -125,7 +125,7 @@ public class LoggingGriefPrevention implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onClaimExpiration(ClaimExpirationEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.claimsExpiredLogName) + ".Enabled"))
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.claimsExpiredLogName) + ".Enabled"))
             return;
 
         String time = new Date(System.currentTimeMillis()).toString();
@@ -160,7 +160,7 @@ public class LoggingGriefPrevention implements Listener {
     @EventHandler
     public void onClaimCreated1(ClaimCreatedEvent event) {
 
-        if (!Main.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.numberOfClaimsNotificationLogName) + ".Enabled"))
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.numberOfClaimsNotificationLogName) + ".Enabled"))
             return;
 
         new BukkitRunnable() {
@@ -172,9 +172,9 @@ public class LoggingGriefPrevention implements Listener {
                 Player player = (Player) event.getCreator();
 
                 Integer numberOfClaimsInteger = 0;
-                Integer minNumberOfClaimsToFlag = Main.getInstance().getConfig().getInt("NumberOfClaimsFlag.MinNumberOfClaimsToLog");
+                Integer minNumberOfClaimsToFlag = AlttdUtility.getInstance().getConfig().getInt("NumberOfClaimsFlag.MinNumberOfClaimsToLog");
 
-                for (File f : new File(Main.getInstance().getConfig().getString("NumberOfClaimsFlag.ClaimDataDirectory")).listFiles()) {
+                for (File f : new File(AlttdUtility.getInstance().getConfig().getString("NumberOfClaimsFlag.ClaimDataDirectory")).listFiles()) {
 
                     if (!f.getName().contains(".yml")) continue;
 
@@ -211,7 +211,7 @@ public class LoggingGriefPrevention implements Listener {
                 Logging.WriteToFile(Logging.numberOfClaimsNotificationLogName, message);
 
             }
-        }.runTaskAsynchronously(Main.getInstance());
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
 
     }
 

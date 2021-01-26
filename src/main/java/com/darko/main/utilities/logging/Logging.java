@@ -1,6 +1,6 @@
 package com.darko.main.utilities.logging;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import com.darko.main.other.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -66,7 +66,7 @@ public class Logging {
         directories.add("temporary-files");
 
         for (String directory : directories)
-            new File(Main.getInstance().getDataFolder() + "/" + directory).mkdir();
+            new File(AlttdUtility.getInstance().getDataFolder() + "/" + directory).mkdir();
 
         for (Map.Entry<String, String> entry : logNamesAndConfigPaths.entrySet()) {
             Logging.WriteToFile(entry.getKey(), "");
@@ -78,26 +78,26 @@ public class Logging {
                 CheckAndCompress();
                 CheckAndDeleteOld();
             }
-        }.runTaskAsynchronously(Main.getInstance());
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
 
     }
 
     static void CheckAndCompress() {
 
-        String[] logsNames = new File(Main.getInstance().getDataFolder() + "/logs").list();
+        String[] logsNames = new File(AlttdUtility.getInstance().getDataFolder() + "/logs").list();
 
         for (String logName : logsNames) {
 
-            File log = new File(Main.getInstance().getDataFolder() + "/logs/" + logName);
+            File log = new File(AlttdUtility.getInstance().getDataFolder() + "/logs/" + logName);
 
             if (log.getName().startsWith(new Methods().getDateStringYYYYMMDD())) continue;
 
             try {
                 if (new Methods().compressFile(log.getAbsolutePath(), log.getAbsolutePath().replace("\\logs\\", "\\compressed-logs\\").replace("/logs/", "/compressed-logs/").concat(".gz"))) {
                     if (!log.delete())
-                        Main.getInstance().getLogger().warning("Something failed during deletion of the file " + log.getAbsolutePath());
+                        AlttdUtility.getInstance().getLogger().warning("Something failed during deletion of the file " + log.getAbsolutePath());
                 } else {
-                    Main.getInstance().getLogger().warning("Something failed during file compression of the file " + log.getAbsolutePath());
+                    AlttdUtility.getInstance().getLogger().warning("Something failed during file compression of the file " + log.getAbsolutePath());
                 }
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
@@ -109,15 +109,15 @@ public class Logging {
 
     static void CheckAndDeleteOld() {
 
-        for (String fileName : new File(Main.getInstance().getDataFolder() + "/compressed-logs").list()) {
+        for (String fileName : new File(AlttdUtility.getInstance().getDataFolder() + "/compressed-logs").list()) {
 
             try {
 
-                File file = new File(Main.getInstance().getDataFolder() + "/compressed-logs/" + fileName);
+                File file = new File(AlttdUtility.getInstance().getDataFolder() + "/compressed-logs/" + fileName);
 
                 String fileNameWithoutDate = file.getName().substring(11, file.getName().indexOf(".txt.gz"));
 
-                Integer numberOfLogsToKeepFromConfig = Main.getInstance().getConfig().getInt(Logging.logNamesAndConfigPaths.get(fileNameWithoutDate) + ".NumberOfLogsToKeep");
+                Integer numberOfLogsToKeepFromConfig = AlttdUtility.getInstance().getConfig().getInt(Logging.logNamesAndConfigPaths.get(fileNameWithoutDate) + ".NumberOfLogsToKeep");
 
                 if (numberOfLogsToKeepFromConfig == 0) throw new Throwable();
 
@@ -132,13 +132,13 @@ public class Logging {
                 if (epochDayOfFileCreation + numberOfLogsToKeepFromConfig < epochDayRightNow) {
 
                     if (file.delete())
-                        Main.getInstance().getLogger().info(file.getName() + " deleted.");
+                        AlttdUtility.getInstance().getLogger().info(file.getName() + " deleted.");
                     else
-                        Main.getInstance().getLogger().warning("Something failed during deletion of file " + file.getAbsolutePath());
+                        AlttdUtility.getInstance().getLogger().warning("Something failed during deletion of file " + file.getAbsolutePath());
                 }
 
             } catch (Throwable throwable) {
-                Main.getInstance().getLogger().warning(fileName + " has an invalid name. Please set it to yyyy-mm-dd format if you want the plugin to keep track of it and delete it after the specified time.");
+                AlttdUtility.getInstance().getLogger().warning(fileName + " has an invalid name. Please set it to yyyy-mm-dd format if you want the plugin to keep track of it and delete it after the specified time.");
             }
 
         }
@@ -214,7 +214,7 @@ public class Logging {
 
                     String logPath = "/logs/" + new Methods().getDateStringYYYYMMDD() + "-" + logName + ".txt";
 
-                    FileWriter writer = new FileWriter(Main.getInstance().getDataFolder() + logPath, true);
+                    FileWriter writer = new FileWriter(AlttdUtility.getInstance().getDataFolder() + logPath, true);
                     writer.write(messageCopy);
                     writer.close();
 
@@ -222,7 +222,7 @@ public class Logging {
                     throwable.printStackTrace();
                 }
             }
-        }.runTaskAsynchronously(Main.getInstance());
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
 
     }
 
@@ -358,7 +358,7 @@ public class Logging {
 
         List<String> logNames = new ArrayList<>();
 
-        for (String s : Main.getInstance().getConfig().getStringList("AdditionalLogs")) {
+        for (String s : AlttdUtility.getInstance().getConfig().getStringList("AdditionalLogs")) {
 
             s = s.substring(s.indexOf("Name:") + 5);
             s = s.substring(0, s.indexOf(" "));

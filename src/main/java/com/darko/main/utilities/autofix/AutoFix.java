@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.darko.main.Main;
+import com.darko.main.AlttdUtility;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -23,7 +23,7 @@ public class AutoFix implements CommandExecutor, Listener {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.AutofixCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.AutofixCommand")) return true;
 
         if (!(sender instanceof Player)) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
@@ -70,7 +70,7 @@ public class AutoFix implements CommandExecutor, Listener {
                     throwable.printStackTrace();
                 }
             }
-        }.runTaskAsynchronously(Main.getInstance());
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
 
         return true;
 
@@ -80,7 +80,7 @@ public class AutoFix implements CommandExecutor, Listener {
     public void onDurabilityUse(PlayerItemDamageEvent event) {
 
         if (event.isCancelled()) return;
-        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.AutofixCommand")) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.AutofixCommand")) return;
 
         if (Database.connection == null) return;
 
