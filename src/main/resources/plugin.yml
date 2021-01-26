@@ -4,8 +4,8 @@ description: A group of utilities made for Altitude
 author: Daki
 main: com.darko.main.Main
 api-version: 1.16
-softdepend: [GriefPrevention, LuckPerms, MyPet, CrazyCrates, mcMMO, FarmLimiter, PvPManager, CMI, Vault]
 loadbefore: [WorldGuard]
+softdepend: [CMI]
 commands:
   hat:
     permission: utility.hat
