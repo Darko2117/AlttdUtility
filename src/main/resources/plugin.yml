@@ -2,7 +2,7 @@ version: 6.9 hehe
 name: AlttdUtility
 description: A group of utilities made for Altitude
 author: Daki
-main: com.darko.main.Main
+main: com.darko.main.AlttdUtility
 api-version: 1.16
 loadbefore: [WorldGuard]
 softdepend: [CMI]
