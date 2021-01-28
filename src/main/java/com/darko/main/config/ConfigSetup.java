@@ -85,7 +85,9 @@ public class ConfigSetup {
         CantFindPlayer("Messages.CantFindPlayer", "&cCould not find %playerName%&c try again on a server they've played on before."),
         NickRequested("Messages.NickRequested", "&aYour requested to be nicknamed %nick%&a has been received. Staff will accept or deny this request asap!"),
         NickReviewWaiting("Messages.NickReviewWaiting", "&aThere are %amount% nicknames waiting for review!"),
-        NickTaken("Messages.NickTaken", "&cSomeone else already has this nickname, or has this name as their username.");
+        NickTaken("Messages.NickTaken", "&cSomeone else already has this nickname, or has this name as their username."),
+        GodModeEnabled("Messages.GodModeEnabled", "&aGodMode enabled."),
+        GodModeDisabled("Messages.GodModeDisabled", "&cGodMode disabled.");
 
 
         private final String path;
@@ -142,6 +144,7 @@ public class ConfigSetup {
         toggles.add("ProtectTNTArrowDamage");
         toggles.add("FreezeMail");
         toggles.add("Nicknames");
+        toggles.add("GodModeCommand");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {

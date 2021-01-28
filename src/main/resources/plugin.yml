@@ -49,3 +49,5 @@ commands:
     permission: utility.freezemail
   nick:
     permission: utility.nick
+  godmode:
+    permission: utility.godmode

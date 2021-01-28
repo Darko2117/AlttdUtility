@@ -16,6 +16,7 @@ import com.darko.main.utilities.flags.*;
 import com.darko.main.destro.griefprevention.PublicChests;
 import com.darko.main.destro.griefprevention.PublicTraders;
 import com.darko.main.destro.griefprevention.TNTProtection;
+import com.darko.main.utilities.godMode.GodMode;
 import com.darko.main.utilities.lavaSponge.LavaSponge;
 import com.darko.main.utilities.logging.*;
 import com.darko.main.utilities.itemPickup.ItemPickup;
@@ -67,7 +68,8 @@ public class Register extends JavaPlugin {
                 new CommandOnJoin(),
                 new PublicChests(),
                 new PublicTraders(),
-                new TNTProtection()
+                new TNTProtection(),
+                new GodMode()
         );
 
         if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail") && APIs.WorldGuardFound) {
@@ -126,6 +128,7 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("sit").setExecutor(new Sit());
         AlttdUtility.getInstance().getCommand("commandonjoin").setExecutor(new CommandOnJoin());
         AlttdUtility.getInstance().getCommand("ccm").setExecutor(new CustomChatMessage());
+        AlttdUtility.getInstance().getCommand("godmode").setExecutor(new GodMode());
 
         AlttdUtility.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         AlttdUtility.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());
