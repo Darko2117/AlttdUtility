@@ -10,11 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.player.PlayerItemDamageEvent;
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.ResultSet;
@@ -78,28 +75,6 @@ public class GodMode implements CommandExecutor, Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onEntityDamage(EntityDamageEvent event) {
-
-        if(!(event.getEntity() instanceof Player)) return;
-
-        if (event.isCancelled()) return;
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.GodModeCommand")) return;
-
-        if (Database.connection == null) return;
-
-        Player player = (Player) event.getEntity();
-
-        if (Database.godModeEnabledPlayers.contains(player)) {
-
-            if(player.getHealth() - event.getFinalDamage() <= 0){
-                player.setHealth(event.getFinalDamage() + 1);
-            }
-
-        }
-
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
 
         if (event.isCancelled()) return;
@@ -113,6 +88,25 @@ public class GodMode implements CommandExecutor, Listener {
 
             event.setCancelled(true);
             player.setSaturation(20);
+
+        }
+
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPlayerDeath(PlayerDeathEvent event) {
+
+        if (event.isCancelled()) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.GodModeCommand")) return;
+
+        if (Database.connection == null) return;
+
+        Player player = event.getEntity();
+
+        if (Database.godModeEnabledPlayers.contains(player)) {
+
+            event.setCancelled(true);
+            player.setHealth(1);
 
         }
 

@@ -157,7 +157,7 @@ public class LoggingGriefPrevention implements Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onClaimCreated1(ClaimCreatedEvent event) {
 
         if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.numberOfClaimsNotificationLogName) + ".Enabled"))
