@@ -1,4 +1,4 @@
-package com.darko.main.utilities.teri.Nicknames;
+package com.darko.main.teri.Nicknames;
 
 import com.darko.main.AlttdUtility;
 import com.darko.main.database.Database;

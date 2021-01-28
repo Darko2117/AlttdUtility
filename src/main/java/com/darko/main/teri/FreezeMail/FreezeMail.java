@@ -1,4 +1,4 @@
-package com.darko.main.utilities.teri.FreezeMail;
+package com.darko.main.teri.FreezeMail;
 
 import com.darko.main.AlttdUtility;
 import com.darko.main.database.Database;

@@ -1,4 +1,4 @@
-package com.darko.main.utilities.teri.Nicknames;
+package com.darko.main.teri.Nicknames;
 
 import com.darko.main.AlttdUtility;
 import org.bukkit.Bukkit;
@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static com.darko.main.utilities.teri.Nicknames.Nicknames.format;
+import static com.darko.main.teri.Nicknames.Nicknames.format;
 
 public class NicknamesGui implements Listener {
 
