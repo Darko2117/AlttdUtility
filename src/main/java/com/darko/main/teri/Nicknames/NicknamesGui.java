@@ -160,7 +160,8 @@ public class NicknamesGui implements Listener {
                     }
 
                     if (nick == null || !nick.hasRequest()){
-                        p.sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickAlreadyHandled")));
+                        p.sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickAlreadyHandled")
+                                .replace("%targetPlayer%", clickedItem.getItemMeta().getDisplayName())));
                         return;
                     }
 
