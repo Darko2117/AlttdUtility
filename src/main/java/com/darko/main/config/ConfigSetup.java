@@ -55,7 +55,7 @@ public class ConfigSetup {
         CustomChatMessageDoesntExist("Messages.CustomChatMessageDoesntExist", "&cA custom message with that name doesn't exist."),
         CustomChatMessageRemovedMessage("Messages.CustomChatMessageRemovedMessage", "&aMessage removed."),
         CustomChatMessageEdited("Messages.CustomChatMessageEdited", "&aMessage edited."),
-        FreezeMailSuccessfullySend("Messages.FreezeMailSuccessfullySend", "&aSuccessfully send freezemail to %player%!"),
+        FreezeMailSuccessfullySend("Messages.FreezeMailSuccessfullySend", "&aSuccessfully sent freezemail to %player%!"),
         FreezeMailPlayerDoesntExist("Messages.FreezeMailPlayerDoesntExist", "&c%target% Is not a valid player!"),
         FreezeMailSuccessfullyCompleted("Messages.FreezeMailSuccessfullyCompleted", "&aThank you! You are now able to move and talk again!"),
         FreezeMailNotAcceptedYet("Messages.FreezeMailNotAcceptedYet", "You won't be able to move, speak, or send commands until you've acknowledged you've read the following messages and will do as they say. To acknowledge these messages, type &6I read the message &r"),
