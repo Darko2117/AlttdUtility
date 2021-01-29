@@ -7,6 +7,10 @@ import com.darko.main.AlttdUtility;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import net.luckperms.api.LuckPerms;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -214,9 +218,14 @@ public class Nicknames implements CommandExecutor, TabCompleter {
         String notification = Utilities.applyColor(AlttdUtility.getInstance().getConfig().getString("Messages.NickNewRequest")
                 .replace("%player%", player.getName()));
 
+        TextComponent component = new TextComponent(TextComponent.fromLegacyText(Utilities.applyColor(notification)));
+        component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/nick review"));
+        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                new ComponentBuilder(Utilities.applyColor("&6Click this text to review the request!")).create()));
+
         AlttdUtility.getInstance().getServer().getOnlinePlayers().forEach(p ->{
             if (p.hasPermission("utility.nick.review")){
-                p.sendMessage(notification);
+                p.sendMessage(component);
             }
         });
         Nicknames.getInstance().nickCacheUpdate.add(uniqueId);
