@@ -388,6 +388,7 @@ public class ConfigSetup {
             names.add("Muted");
             names.add("Silent");
             names.add("Silence me");
+            names.add("Silenced");
             names.add("Protected");
             names.add("Protect me");
             config.set("NamedMobClaimDamage.Names", names);
