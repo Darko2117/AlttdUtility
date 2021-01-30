@@ -274,6 +274,9 @@ public class Nicknames implements CommandExecutor, TabCompleter {
                 target.getPlayer().sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickReset")));
             }
 
+            NickEvent nickEvent = new NickEvent(sender.getName(), target.getName(), null, NickEvent.NickEventType.RESET);
+            nickEvent.callEvent();
+
         } else if (Utilities.validNick(sender, target, nickName)) {
             if (target.isOnline()) {
                 setNick(target.getPlayer(), nickName);
@@ -282,6 +285,8 @@ public class Nicknames implements CommandExecutor, TabCompleter {
             }
 
             DatabaseQueries.setNicknameInDatabase(target.getUniqueId(), nickName);
+            NickEvent nickEvent = new NickEvent(sender.getName(), target.getName(), nickName, NickEvent.NickEventType.SET);
+            nickEvent.callEvent();
 
             if (NickCache.containsKey(target.getUniqueId())){
                 Nick nick = NickCache.get(target.getUniqueId());

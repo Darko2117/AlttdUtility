@@ -168,6 +168,8 @@ public class NicknamesGui implements Listener {
                     if (e.isLeftClick()){
                         if (owningPlayer.hasPlayedBefore()) {
                             DatabaseQueries.acceptNewNickname(uniqueId, nick.getNewNick());
+                            NickEvent nickEvent = new NickEvent(e.getWhoClicked().getName(), clickedItem.getItemMeta().getDisplayName(), nick.getNewNick(), NickEvent.NickEventType.ACCEPTED);
+                            nickEvent.callEvent();
                             p.sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickAccepted")
                                     .replace("%targetPlayer%", clickedItem.getItemMeta().getDisplayName())
                                     .replace("%newNick%", nick.getNewNick())
@@ -204,6 +206,8 @@ public class NicknamesGui implements Listener {
                     } else if (e.isRightClick()){
                         if (owningPlayer.hasPlayedBefore()) {
                             DatabaseQueries.denyNewNickname(uniqueId);
+                            NickEvent nickEvent = new NickEvent(e.getWhoClicked().getName(), clickedItem.getItemMeta().getDisplayName(), nick.getNewNick(), NickEvent.NickEventType.DENIED);
+                            nickEvent.callEvent();
                             p.sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickDenied")
                                     .replace("%targetPlayer%", owningPlayer.getName())
                                     .replace("%newNick%", nick.getNewNick())
