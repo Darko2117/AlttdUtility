@@ -88,6 +88,7 @@ public class GodMode implements CommandExecutor, Listener {
 
             event.setCancelled(true);
             player.setSaturation(20);
+            player.setFoodLevel(20);
 
         }
 

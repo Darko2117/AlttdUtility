@@ -35,6 +35,7 @@ public class Logging {
     public static String itemsDestroyedLogName = "itemsDestroyed";
     public static String commandsWithLocationLogName = "commandsWithLocation";
     public static String droppedItemsOnDeathLogName = "droppedItemsOnDeath";
+    public static String nicknameLogName = "nicknames";
 
     public static void initiate() {
 
@@ -58,6 +59,7 @@ public class Logging {
         logNamesAndConfigPaths.put(itemsDestroyedLogName, "Logging.ItemsDestroyed");
         logNamesAndConfigPaths.put(commandsWithLocationLogName, "Logging.CommandsWithLocation");
         logNamesAndConfigPaths.put(droppedItemsOnDeathLogName, "Logging.DroppedItemsOnDeath");
+        logNamesAndConfigPaths.put(nicknameLogName, "Logging.Nicknames");
 
         List<String> directories = new ArrayList<>();
         directories.add("logs");
@@ -347,6 +349,14 @@ public class Logging {
             arguments.add("User:");
             arguments.add("Items:");
             arguments.add("Location:");
+
+        } else if (logName.equals("nicknames")) {
+
+            arguments.add("Time:");
+            arguments.add("User:");
+            arguments.add("Nickname:");
+            arguments.add("WhoResponded:");
+            arguments.add("Action:");
 
         }
 

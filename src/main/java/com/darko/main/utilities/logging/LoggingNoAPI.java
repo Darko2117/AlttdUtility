@@ -2,6 +2,7 @@ package com.darko.main.utilities.logging;
 
 import com.darko.main.API.APIs;
 import com.darko.main.AlttdUtility;
+import com.darko.main.teri.Nicknames.NickEvent;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.Material;
@@ -514,6 +515,44 @@ public class LoggingNoAPI implements Listener {
         message = message.concat("|");
 
         Logging.WriteToFile(Logging.droppedItemsOnDeathLogName, message);
+
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public static void onNickEvent(NickEvent event) {
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.nicknameLogName) + ".Enabled"))
+            return;
+
+        String time = new Date(System.currentTimeMillis()).toString();
+
+        String user = event.getTargetName();
+
+        String nickname = event.getNickName();
+
+        String whoResponded = event.getSenderName();
+
+        String action = event.getNickEventType().toString();
+
+        String message = "";
+        message = message.concat("|");
+        message = message.concat("Time:");
+        message = message.concat(time);
+        message = message.concat("|");
+        message = message.concat("User:");
+        message = message.concat(user);
+        message = message.concat("|");
+        message = message.concat("Nickname:");
+        message = message.concat(nickname);
+        message = message.concat("|");
+        message = message.concat("WhoResponded:");
+        message = message.concat(whoResponded);
+        message = message.concat("|");
+        message = message.concat("Action:");
+        message = message.concat(action);
+        message = message.concat("|");
+
+        Logging.WriteToFile(Logging.nicknameLogName, message);
 
     }
 

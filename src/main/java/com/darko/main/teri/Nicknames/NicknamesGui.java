@@ -44,12 +44,12 @@ public class NicknamesGui implements Listener {
                 inv.clear();
                 Utilities.updateCache();
                 boolean hasNextPage = false;
-                int i = (currentPage-1)*27; //TODO set to 1 or 2 to test
-                int limit = i/27;
+                int i = (currentPage - 1) * 27; //TODO set to 1 or 2 to test
+                int limit = i / 27;
 
-                for (Nick nick : Nicknames.getInstance().NickCache.values()){
-                    if (nick.hasRequest()){
-                        if (limit >= i/27) {
+                for (Nick nick : Nicknames.getInstance().NickCache.values()) {
+                    if (nick.hasRequest()) {
+                        if (limit >= i / 27) {
                             inv.setItem(i % 27, createPlayerSkull(nick, AlttdUtility.getInstance().getConfig().getStringList("Nicknames.Lore")));
                             i++;
                         } else {
@@ -59,7 +59,7 @@ public class NicknamesGui implements Listener {
                     }
                 }
 
-                if (currentPage != 1){
+                if (currentPage != 1) {
                     inv.setItem(28, createGuiItem(Material.PAPER, "§bPrevious page",
                             "§aCurrent page: %page%".replace("%page%", String.valueOf(currentPage)),
                             "§aPrevious page: %previousPage%".replace("%previousPage%", String.valueOf(currentPage - 1))));
@@ -74,7 +74,7 @@ public class NicknamesGui implements Listener {
         }.runTaskAsynchronously(AlttdUtility.getInstance());
     }
 
-    private ItemStack createPlayerSkull(Nick nick, List<String> lore){
+    private ItemStack createPlayerSkull(Nick nick, List<String> lore) {
         ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) playerHead.getItemMeta();
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(nick.getUuid());
@@ -82,7 +82,7 @@ public class NicknamesGui implements Listener {
         meta.setOwningPlayer(offlinePlayer);
         meta.setDisplayName(offlinePlayer.getName());
 
-        for (int ii = 0; ii < lore.size(); ii++){
+        for (int ii = 0; ii < lore.size(); ii++) {
             lore.set(ii, format(lore.get(ii)
                     .replace("%newNick%", nick.getNewNick())
                     .replace("%oldNick%", nick.getCurrentNick() == null ? "None" : nick.getCurrentNick())
@@ -130,18 +130,18 @@ public class NicknamesGui implements Listener {
 
         final Player p = (Player) e.getWhoClicked();
 
-        if (clickedItem.getType().equals(Material.PAPER)){
-            if (clickedItem.getItemMeta().getDisplayName().equals("Next Page")){
+        if (clickedItem.getType().equals(Material.PAPER)) {
+            if (clickedItem.getItemMeta().getDisplayName().equals("Next Page")) {
                 setItems(currentPage + 1);
             }
-        } else if (clickedItem.getType().equals(Material.PLAYER_HEAD)){
+        } else if (clickedItem.getType().equals(Material.PLAYER_HEAD)) {
             SkullMeta meta = (SkullMeta) clickedItem.getItemMeta();
-            if (meta.hasEnchants()){
+            if (meta.hasEnchants()) {
                 return;
             }
             OfflinePlayer owningPlayer = meta.getOwningPlayer();
 
-            if (owningPlayer == null){
+            if (owningPlayer == null) {
                 p.sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickUserNotFound")));
                 return;
             }
@@ -153,29 +153,38 @@ public class NicknamesGui implements Listener {
 
                     Nick nick;
                     UUID uniqueId = owningPlayer.getUniqueId();
-                    if (Nicknames.getInstance().NickCache.containsKey(uniqueId)){
+                    if (Nicknames.getInstance().NickCache.containsKey(uniqueId)) {
                         nick = Nicknames.getInstance().NickCache.get(uniqueId);
                     } else {
                         nick = DatabaseQueries.getNick(uniqueId);
                     }
 
-                    if (nick == null || !nick.hasRequest()){
+                    if (nick == null || !nick.hasRequest()) {
                         p.sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickAlreadyHandled")
                                 .replace("%targetPlayer%", clickedItem.getItemMeta().getDisplayName())));
                         return;
                     }
 
-                    if (e.isLeftClick()){
+                    if (e.isLeftClick()) {
                         if (owningPlayer.hasPlayedBefore()) {
                             DatabaseQueries.acceptNewNickname(uniqueId, nick.getNewNick());
-                            NickEvent nickEvent = new NickEvent(e.getWhoClicked().getName(), clickedItem.getItemMeta().getDisplayName(), nick.getNewNick(), NickEvent.NickEventType.ACCEPTED);
-                            nickEvent.callEvent();
+
+                            String newNick = nick.getNewNick();
+
+                            new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    NickEvent nickEvent = new NickEvent(e.getWhoClicked().getName(), clickedItem.getItemMeta().getDisplayName(), newNick, NickEvent.NickEventType.ACCEPTED);
+                                    nickEvent.callEvent();
+                                }
+                            }.runTask(AlttdUtility.getInstance());
+
                             p.sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickAccepted")
                                     .replace("%targetPlayer%", clickedItem.getItemMeta().getDisplayName())
                                     .replace("%newNick%", nick.getNewNick())
                                     .replace("%oldNick%", nick.getCurrentNick() == null ? clickedItem.getItemMeta().getDisplayName() : nick.getCurrentNick())));
 
-                            if (owningPlayer.isOnline()){
+                            if (owningPlayer.isOnline()) {
                                 Nicknames.getInstance().setNick(owningPlayer.getPlayer(), nick.getNewNick());
                                 owningPlayer.getPlayer().sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickChanged")
                                         .replace("%nickname%", nick.getNewNick())));
@@ -203,18 +212,27 @@ public class NicknamesGui implements Listener {
                                     .replace("%playerName%", clickedItem.getItemMeta().getDisplayName())));
                         }
 
-                    } else if (e.isRightClick()){
+                    } else if (e.isRightClick()) {
                         if (owningPlayer.hasPlayedBefore()) {
                             DatabaseQueries.denyNewNickname(uniqueId);
-                            NickEvent nickEvent = new NickEvent(e.getWhoClicked().getName(), clickedItem.getItemMeta().getDisplayName(), nick.getNewNick(), NickEvent.NickEventType.DENIED);
-                            nickEvent.callEvent();
+
+                            String newNick = nick.getNewNick();
+
+                            new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    NickEvent nickEvent = new NickEvent(e.getWhoClicked().getName(), clickedItem.getItemMeta().getDisplayName(), newNick, NickEvent.NickEventType.DENIED);
+                                    nickEvent.callEvent();
+                                }
+                            }.runTask(AlttdUtility.getInstance());
+
                             p.sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickDenied")
                                     .replace("%targetPlayer%", owningPlayer.getName())
                                     .replace("%newNick%", nick.getNewNick())
                                     .replace("%oldNick%", nick.getCurrentNick() == null ? owningPlayer.getName() : nick.getCurrentNick())));
 
                             if (Nicknames.getInstance().NickCache.containsKey(uniqueId)
-                                    && Nicknames.getInstance().NickCache.get(uniqueId).getCurrentNick() != null){
+                                    && Nicknames.getInstance().NickCache.get(uniqueId).getCurrentNick() != null) {
                                 nick.setNewNick(null);
                                 nick.setRequestedDate(0);
                                 Nicknames.getInstance().NickCache.put(uniqueId, nick);

@@ -5,10 +5,10 @@ import org.bukkit.event.HandlerList;
 
 public class NickEvent extends Event{
 
-    private String senderName;
-    private String targetName;
-    private String nickName;
-    private NickEventType nickEventType;
+    String senderName;
+    String targetName;
+    String nickName;
+    NickEventType nickEventType;
 
     public NickEvent(String senderName, String targetName, String nickName, NickEventType nickEventType) {
         this.senderName = senderName;
@@ -18,24 +18,30 @@ public class NickEvent extends Event{
     }
 
     public String getSenderName() {
-        return senderName;
+        return this.senderName;
     }
 
     public String getTargetName() {
-        return targetName;
+        return this.targetName;
     }
 
     public String getNickName() {
-        return nickName;
+        return this.nickName;
     }
 
     public NickEventType getNickEventType() {
-        return nickEventType;
+        return this.nickEventType;
+    }
+
+    private static final HandlerList HANDLERS = new HandlerList();
+
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
     }
 
     @Override
     public HandlerList getHandlers() {
-        return null;
+        return HANDLERS;
     }
 
     public enum NickEventType {
@@ -44,4 +50,5 @@ public class NickEvent extends Event{
         SET,
         RESET
     }
+
 }
