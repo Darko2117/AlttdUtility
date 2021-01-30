@@ -24,12 +24,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+import java.util.Date;
 
 public class Nicknames implements CommandExecutor, TabCompleter {
 
     static Nicknames instance;
-    HashMap <UUID, Nick> NickCache;
+    HashMap<UUID, Nick> NickCache;
     ArrayList<UUID> nickCacheUpdate;
 
     public Nicknames() {
