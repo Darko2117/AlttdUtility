@@ -29,6 +29,9 @@ public class FreezeMailPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoin (PlayerJoinEvent event) {
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")) return;
+
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -55,6 +58,9 @@ public class FreezeMailPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerMove (PlayerMoveEvent event){
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")) return;
+
         if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")
                 && (event.getFrom().getX() != event.getTo().getX()
                 || event.getFrom().getY() != event.getTo().getY()
@@ -65,6 +71,9 @@ public class FreezeMailPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPlaceEvent(BlockPlaceEvent event){
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")) return;
+
         if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")){
             event.setCancelled(true);
             resendMessage(event.getPlayer());
@@ -73,6 +82,9 @@ public class FreezeMailPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBreakEvent(BlockBreakEvent event){
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")) return;
+
         if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")){
             event.setCancelled(true);
             resendMessage(event.getPlayer());
@@ -81,6 +93,9 @@ public class FreezeMailPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamageEntityEvent(DamageEntityEvent event){
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")) return;
+
         if (event.getCause().getFirstPlayer() != null && !event.getCause().getFirstPlayer().isOp() && event.getCause().getFirstPlayer().hasPermission("utility.dontfuckingmove")){
             event.setCancelled(true);
             resendMessage(event.getCause().getFirstPlayer());
@@ -89,6 +104,9 @@ public class FreezeMailPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event){
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")) return;
+
         if (event.getEntity() instanceof Player){
             Player player = (Player) event.getEntity();
             if (!player.isOp() && player.hasPermission("utility.dontfuckingmove")) {
@@ -99,6 +117,9 @@ public class FreezeMailPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityAirChangeEvent (EntityAirChangeEvent event){
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")) return;
+
         if (event.getEntity() instanceof Player){
             Player player = (Player) event.getEntity();
             if (!player.isOp() && player.hasPermission("utility.dontfuckingmove")) {
@@ -109,6 +130,9 @@ public class FreezeMailPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerCommand (PlayerCommandPreprocessEvent event){
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")) return;
+
         if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")){
             event.setCancelled(true);
             resendMessage(event.getPlayer());
@@ -117,6 +141,9 @@ public class FreezeMailPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerChatEvent (AsyncPlayerChatEvent event){
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")) return;
+
         if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")){
             event.setCancelled(true);
 

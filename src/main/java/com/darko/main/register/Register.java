@@ -72,9 +72,6 @@ public class Register extends JavaPlugin {
                 new GodMode()
         );
 
-        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail") && APIs.WorldGuardFound) {
-            registerEvents(new FreezeMailPlayerListener());
-        }
         if (APIs.MyPetFound) {
             registerEvents(
                     new PetPickupListener(),
@@ -82,7 +79,9 @@ public class Register extends JavaPlugin {
             );
         }
         if (APIs.CrazyCratesFound) {
-            registerEvents(new LoggingCrazyCrates());
+            registerEvents(
+                    new LoggingCrazyCrates()
+            );
         }
         if (APIs.GriefPreventionFound) {
             registerEvents(
@@ -91,19 +90,27 @@ public class Register extends JavaPlugin {
             );
         }
         if (APIs.WorldGuardFound) {
-            registerEvents(new Flags());
+            registerEvents(
+                    new Flags(),
+                    new FreezeMailPlayerListener()
+            );
         }
-        if(APIs.FarmLimiterFound){
-            registerEvents(new LoggingFarmLimiter());
+        if (APIs.FarmLimiterFound) {
+            registerEvents(
+                    new LoggingFarmLimiter()
+            );
         }
-        if(APIs.PvPManagerFound) {
-            registerEvents(new PvPFishing());
+        if (APIs.PvPManagerFound) {
+            registerEvents(
+                    new PvPFishing()
+            );
         }
-        if(APIs.CMIFound && AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")){
+        if (APIs.CMIFound) {
             NicknamesEvents nicknamesEvents = new NicknamesEvents();
-            registerEvents(nicknamesEvents);
-//            Main.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(Main.getInstance(), "BungeeCord"); //des already registers this
             AlttdUtility.getInstance().getServer().getMessenger().registerIncomingPluginChannel(AlttdUtility.getInstance(), "BungeeCord", nicknamesEvents);
+            registerEvents(
+                    nicknamesEvents
+            );
         }
 
     }
@@ -132,14 +139,13 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("commandonjoin").setExecutor(new CommandOnJoin());
         AlttdUtility.getInstance().getCommand("ccm").setExecutor(new CustomChatMessage());
         AlttdUtility.getInstance().getCommand("godmode").setExecutor(new GodMode());
+        AlttdUtility.getInstance().getCommand("freezemail").setExecutor(new FreezeMail());
 
         AlttdUtility.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         AlttdUtility.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());
         AlttdUtility.getInstance().getCommand("rebootwhitelist").setTabCompleter(new RebootWhitelist());
         AlttdUtility.getInstance().getCommand("commandonjoin").setTabCompleter(new CommandOnJoin());
         AlttdUtility.getInstance().getCommand("ccm").setTabCompleter(new CustomChatMessage());
-
-        AlttdUtility.getInstance().getCommand("freezemail").setExecutor(new FreezeMail());//This does not need to be disabled since it's just to send the mail which can be done from anywhere
 
         AlttdUtility.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(AlttdUtility.getInstance(), "BungeeCord");
 
@@ -158,7 +164,7 @@ public class Register extends JavaPlugin {
             Flags.FlagsEnable();
         }
 
-        if(APIs.CMIFound && AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")){
+        if (APIs.CMIFound) {
             AlttdUtility.getInstance().getCommand("nick").setExecutor(new Nicknames());
         }
 

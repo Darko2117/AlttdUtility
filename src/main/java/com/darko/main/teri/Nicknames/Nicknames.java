@@ -43,6 +43,9 @@ public class Nicknames implements CommandExecutor, TabCompleter {
     }
 
     public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")) return true;
+
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 0) {
@@ -118,6 +121,9 @@ public class Nicknames implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")) return null;
+
         List<String> completions = new ArrayList<>();
         if (!sender.hasPermission("utility.nick")) return completions;
 

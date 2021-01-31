@@ -30,21 +30,13 @@ public class APIs extends JavaPlugin {
     public static void APIConnect() {
 
         GriefPreventionFound = GriefPreventionApiCheck() != null;
-
         WorldGuardFound = WorldGuardApiCheck() != null;
-
         LuckPermsFound = LuckPermsApiCheck() != null;
-
         MyPetFound = MyPetApiCheck() != null;
-
         CrazyCratesFound = CrazyCratesApiCheck() != null;
-
         mcMMOFound = mcMMOApiCheck() != null;
-
         FarmLimiterFound = FarmLimiterApiCheck() != null;
-
         PvPManagerFound = PvPManagerAPICheck() != null;
-
         CMIFound = CMIApiCheck() != null;
 
         if (GriefPreventionFound)

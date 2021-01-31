@@ -22,13 +22,15 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (args.length == 0){
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")) return true;
+
+        if (args.length == 0) {
             sendHelpMessage(sender, HelpType.ALL);
             return true;
         }
 
         OfflinePlayer offlinePlayer;
-        switch (args[0].toLowerCase()){
+        switch (args[0].toLowerCase()) {
             case "list":
                 new BukkitRunnable() {
                     @Override
@@ -38,12 +40,12 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
                 }.runTaskAsynchronously(AlttdUtility.getInstance());
                 break;
             case "send":
-                if (sender.hasPermission("utility.freezemail.send")){
-                    if (args.length >= 3){
+                if (sender.hasPermission("utility.freezemail.send")) {
+                    if (args.length >= 3) {
                         offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
-                        if (exists(offlinePlayer, sender, args[1])){
+                        if (exists(offlinePlayer, sender, args[1])) {
                             String message = StringUtils.join(args, " ").substring(args[0].length() + args[1].length() + 2);
-                            new BukkitRunnable(){
+                            new BukkitRunnable() {
                                 @Override
                                 public void run() {
                                     storeMessage(offlinePlayer, message, sender);
@@ -64,10 +66,11 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
     }
 
     private void handleList(CommandSender sender, String[] args) {
-        if (sender.hasPermission("utility.freezemail.list")){
-            if (args.length > 1){
-                if (args[1].equalsIgnoreCase("all")){
-                    if (!(sender instanceof Player)){
+
+        if (sender.hasPermission("utility.freezemail.list")) {
+            if (args.length > 1) {
+                if (args[1].equalsIgnoreCase("all")) {
+                    if (!(sender instanceof Player)) {
                         sender.sendMessage("&cThis command can only be executed as a player.");
                         return;
                     }
@@ -79,15 +82,14 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
 
                     sendPlayersFreezeMail(sender, messagesForPlayerRead, messagesForPlayerUnread, sender.getName());
                 } else if (args[1].equalsIgnoreCase("unread")) {
-                    if (sender.hasPermission("utility.freezemail.list.unread")){
+                    if (sender.hasPermission("utility.freezemail.list.unread")) {
                         HashMap<String, ArrayList<String>> allUnreadMessages = getAllUnreadMessages();
 
                         sendAllUnreadFreezeMail(sender, allUnreadMessages);
                     } else {
                         noPermission(sender);
                     }
-                }
-                else if (sender.hasPermission("utility.freezemail.list.other")) {
+                } else if (sender.hasPermission("utility.freezemail.list.other")) {
 
                     OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
 
@@ -127,7 +129,7 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
         }
     }
 
-    private void sendAllUnreadFreezeMail(CommandSender sender, HashMap<String, ArrayList<String>> allUnreadMessages){
+    private void sendAllUnreadFreezeMail(CommandSender sender, HashMap<String, ArrayList<String>> allUnreadMessages) {
         String message = AlttdUtility.getInstance().getConfig().getString("Messages.FreezeMailListAllUnread") +
                 buildMessageFromMails(allUnreadMessages);
 
@@ -138,12 +140,12 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
         String message = AlttdUtility.getInstance().getConfig().getString("Messages.FreezeMailListRead") +
                 buildMessageFromMails(messagesForPlayerRead);
 
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&' , message)
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message)
                 .replace("%player%", playerName));
     }
 
     private void sendPlayersFreezeMail(CommandSender sender, ArrayList<String> messagesForPlayerRead, ArrayList<String> messagesForPlayerUnread, String playerName) {
-        if (messagesForPlayerRead.isEmpty() && messagesForPlayerUnread.isEmpty()){
+        if (messagesForPlayerRead.isEmpty() && messagesForPlayerUnread.isEmpty()) {
             sender.sendMessage("&cNo mails found for " + playerName + ".");
             return;
         }
@@ -160,11 +162,11 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
             message.append(buildMessageFromMails(messagesForPlayerUnread));
         }
 
-        String finalMessage = ChatColor.translateAlternateColorCodes('&' , message.toString());
+        String finalMessage = ChatColor.translateAlternateColorCodes('&', message.toString());
         sender.sendMessage(finalMessage.replace("%player%", playerName));
     }
 
-    private String buildMessageFromMails(ArrayList<String> messages){
+    private String buildMessageFromMails(ArrayList<String> messages) {
         StringBuilder stringBuilder = new StringBuilder();
         int i = 1;
         for (String s : messages) {
@@ -174,10 +176,10 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
         return stringBuilder.toString();
     }
 
-    private String buildMessageFromMails(HashMap<String, ArrayList<String>> messages){
+    private String buildMessageFromMails(HashMap<String, ArrayList<String>> messages) {
         StringBuilder stringBuilder = new StringBuilder();
         int i = 1;
-        for (String username : messages.keySet()){
+        for (String username : messages.keySet()) {
             for (String s : messages.get(username)) {
                 stringBuilder.append("\n&6").append(i).append(" &d(").append(username).append(")&6:&7 ").append(s);
                 i++;
@@ -186,7 +188,7 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
         return stringBuilder.toString();
     }
 
-    private HashMap<String, ArrayList<String>> getAllUnreadMessages(){
+    private HashMap<String, ArrayList<String>> getAllUnreadMessages() {
         HashMap<String, ArrayList<String>> messages = new HashMap<>();
         HashMap<String, String> users = new HashMap<>();
 
@@ -196,9 +198,9 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
             PreparedStatement preparedStatement = Database.connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 String uuid = resultSet.getString("UUID");
-                if (users.containsKey(uuid)){
+                if (users.containsKey(uuid)) {
                     ArrayList<String> strings = messages.get(users.get(uuid));
                     strings.add(resultSet.getString("Message"));
                 } else {
@@ -229,7 +231,7 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 messages.add(resultSet.getString("Message"));
             }
 
@@ -240,7 +242,7 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
         return messages;
     }
 
-    private void storeMessage(OfflinePlayer player, String message, CommandSender sender){
+    private void storeMessage(OfflinePlayer player, String message, CommandSender sender) {
 
         String query = "INSERT INTO freeze_message (UUID, Message, IsRead) VALUES (?, ?, ?)";
 
@@ -261,7 +263,7 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
     }
 
     private boolean exists(OfflinePlayer offlinePlayer, CommandSender sender, String targetName) {
-        if (offlinePlayer.hasPlayedBefore()){
+        if (offlinePlayer.hasPlayedBefore()) {
             return true;
         } else {
             String messageToSend = ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.FreezeMailPlayerDoesntExist"));
@@ -277,14 +279,14 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
     private void sendHelpMessage(CommandSender sender, HelpType type) {
         String message =
                 "&f--- &bFreezemail Help &f---\n"
-                + getHelpMessage(sender, type) +
-                "&f---------------------------";
+                        + getHelpMessage(sender, type) +
+                        "&f---------------------------";
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
     private String getHelpMessage(CommandSender sender, HelpType type) {
         StringBuilder message = new StringBuilder();
-        switch (type){
+        switch (type) {
             case ALL:
                 message.append(getHelpMessage(sender, HelpType.LIST));
                 message.append(getHelpMessage(sender, HelpType.LIST_OTHERS));
@@ -292,24 +294,24 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
                 message.append(getHelpMessage(sender, HelpType.SEND));
                 break;
             case LIST:
-                if (sender.hasPermission("utility.freezemail.list")){
+                if (sender.hasPermission("utility.freezemail.list")) {
                     message.append("&6/freezemail list&f - Shows all your unread freezemails.\n" +
                             "&6/freezemail list all&f - Shows both your read and unread freezemails.\n");
                 }
                 break;
             case LIST_OTHERS:
-                if (sender.hasPermission("utility.freezemail.list.other")){
+                if (sender.hasPermission("utility.freezemail.list.other")) {
                     message.append("&6/freezemail list <username>&f - Shows all unread freezemails for the specified user.\n" +
                             "&6/freezemail list <username> all&f - Shows both read and unread freezemails for the specified user.\n");
                 }
                 break;
             case LIST_UNREAD:
-                if (sender.hasPermission("utility.freezemail.list.unread")){
+                if (sender.hasPermission("utility.freezemail.list.unread")) {
                     message.append("&6/freezemail list unread&f - Shows all unread freezemails for all users.\n");
                 }
                 break;
             case SEND:
-                if (sender.hasPermission("utility.freezemail.send")){
+                if (sender.hasPermission("utility.freezemail.send")) {
                     message.append("&6/freezemail send <username>&f - Sends a freezemail to the specified user. " +
                             "Keep in mind freezemails are only to be send to players who need to take immediate action, not just for letting them know something.\n");
                 }
@@ -320,7 +322,10 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if (args.length == 1){
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")) return null;
+
+        if (args.length == 1) {
             List<String> choices = new ArrayList<>();
             if (sender.hasPermission("utility.freezemail.send")) {
                 choices.add("send");
@@ -337,11 +342,11 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
             }
 
             return completions;
-        } else if (args.length == 2){
-            if (args[0].equalsIgnoreCase("list")){
+        } else if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("list")) {
                 List<String> choices = new ArrayList<>();
                 List<String> onlinePlayers = new ArrayList<>();
-                Bukkit.getOnlinePlayers().forEach( a -> onlinePlayers.add(a.getName()));
+                Bukkit.getOnlinePlayers().forEach(a -> onlinePlayers.add(a.getName()));
 
                 if (sender.hasPermission("utility.freezemail.list.unread")) {
                     choices.add("unread");
@@ -359,8 +364,8 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
 
                 return completions;
             }
-        } else if (args.length == 3){
-            if (args[0].equalsIgnoreCase("list") && !args[1].equalsIgnoreCase("unread")){
+        } else if (args.length == 3) {
+            if (args[0].equalsIgnoreCase("list") && !args[1].equalsIgnoreCase("unread")) {
                 List<String> choices = new ArrayList<>();
                 if (sender.hasPermission("utility.freezemail.list.other")) {
                     choices.add("all");

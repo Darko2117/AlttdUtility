@@ -26,6 +26,8 @@ public class NicknamesEvents implements Listener, PluginMessageListener
     @EventHandler
     public void onPlayerJoin(final PlayerJoinEvent e){
 
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")) return;
+
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -59,6 +61,9 @@ public class NicknamesEvents implements Listener, PluginMessageListener
 
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")) return;
+
         if(!channel.equals("BungeeCord")) {
             return;
         }
