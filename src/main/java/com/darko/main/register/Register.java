@@ -76,7 +76,10 @@ public class Register extends JavaPlugin {
             registerEvents(new FreezeMailPlayerListener());
         }
         if (APIs.MyPetFound) {
-            registerEvents(new PetPickupListener());
+            registerEvents(
+                    new PetPickupListener(),
+                    new LoggingMyPet()
+            );
         }
         if (APIs.CrazyCratesFound) {
             registerEvents(new LoggingCrazyCrates());

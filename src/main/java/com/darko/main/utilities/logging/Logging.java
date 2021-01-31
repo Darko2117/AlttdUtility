@@ -36,6 +36,7 @@ public class Logging {
     public static String commandsWithLocationLogName = "commandsWithLocation";
     public static String droppedItemsOnDeathLogName = "droppedItemsOnDeath";
     public static String nicknameLogName = "nicknames";
+    public static String petItemPickupLogName = "petItemPickup";
 
     public static void initiate() {
 
@@ -60,6 +61,7 @@ public class Logging {
         logNamesAndConfigPaths.put(commandsWithLocationLogName, "Logging.CommandsWithLocation");
         logNamesAndConfigPaths.put(droppedItemsOnDeathLogName, "Logging.DroppedItemsOnDeath");
         logNamesAndConfigPaths.put(nicknameLogName, "Logging.Nicknames");
+        logNamesAndConfigPaths.put(petItemPickupLogName, "Logging.PetItemPickup");
 
         List<String> directories = new ArrayList<>();
         directories.add("logs");
@@ -357,6 +359,14 @@ public class Logging {
             arguments.add("Nickname:");
             arguments.add("WhoResponded:");
             arguments.add("Action:");
+
+        } else if (logName.equals("petItemPickup")) {
+
+            arguments.add("Time:");
+            arguments.add("Pet:");
+            arguments.add("Owner:");
+            arguments.add("Item:");
+            arguments.add("Location:");
 
         }
 
