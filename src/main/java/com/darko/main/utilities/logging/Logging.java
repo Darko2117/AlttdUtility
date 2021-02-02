@@ -123,6 +123,8 @@ public class Logging {
 
                 Integer numberOfLogsToKeepFromConfig = AlttdUtility.getInstance().getConfig().getInt(Logging.logNamesAndConfigPaths.get(fileNameWithoutDate) + ".NumberOfLogsToKeep");
 
+                if (numberOfLogsToKeepFromConfig == -1) numberOfLogsToKeepFromConfig = 999999999;
+
                 if (numberOfLogsToKeepFromConfig == 0) throw new Throwable();
 
                 Integer day = new Methods().getDateValuesFromStringYYYYMMDD(fileName.substring(0, 10))[0];

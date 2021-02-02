@@ -1,6 +1,7 @@
 package com.darko.main.destro.petpickup;
 
 import com.darko.main.AlttdUtility;
+import de.Keyle.MyPet.api.entity.MyPet;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,15 +20,17 @@ public class PetPickupListener implements Listener {
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockPetPickupInClaimWithoutContainerTrust"))
             return;
 
-        if (event.isCancelled())
-            return;
-        Player player = event.getPet().getOwner().getPlayer();
-        Claim claim = GriefPrevention.instance.dataStore.getClaimAt(player.getLocation(), true, null);
-        if (claim != null) {
-            if (claim.allowContainers(player) != null) {
-                event.setCancelled(true);
-            }
+        MyPet pet = event.getPet();
+        Player player = pet.getOwner().getPlayer();
+
+        Claim claim = GriefPrevention.instance.dataStore.getClaimAt(pet.getLocation().get(), true, null);
+
+        if (claim != null && claim.allowContainers(player) != null) {
+
+            event.setCancelled(true);
+
         }
+
     }
 
 }
