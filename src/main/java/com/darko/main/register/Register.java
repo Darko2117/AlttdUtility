@@ -91,9 +91,12 @@ public class Register extends JavaPlugin {
         }
         if (APIs.WorldGuardFound) {
             registerEvents(
-                    new Flags(),
-                    new FreezeMailPlayerListener()
+                    new Flags()
             );
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")){
+                registerEvents(new FreezeMailPlayerListener());
+            }
         }
         if (APIs.FarmLimiterFound) {
             registerEvents(
@@ -105,7 +108,7 @@ public class Register extends JavaPlugin {
                     new PvPFishing()
             );
         }
-        if (APIs.CMIFound) {
+        if (APIs.CMIFound  && AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")) {
             NicknamesEvents nicknamesEvents = new NicknamesEvents();
             AlttdUtility.getInstance().getServer().getMessenger().registerIncomingPluginChannel(AlttdUtility.getInstance(), "BungeeCord", nicknamesEvents);
             registerEvents(
@@ -139,7 +142,10 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("commandonjoin").setExecutor(new CommandOnJoin());
         AlttdUtility.getInstance().getCommand("ccm").setExecutor(new CustomChatMessage());
         AlttdUtility.getInstance().getCommand("godmode").setExecutor(new GodMode());
-        AlttdUtility.getInstance().getCommand("freezemail").setExecutor(new FreezeMail());
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")){
+            AlttdUtility.getInstance().getCommand("freezemail").setExecutor(new FreezeMail());
+        }
 
         AlttdUtility.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         AlttdUtility.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());
@@ -164,7 +170,7 @@ public class Register extends JavaPlugin {
             Flags.FlagsEnable();
         }
 
-        if (APIs.CMIFound) {
+        if (APIs.CMIFound && AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")) {
             AlttdUtility.getInstance().getCommand("nick").setExecutor(new Nicknames());
         }
 

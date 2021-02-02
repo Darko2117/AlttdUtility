@@ -22,8 +22,6 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")) return true;
-
         if (args.length == 0) {
             sendHelpMessage(sender, HelpType.ALL);
             return true;
@@ -322,8 +320,6 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")) return null;
 
         if (args.length == 1) {
             List<String> choices = new ArrayList<>();
