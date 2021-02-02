@@ -51,7 +51,6 @@ public class Nick {
     public void setCurrentNick(String currentNick) {
         this.currentNick = currentNick;
         currentNickNoColor = currentNick == null ? null : Utilities.removeAllColors(currentNick);
-        hasRequest = currentNick != null;
     }
 
     public long getLastChangedDate(){
@@ -77,6 +76,7 @@ public class Nick {
     public void setNewNick(String newNick) {
         this.newNick = newNick;
         newNickNoColor = newNick == null ? null : Utilities.removeAllColors(newNick);
+        hasRequest = newNick != null;
     }
 
     public long getRequestedDate(){
