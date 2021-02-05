@@ -517,24 +517,52 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                                 Player player = (Player) sender;
 
                                 lineCopy = line;
-                                if (!lineCopy.contains("Location:"))
-                                    continue lineReader;
+                                if (lineCopy.contains("Location:")) {
 
-                                lineCopy = lineCopy.substring(lineCopy.indexOf("Location:") + 9);
-                                lineCopy = lineCopy.substring(0, lineCopy.indexOf("|"));
+                                    Double radiusDouble = Double.parseDouble(radiusString);
 
-                                Location location = Logging.getLocationFromBetterLocationString(lineCopy);
+                                    lineCopy = lineCopy.substring(lineCopy.indexOf("Location:") + 9);
+                                    lineCopy = lineCopy.substring(0, lineCopy.indexOf("|"));
 
-                                if (!player.getLocation().getWorld().equals(location.getWorld()))
-                                    continue lineReader;
+                                    Location location = Logging.getLocationFromBetterLocationString(lineCopy);
 
-                                Double logX = location.getX();
-                                Double logZ = location.getZ();
+                                    if (!player.getLocation().getWorld().equals(location.getWorld()))
+                                        continue lineReader;
 
-                                Double distance = Math.sqrt(Math.pow((logX - playerX), 2) + Math.pow((logZ - playerZ), 2));
+                                    Double logX = location.getX();
+                                    Double logZ = location.getZ();
 
-                                if (distance > Double.parseDouble(radiusString))
-                                    continue lineReader;
+                                    Double distance = Math.sqrt(Math.pow((logX - playerX), 2) + Math.pow((logZ - playerZ), 2));
+
+                                    if (distance > radiusDouble)
+                                        continue lineReader;
+
+                                } else if (lineCopy.contains("Area:")) {
+
+                                    Integer radiusInteger = Integer.parseInt(radiusString);
+
+                                    lineCopy = lineCopy.substring(lineCopy.indexOf("Area:") + 5);
+                                    lineCopy = lineCopy.substring(0, lineCopy.indexOf("|"));
+
+                                    Location lesserCornerClaim = Logging.getLocationFromBetterLocationString(lineCopy.substring(0, lineCopy.indexOf(" - ")));
+                                    Location greaterCornerClaim = Logging.getLocationFromBetterLocationString(lineCopy.substring(lineCopy.indexOf(" - ") + 3));
+
+                                    Location lesserCornerPlayer = player.getLocation();
+                                    lesserCornerPlayer.setX(lesserCornerPlayer.getX() - radiusInteger);
+                                    lesserCornerPlayer.setY(lesserCornerPlayer.getY() - radiusInteger);
+                                    lesserCornerPlayer.setZ(lesserCornerPlayer.getZ() - radiusInteger);
+
+                                    Location greaterCornerPlayer = player.getLocation();
+                                    greaterCornerPlayer.setX(greaterCornerPlayer.getX() + radiusInteger);
+                                    greaterCornerPlayer.setY(greaterCornerPlayer.getY() + radiusInteger);
+                                    greaterCornerPlayer.setZ(greaterCornerPlayer.getZ() + radiusInteger);
+
+                                    Boolean isOverlapping = (lesserCornerClaim.getBlockX() <= greaterCornerPlayer.getBlockX() && greaterCornerClaim.getBlockX() >= lesserCornerPlayer.getBlockX()) && (lesserCornerClaim.getBlockY() <= greaterCornerPlayer.getBlockY() && greaterCornerClaim.getBlockY() >= lesserCornerPlayer.getBlockY()) && (lesserCornerClaim.getBlockZ() <= greaterCornerPlayer.getBlockZ() && greaterCornerClaim.getBlockZ() >= lesserCornerPlayer.getBlockZ());
+
+                                    if (!isOverlapping)
+                                        continue lineReader;
+
+                                }
 
                             }
 
