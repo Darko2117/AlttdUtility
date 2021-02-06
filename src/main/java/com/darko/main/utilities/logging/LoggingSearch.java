@@ -546,6 +546,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
                                     Location lesserCornerClaim = Logging.getLocationFromBetterLocationString(lineCopy.substring(0, lineCopy.indexOf(" - ")));
                                     Location greaterCornerClaim = Logging.getLocationFromBetterLocationString(lineCopy.substring(lineCopy.indexOf(" - ") + 3));
+                                    greaterCornerClaim.setY(255);
 
                                     Location lesserCornerPlayer = player.getLocation();
                                     lesserCornerPlayer.setX(lesserCornerPlayer.getX() - radiusInteger);
