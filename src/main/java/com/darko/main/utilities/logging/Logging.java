@@ -13,6 +13,8 @@ import java.util.*;
 
 public class Logging {
 
+    static Integer cachedDayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+
     public static HashMap<String, String> logNamesAndConfigPaths = new LinkedHashMap<>();
 
     public static String claimsCreatedLogName = "claimsCreated";
@@ -72,9 +74,7 @@ public class Logging {
         for (String directory : directories)
             new File(AlttdUtility.getInstance().getDataFolder() + "/" + directory).mkdir();
 
-        for (Map.Entry<String, String> entry : logNamesAndConfigPaths.entrySet()) {
-            Logging.WriteToFile(entry.getKey(), "");
-        }
+        CreateAllBlankLogFiles();
 
         new BukkitRunnable() {
             @Override
@@ -83,6 +83,21 @@ public class Logging {
                 CheckAndDeleteOld();
             }
         }.runTaskAsynchronously(AlttdUtility.getInstance());
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                CompressIfDateChanged();
+            }
+        }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 1200, 1200);
+
+    }
+
+    static void CreateAllBlankLogFiles() {
+
+        for (Map.Entry<String, String> entry : logNamesAndConfigPaths.entrySet()) {
+            Logging.WriteToFile(entry.getKey(), "");
+        }
 
     }
 
@@ -146,6 +161,22 @@ public class Logging {
             } catch (Throwable throwable) {
                 AlttdUtility.getInstance().getLogger().warning(fileName + " has an invalid name. Please set it to yyyy-mm-dd format if you want the plugin to keep track of it and delete it after the specified time.");
             }
+
+        }
+
+    }
+
+    static void CompressIfDateChanged() {
+
+        Integer dayNow = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+
+        if (!cachedDayOfMonth.equals(dayNow)) {
+
+            CheckAndCompress();
+            CheckAndDeleteOld();
+            CreateAllBlankLogFiles();
+
+            cachedDayOfMonth = dayNow;
 
         }
 
