@@ -372,6 +372,9 @@ public class Logging {
 
         }
 
+        if (arguments.contains("Location:") || arguments.contains("Area:"))
+            arguments.add("-radius:");
+
         return arguments;
 
     }
