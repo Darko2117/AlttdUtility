@@ -557,6 +557,9 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                                     greaterCornerPlayer.setY(greaterCornerPlayer.getY() + radiusInteger);
                                     greaterCornerPlayer.setZ(greaterCornerPlayer.getZ() + radiusInteger);
 
+                                    if (!lesserCornerClaim.getWorld().equals(lesserCornerPlayer.getWorld()))
+                                        continue lineReader;
+
                                     Boolean isOverlapping = (lesserCornerClaim.getBlockX() <= greaterCornerPlayer.getBlockX() && greaterCornerClaim.getBlockX() >= lesserCornerPlayer.getBlockX()) && (lesserCornerClaim.getBlockY() <= greaterCornerPlayer.getBlockY() && greaterCornerClaim.getBlockY() >= lesserCornerPlayer.getBlockY()) && (lesserCornerClaim.getBlockZ() <= greaterCornerPlayer.getBlockZ() && greaterCornerClaim.getBlockZ() >= lesserCornerPlayer.getBlockZ());
 
                                     if (!isOverlapping)
