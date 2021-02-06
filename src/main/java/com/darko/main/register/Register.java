@@ -21,6 +21,7 @@ import com.darko.main.utilities.lavaSponge.LavaSponge;
 import com.darko.main.utilities.logging.*;
 import com.darko.main.utilities.itemPickup.ItemPickup;
 import com.darko.main.utilities.namedMobClaimDamage.NamedMobClaimDamage;
+import com.darko.main.utilities.petGodMode.PetGodMode;
 import com.darko.main.utilities.playerList.PlayerList;
 import com.darko.main.utilities.prefixes.RemovePrefix;
 import com.darko.main.utilities.prefixes.SetPrefix;
@@ -75,7 +76,8 @@ public class Register extends JavaPlugin {
         if (APIs.MyPetFound) {
             registerEvents(
                     new PetPickupListener(),
-                    new LoggingMyPet()
+                    new LoggingMyPet(),
+                    new PetGodMode()
             );
         }
         if (APIs.CrazyCratesFound) {
@@ -142,6 +144,7 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("commandonjoin").setExecutor(new CommandOnJoin());
         AlttdUtility.getInstance().getCommand("ccm").setExecutor(new CustomChatMessage());
         AlttdUtility.getInstance().getCommand("godmode").setExecutor(new GodMode());
+        AlttdUtility.getInstance().getCommand("petgodmode").setExecutor(new PetGodMode());
 
         if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")){
             AlttdUtility.getInstance().getCommand("freezemail").setExecutor(new FreezeMail());

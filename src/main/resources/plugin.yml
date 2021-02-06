@@ -51,3 +51,5 @@ commands:
     permission: utility.nick
   godmode:
     permission: utility.godmode
+  petgodmode:
+    permission: utility.petgodmode

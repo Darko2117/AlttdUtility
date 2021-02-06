@@ -87,7 +87,9 @@ public class ConfigSetup {
         NickReviewWaiting("Messages.NickReviewWaiting", "&aThere are %amount% nicknames waiting for review!"),
         NickTaken("Messages.NickTaken", "&cSomeone else already has this nickname, or has this name as their username."),
         GodModeEnabled("Messages.GodModeEnabled", "&aGodMode enabled."),
-        GodModeDisabled("Messages.GodModeDisabled", "&cGodMode disabled.");
+        GodModeDisabled("Messages.GodModeDisabled", "&cGodMode disabled."),
+        PetGodModeEnabled("Messages.PetGodModeEnabled", "&aPetGodMode enabled."),
+        PetGodModeDisabled("Messages.PetGodModeDisabled", "&cPetGodMode disabled.");
 
 
         private final String path;
@@ -145,6 +147,7 @@ public class ConfigSetup {
         toggles.add("FreezeMail");
         toggles.add("Nicknames");
         toggles.add("GodModeCommand");
+        toggles.add("PetGodModeCommand");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
