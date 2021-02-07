@@ -382,6 +382,7 @@ public class Logging {
 
             arguments.add("Time:");
             arguments.add("User:");
+            arguments.add("Killer:");
             arguments.add("Items:");
             arguments.add("Location:");
 

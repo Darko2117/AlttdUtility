@@ -488,6 +488,13 @@ public class LoggingNoAPI implements Listener {
 
         String user = event.getEntity().getName();
 
+        String killer;
+        if (event.getEntity().getKiller() != null) {
+            killer = event.getEntity().getKiller().getName();
+        } else {
+            killer = "Not a player";
+        }
+
         String items = "";
 
         for (ItemStack item : event.getDrops()) {
@@ -506,6 +513,9 @@ public class LoggingNoAPI implements Listener {
         message = message.concat("|");
         message = message.concat("User:");
         message = message.concat(user);
+        message = message.concat("|");
+        message = message.concat("Killer:");
+        message = message.concat(killer);
         message = message.concat("|");
         message = message.concat("Items:");
         message = message.concat(items);
