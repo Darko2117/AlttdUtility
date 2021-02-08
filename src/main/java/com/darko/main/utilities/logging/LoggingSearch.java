@@ -463,6 +463,10 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             FileWriter writer = new FileWriter(outputFile, true);
             writer.write("");
 
+            //Caching the first argument's value so that it can be used to optimize the search
+            Map.Entry<String, String> entry = arguments.entrySet().iterator().next();
+            String firstArgumentValue = entry.getValue();
+
             for (File f : filesToRead) {
                 try {
 
@@ -474,6 +478,9 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         try {
 
                             String lineCopy = line;
+
+                            if (!lineCopy.toLowerCase().contains(firstArgumentValue.toLowerCase()))
+                                continue lineReader;
 
                             if (!lineCopy.startsWith("|") || !lineCopy.endsWith("|"))
                                 continue lineReader;
