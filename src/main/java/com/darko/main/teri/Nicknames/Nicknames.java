@@ -357,7 +357,7 @@ public class Nicknames implements CommandExecutor, TabCompleter {
             case REQUEST:
                 if (sender.hasPermission("utility.nick.request")){
                     message.append("&6/nick request <nickname>&f - Requests a username to be reviewed by staff.\n" +
-                            "   &7Try using &8/nick try <nickname>&7 to see if you like the name, you can only change it once per week!\n");
+                            "   &7Try using &8/nick try <nickname>&7 to see if you like the name, you can only change it once per day!\n");
                 }
                 break;
             case REVIEW:
