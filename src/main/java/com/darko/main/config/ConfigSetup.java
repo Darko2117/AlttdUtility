@@ -1,13 +1,14 @@
 package com.darko.main.config;
 
-import java.io.File;
-import java.util.*;
-
+import com.darko.main.AlttdUtility;
 import com.darko.main.other.Methods;
 import com.darko.main.utilities.logging.Logging;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import com.darko.main.AlttdUtility;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class ConfigSetup {
 
@@ -86,6 +87,7 @@ public class ConfigSetup {
         NickRequested("Messages.NickRequested", "&aYour requested to be nicknamed %nick%&a has been received. Staff will accept or deny this request asap!"),
         NickReviewWaiting("Messages.NickReviewWaiting", "&aThere are %amount% nicknames waiting for review!"),
         NickTaken("Messages.NickTaken", "&cSomeone else already has this nickname, or has this name as their username."),
+        NickRequestsOnLogin("Messages.NickRequestsOnLogin", "&aCurrent nick requests: %amount%"),
         GodModeEnabled("Messages.GodModeEnabled", "&aGodMode enabled."),
         GodModeDisabled("Messages.GodModeDisabled", "&cGodMode disabled."),
         PetGodModeEnabled("Messages.PetGodModeEnabled", "&aPetGodMode enabled."),

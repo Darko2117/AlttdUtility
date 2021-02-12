@@ -53,6 +53,20 @@ public class NicknamesEvents implements Listener, PluginMessageListener
                 }
 
                 Nicknames.getInstance().NickCache.put(e.getPlayer().getUniqueId(), nick);
+
+                if (player.hasPermission("utility.nick.review")){
+                    int i = 0;
+                    for (Nick iNick : Nicknames.getInstance().NickCache.values()) {
+                        if (iNick.hasRequest()) {
+                            i++;
+                        }
+                    }
+
+                    if (i > 0){
+                        player.sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickRequestsOnLogin")
+                                .replace("%amount%", String.valueOf(i))));
+                    }
+                }
             }
         }.runTaskAsynchronously(AlttdUtility.getInstance());
     }
