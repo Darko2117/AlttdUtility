@@ -14,14 +14,11 @@ import me.ryanhamshire.GriefPrevention.GriefPrevention;
 
 public class DamageListener implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDamage(EntityDamageByEntityEvent event) {
 
-        if(event.isCancelled()) return;
         if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockAnimalDamageInClaimWithoutTrust")) return;
 
-        if (event.isCancelled())
-            return;
         Entity damager = event.getDamager();
         Entity entity = event.getEntity();
         if (damager instanceof Player) {

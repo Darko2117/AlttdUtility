@@ -14,10 +14,9 @@ import com.gmail.nossr50.api.ChatAPI;
 
 public class NameInChatNotification implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onChat(AsyncPlayerChatEvent event) {
 
-        if (event.isCancelled()) return;
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ChatAtPlayers")) return;
 
         StringBuilder message = new StringBuilder(event.getMessage());

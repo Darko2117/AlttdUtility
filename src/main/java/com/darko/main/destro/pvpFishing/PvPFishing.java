@@ -13,10 +13,9 @@ import org.bukkit.event.player.PlayerFishEvent;
  */
 public class PvPFishing implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerFish(PlayerFishEvent event) {
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.PreventNoPvPFishing")) return;
-        if(event.isCancelled()) return;
         if(event.getCaught() instanceof Player) {
             PvPlayer pvplayer = PvPlayer.get((Player) event.getCaught());
             if(!pvplayer.hasPvPEnabled()) {

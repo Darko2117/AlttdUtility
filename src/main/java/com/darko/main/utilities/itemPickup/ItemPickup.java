@@ -73,10 +73,9 @@ public class ItemPickup implements CommandExecutor, Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onItemPickup(EntityPickupItemEvent event) {
 
-        if(event.isCancelled()) return;
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ItemPickupCommand")) return;
 
         if (Database.connection == null) return;

@@ -20,7 +20,7 @@ public class RebootWhitelist implements CommandExecutor, TabCompleter, Listener 
 
     static Boolean enabled = false;
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerLogin(PlayerLoginEvent event) {
 
         if (!event.getResult().equals(PlayerLoginEvent.Result.ALLOWED)) return;

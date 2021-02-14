@@ -21,10 +21,9 @@ import me.ryanhamshire.GriefPrevention.GriefPrevention;
 
 public class onEntityInteractWithLead implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void EntityInteract(PlayerInteractEntityEvent event) {
 
-        if(event.isCancelled()) return;
         if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.UnclaimAnimalWithLead")) return;
 
         Player p = event.getPlayer();

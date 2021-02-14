@@ -13,10 +13,9 @@ import me.ryanhamshire.GriefPrevention.GriefPrevention;
 
 public class PetPickupListener implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPetPickup(MyPetPickupItemEvent event) {
 
-        if (event.isCancelled()) return;
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockPetPickupInClaimWithoutContainerTrust"))
             return;
 

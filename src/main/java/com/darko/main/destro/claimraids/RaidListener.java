@@ -13,14 +13,11 @@ import me.ryanhamshire.GriefPrevention.GriefPrevention;
 
 public class RaidListener implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onRaidStart(RaidTriggerEvent event) {
 
-        if(event.isCancelled()) return;
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockRaidsInClaimWithoutAccessTrust")) return;
 
-        if (event.isCancelled())
-            return;
         Player player = event.getPlayer();
         Raid raid = event.getRaid();
         Claim claim = GriefPrevention.instance.dataStore.getClaimAt(raid.getLocation(), true, null);

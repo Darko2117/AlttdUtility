@@ -17,12 +17,10 @@ import java.util.List;
 
 public class NamedMobClaimDamage implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
 
         if (!AlttdUtility.getInstance().getConfig().getBoolean(("FeatureToggles.NamedMobClaimDamageProtection"))) return;
-
-        if (event.isCancelled()) return;
 
         Entity entity = event.getEntity();
 
@@ -111,14 +109,12 @@ public class NamedMobClaimDamage implements Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPotionSplash(PotionSplashEvent event) {
 
         //PotionSplash
 
         if (!AlttdUtility.getInstance().getConfig().getBoolean(("FeatureToggles.NamedMobClaimDamageProtection"))) return;
-
-        if (event.isCancelled()) return;
 
         ThrownPotion potion = event.getEntity();
 

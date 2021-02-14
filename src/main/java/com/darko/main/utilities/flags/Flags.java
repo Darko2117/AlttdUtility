@@ -108,10 +108,9 @@ public class Flags implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onAnvilDamaged(AnvilDamagedEvent event){
 
-        if(event.isCancelled()) return;
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags")) return;
 
         com.sk89q.worldedit.util.Location location = BukkitAdapter.adapt(event.getInventory().getLocation());
@@ -138,45 +137,7 @@ public class Flags implements Listener {
 
     }
 
-//    @EventHandler(priority = EventPriority.HIGHEST)
-//    public void onDamagedAnvilClick(PlayerInteractEvent event) {
-//
-//        if (event.useInteractedBlock().equals(Event.Result.DENY)) return;
-//        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags")) return;
-//
-//        if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
-//        if (!event.getClickedBlock().getType().toString().toLowerCase().contains("anvil")) return;
-//
-//        com.sk89q.worldedit.util.Location location = BukkitAdapter.adapt(event.getClickedBlock().getLocation());
-//
-//        RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-//        RegionQuery query = container.createQuery();
-//        ApplicableRegionSet set = query.getApplicableRegions(location);
-//
-//        if (set.size() != 0) {
-//
-//            LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(event.getPlayer());
-//            RegionContainer container1 = WorldGuard.getInstance().getPlatform().getRegionContainer();
-//            RegionQuery query1 = container1.createQuery();
-//
-//            if (query1.testState(location, localPlayer, Flags.ANVIL_REPAIR)) {
-//
-//                String dataString = event.getClickedBlock().getBlockData().getAsString();
-//                if (dataString.contains("chipped_")) {
-//                    dataString = dataString.replace("chipped_", "");
-//                } else if (dataString.contains("damaged_")) {
-//                    dataString = dataString.replace("damaged_", "");
-//                }
-//
-//                event.getClickedBlock().setBlockData(Bukkit.createBlockData(dataString));
-//
-//            }
-//
-//        }
-//
-//    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEnchantingTableClick(PlayerInteractEvent event) {
 
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags")) return;
@@ -203,7 +164,7 @@ public class Flags implements Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onAnvilClick(PlayerInteractEvent event) {
 
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags")) return;
@@ -230,10 +191,8 @@ public class Flags implements Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onNameTagUse(PlayerInteractEntityEvent event) {
-
-        if (event.isCancelled()) return;
 
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags")) return;
 

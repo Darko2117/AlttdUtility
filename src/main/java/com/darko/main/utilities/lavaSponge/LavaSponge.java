@@ -30,10 +30,8 @@ import java.util.Random;
 
 public class LavaSponge implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onBlockPlace(BlockPlaceEvent event) {
-
-        if (event.isCancelled()) return;
 
         Block spongeBlock = event.getBlock();
         Player player = event.getPlayer();

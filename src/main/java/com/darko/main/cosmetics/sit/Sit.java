@@ -89,10 +89,9 @@ public class Sit implements CommandExecutor, Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onBlockBreak(BlockBreakEvent event) {
 
-        if (event.isCancelled()) return;
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
 
         if (aliveSeats.containsKey(event.getBlock().getLocation())) {
@@ -105,10 +104,9 @@ public class Sit implements CommandExecutor, Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
 
-        if (event.isCancelled()) return;
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
 
         if (aliveSeats.containsValue(event.getRightClicked())) {
@@ -117,36 +115,9 @@ public class Sit implements CommandExecutor, Listener {
 
     }
 
-//    @EventHandler(priority = EventPriority.HIGHEST)
-//    public void onChunkLoad(ChunkLoadEvent event) {
-//
-//        if (!Main.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
-//
-//        Entity[] entities = event.getChunk().getEntities();
-//
-//        for (Entity entity : entities) {
-//
-//            if (entity.getCustomName() == null) continue;
-//            if (!entity.getCustomName().equals(seatName)) continue;
-//            if (!entity.getPassengers().isEmpty()) continue;
-//
-//            for (Map.Entry<Location, Entity> entry : aliveSeats.entrySet()) {
-//                if (entry.getValue().equals(entity)) {
-//                    aliveSeats.remove(entry.getKey());
-//                }
-//            }
-//            entity.remove();
-//
-//            Main.getInstance().getLogger().info(entity.getType() + " deleted at " + entity.getLocation() + " with onChunkLoad");
-//
-//        }
-//
-//    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDismount(EntityDismountEvent event) {
 
-        if (event.isCancelled()) return;
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
 
         Entity dismounted = event.getDismounted();
@@ -175,7 +146,7 @@ public class Sit implements CommandExecutor, Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerQuit(PlayerQuitEvent event) {
 
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
@@ -192,10 +163,9 @@ public class Sit implements CommandExecutor, Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
 
-        if (event.isCancelled()) return;
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
 
         Player player = event.getPlayer();

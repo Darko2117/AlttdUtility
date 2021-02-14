@@ -14,7 +14,7 @@ import java.util.Date;
 
 public class LoggingFarmLimiter implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onFarmLimit(FarmLimitEvent event) {
 
         if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.farmLimiterLogName) + ".Enabled"))

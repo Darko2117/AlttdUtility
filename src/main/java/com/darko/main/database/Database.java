@@ -68,7 +68,7 @@ public class Database implements Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerJoin_TablesUpdate(PlayerJoinEvent event) {
 
         if (Database.connection == null) return;
@@ -156,7 +156,7 @@ public class Database implements Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerJoin_ReloadLoadedValues(PlayerJoinEvent event) {
 
         if (Database.connection == null) return;
@@ -170,7 +170,7 @@ public class Database implements Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerQuit_ReloadLoadedValues(PlayerQuitEvent event) {
 
         if (Database.connection == null) return;

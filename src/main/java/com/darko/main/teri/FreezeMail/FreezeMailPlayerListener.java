@@ -27,7 +27,7 @@ import java.util.UUID;
 
 public class FreezeMailPlayerListener implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerJoin (PlayerJoinEvent event) {
 
         new BukkitRunnable() {
@@ -54,7 +54,7 @@ public class FreezeMailPlayerListener implements Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerMove (PlayerMoveEvent event){
 
         if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")
@@ -65,7 +65,7 @@ public class FreezeMailPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onBlockPlaceEvent(BlockPlaceEvent event){
 
         if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")){
@@ -74,7 +74,7 @@ public class FreezeMailPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onBlockBreakEvent(BlockBreakEvent event){
 
         if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")){
@@ -83,7 +83,7 @@ public class FreezeMailPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onDamageEntityEvent(DamageEntityEvent event){
 
         if (event.getCause().getFirstPlayer() != null && !event.getCause().getFirstPlayer().isOp() && event.getCause().getFirstPlayer().hasPermission("utility.dontfuckingmove")){
@@ -92,7 +92,7 @@ public class FreezeMailPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event){
 
         if (event.getEntity() instanceof Player){
@@ -103,7 +103,7 @@ public class FreezeMailPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityAirChangeEvent (EntityAirChangeEvent event){
 
         if (event.getEntity() instanceof Player){
@@ -114,7 +114,7 @@ public class FreezeMailPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerCommand (PlayerCommandPreprocessEvent event){
 
         if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")){
@@ -123,7 +123,7 @@ public class FreezeMailPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerChatEvent (AsyncPlayerChatEvent event){
 
         if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")){

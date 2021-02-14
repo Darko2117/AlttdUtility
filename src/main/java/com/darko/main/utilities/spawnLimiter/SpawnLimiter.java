@@ -22,7 +22,7 @@ public class SpawnLimiter implements Listener {
     static HashMap<EntityType, Integer> spawnLimit = new HashMap<>();
     static HashMap<EntityType, List<Location>> spawnLocations = new HashMap<>();
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntitySpawn(EntitySpawnEvent event) {
 
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.SpawnLimiter")) return;

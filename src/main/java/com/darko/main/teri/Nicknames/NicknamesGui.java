@@ -7,6 +7,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -118,8 +119,8 @@ public class NicknamesGui implements Listener {
 
     // Check for clicks on items
 
-    @EventHandler
-    public void onInventoryClick(final InventoryClickEvent e) {
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onInventoryClick(InventoryClickEvent e) {
         if (e.getInventory() != inv) return;
 
         e.setCancelled(true);
@@ -262,8 +263,8 @@ public class NicknamesGui implements Listener {
     }
 
     // Cancel dragging in our inventory
-    @EventHandler
-    public void onInventoryClick(final InventoryDragEvent e) {
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onInventoryClick(InventoryDragEvent e) {
         if (e.getInventory() == inv) {
             e.setCancelled(true);
         }

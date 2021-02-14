@@ -12,10 +12,9 @@ import com.darko.main.AlttdUtility;
 
 public class onPayCommand implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPayCommands(PlayerCommandPreprocessEvent event) {
 
-        if(event.isCancelled()) return;
         if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockOfflinePay")) return;
 
         Player player = event.getPlayer();

@@ -61,7 +61,7 @@ public class CommandOnJoin implements CommandExecutor, Listener, TabCompleter {
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
 
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CommandOnJoin")) return;

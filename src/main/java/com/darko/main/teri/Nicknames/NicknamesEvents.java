@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -23,8 +24,8 @@ import java.util.UUID;
 
 public class NicknamesEvents implements Listener, PluginMessageListener
 {
-    @EventHandler
-    public void onPlayerJoin(final PlayerJoinEvent e){
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onPlayerJoin(PlayerJoinEvent e){
 
         new BukkitRunnable() {
             @Override

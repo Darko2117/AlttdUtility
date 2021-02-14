@@ -9,10 +9,9 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class DeathMessage implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onDeath(PlayerDeathEvent event) {
 
-        if (event.isCancelled()) return;
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.DeathMessage")) return;
 
         if (event.getEntity().hasPermission("utility.deathmsg")) {

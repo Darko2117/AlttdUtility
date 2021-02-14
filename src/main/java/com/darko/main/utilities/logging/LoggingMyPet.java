@@ -13,8 +13,6 @@ public class LoggingMyPet implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onMyPetPickupItem(MyPetPickupItemEvent event){
 
-        if(event.isCancelled()) return;
-
         if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.petItemPickupLogName) + ".Enabled"))
             return;
 

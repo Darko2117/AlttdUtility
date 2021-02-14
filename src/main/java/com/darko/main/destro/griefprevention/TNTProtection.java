@@ -16,7 +16,7 @@ import org.bukkit.event.Listener;
  */
 public class TNTProtection implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onTNTPrime(TNTPrimeEvent event) {
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ProtectTNTArrowDamage")) return;
         if(event.getReason() == TNTPrimeEvent.PrimeReason.PROJECTILE) {
