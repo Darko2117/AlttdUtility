@@ -294,7 +294,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 return;
             }
 
-            List<String> logNames = Arrays.asList(args[1].split(","));
+            String[] logNames = args[1].split(",");
             for (String s : logNames) {
                 if (!Logging.logNamesAndConfigPaths.containsKey(s)) {
                     new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchSpecialLogsCommand");
@@ -376,7 +376,9 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             }
             for (File file : new File(AlttdUtility.getInstance().getDataFolder() + "/compressed-logs/").listFiles()) {
                 for (String s : logNames) {
-                    if (file.getName().contains(s)) {
+                    String fileName = file.getName();
+                    fileName = fileName.substring(11, fileName.indexOf('.'));
+                    if (s.equals(fileName)) {
                         filesToRead.add(file);
                         break;
                     }
@@ -464,8 +466,11 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             writer.write("");
 
             //Caching the first argument's value so that it can be used to optimize the search
-            Map.Entry<String, String> entry = arguments.entrySet().iterator().next();
-            String firstArgumentValue = entry.getValue();
+            String firstArgumentValue = null;
+            if (!arguments.isEmpty()) {
+                Map.Entry<String, String> entry = arguments.entrySet().iterator().next();
+                firstArgumentValue = entry.getValue();
+            }
 
             for (File f : filesToRead) {
                 try {
@@ -479,8 +484,10 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
                             String lineCopy = line;
 
-                            if (!lineCopy.toLowerCase().contains(firstArgumentValue.toLowerCase()))
-                                continue lineReader;
+                            if (firstArgumentValue != null) {
+                                if (!lineCopy.toLowerCase().contains(firstArgumentValue.toLowerCase()))
+                                    continue lineReader;
+                            }
 
                             if (!lineCopy.startsWith("|") || !lineCopy.endsWith("|"))
                                 continue lineReader;
