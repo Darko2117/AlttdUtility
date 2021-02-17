@@ -21,8 +21,6 @@ public class AlttdUtility extends JavaPlugin {
 
         ReloadCommand.reload();
 
-        Register.registerEvents();
-
         Register.registerCommands();
 
         RebootWhitelist.disableAfterBoot();

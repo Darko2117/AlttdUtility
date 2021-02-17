@@ -1,5 +1,6 @@
 package com.darko.main.register;
 
+
 import com.darko.main.API.APIs;
 import com.darko.main.cosmetics.invisibleItemFrame.InvisibleItemFrame;
 import com.darko.main.cosmetics.sit.Sit;
@@ -25,6 +26,7 @@ import com.darko.main.utilities.petGodMode.PetGodMode;
 import com.darko.main.utilities.playerList.PlayerList;
 import com.darko.main.utilities.prefixes.RemovePrefix;
 import com.darko.main.utilities.prefixes.SetPrefix;
+import com.darko.main.utilities.pvpDeath.PvPDeath;
 import com.darko.main.utilities.rebootWhitelist.RebootWhitelist;
 import com.darko.main.utilities.reload.ReloadCommand;
 import com.darko.main.utilities.spawnLimiter.SpawnLimiter;
@@ -33,9 +35,9 @@ import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
 import com.darko.main.teri.Nicknames.Nicknames;
 import com.darko.main.teri.Nicknames.NicknamesEvents;
 import com.darko.main.utilities.toggleGC.ToggleGC;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import com.darko.main.AlttdUtility;
 import com.darko.main.cosmetics.hat.Hat;
 import com.darko.main.utilities.offlinePay.onPayCommand;
@@ -50,72 +52,129 @@ public class Register extends JavaPlugin {
 
     public static void registerEvents() {
 
-        registerEvents(
-                new onEntityInteractWithLead(),
-                new onPayCommand(),
-                new AutoFix(),
-                new RaidListener(),
-                new DamageListener(),
-                new SpawnLimiter(),
-                new ItemPickup(),
-                new DeathMessage(),
-                new NameInChatNotification(),
-                new Database(),
-                new LoggingNoAPI(),
-                new InvisibleItemFrame(),
-                new RebootWhitelist(),
-                new LavaSponge(),
-                new Sit(),
-                new CommandOnJoin(),
-                new PublicChests(),
-                new PublicTraders(),
-                new TNTProtection(),
-                new GodMode()
-        );
+        HandlerList.unregisterAll(AlttdUtility.getInstance());
+
+        registerEvents(new Database());
+        registerEvents(new LoggingNoAPI());
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockOfflinePay"))
+            registerEvents(new onPayCommand());
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.AutofixCommand"))
+            registerEvents(new AutoFix());
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.SpawnLimiter"))
+            registerEvents(new SpawnLimiter());
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ItemPickupCommand"))
+            registerEvents(new ItemPickup());
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.DeathMessage"))
+            registerEvents(new DeathMessage());
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ChatAtPlayers"))
+            registerEvents(new NameInChatNotification());
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.InvisibleItemFrames"))
+            registerEvents(new InvisibleItemFrame());
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.RebootWhitelist"))
+            registerEvents(new RebootWhitelist());
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.LavaSponge"))
+            registerEvents(new LavaSponge());
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit"))
+            registerEvents(new Sit());
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CommandOnJoin"))
+            registerEvents(new CommandOnJoin());
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.GodModeCommand"))
+            registerEvents(new GodMode());
 
         if (APIs.MyPetFound) {
-            registerEvents(
-                    new PetPickupListener(),
-                    new LoggingMyPet(),
-                    new PetGodMode()
-            );
-        }
-        if (APIs.CrazyCratesFound) {
-            registerEvents(
-                    new LoggingCrazyCrates()
-            );
-        }
-        if (APIs.GriefPreventionFound) {
-            registerEvents(
-                    new LoggingGriefPrevention(),
-                    new NamedMobClaimDamage()
-            );
-        }
-        if (APIs.WorldGuardFound) {
-            registerEvents(
-                    new Flags()
-            );
 
-            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")){
+            registerEvents(new LoggingMyPet());
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockPetPickupInClaimWithoutContainerTrust"))
+                registerEvents(new PetPickupListener());
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.PetGodModeCommand"))
+                registerEvents(new PetGodMode());
+
+        }
+
+        if (APIs.CrazyCratesFound) {
+
+            registerEvents(new LoggingCrazyCrates());
+
+        }
+
+        if (APIs.GriefPreventionFound) {
+
+            registerEvents(new LoggingGriefPrevention());
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.UnclaimAnimalWithLead"))
+                registerEvents(new onEntityInteractWithLead());
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockRaidsInClaimWithoutAccessTrust"))
+                registerEvents(new RaidListener());
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockAnimalDamageInClaimWithoutTrust"))
+                registerEvents(new DamageListener());
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.AllowNamedPublicChests"))
+                registerEvents(new PublicChests());
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.AllowNamedPublicVillagers"))
+                registerEvents(new PublicTraders());
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ProtectTNTArrowDamage"))
+                registerEvents(new TNTProtection());
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.NamedMobClaimDamageProtection"))
+                registerEvents(new NamedMobClaimDamage());
+
+        }
+
+        if (APIs.WorldGuardFound) {
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags"))
+                registerEvents(new Flags());
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")) {
                 registerEvents(new FreezeMailPlayerListener());
             }
+
         }
+
         if (APIs.FarmLimiterFound) {
-            registerEvents(
-                    new LoggingFarmLimiter()
-            );
+
+            registerEvents(new LoggingFarmLimiter());
+
         }
+
         if (APIs.PvPManagerFound) {
-            registerEvents(
-                    new PvPFishing()
-            );
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.PreventNoPvPFishing")) {
+                registerEvents(new PvPFishing());
+            }
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.PvPDeath")) {
+                registerEvents(new PvPDeath());
+            }
+
         }
-        if (APIs.CMIFound  && AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")) {
-            NicknamesEvents nicknamesEvents = new NicknamesEvents();
-            AlttdUtility.getInstance().getServer().getMessenger().registerIncomingPluginChannel(AlttdUtility.getInstance(), "BungeeCord", nicknamesEvents);
-            registerEvents(
-                    nicknamesEvents
-            );
+
+        if (APIs.CMIFound) {
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")) {
+                NicknamesEvents nicknamesEvents = new NicknamesEvents();
+                AlttdUtility.getInstance().getServer().getMessenger().registerIncomingPluginChannel(AlttdUtility.getInstance(), "BungeeCord", nicknamesEvents);
+                registerEvents(nicknamesEvents);
+            }
+
         }
 
     }
@@ -146,7 +205,7 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("godmode").setExecutor(new GodMode());
         AlttdUtility.getInstance().getCommand("petgodmode").setExecutor(new PetGodMode());
 
-        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")){
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")) {
             AlttdUtility.getInstance().getCommand("freezemail").setExecutor(new FreezeMail());
         }
 
