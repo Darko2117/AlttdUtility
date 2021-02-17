@@ -135,7 +135,7 @@ public class Flags implements Listener {
 
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = false, priority = EventPriority.HIGHEST)
     public void onEnchantingTableClick(PlayerInteractEvent event) {
 
         if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
@@ -160,7 +160,7 @@ public class Flags implements Listener {
 
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = false, priority = EventPriority.HIGHEST)
     public void onAnvilClick(PlayerInteractEvent event) {
 
         if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
@@ -185,7 +185,7 @@ public class Flags implements Listener {
 
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = false, priority = EventPriority.HIGHEST)
     public void onNameTagUse(PlayerInteractEntityEvent event) {
 
         if (!event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.NAME_TAG) && !event.getPlayer().getInventory().getItemInOffHand().getType().equals(Material.NAME_TAG))
