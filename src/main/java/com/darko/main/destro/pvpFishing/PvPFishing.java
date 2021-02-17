@@ -1,6 +1,5 @@
 package com.darko.main.destro.pvpFishing;
 
-import com.darko.main.AlttdUtility;
 import me.NoChance.PvPManager.PvPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,7 +14,6 @@ public class PvPFishing implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerFish(PlayerFishEvent event) {
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.PreventNoPvPFishing")) return;
         if(event.getCaught() instanceof Player) {
             PvPlayer pvplayer = PvPlayer.get((Player) event.getCaught());
             if(!pvplayer.hasPvPEnabled()) {

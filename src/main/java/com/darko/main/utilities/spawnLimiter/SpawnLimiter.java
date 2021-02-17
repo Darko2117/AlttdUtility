@@ -25,8 +25,6 @@ public class SpawnLimiter implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntitySpawn(EntitySpawnEvent event) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.SpawnLimiter")) return;
-
         EntityType entityType = event.getEntityType();
 
         if (!limitedEntities.contains(entityType)) return;

@@ -20,6 +20,7 @@ import java.util.Map;
 
 public class Cooldown implements CommandExecutor, TabCompleter {
 
+    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CooldownCommand")) return true;

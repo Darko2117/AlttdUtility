@@ -84,8 +84,6 @@ public class InvisibleItemFrame implements Listener, CommandExecutor {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onItemFrameClick(PlayerInteractEntityEvent event) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.InvisibleItemFrames")) return;
-
         if (!event.getHand().equals(EquipmentSlot.HAND)) return;
         if (!(event.getRightClicked() instanceof ItemFrame)) return;
 

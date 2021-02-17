@@ -40,8 +40,6 @@ public class Sit implements CommandExecutor, Listener {
 
     static HashMap<Location, Entity> aliveSeats = new HashMap<>();
     static String seatName = "There is a 35 character limit on a name tag.";
-//    static HashMap<Player, List<Location>> recentLocations = new HashMap<>();
-//    static HashMap<Player, Location> lastYawTeleportLocation = new HashMap<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -92,8 +90,6 @@ public class Sit implements CommandExecutor, Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onBlockBreak(BlockBreakEvent event) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
-
         if (aliveSeats.containsKey(event.getBlock().getLocation())) {
             if (event.getPlayer().hasPermission("utility.forcedismount")) {
                 aliveSeats.get(event.getBlock().getLocation()).eject();
@@ -107,8 +103,6 @@ public class Sit implements CommandExecutor, Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
-
         if (aliveSeats.containsValue(event.getRightClicked())) {
             event.setCancelled(true);
         }
@@ -117,8 +111,6 @@ public class Sit implements CommandExecutor, Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDismount(EntityDismountEvent event) {
-
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
 
         Entity dismounted = event.getDismounted();
         Entity entity = event.getEntity();
@@ -149,8 +141,6 @@ public class Sit implements CommandExecutor, Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerQuit(PlayerQuitEvent event) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
-
         Player player = event.getPlayer();
 
         if (!player.isInsideVehicle()) return;
@@ -165,8 +155,6 @@ public class Sit implements CommandExecutor, Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
-
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return;
 
         Player player = event.getPlayer();
 
@@ -316,41 +304,6 @@ public class Sit implements CommandExecutor, Listener {
 
                     if (seat.getLocation().getWorld().getBlockAt(seat.getLocation().clone().add(0, 1.75 - 0.00001, 0)).getType().equals(Material.AIR))
                         seat.eject();
-
-//                    recentLocations.computeIfAbsent(player, k -> new ArrayList<Location>());
-//
-//                    recentLocations.get(player).add(player.getLocation());
-//                    while (recentLocations.get(player).size() > 3)
-//                        recentLocations.get(player).remove(0);
-//
-//                    if (recentLocations.get(player).size() < 3) continue;
-//
-//                    if (lastYawTeleportLocation.get(player) == null)
-//                        lastYawTeleportLocation.put(player, player.getLocation());
-//
-//                    if (!recentLocations.get(player).get(0).equals(recentLocations.get(player).get(1))) continue;
-//                    if (!recentLocations.get(player).get(1).equals(recentLocations.get(player).get(2))) continue;
-//
-//                    if (lastYawTeleportLocation.get(player).equals(recentLocations.get(player).get(0))) continue;
-//
-//                    lastYawTeleportLocation.put(player, player.getLocation());
-//
-//                    ArmorStand seat = (ArmorStand) player.getVehicle();
-//
-//                    Location changedYaw = seat.getLocation().clone();
-//                    changedYaw.setYaw(player.getLocation().getYaw());
-//
-//                    seat.remove();
-//
-//                    seat = (ArmorStand) player.getWorld().spawnEntity(changedYaw, EntityType.ARMOR_STAND);
-//                    seat.setVisible(false);
-//                    seat.setInvulnerable(true);
-//                    seat.setCustomName(seatName);
-//                    seat.setGravity(false);
-//                    seat.addPassenger(player);
-//                    seat.setCanMove(false);
-//
-//                    aliveSeats.put(seat.getWorld().getBlockAt(seat.getLocation().add(-0.5, 1.75 - 0.00001, -0.5)).getLocation(), seat);
 
                 }
 

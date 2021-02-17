@@ -77,8 +77,6 @@ public class GodMode implements CommandExecutor, Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.GodModeCommand")) return;
-
         if (Database.connection == null) return;
 
         Player player = (Player) event.getEntity();
@@ -95,8 +93,6 @@ public class GodMode implements CommandExecutor, Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerDeath(PlayerDeathEvent event) {
-
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.GodModeCommand")) return;
 
         if (Database.connection == null) return;
 

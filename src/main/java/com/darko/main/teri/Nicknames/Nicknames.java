@@ -42,7 +42,8 @@ public class Nicknames implements CommandExecutor, TabCompleter {
         nickCacheUpdate = new ArrayList<>();
     }
 
-    public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")) return true;
 

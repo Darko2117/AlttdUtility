@@ -93,7 +93,6 @@ public class ConfigSetup {
         PetGodModeEnabled("Messages.PetGodModeEnabled", "&aPetGodMode enabled."),
         PetGodModeDisabled("Messages.PetGodModeDisabled", "&cPetGodMode disabled.");
 
-
         private final String path;
         private final String message;
 

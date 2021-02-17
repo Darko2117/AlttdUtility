@@ -1,6 +1,5 @@
 package com.darko.main.destro.claimraids;
 
-import com.darko.main.AlttdUtility;
 import org.bukkit.Raid;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,8 +14,6 @@ public class RaidListener implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onRaidStart(RaidTriggerEvent event) {
-
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockRaidsInClaimWithoutAccessTrust")) return;
 
         Player player = event.getPlayer();
         Raid raid = event.getRaid();

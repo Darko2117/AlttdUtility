@@ -20,8 +20,6 @@ public class NamedMobClaimDamage implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean(("FeatureToggles.NamedMobClaimDamageProtection"))) return;
-
         Entity entity = event.getEntity();
 
         if (entity.getCustomName() == null) return;
@@ -113,8 +111,6 @@ public class NamedMobClaimDamage implements Listener {
     public void onPotionSplash(PotionSplashEvent event) {
 
         //PotionSplash
-
-        if (!AlttdUtility.getInstance().getConfig().getBoolean(("FeatureToggles.NamedMobClaimDamageProtection"))) return;
 
         ThrownPotion potion = event.getEntity();
 

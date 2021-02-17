@@ -79,8 +79,6 @@ public class AutoFix implements CommandExecutor, Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onDurabilityUse(PlayerItemDamageEvent event) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.AutofixCommand")) return;
-
         if (Database.connection == null) return;
 
         Player player = event.getPlayer();

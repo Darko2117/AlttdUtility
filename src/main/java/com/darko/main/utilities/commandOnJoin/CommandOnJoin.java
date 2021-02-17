@@ -64,8 +64,6 @@ public class CommandOnJoin implements CommandExecutor, Listener, TabCompleter {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CommandOnJoin")) return;
-
         new BukkitRunnable() {
             @Override
             public void run() {

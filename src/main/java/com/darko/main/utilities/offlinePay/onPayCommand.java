@@ -15,8 +15,6 @@ public class onPayCommand implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPayCommands(PlayerCommandPreprocessEvent event) {
 
-        if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockOfflinePay")) return;
-
         Player player = event.getPlayer();
         String command = event.getMessage();
         if (player.hasPermission("utility.offlinepay.disabled")) {

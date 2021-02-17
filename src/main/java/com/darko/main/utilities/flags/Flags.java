@@ -111,8 +111,6 @@ public class Flags implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onAnvilDamaged(AnvilDamagedEvent event){
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags")) return;
-
         com.sk89q.worldedit.util.Location location = BukkitAdapter.adapt(event.getInventory().getLocation());
 
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
@@ -140,8 +138,6 @@ public class Flags implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEnchantingTableClick(PlayerInteractEvent event) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags")) return;
-
         if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
         if (!event.getClickedBlock().getType().equals(Material.ENCHANTING_TABLE)) return;
 
@@ -167,8 +163,6 @@ public class Flags implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onAnvilClick(PlayerInteractEvent event) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags")) return;
-
         if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
         if (!event.getClickedBlock().getType().toString().toLowerCase().contains("anvil")) return;
 
@@ -193,8 +187,6 @@ public class Flags implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onNameTagUse(PlayerInteractEntityEvent event) {
-
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags")) return;
 
         if (!event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.NAME_TAG) && !event.getPlayer().getInventory().getItemInOffHand().getType().equals(Material.NAME_TAG))
             return;

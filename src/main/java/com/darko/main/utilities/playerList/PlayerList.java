@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 public class PlayerList implements CommandExecutor, TabCompleter {
 
+    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.PlayerListCommand")) return true;
@@ -152,6 +153,8 @@ public class PlayerList implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+
+        if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.PlayerListCommand")) return null;
 
         if (args.length == 1) {
 

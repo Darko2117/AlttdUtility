@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class Hat implements CommandExecutor {
 
+    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Hat")) return true;

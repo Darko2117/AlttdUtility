@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 public class Servermsg implements CommandExecutor {
 
+    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ServerMsgCommand")) return true;

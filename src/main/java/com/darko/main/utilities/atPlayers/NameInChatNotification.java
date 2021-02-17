@@ -17,8 +17,6 @@ public class NameInChatNotification implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onChat(AsyncPlayerChatEvent event) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ChatAtPlayers")) return;
-
         StringBuilder message = new StringBuilder(event.getMessage());
 
         Boolean adminChatEnabled = false;

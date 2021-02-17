@@ -204,10 +204,7 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("ccm").setExecutor(new CustomChatMessage());
         AlttdUtility.getInstance().getCommand("godmode").setExecutor(new GodMode());
         AlttdUtility.getInstance().getCommand("petgodmode").setExecutor(new PetGodMode());
-
-        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FreezeMail")) {
-            AlttdUtility.getInstance().getCommand("freezemail").setExecutor(new FreezeMail());
-        }
+        AlttdUtility.getInstance().getCommand("freezemail").setExecutor(new FreezeMail());
 
         AlttdUtility.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         AlttdUtility.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());
@@ -225,15 +222,14 @@ public class Register extends JavaPlugin {
         if (APIs.LuckPermsFound) {
             AlttdUtility.getInstance().getCommand("setprefix").setExecutor(new SetPrefix());
             AlttdUtility.getInstance().getCommand("removeprefix").setExecutor(new RemovePrefix());
-            //Main.getInstance().getCommand("prefixhistory").setExecutor(new Cooldown());
+        }
+
+        if (APIs.CMIFound) {
+            AlttdUtility.getInstance().getCommand("nick").setExecutor(new Nicknames());
         }
 
         if (APIs.WorldGuardFound) {
             Flags.FlagsEnable();
-        }
-
-        if (APIs.CMIFound && AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")) {
-            AlttdUtility.getInstance().getCommand("nick").setExecutor(new Nicknames());
         }
 
     }

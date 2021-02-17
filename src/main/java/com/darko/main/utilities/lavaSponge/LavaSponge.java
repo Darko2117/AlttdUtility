@@ -39,8 +39,6 @@ public class LavaSponge implements Listener {
         if (!spongeBlock.getType().equals(Material.SPONGE) && !spongeBlock.getType().equals(Material.WET_SPONGE))
             return;
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.LavaSponge")) return;
-
         if (!checkOneBlockAroundSponge(spongeBlock)) return;
 
         String typeDryWet;

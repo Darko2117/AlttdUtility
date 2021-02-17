@@ -27,8 +27,6 @@ public class RebootWhitelist implements CommandExecutor, TabCompleter, Listener 
 
         if (!enabled) return;
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.RebootWhitelist")) return;
-
         event.setResult(PlayerLoginEvent.Result.KICK_OTHER);
         event.setKickMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.RebootWhitelistKickMessage")));
 
