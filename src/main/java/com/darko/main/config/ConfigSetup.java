@@ -149,6 +149,7 @@ public class ConfigSetup {
         toggles.add("Nicknames");
         toggles.add("GodModeCommand");
         toggles.add("PetGodModeCommand");
+        toggles.add("BlockRavagerDestroyingBlocksInClaim");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {

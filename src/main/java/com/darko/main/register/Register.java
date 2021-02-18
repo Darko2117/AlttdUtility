@@ -26,7 +26,7 @@ import com.darko.main.utilities.petGodMode.PetGodMode;
 import com.darko.main.utilities.playerList.PlayerList;
 import com.darko.main.utilities.prefixes.RemovePrefix;
 import com.darko.main.utilities.prefixes.SetPrefix;
-import com.darko.main.utilities.pvpDeath.PvPDeath;
+import com.darko.main.utilities.ravagerInClaim.RavagerInClaim;
 import com.darko.main.utilities.rebootWhitelist.RebootWhitelist;
 import com.darko.main.utilities.reload.ReloadCommand;
 import com.darko.main.utilities.spawnLimiter.SpawnLimiter;
@@ -136,6 +136,9 @@ public class Register extends JavaPlugin {
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.NamedMobClaimDamageProtection"))
                 registerEvents(new NamedMobClaimDamage());
 
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockRavagerDestroyingBlocksInClaim"))
+                registerEvents(new RavagerInClaim());
+
         }
 
         if (APIs.WorldGuardFound) {
@@ -159,10 +162,6 @@ public class Register extends JavaPlugin {
 
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.PreventNoPvPFishing")) {
                 registerEvents(new PvPFishing());
-            }
-
-            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.PvPDeath")) {
-                registerEvents(new PvPDeath());
             }
 
         }
