@@ -17,7 +17,11 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityAirChangeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.PreparedStatement;
@@ -27,27 +31,34 @@ import java.util.UUID;
 
 public class FreezeMailPlayerListener implements Listener {
 
+    static boolean on = false;
+    static ArrayList<UUID> players = new ArrayList<>();
+
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerJoin (PlayerJoinEvent event) {
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                ArrayList<String> playerMail = getPlayerMail(event.getPlayer().getUniqueId());
+                Player player = event.getPlayer();
+                ArrayList<String> playerMail = getPlayerMail(player.getUniqueId());
                 if (!playerMail.isEmpty()){
                     Node node = Node.builder("utility.dontfuckingmove").build();
-                    LuckPermsProvider.get().getUserManager().modifyUser(event.getPlayer().getUniqueId(), (User user) -> {
+                    LuckPermsProvider.get().getUserManager().modifyUser(player.getUniqueId(), (User user) -> {
                         DataMutateResult result = user.data().add(node);
                         if (!result.wasSuccessful()){
-                            AlttdUtility.getInstance().getLogger().warning("Unable to give " + event.getPlayer().getName() + " the utility.dontfuckingmove permission.");
+                            AlttdUtility.getInstance().getLogger().warning("Unable to give " + player.getName() + " the utility.dontfuckingmove permission.");
+                        } else {
+                            on = true;
+                            players.add(player.getUniqueId());
                         }
                     });
                     FileConfiguration config = AlttdUtility.getInstance().getConfig();
                     String title = ChatColor.translateAlternateColorCodes('&', config.getString("Messages.FreezeMailTitle"));
                     String subTitle = ChatColor.translateAlternateColorCodes('&', config.getString("Messages.FreezeMailSubTitle"));
 
-                    event.getPlayer().sendTitle(title, subTitle, 20, 200, 20);
-                    resendMessage(event.getPlayer());
+                    player.sendTitle(title, subTitle, 20, 200, 20);
+                    resendMessage(player);
                 }
             }
         }.runTaskAsynchronously(AlttdUtility.getInstance());
@@ -55,48 +66,81 @@ public class FreezeMailPlayerListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onPlayerQuit (PlayerQuitEvent event){
+
+        if (on) {
+            final Player player = event.getPlayer();
+
+            if (!player.isOp() && player.hasPermission("utility.dontfuckingmove")) {
+                players.remove(player.getUniqueId());
+                on = !players.isEmpty();
+            }
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerMove (PlayerMoveEvent event){
 
-        if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")
-                && (event.getFrom().getX() != event.getTo().getX()
-                || event.getFrom().getY() != event.getTo().getY()
-                || event.getFrom().getZ() != event.getTo().getZ())){
-            event.setCancelled(true);
+        if (on){
+            final Player player = event.getPlayer();
+
+            if (!player.isOp() && player.hasPermission("utility.dontfuckingmove")
+                    && (event.getFrom().getX() != event.getTo().getX()
+                    || event.getFrom().getY() != event.getTo().getY()
+                    || event.getFrom().getZ() != event.getTo().getZ())){
+                event.setCancelled(true);
+            }
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onBlockPlaceEvent(BlockPlaceEvent event){
 
-        if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")){
-            event.setCancelled(true);
-            resendMessage(event.getPlayer());
+        if (on) {
+            final Player player = event.getPlayer();
+
+            if (!player.isOp() && player.hasPermission("utility.dontfuckingmove")) {
+                event.setCancelled(true);
+                resendMessage(player);
+            }
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onBlockBreakEvent(BlockBreakEvent event){
 
-        if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")){
-            event.setCancelled(true);
-            resendMessage(event.getPlayer());
+        if (on) {
+            final Player player = event.getPlayer();
+
+            if (!player.isOp() && player.hasPermission("utility.dontfuckingmove")) {
+                event.setCancelled(true);
+                resendMessage(player);
+            }
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onDamageEntityEvent(DamageEntityEvent event){
 
-        if (event.getCause().getFirstPlayer() != null && !event.getCause().getFirstPlayer().isOp() && event.getCause().getFirstPlayer().hasPermission("utility.dontfuckingmove")){
-            event.setCancelled(true);
-            resendMessage(event.getCause().getFirstPlayer());
+        if (on){
+            if (event.getEntity() instanceof Player) {
+                final Player player = (Player) event.getEntity();
+                if (!player.isOp() && player.hasPermission("utility.dontfuckingmove")) {
+                    event.setCancelled(true);
+                }
+            }
+            if (event.getCause().getFirstPlayer() != null && !event.getCause().getFirstPlayer().isOp() && event.getCause().getFirstPlayer().hasPermission("utility.dontfuckingmove")){
+                event.setCancelled(true);
+                resendMessage(event.getCause().getFirstPlayer());
+            }
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event){
 
-        if (event.getEntity() instanceof Player){
-            Player player = (Player) event.getEntity();
+        if (on && event.getEntity() instanceof Player){
+            final Player player = (Player) event.getEntity();
             if (!player.isOp() && player.hasPermission("utility.dontfuckingmove")) {
                 event.setCancelled(true);
             }
@@ -106,8 +150,9 @@ public class FreezeMailPlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityAirChangeEvent (EntityAirChangeEvent event){
 
-        if (event.getEntity() instanceof Player){
-            Player player = (Player) event.getEntity();
+        if (on && event.getEntity() instanceof Player){
+            final Player player = (Player) event.getEntity();
+
             if (!player.isOp() && player.hasPermission("utility.dontfuckingmove")) {
                 event.setCancelled(true);
             }
@@ -117,38 +162,46 @@ public class FreezeMailPlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerCommand (PlayerCommandPreprocessEvent event){
 
-        if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")){
-            event.setCancelled(true);
-            resendMessage(event.getPlayer());
+        if (on) {
+            final Player player = event.getPlayer();
+
+            if (!player.isOp() && player.hasPermission("utility.dontfuckingmove")) {
+                event.setCancelled(true);
+                resendMessage(player);
+            }
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerChatEvent (AsyncPlayerChatEvent event){
 
-        if (!event.getPlayer().isOp() && event.getPlayer().hasPermission("utility.dontfuckingmove")){
-            event.setCancelled(true);
+        if (on) {
+            final Player player = event.getPlayer();
 
-            if (event.getMessage().equalsIgnoreCase("I read the message")){
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        Node node = Node.builder("utility.dontfuckingmove").build();
-                        LuckPermsProvider.get().getUserManager().modifyUser(event.getPlayer().getUniqueId(), (User user) -> {
-                            DataMutateResult result = user.data().remove(node);
-                            if (!result.wasSuccessful()){
-                                AlttdUtility.getInstance().getLogger().warning("Unable to remove the utility.dontfuckingmove permission from " + event.getPlayer().getName() + ".");
-                            }
-                        });
-                        setMailRead(event.getPlayer().getUniqueId());
-                        String messageToSend = ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.FreezeMailSuccessfullyCompleted"));
-                        event.getPlayer().sendMessage(messageToSend.replace("%player%", event.getPlayer().getName()));
-                    }
-                }.runTaskAsynchronously(AlttdUtility.getInstance());
-                return;
+            if (!player.isOp() && player.hasPermission("utility.dontfuckingmove")) {
+                event.setCancelled(true);
+
+                if (event.getMessage().equalsIgnoreCase("I read the message")) {
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            Node node = Node.builder("utility.dontfuckingmove").build();
+                            LuckPermsProvider.get().getUserManager().modifyUser(player.getUniqueId(), (User user) -> {
+                                DataMutateResult result = user.data().remove(node);
+                                if (!result.wasSuccessful()) {
+                                    AlttdUtility.getInstance().getLogger().warning("Unable to remove the utility.dontfuckingmove permission from " + player.getName() + ".");
+                                }
+                            });
+                            setMailRead(player.getUniqueId());
+                            String messageToSend = ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.FreezeMailSuccessfullyCompleted"));
+                            player.sendMessage(messageToSend.replace("%player%", player.getName()));
+                        }
+                    }.runTaskAsynchronously(AlttdUtility.getInstance());
+                    return;
+                }
+
+                resendMessage(player);
             }
-
-            resendMessage(event.getPlayer());
         }
 
     }
