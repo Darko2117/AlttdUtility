@@ -297,7 +297,7 @@ public class ConfigSetup {
             if (!config.contains(entry.getValue())) {
 
                 config.set(entry.getValue() + ".Enabled", true);
-                config.set(entry.getValue() + ".NumberOfLogsToKeep", 365);
+                config.set(entry.getValue() + ".NumberOfLogsToKeep", 60);
 
                 notFoundInConfigMessage(entry.getValue());
 
