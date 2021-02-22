@@ -6,9 +6,7 @@ import com.darko.main.teri.Nicknames.NickEvent;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.ItemFrame;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -16,9 +14,13 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.event.vehicle.VehicleDestroyEvent;
+import org.bukkit.event.weather.LightningStrikeEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.RegisteredListener;
 
+import java.util.Arrays;
 import java.util.Date;
 
 public class LoggingNoAPI implements Listener {
@@ -563,6 +565,220 @@ public class LoggingNoAPI implements Listener {
         message = message.concat("|");
 
         Logging.WriteToFile(Logging.nicknameLogName, message);
+
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public static void onVehicleDestroy(VehicleDestroyEvent event) {
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.minecartsDestroyedLogName) + ".Enabled"))
+            return;
+
+        String time = new Date(System.currentTimeMillis()).toString();
+
+        String attacker = "Not a player";
+        try {
+            attacker = event.getAttacker().getName();
+        } catch (Throwable ignored) {
+        }
+
+        String location = Logging.getBetterLocationString(event.getVehicle().getLocation());
+
+        String claimOwner = "";
+        if (APIs.GriefPreventionFound) {
+            Claim claim = GriefPrevention.instance.dataStore.getClaimAt(event.getVehicle().getLocation(), true, null);
+            if (claim != null) claimOwner = claim.getOwnerName();
+        }
+
+        String message = "";
+        message = message.concat("|");
+        message = message.concat("Time:");
+        message = message.concat(time);
+        message = message.concat("|");
+        message = message.concat("Attacker:");
+        message = message.concat(attacker);
+        message = message.concat("|");
+        message = message.concat("Location:");
+        message = message.concat(location);
+        message = message.concat("|");
+        message = message.concat("ClaimOwner:");
+        message = message.concat(claimOwner);
+        message = message.concat("|");
+
+        Logging.WriteToFile(Logging.minecartsDestroyedLogName, message);
+
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public static void onLightningStrike(LightningStrikeEvent event) {
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.lightningStrikesLogName) + ".Enabled"))
+            return;
+
+        String time = new Date(System.currentTimeMillis()).toString();
+
+        String location = Logging.getBetterLocationString(event.getLightning().getLocation());
+
+        String cause = event.getCause().toString();
+
+        String message = "";
+        message = message.concat("|");
+        message = message.concat("Time:");
+        message = message.concat(time);
+        message = message.concat("|");
+        message = message.concat("Cause:");
+        message = message.concat(cause);
+        message = message.concat("|");
+        message = message.concat("Location:");
+        message = message.concat(location);
+        message = message.concat("|");
+
+        Logging.WriteToFile(Logging.lightningStrikesLogName, message);
+
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public static void onProjectileLaunch(ProjectileLaunchEvent event) {
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.tridentsLogName) + ".Enabled"))
+            return;
+
+        if (!event.getEntity().getType().equals(EntityType.TRIDENT)) return;
+
+        String time = new Date(System.currentTimeMillis()).toString();
+
+        String player;
+        if (event.getEntity().getShooter() instanceof Player) {
+            player = ((Player) event.getEntity().getShooter()).getName();
+        } else {
+            player = event.getEntity().getShooter().toString();
+        }
+
+        String trident = ((Trident) event.getEntity()).getItemStack().toString();
+
+        String location = Logging.getBetterLocationString(event.getEntity().getLocation());
+
+        String action = "THROW";
+
+        String target = "";
+
+        String message = "";
+        message = message.concat("|");
+        message = message.concat("Time:");
+        message = message.concat(time);
+        message = message.concat("|");
+        message = message.concat("Player:");
+        message = message.concat(player);
+        message = message.concat("|");
+        message = message.concat("Trident:");
+        message = message.concat(trident);
+        message = message.concat("|");
+        message = message.concat("Location:");
+        message = message.concat(location);
+        message = message.concat("|");
+        message = message.concat("Action:");
+        message = message.concat(action);
+        message = message.concat("|");
+        message = message.concat("Target:");
+        message = message.concat(target);
+        message = message.concat("|");
+
+        Logging.WriteToFile(Logging.tridentsLogName, message);
+
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public static void onPlayerPickupArrow(PlayerPickupArrowEvent event) {
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.tridentsLogName) + ".Enabled"))
+            return;
+
+        if (!event.getArrow().getType().equals(EntityType.TRIDENT)) return;
+
+        String time = new Date(System.currentTimeMillis()).toString();
+
+        String player = event.getPlayer().getName();
+
+        String trident = event.getArrow().getItemStack().toString();
+
+        String location = Logging.getBetterLocationString(event.getArrow().getLocation());
+
+        String action = "PICKUP";
+
+        String target = "";
+
+        String message = "";
+        message = message.concat("|");
+        message = message.concat("Time:");
+        message = message.concat(time);
+        message = message.concat("|");
+        message = message.concat("Player:");
+        message = message.concat(player);
+        message = message.concat("|");
+        message = message.concat("Trident:");
+        message = message.concat(trident);
+        message = message.concat("|");
+        message = message.concat("Location:");
+        message = message.concat(location);
+        message = message.concat("|");
+        message = message.concat("Action:");
+        message = message.concat(action);
+        message = message.concat("|");
+        message = message.concat("Target:");
+        message = message.concat(target);
+        message = message.concat("|");
+
+        Logging.WriteToFile(Logging.tridentsLogName, message);
+
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public static void onEntityDamageByEntity1(EntityDamageByEntityEvent event) {
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.tridentsLogName) + ".Enabled"))
+            return;
+
+        if (!event.getDamager().getType().equals(EntityType.TRIDENT)) return;
+
+        String time = new Date(System.currentTimeMillis()).toString();
+
+        String player;
+        if (((Trident) event.getDamager()).getShooter() instanceof Player) {
+            player = ((Player) ((Trident) event.getDamager()).getShooter()).getName();
+        } else {
+            player = ((Trident) event.getDamager()).getShooter().toString();
+        }
+
+        String trident = ((Trident) event.getDamager()).getItemStack().toString();
+
+        String location = Logging.getBetterLocationString(event.getEntity().getLocation());
+
+        String action = "HIT";
+
+        String target = event.getEntity().getType().toString();
+
+        String message = "";
+        message = message.concat("|");
+        message = message.concat("Time:");
+        message = message.concat(time);
+        message = message.concat("|");
+        message = message.concat("Player:");
+        message = message.concat(player);
+        message = message.concat("|");
+        message = message.concat("Trident:");
+        message = message.concat(trident);
+        message = message.concat("|");
+        message = message.concat("Location:");
+        message = message.concat(location);
+        message = message.concat("|");
+        message = message.concat("Action:");
+        message = message.concat(action);
+        message = message.concat("|");
+        message = message.concat("Target:");
+        message = message.concat(target);
+        message = message.concat("|");
+
+        Logging.WriteToFile(Logging.tridentsLogName, message);
 
     }
 

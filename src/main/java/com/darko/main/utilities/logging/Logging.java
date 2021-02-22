@@ -39,6 +39,9 @@ public class Logging {
     public static String droppedItemsOnDeathLogName = "droppedItemsOnDeath";
     public static String nicknameLogName = "nicknames";
     public static String petItemPickupLogName = "petItemPickup";
+    public static String minecartsDestroyedLogName = "minecartsDestroyed";
+    public static String lightningStrikesLogName = "lightningStrikes";
+    public static String tridentsLogName = "tridents";
 
     public static void initiate() {
 
@@ -64,6 +67,9 @@ public class Logging {
         logNamesAndConfigPaths.put(droppedItemsOnDeathLogName, "Logging.DroppedItemsOnDeath");
         logNamesAndConfigPaths.put(nicknameLogName, "Logging.Nicknames");
         logNamesAndConfigPaths.put(petItemPickupLogName, "Logging.PetItemPickup");
+        logNamesAndConfigPaths.put(minecartsDestroyedLogName, "Logging.MinecartsDestroyed");
+        logNamesAndConfigPaths.put(lightningStrikesLogName, "Logging.LightningStrikes");
+        logNamesAndConfigPaths.put(tridentsLogName, "Logging.Tridents");
 
         List<String> directories = new ArrayList<>();
         directories.add("logs");
@@ -401,6 +407,28 @@ public class Logging {
             arguments.add("Owner:");
             arguments.add("Item:");
             arguments.add("Location:");
+
+        } else if (logName.equals("minecartsDestroyed")) {
+
+            arguments.add("Time:");
+            arguments.add("Attacker:");
+            arguments.add("Location:");
+            arguments.add("ClaimOwner:");
+
+        } else if (logName.equals("lightningStrikes")) {
+
+            arguments.add("Time:");
+            arguments.add("Cause:");
+            arguments.add("Location:");
+
+        } else if (logName.equals("tridents")) {
+
+            arguments.add("Time:");
+            arguments.add("Player:");
+            arguments.add("Trident:");
+            arguments.add("Location:");
+            arguments.add("Action:");
+            arguments.add("Target:");
 
         }
 
