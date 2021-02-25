@@ -1,7 +1,5 @@
 package com.darko.main.teri.Nicknames;
 
-import java.awt.*;
-
 import com.darko.main.AlttdUtility;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -9,6 +7,7 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -153,8 +152,14 @@ public class Utilities
 
                     if (!cleanNick.equalsIgnoreCase(target.getName())){
                         for (Nick nick : Nicknames.getInstance().NickCache.values()){
-                            if (!nick.getUuid().equals(target.getUniqueId()) && (nick.getCurrentNickNoColor() != null && nick.getCurrentNickNoColor().equalsIgnoreCase(cleanNick))
-                                    || (nick.getNewNickNoColor() != null && nick.getNewNickNoColor().equalsIgnoreCase(cleanNick))){
+                            if (!nick.getUuid().equals(target.getUniqueId())
+                                    && ((nick.getCurrentNickNoColor() != null && nick.getCurrentNickNoColor().equalsIgnoreCase(cleanNick))
+                                    || (nick.getNewNickNoColor() != null && nick.getNewNickNoColor().equalsIgnoreCase(cleanNick)))){
+                                UUID uuid = nick.getUuid();
+                                UUID uniqueId = target.getUniqueId();
+                                if (uniqueId.equals(uuid)){
+                                    System.out.println(uuid + " " + uniqueId);
+                                }
                                 sender.sendMessage(applyColor(AlttdUtility.getInstance().getConfig().getString("Messages.NickTaken")));
                                 return false;
                             }
