@@ -38,8 +38,6 @@ public class ReloadCommand implements CommandExecutor {
 
         Sit.startCheckingSeats();
 
-        FreezeMailPlayerListener.startFreezemailRepeater();
-
         RebootWhitelist.reload();
 
         Logging.initiate();
@@ -49,6 +47,8 @@ public class ReloadCommand implements CommandExecutor {
         APIs.APIConnect();
 
         Register.registerEvents();
+
+        FreezeMailPlayerListener.startFreezemailRepeater();
 
         new BukkitRunnable() {
             @Override
