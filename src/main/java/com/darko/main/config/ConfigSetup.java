@@ -150,6 +150,7 @@ public class ConfigSetup {
         toggles.add("GodModeCommand");
         toggles.add("PetGodModeCommand");
         toggles.add("BlockRavagerDestroyingBlocksInClaim");
+        toggles.add("DisablePvpOnLeave");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
