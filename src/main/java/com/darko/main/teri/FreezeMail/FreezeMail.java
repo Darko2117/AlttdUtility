@@ -146,7 +146,7 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
 
     private void sendPlayersFreezeMail(CommandSender sender, ArrayList<String> messagesForPlayerRead, ArrayList<String> messagesForPlayerUnread, String playerName) {
         if (messagesForPlayerRead.isEmpty() && messagesForPlayerUnread.isEmpty()) {
-            sender.sendMessage("&cNo mails found for " + playerName + ".");
+            sender.sendMessage(ChatColor.RED + "No mails found for " + playerName + ".");
             return;
         }
 
@@ -247,12 +247,19 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
         String query = "INSERT INTO freeze_message (UUID, Message, IsRead) VALUES (?, ?, ?)";
 
         try {
+
             PreparedStatement preparedStatement = Database.connection.prepareStatement(query);
             preparedStatement.setString(1, player.getUniqueId().toString());
             preparedStatement.setString(2, message);
             preparedStatement.setInt(3, 0);
 
             preparedStatement.execute();
+
+            Database.reloadLoadedValues();
+            if (player.isOnline()) {
+                new FreezeMailPlayerListener().resendFreezeMailTitle((Player) player);
+                new FreezeMailPlayerListener().resendFreezeMailMessage((Player) player);
+            }
 
         } catch (Throwable throwable) {
             throwable.printStackTrace();

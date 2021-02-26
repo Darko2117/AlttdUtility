@@ -1,6 +1,7 @@
 package com.darko.main.database;
 
 import com.darko.main.AlttdUtility;
+import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,6 +24,7 @@ public class Database implements Listener {
     public static List<Player> blockItemPickupEnabledPlayers = new ArrayList<>();
     public static List<Player> godModeEnabledPlayers = new ArrayList<>();
     public static List<Player> petGodModeEnabledPlayers = new ArrayList<>();
+    public static List<Player> unreadFreezemailPlayers = new ArrayList<>();
 
     private static List<String> logConfirmationMessages = new ArrayList<>();
 
@@ -228,6 +230,15 @@ public class Database implements Listener {
                 Player player = Bukkit.getPlayer(UUID.fromString(rs.getString("UUID")));
                 if (Bukkit.getOnlinePlayers().contains(player)) petGodModeEnabledPlayers.add(player);
             }
+
+            statement = "SELECT uuid FROM freeze_message WHERE IsRead = 0;";
+            rs = Database.connection.prepareStatement(statement).executeQuery();
+            unreadFreezemailPlayers.clear();
+            while (rs.next()) {
+                Player player = Bukkit.getPlayer(UUID.fromString(rs.getString("uuid")));
+                if (Bukkit.getOnlinePlayers().contains(player)) unreadFreezemailPlayers.add(player);
+            }
+            FreezeMailPlayerListener.refreshON();
 
         } catch (Throwable throwable) {
             throwable.printStackTrace();

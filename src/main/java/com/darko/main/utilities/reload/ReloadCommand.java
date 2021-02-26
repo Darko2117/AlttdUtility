@@ -6,6 +6,7 @@ import com.darko.main.config.ConfigSetup;
 import com.darko.main.cosmetics.sit.Sit;
 import com.darko.main.database.Database;
 import com.darko.main.register.Register;
+import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
 import com.darko.main.utilities.logging.Logging;
 import com.darko.main.utilities.rebootWhitelist.RebootWhitelist;
 import com.darko.main.utilities.spawnLimiter.SpawnLimiter;
@@ -36,6 +37,8 @@ public class ReloadCommand implements CommandExecutor {
         SpawnLimiter.reload();
 
         Sit.startCheckingSeats();
+
+        FreezeMailPlayerListener.startFreezemailRepeater();
 
         RebootWhitelist.reload();
 
