@@ -1,6 +1,7 @@
 package com.darko.main.teri.Nicknames;
 
 import com.darko.main.AlttdUtility;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -189,10 +190,15 @@ public class NicknamesGui implements Listener {
                                 Nicknames.getInstance().setNick(owningPlayer.getPlayer(), nick.getNewNick());
                                 owningPlayer.getPlayer().sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickChanged")
                                         .replace("%nickname%", nick.getNewNick())));
-
-                            } else {
-                                Utilities.bungeeMessageHandled(uniqueId, e.getWhoClicked().getServer().getPlayer(e.getWhoClicked().getName()), "Accepted");
                             }
+
+                            Utilities.bungeeMessageHandled(uniqueId, e.getWhoClicked().getServer().getPlayer(e.getWhoClicked().getName()), "Accepted");
+                            final String messageAccepted = ChatColor.GREEN + owningPlayer.getName() + "'s nickname was accepted!";
+                            AlttdUtility.getInstance().getServer().getOnlinePlayers().forEach(p -> {
+                                if (p.hasPermission("utility.nick.review")) {
+                                    p.sendMessage(messageAccepted);
+                                }
+                            });
 
                             nick.setCurrentNick(nick.getNewNick());
                             nick.setLastChangedDate(new Date().getTime());
@@ -242,8 +248,18 @@ public class NicknamesGui implements Listener {
                             }
 
                             if (owningPlayer.isOnline()) {
-                                Utilities.bungeeMessageHandled(uniqueId, e.getWhoClicked().getServer().getPlayer(e.getWhoClicked().getName()), "Denied");
+                                Nicknames.getInstance().setNick(owningPlayer.getPlayer(), nick.getCurrentNick() == null ? owningPlayer.getName() : nick.getCurrentNick());
+                                owningPlayer.getPlayer().sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickNotChanged")));
                             }
+
+                            Utilities.bungeeMessageHandled(uniqueId, e.getWhoClicked().getServer().getPlayer(e.getWhoClicked().getName()), "Denied");
+                            final String messageDenied = ChatColor.RED + owningPlayer.getName() + "'s nickname was denied!";
+                            AlttdUtility.getInstance().getServer().getOnlinePlayers().forEach(p -> {
+                                if (p.hasPermission("utility.nick.review")) {
+                                    p.sendMessage(messageDenied);
+                                }
+                            });
+
 
                             ItemStack itemStack = new ItemStack(Material.SKELETON_SKULL);
                             ItemMeta itemMeta = itemStack.getItemMeta();
