@@ -94,18 +94,10 @@ public class FreezeMailPlayerListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    public void onEntityDamage(EntityDamageByEntityEvent event) {
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
 
         if (!on) return;
 
-        if (event.getEntity() instanceof Player) {
-
-            Player player = (Player) event.getEntity();
-            if (Database.unreadFreezemailPlayers.contains(player)) {
-                event.setCancelled(true);
-            }
-
-        }
         if (event.getDamager() instanceof Player) {
 
             Player player = (Player) event.getDamager();
