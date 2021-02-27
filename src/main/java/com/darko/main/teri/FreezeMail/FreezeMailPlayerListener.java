@@ -98,14 +98,13 @@ public class FreezeMailPlayerListener implements Listener {
 
         if (!on) return;
 
-        if (event.getDamager() instanceof Player) {
+        if (!(event.getDamager() instanceof Player)) return;
 
-            Player player = (Player) event.getDamager();
-            if (Database.unreadFreezemailPlayers.contains(player)) {
-                event.setCancelled(true);
-            }
+        Player player = (Player) event.getDamager();
 
-        }
+        if (!Database.unreadFreezemailPlayers.contains(player)) return;
+
+        event.setCancelled(true);
 
     }
 
@@ -114,7 +113,7 @@ public class FreezeMailPlayerListener implements Listener {
 
         if (!on) return;
 
-        if(!(event.getEntity() instanceof Player)) return;
+        if (!(event.getEntity() instanceof Player)) return;
 
         Player player = (Player) event.getEntity();
 
@@ -181,7 +180,7 @@ public class FreezeMailPlayerListener implements Listener {
 
         if (!on) return;
 
-        if(!(event.getEntity().getShooter() instanceof Player)) return;
+        if (!(event.getEntity().getShooter() instanceof Player)) return;
 
         Player player = (Player) event.getEntity().getShooter();
 
