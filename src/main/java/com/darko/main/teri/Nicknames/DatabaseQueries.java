@@ -1,7 +1,7 @@
 package com.darko.main.teri.Nicknames;
 
 import com.darko.main.AlttdUtility;
-import com.darko.main.database.Database;
+import com.darko.main.common.database.Database;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

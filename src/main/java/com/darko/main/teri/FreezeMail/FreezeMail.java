@@ -1,7 +1,7 @@
 package com.darko.main.teri.FreezeMail;
 
 import com.darko.main.AlttdUtility;
-import com.darko.main.database.Database;
+import com.darko.main.common.database.Database;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

@@ -1,8 +1,8 @@
 package com.darko.main;
 
-import com.darko.main.register.Register;
-import com.darko.main.utilities.rebootWhitelist.RebootWhitelist;
-import com.darko.main.utilities.reload.ReloadCommand;
+import com.darko.main.common.register.Register;
+import com.darko.main.darko.rebootWhitelist.RebootWhitelist;
+import com.darko.main.darko.reload.ReloadCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class AlttdUtility extends JavaPlugin {

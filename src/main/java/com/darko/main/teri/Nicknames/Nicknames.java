@@ -2,7 +2,7 @@ package com.darko.main.teri.Nicknames;
 
 import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.Containers.CMIUser;
-import com.darko.main.API.APIs;
+import com.darko.main.common.API.APIs;
 import com.darko.main.AlttdUtility;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
