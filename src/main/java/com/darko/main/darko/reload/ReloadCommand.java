@@ -54,8 +54,7 @@ public class ReloadCommand implements CommandExecutor {
 
         FreezeMailPlayerListener.startFreezemailRepeater();
 
-        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.TimedTips"))
-            TimedTips.initiate();
+        TimedTips.initiate();
 
         new BukkitRunnable() {
             @Override

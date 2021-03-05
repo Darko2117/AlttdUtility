@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,6 +17,8 @@ public class TimedTips {
     static Integer delay = null;
 
     public static void initiate() {
+
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.TimedTips")) return;
 
         messages = AlttdUtility.getInstance().getConfig().getStringList("TimedTips.Messages");
         delay = AlttdUtility.getInstance().getConfig().getInt("TimedTips.Delay") * 20 * 60;
