@@ -2,6 +2,7 @@ package com.darko.main.darko.sit;
 
 import com.darko.main.common.API.APIs;
 import com.darko.main.AlttdUtility;
+import com.darko.main.common.BukkitTasksCache;
 import com.darko.main.common.Methods;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.LocalPlayer;
@@ -286,7 +287,7 @@ public class Sit implements CommandExecutor, Listener {
 
     public static void startCheckingSeats() {
 
-        new BukkitRunnable() {
+        BukkitTasksCache.addTask(new BukkitRunnable() {
             @Override
             public void run() {
 
@@ -308,7 +309,7 @@ public class Sit implements CommandExecutor, Listener {
                 }
 
             }
-        }.runTaskTimer(AlttdUtility.getInstance(), 20, 20);
+        }.runTaskTimer(AlttdUtility.getInstance(), 20, 20));
 
     }
 

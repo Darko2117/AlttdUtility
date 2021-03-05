@@ -41,7 +41,7 @@ public class ConfigSetup {
         RebootWhitelistKickMessage("Messages.RebootWhitelistKickMessage", "&fThe server is rebooting, you will be able to join shortly."),
         IncorrectUsageSearchLogsCommand("Messages.IncorrectUsageSearchLogsCommand", "&cUsage of this command is /searchlogs <normal/special/additional>."),
         IncorrectUsageSearchNormalLogsCommand("Messages.IncorrectUsageSearchNormalLogsCommand", "&cUsage of this command is /searchlogs normal <numberOfDays> <search-string>."),
-        IncorrectUsageSearchSpecialLogsCommand("Messages.IncorrectUsageSearchSpecialLogsCommand", "&cUsage of this command is /searchlogs special <logName> <numberOfDays> <Argument1Name: Argument1> <Argument2Name: Argument2> <Argument3Name: Argument3>... Just follow what tab complete is giving you or check out the drive document."),
+        IncorrectUsageSearchSpecialLogsCommand("Messages.IncorrectUsageSearchSpecialLogsCommand", "&cWrong usage of this command, honestly just check the guide on how to use it, I can't explain it in one message..."),
         IncorrectUsageSearchAdditionalLogsCommand("Messages.IncorrectUsageSearchAdditionalLogsCommand", "&cUsage of this command is /searchlogs additional <logName> <numberOfDays> <search-string>."),
         SitCommandNotOnGroundMessage("Messages.SitCommandNotOnGroundMessage", "&cYou must be standing on the ground to do this command."),
         SeatOccupiedMessage("Messages.SeatOccupiedMessage", "&cThat seat is occupied."),
@@ -92,7 +92,10 @@ public class ConfigSetup {
         GodModeEnabled("Messages.GodModeEnabled", "&aGodMode enabled."),
         GodModeDisabled("Messages.GodModeDisabled", "&cGodMode disabled."),
         PetGodModeEnabled("Messages.PetGodModeEnabled", "&aPetGodMode enabled."),
-        PetGodModeDisabled("Messages.PetGodModeDisabled", "&cPetGodMode disabled.");
+        PetGodModeDisabled("Messages.PetGodModeDisabled", "&cPetGodMode disabled."),
+        InvalidUsageClaimPatrolCommand("Messages.InvalidUsageClaimPatrolCommand", "&cThe usage for this command is /claimpatrol <owner/trust> <user> <number(optional)>."),
+        PlayerHasNotJoinedBefore("Messages.PlayerHasNotJoinedBefore", "&cThat player has not joined before."),
+        NoClaimsToPatrol("Messages.NoClaimsToPatrol", "&cNo claims to patrol!");
 
         private final String path;
         private final String message;
@@ -152,6 +155,8 @@ public class ConfigSetup {
         toggles.add("PetGodModeCommand");
         toggles.add("BlockRavagerDestroyingBlocksInClaim");
         toggles.add("DisablePvpOnLeave");
+        toggles.add("ClaimPatrolCommand");
+        toggles.add("TimedTips");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
@@ -431,7 +436,7 @@ public class ConfigSetup {
 
         // Nicknames
 
-        if (!config.contains("Nicknames.Lore")){
+        if (!config.contains("Nicknames.Lore")) {
             List<String> lore = new ArrayList<>();
 
             lore.add("&bNew nick: %newNick%");
@@ -444,22 +449,42 @@ public class ConfigSetup {
             notFoundInConfigMessage("Nicknames.Lore");
         }
 
-        if (!config.contains("Nicknames.WaitTime")){
+        if (!config.contains("Nicknames.WaitTime")) {
             config.set("Nicknames.WaitTime", 86400000);
-
             notFoundInConfigMessage("Nicknames.WaitTime");
         }
 
-        if (!config.contains("Nicknames.BlockedColorCodes")){
-            config.set("Nicknames.BlockedColorCodes", new String[] { "&k", "&l", "&n", "&m", "&o" });
-
+        if (!config.contains("Nicknames.BlockedColorCodes")) {
+            config.set("Nicknames.BlockedColorCodes", new String[]{"&k", "&l", "&n", "&m", "&o"});
             notFoundInConfigMessage("Nicknames.BlockedColorCodes");
         }
 
-        if (!config.contains("Nicknames.AllowedColorCodes")){
-            config.set("Nicknames.AllowedColorCodes", new String[] { "&0", "&1", "&2", "&3", "&4", "&5", "&6", "&7", "&8", "&9", "&a", "&b", "&c", "&d", "&e", "&f", "&r" });
-
+        if (!config.contains("Nicknames.AllowedColorCodes")) {
+            config.set("Nicknames.AllowedColorCodes", new String[]{"&0", "&1", "&2", "&3", "&4", "&5", "&6", "&7", "&8", "&9", "&a", "&b", "&c", "&d", "&e", "&f", "&r"});
             notFoundInConfigMessage("Nicknames.AllowedColorCodes");
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
+        //TimedTips
+
+        if (!config.contains("TimedTips.Delay")) {
+            config.set("TimedTips.Delay", 10);
+            notFoundInConfigMessage("TimedTips.Delay");
+        }
+        if (!config.contains("TimedTips.Messages")) {
+
+            List<String> messages = new ArrayList<>();
+            String message = "";
+
+            message = message.concat("&f====================\\n");
+            message = message.concat("&fThis is what a tip is supposed to look like!\\n");
+            message = message.concat("&f====================");
+
+            messages.add(message);
+
+            config.set("TimedTips.Messages", messages);
+            notFoundInConfigMessage("TimedTips.Messages");
         }
 
         // ----------------------------------------------------------------------------------------------------

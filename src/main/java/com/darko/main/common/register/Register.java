@@ -2,6 +2,7 @@ package com.darko.main.common.register;
 
 
 import com.darko.main.common.API.APIs;
+import com.darko.main.darko.claimPatrol.ClaimPatrol;
 import com.darko.main.darko.invisibleItemFrame.InvisibleItemFrame;
 import com.darko.main.darko.sit.Sit;
 import com.darko.main.common.database.Database;
@@ -216,6 +217,11 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("ccm").setTabCompleter(new CustomChatMessage());
 
         AlttdUtility.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(AlttdUtility.getInstance(), "BungeeCord");
+
+        if (APIs.GriefPreventionFound) {
+            AlttdUtility.getInstance().getCommand("claimpatrol").setExecutor(new ClaimPatrol());
+            AlttdUtility.getInstance().getCommand("claimpatrol").setTabCompleter(new ClaimPatrol());
+        }
 
         if (APIs.LuckPermsFound) {
             AlttdUtility.getInstance().getCommand("cooldown").setExecutor(new Cooldown());

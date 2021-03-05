@@ -2,10 +2,12 @@ package com.darko.main.darko.reload;
 
 import com.darko.main.common.API.APIs;
 import com.darko.main.AlttdUtility;
+import com.darko.main.common.BukkitTasksCache;
 import com.darko.main.common.config.ConfigSetup;
 import com.darko.main.darko.sit.Sit;
 import com.darko.main.common.database.Database;
 import com.darko.main.common.register.Register;
+import com.darko.main.darko.timedTips.TimedTips;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
 import com.darko.main.darko.logging.Logging;
 import com.darko.main.darko.rebootWhitelist.RebootWhitelist;
@@ -25,7 +27,7 @@ public class ReloadCommand implements CommandExecutor {
 
         sender.sendMessage(ChatColor.GREEN + "Plugin reloaded!");
 
-        return false;
+        return true;
 
     }
 
@@ -33,6 +35,8 @@ public class ReloadCommand implements CommandExecutor {
 
         AlttdUtility.getInstance().saveDefaultConfig();
         AlttdUtility.getInstance().reloadConfig();
+
+        BukkitTasksCache.cancelRunningTasks();
 
         SpawnLimiter.reload();
 
@@ -49,6 +53,9 @@ public class ReloadCommand implements CommandExecutor {
         Register.registerEvents();
 
         FreezeMailPlayerListener.startFreezemailRepeater();
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.TimedTips"))
+            TimedTips.initiate();
 
         new BukkitRunnable() {
             @Override

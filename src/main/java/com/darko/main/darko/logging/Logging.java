@@ -1,6 +1,7 @@
 package com.darko.main.darko.logging;
 
 import com.darko.main.AlttdUtility;
+import com.darko.main.common.BukkitTasksCache;
 import com.darko.main.common.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -90,12 +91,12 @@ public class Logging {
             }
         }.runTaskAsynchronously(AlttdUtility.getInstance());
 
-        new BukkitRunnable() {
+        BukkitTasksCache.addTask(new BukkitRunnable() {
             @Override
             public void run() {
                 CompressIfDateChanged();
             }
-        }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 1200, 1200);
+        }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 1200, 1200));
 
     }
 

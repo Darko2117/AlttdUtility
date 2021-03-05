@@ -53,3 +53,5 @@ commands:
     permission: utility.godmode
   petgodmode:
     permission: utility.petgodmode
+  claimpatrol:
+    permission: utility.claimpatrol

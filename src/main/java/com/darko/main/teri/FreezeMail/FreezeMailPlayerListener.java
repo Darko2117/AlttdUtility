@@ -1,6 +1,7 @@
 package com.darko.main.teri.FreezeMail;
 
 import com.darko.main.AlttdUtility;
+import com.darko.main.common.BukkitTasksCache;
 import com.darko.main.common.database.Database;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -281,7 +282,7 @@ public class FreezeMailPlayerListener implements Listener {
 
     public static void startFreezemailRepeater() {
 
-        new BukkitRunnable() {
+        BukkitTasksCache.addTask(new BukkitRunnable() {
             @Override
             public void run() {
 
@@ -291,7 +292,7 @@ public class FreezeMailPlayerListener implements Listener {
                 }
 
             }
-        }.runTaskTimer(AlttdUtility.getInstance(), 240, 240);
+        }.runTaskTimer(AlttdUtility.getInstance(), 240, 240));
 
     }
 
