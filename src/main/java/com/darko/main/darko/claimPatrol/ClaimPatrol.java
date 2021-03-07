@@ -2,10 +2,7 @@ package com.darko.main.darko.claimPatrol;
 
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.Methods;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -88,6 +85,11 @@ public class ClaimPatrol implements CommandExecutor, TabCompleter {
                 middleZ = (lesserCorner.getZ() + greaterCorner.getZ()) / 2;
 
                 Location centerOfClaim = new Location(lesserCorner.getWorld(), middleX, middleY, middleZ);
+
+                if (centerOfClaim.getY() <= 0) centerOfClaim.setY(1);
+                while (!Bukkit.getWorld(centerOfClaim.getWorld().getName()).getBlockAt(centerOfClaim).getBlockData().getMaterial().isAir()) {
+                    centerOfClaim.setY(centerOfClaim.getY() + 1);
+                }
 
                 String firstPartOfMessage = null;
                 if (patrolObject.getMode().equals(PatrolMode.OWNER))
