@@ -5,6 +5,7 @@ import com.darko.main.common.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -47,7 +48,7 @@ public class ClaimPatrol implements CommandExecutor, TabCompleter {
         }
 
         String playerName = args[1];
-        Player searchedPlayer = Bukkit.getServer().getPlayerExact(playerName);
+        OfflinePlayer searchedPlayer = Bukkit.getOfflinePlayerIfCached(playerName);
         if (searchedPlayer == null) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerHasNotJoinedBefore");
             return true;
@@ -109,7 +110,7 @@ public class ClaimPatrol implements CommandExecutor, TabCompleter {
 
     }
 
-    private PatrolObject getNextClaimToPatrol(Player searchingPlayer, Player searchedPlayer, PatrolMode mode, Integer optionalClaimIndex) {
+    private PatrolObject getNextClaimToPatrol(Player searchingPlayer, OfflinePlayer searchedPlayer, PatrolMode mode, Integer optionalClaimIndex) {
 
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ClaimPatrolCommand")) return null;
 
@@ -221,12 +222,12 @@ public class ClaimPatrol implements CommandExecutor, TabCompleter {
     private class PatrolObject {
 
         Player searchingPlayer;
-        Player searchedPlayer;
+        OfflinePlayer searchedPlayer;
         PatrolMode mode;
         List<YamlConfiguration> claims;
         Integer lastVisitedClaimIndex;
 
-        public PatrolObject(Player searchingPlayer, Player searchedPlayer, PatrolMode mode, List<YamlConfiguration> claims, Integer lastVisitedClaimIndex) {
+        public PatrolObject(Player searchingPlayer, OfflinePlayer searchedPlayer, PatrolMode mode, List<YamlConfiguration> claims, Integer lastVisitedClaimIndex) {
             this.searchingPlayer = searchingPlayer;
             this.searchedPlayer = searchedPlayer;
             this.mode = mode;
@@ -242,11 +243,11 @@ public class ClaimPatrol implements CommandExecutor, TabCompleter {
             this.searchingPlayer = searchingPlayer;
         }
 
-        public Player getSearchedPlayer() {
+        public OfflinePlayer getSearchedPlayer() {
             return searchedPlayer;
         }
 
-        public void setSearchedPlayer(Player searchedPlayer) {
+        public void setSearchedPlayer(OfflinePlayer searchedPlayer) {
             this.searchedPlayer = searchedPlayer;
         }
 
