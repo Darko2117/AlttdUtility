@@ -3,9 +3,11 @@ package com.darko.main.common;
 import com.darko.main.AlttdUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.io.*;
@@ -17,6 +19,21 @@ public class Methods {
     public void sendConfigMessage(CommandSender receiver, String path) {
 
         receiver.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString(path)));
+
+    }
+
+    public Boolean checkConfig() {
+
+        try {
+            InputStream inputStream = new FileInputStream(AlttdUtility.getInstance().getDataFolder() + "/config.yml");
+            Yaml config = new Yaml();
+            config.load(inputStream);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+            return false;
+        }
+
+        return true;
 
     }
 
@@ -182,7 +199,7 @@ public class Methods {
 
     }
 
-    public String getServerJarPath(){
+    public String getServerJarPath() {
 
         String path = new File(".").getAbsolutePath();
         path = path.substring(0, path.length() - 1);
@@ -190,7 +207,7 @@ public class Methods {
 
     }
 
-    public static String serializeItemStack(ItemStack itemStack){
+    public String serializeItemStack(ItemStack itemStack) {
 
         try {
 
@@ -213,7 +230,7 @@ public class Methods {
 
     }
 
-    public static ItemStack deserializeItemStack(String string) {
+    public ItemStack deserializeItemStack(String string) {
 
         try {
 

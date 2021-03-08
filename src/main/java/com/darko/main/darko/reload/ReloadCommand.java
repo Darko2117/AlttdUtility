@@ -3,6 +3,7 @@ package com.darko.main.darko.reload;
 import com.darko.main.common.API.APIs;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.BukkitTasksCache;
+import com.darko.main.common.Methods;
 import com.darko.main.common.config.ConfigSetup;
 import com.darko.main.darko.sit.Sit;
 import com.darko.main.common.database.Database;
@@ -12,6 +13,7 @@ import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
 import com.darko.main.darko.logging.Logging;
 import com.darko.main.darko.rebootWhitelist.RebootWhitelist;
 import com.darko.main.darko.spawnLimiter.SpawnLimiter;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,7 +36,13 @@ public class ReloadCommand implements CommandExecutor {
     public static void reload() {
 
         AlttdUtility.getInstance().saveDefaultConfig();
-        AlttdUtility.getInstance().reloadConfig();
+        if (new Methods().checkConfig()) {
+            AlttdUtility.getInstance().reloadConfig();
+            ConfigSetup.configSetup();
+        } else {
+            Bukkit.getPluginManager().disablePlugin(AlttdUtility.getInstance());
+            return;
+        }
 
         BukkitTasksCache.cancelRunningTasks();
 
@@ -45,8 +53,6 @@ public class ReloadCommand implements CommandExecutor {
         RebootWhitelist.reload();
 
         Logging.initiate();
-
-        ConfigSetup.configSetup();
 
         APIs.APIConnect();
 
