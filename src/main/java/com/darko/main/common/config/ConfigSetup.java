@@ -469,7 +469,7 @@ public class ConfigSetup {
         //TimedTips
 
         if (!config.contains("TimedTips.Delay")) {
-            config.set("TimedTips.Delay", 10);
+            config.set("TimedTips.Delay", 15);
             notFoundInConfigMessage("TimedTips.Delay");
         }
         if (!config.contains("TimedTips.Messages")) {
