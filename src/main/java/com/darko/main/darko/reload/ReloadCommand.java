@@ -38,7 +38,6 @@ public class ReloadCommand implements CommandExecutor {
         AlttdUtility.getInstance().saveDefaultConfig();
         if (new Methods().checkConfig()) {
             AlttdUtility.getInstance().reloadConfig();
-            ConfigSetup.configSetup();
         } else {
             Bukkit.getPluginManager().disablePlugin(AlttdUtility.getInstance());
             return;
@@ -53,6 +52,8 @@ public class ReloadCommand implements CommandExecutor {
         RebootWhitelist.reload();
 
         Logging.initiate();
+
+        ConfigSetup.configSetup();
 
         APIs.APIConnect();
 
