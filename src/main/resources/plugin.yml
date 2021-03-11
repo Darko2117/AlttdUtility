@@ -55,3 +55,5 @@ commands:
     permission: utility.petgodmode
   claimpatrol:
     permission: utility.claimpatrol
+  togglescruff:
+    permission: utility.togglescruff

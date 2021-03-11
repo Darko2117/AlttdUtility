@@ -11,6 +11,7 @@ import com.darko.main.darko.commandOnJoin.CommandOnJoin;
 import com.darko.main.darko.crash.Crash;
 import com.darko.main.darko.customChatMessage.CustomChatMessage;
 import com.darko.main.darko.deathMessage.DeathMessage;
+import com.darko.main.darko.toggleScruff.ToggleScruff;
 import com.darko.main.destro.pvpFishing.PvPFishing;
 import com.darko.main.destro.claimanimals.DamageListener;
 import com.darko.main.destro.kickFromBungee.KickFromBungeeCommand;
@@ -202,14 +203,12 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("searchlogs").setExecutor(new LoggingSearch());
         AlttdUtility.getInstance().getCommand("invisitemframes").setExecutor(new InvisibleItemFrame());
         AlttdUtility.getInstance().getCommand("rebootwhitelist").setExecutor(new RebootWhitelist());
-        AlttdUtility.getInstance().getCommand("togglegc").setExecutor(new ToggleGC());
         AlttdUtility.getInstance().getCommand("sit").setExecutor(new Sit());
         AlttdUtility.getInstance().getCommand("commandonjoin").setExecutor(new CommandOnJoin());
         AlttdUtility.getInstance().getCommand("ccm").setExecutor(new CustomChatMessage());
         AlttdUtility.getInstance().getCommand("godmode").setExecutor(new GodMode());
         AlttdUtility.getInstance().getCommand("petgodmode").setExecutor(new PetGodMode());
         AlttdUtility.getInstance().getCommand("freezemail").setExecutor(new FreezeMail());
-
         AlttdUtility.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         AlttdUtility.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());
         AlttdUtility.getInstance().getCommand("rebootwhitelist").setTabCompleter(new RebootWhitelist());
@@ -225,6 +224,9 @@ public class Register extends JavaPlugin {
 
         if (APIs.LuckPermsFound) {
             AlttdUtility.getInstance().getCommand("cooldown").setExecutor(new Cooldown());
+            AlttdUtility.getInstance().getCommand("togglescruff").setExecutor(new ToggleScruff());
+            AlttdUtility.getInstance().getCommand("togglegc").setExecutor(new ToggleGC());
+
             AlttdUtility.getInstance().getCommand("cooldown").setTabCompleter(new Cooldown());
         }
 

@@ -157,6 +157,7 @@ public class ConfigSetup {
         toggles.add("DisablePvpOnLeave");
         toggles.add("ClaimPatrolCommand");
         toggles.add("TimedTips");
+        toggles.add("ToggleScruffCommand");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
