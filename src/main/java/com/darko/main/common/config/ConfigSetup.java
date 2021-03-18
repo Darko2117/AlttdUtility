@@ -159,6 +159,7 @@ public class ConfigSetup {
         toggles.add("TimedTips");
         toggles.add("ToggleScruffCommand");
         toggles.add("JoinNotifications");
+        toggles.add("BlockEggThrowingInClaimsWithoutTrust");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {

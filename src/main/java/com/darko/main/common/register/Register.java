@@ -3,6 +3,7 @@ package com.darko.main.common.register;
 
 import com.darko.main.common.API.APIs;
 import com.darko.main.darko.claimPatrol.ClaimPatrol;
+import com.darko.main.darko.eggThrowingInClaims.EggThrowingInClaims;
 import com.darko.main.darko.invisibleItemFrame.InvisibleItemFrame;
 import com.darko.main.darko.joinNotifications.JoinNotifications;
 import com.darko.main.darko.sit.Sit;
@@ -142,6 +143,10 @@ public class Register extends JavaPlugin {
 
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockRavagerDestroyingBlocksInClaim"))
                 registerEvents(new RavagerInClaim());
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockEggThrowingInClaimsWithoutTrust")) {
+                registerEvents(new EggThrowingInClaims());
+            }
 
         }
 
