@@ -29,8 +29,8 @@ public class TimedTips {
 
                 String message = ChatColor.translateAlternateColorCodes('&', messages.get(new Random().nextInt(messages.size())).replace("\\n", "\n"));
 
-                for (String message1 : message.split("\\n"))
-                    AlttdUtility.getInstance().getLogger().info(message1);
+//                for (String message1 : message.split("\\n"))
+//                    AlttdUtility.getInstance().getLogger().info(message1);
 
                 for (Player player : Bukkit.getOnlinePlayers()) {
 
