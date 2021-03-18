@@ -129,14 +129,14 @@ public class Register extends JavaPlugin {
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockAnimalDamageInClaimWithoutTrust"))
                 registerEvents(new DamageListener());
 
-//            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.AllowNamedPublicChests"))
-//                registerEvents(new PublicChests());
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.AllowNamedPublicChests"))
+                registerEvents(new PublicChests());
 
-//            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.AllowNamedPublicVillagers"))
-//                registerEvents(new PublicTraders());
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.AllowNamedPublicVillagers"))
+                registerEvents(new PublicTraders());
 
-//            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ProtectTNTArrowDamage"))
-//                registerEvents(new TNTProtection());
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ProtectTNTArrowDamage"))
+                registerEvents(new TNTProtection());
 
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.NamedMobClaimDamageProtection"))
                 registerEvents(new NamedMobClaimDamage());
