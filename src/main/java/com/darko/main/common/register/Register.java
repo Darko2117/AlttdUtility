@@ -4,6 +4,7 @@ package com.darko.main.common.register;
 import com.darko.main.common.API.APIs;
 import com.darko.main.darko.claimPatrol.ClaimPatrol;
 import com.darko.main.darko.invisibleItemFrame.InvisibleItemFrame;
+import com.darko.main.darko.joinNotifications.JoinNotifications;
 import com.darko.main.darko.sit.Sit;
 import com.darko.main.common.database.Database;
 import com.darko.main.darko.atPlayers.NameInChatNotification;
@@ -127,14 +128,14 @@ public class Register extends JavaPlugin {
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockAnimalDamageInClaimWithoutTrust"))
                 registerEvents(new DamageListener());
 
-            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.AllowNamedPublicChests"))
-                registerEvents(new PublicChests());
+//            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.AllowNamedPublicChests"))
+//                registerEvents(new PublicChests());
 
-            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.AllowNamedPublicVillagers"))
-                registerEvents(new PublicTraders());
+//            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.AllowNamedPublicVillagers"))
+//                registerEvents(new PublicTraders());
 
-            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ProtectTNTArrowDamage"))
-                registerEvents(new TNTProtection());
+//            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ProtectTNTArrowDamage"))
+//                registerEvents(new TNTProtection());
 
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.NamedMobClaimDamageProtection"))
                 registerEvents(new NamedMobClaimDamage());
@@ -178,6 +179,10 @@ public class Register extends JavaPlugin {
                 NicknamesEvents nicknamesEvents = new NicknamesEvents();
                 AlttdUtility.getInstance().getServer().getMessenger().registerIncomingPluginChannel(AlttdUtility.getInstance(), "BungeeCord", nicknamesEvents);
                 registerEvents(nicknamesEvents);
+            }
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.JoinNotifications")) {
+                registerEvents(new JoinNotifications());
             }
 
         }

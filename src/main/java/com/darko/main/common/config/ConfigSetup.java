@@ -158,6 +158,7 @@ public class ConfigSetup {
         toggles.add("ClaimPatrolCommand");
         toggles.add("TimedTips");
         toggles.add("ToggleScruffCommand");
+        toggles.add("JoinNotifications");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
