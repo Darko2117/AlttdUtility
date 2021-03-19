@@ -5,6 +5,7 @@ import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -17,6 +18,8 @@ public class EggThrowingInClaims implements Listener {
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
 
         if (!(event.getEntity().getShooter() instanceof Player)) return;
+
+        if (!event.getEntity().getType().equals(EntityType.EGG)) return;
 
         Player shooter = (Player) event.getEntity().getShooter();
         Claim claim = GriefPrevention.instance.dataStore.getClaimAt(shooter.getLocation(), true, null);
