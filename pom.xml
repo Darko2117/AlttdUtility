@@ -37,6 +37,10 @@
             <id>nexus</id>
             <url>https://nexus.badbones69.com/repository/maven-releases/</url>
         </repository>
+        <repository>
+            <id>Alttd-Nexus</id>
+            <url>http://leo:8081/snapshots/</url>
+        </repository>
     </repositories>
 
     <dependencies>
