@@ -1,6 +1,7 @@
 package com.darko.main.common.API;
 
 import com.Zrips.CMI.CMI;
+import com.alttd.destro174.shop.Shop;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.ConsoleColors;
 import com.gmail.filoghost.farmlimiter.FarmLimiter;
@@ -25,6 +26,7 @@ public class APIs extends JavaPlugin {
     public static Boolean FarmLimiterFound = false;
     public static Boolean PvPManagerFound = false;
     public static Boolean CMIFound = false;
+    public static Boolean ShopFound = false;
 
 
     public static void APIConnect() {
@@ -38,6 +40,7 @@ public class APIs extends JavaPlugin {
         FarmLimiterFound = FarmLimiterApiCheck() != null;
         PvPManagerFound = PvPManagerAPICheck() != null;
         CMIFound = CMIApiCheck() != null;
+        ShopFound = ShopApiCheck() != null;
 
         if (GriefPreventionFound)
             AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "GriefPrevention found!... " + ConsoleColors.RESET);
@@ -83,6 +86,11 @@ public class APIs extends JavaPlugin {
             AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "CMI found!... " + ConsoleColors.RESET);
         else
             AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "CMI not found!... " + ConsoleColors.RESET);
+
+        if (ShopFound)
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "Shop found!... " + ConsoleColors.RESET);
+        else
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "Shop not found!... " + ConsoleColors.RESET);
 
     }
 
@@ -165,6 +173,15 @@ public class APIs extends JavaPlugin {
         Plugin plugin = Bukkit.getPluginManager().getPlugin("CMI");
         if (plugin instanceof CMI) {
             return (CMI) plugin;
+        } else {
+            return null;
+        }
+    }
+
+    public static Shop ShopApiCheck() {
+        Plugin plugin = Bukkit.getPluginManager().getPlugin("Shop");
+        if (plugin instanceof Shop) {
+            return (Shop) plugin;
         } else {
             return null;
         }

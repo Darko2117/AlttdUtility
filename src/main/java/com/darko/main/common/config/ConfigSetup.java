@@ -160,6 +160,7 @@ public class ConfigSetup {
         toggles.add("ToggleScruffCommand");
         toggles.add("JoinNotifications");
         toggles.add("BlockEggThrowingInClaimsWithoutTrust");
+        toggles.add("BlockSignEditIfShop");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {

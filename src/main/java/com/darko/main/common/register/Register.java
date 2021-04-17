@@ -35,6 +35,7 @@ import com.darko.main.darko.ravagerInClaim.RavagerInClaim;
 import com.darko.main.darko.rebootWhitelist.RebootWhitelist;
 import com.darko.main.darko.reload.ReloadCommand;
 import com.darko.main.darko.spawnLimiter.SpawnLimiter;
+import com.darko.main.destro.shop.ShopSignListener;
 import com.darko.main.teri.FreezeMail.FreezeMail;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
 import com.darko.main.teri.Nicknames.Nicknames;
@@ -188,6 +189,14 @@ public class Register extends JavaPlugin {
 
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.JoinNotifications")) {
                 registerEvents(new JoinNotifications());
+            }
+
+        }
+
+        if (APIs.ShopFound) {
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockSignEditIfShop")) {
+                registerEvents(new ShopSignListener());
             }
 
         }
