@@ -161,6 +161,7 @@ public class ConfigSetup {
         toggles.add("JoinNotifications");
         toggles.add("BlockEggThrowingInClaimsWithoutTrust");
         toggles.add("BlockSignEditIfShop");
+        toggles.add("BlockChorusFruitArrowBreakingInClaim");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
