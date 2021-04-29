@@ -16,6 +16,9 @@ public class Logging {
 
     static Integer cachedDayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 
+    static LinkedList<String> logQueue = new LinkedList<>();
+    static Boolean isWritingLogs = false;
+
     public static HashMap<String, String> logNamesAndConfigPaths = new LinkedHashMap<>();
 
     public static String claimsCreatedLogName = "claimsCreated";
@@ -246,9 +249,6 @@ public class Logging {
         return new Location(Bukkit.getWorld(worldName), Double.parseDouble(X), Double.parseDouble(Y), Double.parseDouble(Z));
 
     }
-
-    static LinkedList<String> logQueue = new LinkedList<>();
-    static Boolean isWritingLogs = false;
 
     static void initializeLogWriting() {
 
