@@ -44,7 +44,7 @@ public class LoggingMyPet implements Listener {
         message = message.concat(location);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.petItemPickupLogName, message);
+        Logging.addToLogWriteQueue(Logging.petItemPickupLogName, message);
 
     }
 

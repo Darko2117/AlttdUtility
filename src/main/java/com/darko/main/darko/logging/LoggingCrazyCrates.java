@@ -74,7 +74,7 @@ public class LoggingCrazyCrates implements Listener {
         message = message.concat(crate);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.cratePrizesLogName, message);
+        Logging.addToLogWriteQueue(Logging.cratePrizesLogName, message);
 
     }
 

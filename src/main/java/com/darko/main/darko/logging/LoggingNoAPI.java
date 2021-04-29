@@ -56,7 +56,7 @@ public class LoggingNoAPI implements Listener {
         message = message.concat(claimOwner);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.eggsThrownLogName, message);
+        Logging.addToLogWriteQueue(Logging.eggsThrownLogName, message);
 
     }
 
@@ -93,7 +93,7 @@ public class LoggingNoAPI implements Listener {
         message = message.concat(location);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.droppedItemsLogName, message);
+        Logging.addToLogWriteQueue(Logging.droppedItemsLogName, message);
 
     }
 
@@ -134,7 +134,7 @@ public class LoggingNoAPI implements Listener {
                     message = message.concat(location);
                     message = message.concat("|");
 
-                    Logging.WriteToFile(Logging.itemsPlacedInItemFramesLogName, message);
+                    Logging.addToLogWriteQueue(Logging.itemsPlacedInItemFramesLogName, message);
 
                 }
             }
@@ -178,7 +178,7 @@ public class LoggingNoAPI implements Listener {
                 message = message.concat(location);
                 message = message.concat("|");
 
-                Logging.WriteToFile(Logging.itemsTakenOutOfItemFramesLogName, message);
+                Logging.addToLogWriteQueue(Logging.itemsTakenOutOfItemFramesLogName, message);
 
             }
         }
@@ -218,7 +218,7 @@ public class LoggingNoAPI implements Listener {
                         message = message.concat(item);
                         message = message.concat("|");
 
-                        Logging.WriteToFile(Logging.mcmmoRepairUseLogName, message);
+                        Logging.addToLogWriteQueue(Logging.mcmmoRepairUseLogName, message);
 
                     }
 
@@ -263,7 +263,7 @@ public class LoggingNoAPI implements Listener {
         message = message.concat(location);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.pickedUpItemsLogName, message);
+        Logging.addToLogWriteQueue(Logging.pickedUpItemsLogName, message);
 
     }
 
@@ -299,7 +299,7 @@ public class LoggingNoAPI implements Listener {
         message = message.concat(claimOwner);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.spawnLimitReachedLogName, message);
+        Logging.addToLogWriteQueue(Logging.spawnLimitReachedLogName, message);
 
     }
 
@@ -343,7 +343,7 @@ public class LoggingNoAPI implements Listener {
         message = message.concat(location);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.uiClicksLogName, message);
+        Logging.addToLogWriteQueue(Logging.uiClicksLogName, message);
 
     }
 
@@ -376,7 +376,7 @@ public class LoggingNoAPI implements Listener {
         message = message.concat(location);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.itemsBrokenLogName, message);
+        Logging.addToLogWriteQueue(Logging.itemsBrokenLogName, message);
 
     }
 
@@ -404,7 +404,7 @@ public class LoggingNoAPI implements Listener {
         message = message.concat(location);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.itemsDespawnedLogName, message);
+        Logging.addToLogWriteQueue(Logging.itemsDespawnedLogName, message);
 
     }
 
@@ -441,7 +441,7 @@ public class LoggingNoAPI implements Listener {
         message = message.concat(cause);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.itemsDestroyedLogName, message);
+        Logging.addToLogWriteQueue(Logging.itemsDestroyedLogName, message);
 
     }
 
@@ -474,7 +474,7 @@ public class LoggingNoAPI implements Listener {
         message = message.concat(location);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.commandsWithLocationLogName, message);
+        Logging.addToLogWriteQueue(Logging.commandsWithLocationLogName, message);
 
     }
 
@@ -524,7 +524,7 @@ public class LoggingNoAPI implements Listener {
         message = message.concat(location);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.droppedItemsOnDeathLogName, message);
+        Logging.addToLogWriteQueue(Logging.droppedItemsOnDeathLogName, message);
 
     }
 
@@ -562,7 +562,7 @@ public class LoggingNoAPI implements Listener {
         message = message.concat(action);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.nicknameLogName, message);
+        Logging.addToLogWriteQueue(Logging.nicknameLogName, message);
 
     }
 
@@ -603,7 +603,7 @@ public class LoggingNoAPI implements Listener {
         message = message.concat(claimOwner);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.minecartsDestroyedLogName, message);
+        Logging.addToLogWriteQueue(Logging.minecartsDestroyedLogName, message);
 
     }
 
@@ -631,7 +631,7 @@ public class LoggingNoAPI implements Listener {
         message = message.concat(location);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.lightningStrikesLogName, message);
+        Logging.addToLogWriteQueue(Logging.lightningStrikesLogName, message);
 
     }
 
@@ -681,7 +681,7 @@ public class LoggingNoAPI implements Listener {
         message = message.concat(target);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.tridentsLogName, message);
+        Logging.addToLogWriteQueue(Logging.tridentsLogName, message);
 
     }
 
@@ -726,7 +726,7 @@ public class LoggingNoAPI implements Listener {
         message = message.concat(target);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.tridentsLogName, message);
+        Logging.addToLogWriteQueue(Logging.tridentsLogName, message);
 
     }
 
@@ -776,7 +776,7 @@ public class LoggingNoAPI implements Listener {
         message = message.concat(target);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.tridentsLogName, message);
+        Logging.addToLogWriteQueue(Logging.tridentsLogName, message);
 
     }
 

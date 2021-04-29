@@ -48,7 +48,7 @@ public class LoggingGriefPrevention implements Listener {
         message = message.concat(area);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.claimsCreatedLogName, message);
+        Logging.addToLogWriteQueue(Logging.claimsCreatedLogName, message);
 
     }
 
@@ -83,7 +83,7 @@ public class LoggingGriefPrevention implements Listener {
         message = message.concat(area);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.claimsDeletedLogName, message);
+        Logging.addToLogWriteQueue(Logging.claimsDeletedLogName, message);
 
     }
 
@@ -118,7 +118,7 @@ public class LoggingGriefPrevention implements Listener {
         message = message.concat(area);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.claimsModifiedLogName, message);
+        Logging.addToLogWriteQueue(Logging.claimsModifiedLogName, message);
 
     }
 
@@ -153,7 +153,7 @@ public class LoggingGriefPrevention implements Listener {
         message = message.concat(area);
         message = message.concat("|");
 
-        Logging.WriteToFile(Logging.claimsExpiredLogName, message);
+        Logging.addToLogWriteQueue(Logging.claimsExpiredLogName, message);
 
     }
 
@@ -208,7 +208,7 @@ public class LoggingGriefPrevention implements Listener {
                 message = message.concat(numberOfClaims);
                 message = message.concat("|");
 
-                Logging.WriteToFile(Logging.numberOfClaimsNotificationLogName, message);
+                Logging.addToLogWriteQueue(Logging.numberOfClaimsNotificationLogName, message);
 
             }
         }.runTaskAsynchronously(AlttdUtility.getInstance());

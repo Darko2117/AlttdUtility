@@ -98,12 +98,14 @@ public class Logging {
             }
         }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 1200, 1200));
 
+        initializeLogWriting();
+
     }
 
     static void CreateAllBlankLogFiles() {
 
         for (Map.Entry<String, String> entry : logNamesAndConfigPaths.entrySet()) {
-            Logging.WriteToFile(entry.getKey(), "");
+            Logging.addToLogWriteQueue(entry.getKey(), "");
         }
 
     }
@@ -245,29 +247,68 @@ public class Logging {
 
     }
 
-    public static void WriteToFile(String logName, String message) {
+    static LinkedList<String> logQueue = new LinkedList<>();
+    static Boolean isWritingLogs = false;
 
-        new BukkitRunnable() {
+    static void initializeLogWriting() {
+
+        BukkitTasksCache.addTask(new BukkitRunnable() {
+            @Override
             public void run() {
                 try {
 
-                    String messageCopy = message;
-                    messageCopy = messageCopy.replace("\n", "\\n");
-                    if (!messageCopy.equals("")) messageCopy = messageCopy.concat("\n");
-//                    messageCopy = ChatColor.stripColor(messageCopy);
+                    if (isWritingLogs) return;
 
-                    String logPath = "/logs/" + new Methods().getDateStringYYYYMMDD() + "-" + logName + ".txt";
+                    while (!logQueue.isEmpty()) {
 
-                    FileWriter writer = new FileWriter(AlttdUtility.getInstance().getDataFolder() + logPath, true);
-                    writer.write(messageCopy);
-                    writer.close();
+                        isWritingLogs = true;
+
+                        String log = logQueue.getFirst();
+
+                        String logName = log.substring(0, log.indexOf("."));
+                        String logMessage = log.substring(log.indexOf(".") + 1);
+
+                        writeToFile(logName, logMessage);
+
+                        logQueue.removeFirst();
+
+                    }
+
+                    isWritingLogs = false;
 
                 } catch (Throwable throwable) {
+                    isWritingLogs = false;
                     throwable.printStackTrace();
                 }
             }
-        }.runTaskAsynchronously(AlttdUtility.getInstance());
+        }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 1, 1));
 
+    }
+
+    public static void addToLogWriteQueue(String logName, String logMessage) {
+
+        String log = logName + "." + logMessage;
+        logQueue.addLast(log);
+
+    }
+
+    public static void writeToFile(String logName, String logMessage) {
+        try {
+
+            String messageCopy = logMessage;
+            messageCopy = messageCopy.replace("\n", "\\n");
+            if (!messageCopy.equals("")) messageCopy = messageCopy.concat("\n");
+//                    messageCopy = ChatColor.stripColor(messageCopy);
+
+            String logPath = "/logs/" + new Methods().getDateStringYYYYMMDD() + "-" + logName + ".txt";
+
+            FileWriter writer = new FileWriter(AlttdUtility.getInstance().getDataFolder() + logPath, true);
+            writer.write(messageCopy);
+            writer.close();
+
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
     }
 
     static List<String> getArgumentListFromLogName(String logName) {

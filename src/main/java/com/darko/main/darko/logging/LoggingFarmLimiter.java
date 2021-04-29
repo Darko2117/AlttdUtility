@@ -49,7 +49,7 @@ public class LoggingFarmLimiter implements Listener {
             message = message.concat(claimOwner);
             message = message.concat("|");
 
-            Logging.WriteToFile(Logging.farmLimiterLogName, message);
+            Logging.addToLogWriteQueue(Logging.farmLimiterLogName, message);
 
         }
 
