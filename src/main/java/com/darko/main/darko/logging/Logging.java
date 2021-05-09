@@ -276,9 +276,9 @@ public class Logging {
 
                     isWritingLogs = false;
 
-                } catch (Throwable throwable) {
+                } catch (Throwable ignored) {
                     isWritingLogs = false;
-                    throwable.printStackTrace();
+                    //throwable.printStackTrace();
                 }
             }
         }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 1, 1));
