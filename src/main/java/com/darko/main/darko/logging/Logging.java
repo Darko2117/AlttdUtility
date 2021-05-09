@@ -259,7 +259,9 @@ public class Logging {
 
                     if (isWritingLogs) return;
 
-                    while (!logQueue.isEmpty()) {
+                    Integer writeLimit = 50;
+
+                    for (Integer i = 0; i < logQueue.size(); i++) {
 
                         isWritingLogs = true;
 
@@ -272,13 +274,16 @@ public class Logging {
 
                         logQueue.removeFirst();
 
+                        writeLimit--;
+                        if (writeLimit == 0) break;
+
                     }
 
                     isWritingLogs = false;
 
-                } catch (Throwable ignored) {
+                } catch (Throwable throwable) {
                     isWritingLogs = false;
-                    //throwable.printStackTrace();
+                    throwable.printStackTrace();
                 }
             }
         }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 1, 1));
