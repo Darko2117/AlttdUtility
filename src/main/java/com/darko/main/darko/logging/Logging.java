@@ -259,11 +259,11 @@ public class Logging {
 
                     if (isWritingLogs) return;
 
+                    isWritingLogs = true;
+
                     Integer writeLimit = 50;
 
                     for (Integer i = 0; i < logQueue.size(); i++) {
-
-                        isWritingLogs = true;
 
                         String log = logQueue.getFirst();
 
@@ -281,9 +281,9 @@ public class Logging {
 
                     isWritingLogs = false;
 
-                } catch (Throwable throwable) {
+                } catch (Throwable ignored) {
                     isWritingLogs = false;
-                    throwable.printStackTrace();
+                    //ignored.printStackTrace();
                 }
             }
         }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 1, 1));
