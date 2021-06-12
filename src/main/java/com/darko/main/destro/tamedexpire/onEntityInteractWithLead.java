@@ -21,7 +21,7 @@ import me.ryanhamshire.GriefPrevention.GriefPrevention;
 
 public class onEntityInteractWithLead implements Listener {
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = false, priority = EventPriority.HIGHEST)
     public void EntityInteract(PlayerInteractEntityEvent event) {
 
         Player p = event.getPlayer();
