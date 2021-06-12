@@ -11,12 +11,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Logging {
 
     static Integer cachedDayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 
-    static LinkedList<String> logQueue = new LinkedList<>();
+    static ConcurrentLinkedQueue<String> logQueue = new ConcurrentLinkedQueue<>();
     static Boolean isWritingLogs = false;
 
     public static HashMap<String, String> logNamesAndConfigPaths = new LinkedHashMap<>();
@@ -250,6 +251,33 @@ public class Logging {
 
     }
 
+    /*static void initializeLogWriting() {
+        BukkitTasksCache.addTask(new BukkitRunnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+
+                        if (logQueue.peek() == null) {
+                            Thread.sleep(50);
+                            continue;
+                        }
+
+                        String log = logQueue.poll();
+
+                        String logName = log.substring(0, log.indexOf("."));
+                        String logMessage = log.substring(log.indexOf(".") + 1);
+
+                        writeToFile(logName, logMessage);
+
+                    } catch (Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                }
+            }
+        }.runTaskAsynchronously(AlttdUtility.getInstance()));
+    }*/
+
     static void initializeLogWriting() {
 
         BukkitTasksCache.addTask(new BukkitRunnable() {
@@ -261,29 +289,22 @@ public class Logging {
 
                     isWritingLogs = true;
 
-                    Integer writeLimit = 50;
+                    while (logQueue.peek() != null) {
 
-                    for (Integer i = 0; i < logQueue.size(); i++) {
-
-                        String log = logQueue.getFirst();
+                        String log = logQueue.poll();
 
                         String logName = log.substring(0, log.indexOf("."));
                         String logMessage = log.substring(log.indexOf(".") + 1);
 
                         writeToFile(logName, logMessage);
 
-                        logQueue.removeFirst();
-
-                        writeLimit--;
-                        if (writeLimit == 0) break;
-
                     }
 
                     isWritingLogs = false;
 
-                } catch (Throwable ignored) {
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
                     isWritingLogs = false;
-                    //ignored.printStackTrace();
                 }
             }
         }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 1, 1));
@@ -293,7 +314,7 @@ public class Logging {
     public static void addToLogWriteQueue(String logName, String logMessage) {
 
         String log = logName + "." + logMessage;
-        logQueue.addLast(log);
+        logQueue.add(log);
 
     }
 
