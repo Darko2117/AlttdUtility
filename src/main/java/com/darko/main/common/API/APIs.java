@@ -5,6 +5,10 @@ import com.alttd.destro174.shop.Shop;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.ConsoleColors;
 import com.gmail.filoghost.farmlimiter.FarmLimiter;
+import com.plotsquared.bukkit.BukkitMain;
+import com.plotsquared.core.PlotSquared;
+import com.plotsquared.core.api.PlotAPI;
+import com.plotsquared.core.plot.Plot;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import de.Keyle.MyPet.MyPetPlugin;
 import me.NoChance.PvPManager.PvPManager;
@@ -27,6 +31,7 @@ public class APIs extends JavaPlugin {
     public static Boolean PvPManagerFound = false;
     public static Boolean CMIFound = false;
     public static Boolean ShopFound = false;
+    public static Boolean PlotSquaredFound = false;
 
 
     public static void APIConnect() {
@@ -41,6 +46,7 @@ public class APIs extends JavaPlugin {
         PvPManagerFound = PvPManagerAPICheck() != null;
         CMIFound = CMIApiCheck() != null;
         ShopFound = ShopApiCheck() != null;
+        PlotSquaredFound = PlotSquaredApiCheck() != null;
 
         if (GriefPreventionFound)
             AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "GriefPrevention found!... " + ConsoleColors.RESET);
@@ -91,6 +97,11 @@ public class APIs extends JavaPlugin {
             AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "Shop found!... " + ConsoleColors.RESET);
         else
             AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "Shop not found!... " + ConsoleColors.RESET);
+
+        if (PlotSquaredFound)
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "PlotSquared found!... " + ConsoleColors.RESET);
+        else
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "PlotSquared not found!... " + ConsoleColors.RESET);
 
     }
 
@@ -182,6 +193,15 @@ public class APIs extends JavaPlugin {
         Plugin plugin = Bukkit.getPluginManager().getPlugin("Shop");
         if (plugin instanceof Shop) {
             return (Shop) plugin;
+        } else {
+            return null;
+        }
+    }
+
+    public static BukkitMain PlotSquaredApiCheck() {
+        Plugin plugin = Bukkit.getPluginManager().getPlugin("PlotSquared");
+        if (plugin instanceof BukkitMain) {
+            return (BukkitMain) plugin;
         } else {
             return null;
         }

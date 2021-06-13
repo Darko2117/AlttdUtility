@@ -3,6 +3,7 @@ package com.darko.main.common.register;
 
 import com.darko.main.common.API.APIs;
 import com.darko.main.darko.chorusFruitInClaim.ChorusFruitInClaim;
+import com.darko.main.darko.chorusFruitOnPlot.ChorusFruitOnPlot;
 import com.darko.main.darko.claimPatrol.ClaimPatrol;
 import com.darko.main.darko.eggThrowingInClaims.EggThrowingInClaims;
 import com.darko.main.darko.invisibleItemFrame.InvisibleItemFrame;
@@ -202,6 +203,14 @@ public class Register extends JavaPlugin {
 
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockSignEditIfShop")) {
                 registerEvents(new ShopSignListener());
+            }
+
+        }
+
+        if(APIs.PlotSquaredFound){
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockChorusFruitArrowBreakingOnPlot")) {
+                registerEvents(new ChorusFruitOnPlot());
             }
 
         }

@@ -162,6 +162,7 @@ public class ConfigSetup {
         toggles.add("BlockEggThrowingInClaimsWithoutTrust");
         toggles.add("BlockSignEditIfShop");
         toggles.add("BlockChorusFruitArrowBreakingInClaim");
+        toggles.add("BlockChorusFruitArrowBreakingOnPlot");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {

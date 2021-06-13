@@ -251,33 +251,6 @@ public class Logging {
 
     }
 
-    /*static void initializeLogWriting() {
-        BukkitTasksCache.addTask(new BukkitRunnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-
-                        if (logQueue.peek() == null) {
-                            Thread.sleep(50);
-                            continue;
-                        }
-
-                        String log = logQueue.poll();
-
-                        String logName = log.substring(0, log.indexOf("."));
-                        String logMessage = log.substring(log.indexOf(".") + 1);
-
-                        writeToFile(logName, logMessage);
-
-                    } catch (Throwable throwable) {
-                        throwable.printStackTrace();
-                    }
-                }
-            }
-        }.runTaskAsynchronously(AlttdUtility.getInstance()));
-    }*/
-
     static void initializeLogWriting() {
 
         BukkitTasksCache.addTask(new BukkitRunnable() {
