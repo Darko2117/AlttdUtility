@@ -7,11 +7,15 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
-public class Trapped implements CommandExecutor {
+public class Trapped implements CommandExecutor, Listener {
 
     static List<TrappedObject> trappedObjects = new ArrayList<>();
 
@@ -114,4 +118,42 @@ public class Trapped implements CommandExecutor {
 
     }
 
+    @EventHandler(ignoreCancelled = false, priority = EventPriority.HIGHEST)
+    public void onPlayerDeath(PlayerDeathEvent event) {
+
+        TrappedObject trappedObject = getTrappedObjectFromPlayer(event.getEntity());
+
+        if (trappedObject == null) return;
+
+        trappedObject.setStatus(Status.ON_COOLDOWN);
+
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

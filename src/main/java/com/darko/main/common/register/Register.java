@@ -102,6 +102,9 @@ public class Register extends JavaPlugin {
         if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.GodModeCommand"))
             registerEvents(new GodMode());
 
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.TrappedCommand"))
+            registerEvents(new Trapped());
+
         if (APIs.MyPetFound) {
 
             registerEvents(new LoggingMyPet());
