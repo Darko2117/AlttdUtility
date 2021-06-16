@@ -57,3 +57,5 @@ commands:
     permission: utility.claimpatrol
   togglescruff:
     permission: utility.togglescruff
+  trapped:
+    permission: utility.trapped

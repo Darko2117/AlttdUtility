@@ -95,7 +95,8 @@ public class ConfigSetup {
         PetGodModeDisabled("Messages.PetGodModeDisabled", "&cPetGodMode disabled."),
         InvalidUsageClaimPatrolCommand("Messages.InvalidUsageClaimPatrolCommand", "&cThe usage for this command is /claimpatrol <owner/trust> <user> <number(optional)>."),
         PlayerHasNotJoinedBefore("Messages.PlayerHasNotJoinedBefore", "&cThat player has not joined before."),
-        NoClaimsToPatrol("Messages.NoClaimsToPatrol", "&cNo claims to patrol!");
+        NoClaimsToPatrol("Messages.NoClaimsToPatrol", "&cNo claims to patrol!"),
+        TrappedCommandOnCooldown("Messages.TrappedCommandOnCooldown", "&cThat command is on a cooldown for %time%!");
 
         private final String path;
         private final String message;
@@ -163,6 +164,7 @@ public class ConfigSetup {
         toggles.add("BlockSignEditIfShop");
         toggles.add("BlockChorusFruitArrowBreakingInClaim");
         toggles.add("BlockChorusFruitArrowBreakingOnPlot");
+        toggles.add("TrappedCommand");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
@@ -491,6 +493,23 @@ public class ConfigSetup {
 
             config.set("TimedTips.Messages", messages);
             notFoundInConfigMessage("TimedTips.Messages");
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
+        //Trapped command
+
+        if (!config.contains("Trapped.CommandToExecute")) {
+            config.set("Trapped.CommandToExecute", "cmi spawn %player%");
+            notFoundInConfigMessage("Trapped.CommandToExecute");
+        }
+        if (!config.contains("Trapped.Cooldown")) {
+            config.set("Trapped.Cooldown", 600);
+            notFoundInConfigMessage("Trapped.Cooldown");
+        }
+        if (!config.contains("Trapped.SecondsToTeleport")) {
+            config.set("Trapped.SecondsToTeleport", 15);
+            notFoundInConfigMessage("Trapped.SecondsToTeleport");
         }
 
         // ----------------------------------------------------------------------------------------------------

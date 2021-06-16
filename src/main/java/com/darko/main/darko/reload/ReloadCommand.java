@@ -9,6 +9,7 @@ import com.darko.main.darko.sit.Sit;
 import com.darko.main.common.database.Database;
 import com.darko.main.common.register.Register;
 import com.darko.main.darko.timedTips.TimedTips;
+import com.darko.main.darko.trapped.Trapped;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
 import com.darko.main.darko.logging.Logging;
 import com.darko.main.darko.rebootWhitelist.RebootWhitelist;
@@ -44,6 +45,8 @@ public class ReloadCommand implements CommandExecutor {
         }
 
         BukkitTasksCache.cancelRunningTasks();
+
+        Trapped.initialize();
 
         SpawnLimiter.reload();
 

@@ -16,6 +16,7 @@ import com.darko.main.darko.crash.Crash;
 import com.darko.main.darko.customChatMessage.CustomChatMessage;
 import com.darko.main.darko.deathMessage.DeathMessage;
 import com.darko.main.darko.toggleScruff.ToggleScruff;
+import com.darko.main.darko.trapped.Trapped;
 import com.darko.main.destro.pvpFishing.PvPFishing;
 import com.darko.main.destro.claimanimals.DamageListener;
 import com.darko.main.destro.kickFromBungee.KickFromBungeeCommand;
@@ -242,6 +243,8 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("godmode").setExecutor(new GodMode());
         AlttdUtility.getInstance().getCommand("petgodmode").setExecutor(new PetGodMode());
         AlttdUtility.getInstance().getCommand("freezemail").setExecutor(new FreezeMail());
+        AlttdUtility.getInstance().getCommand("trapped").setExecutor(new Trapped());
+
         AlttdUtility.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         AlttdUtility.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());
         AlttdUtility.getInstance().getCommand("rebootwhitelist").setTabCompleter(new RebootWhitelist());
