@@ -158,7 +158,7 @@ public class Utilities
                                 UUID uuid = nick.getUuid();
                                 UUID uniqueId = target.getUniqueId();
                                 if (uniqueId.equals(uuid)){
-                                    System.out.println(uuid + " " + uniqueId);
+                                    AlttdUtility.getInstance().getLogger().info(uuid + " " + uniqueId);
                                 }
                                 sender.sendMessage(applyColor(AlttdUtility.getInstance().getConfig().getString("Messages.NickTaken")));
                                 return false;
