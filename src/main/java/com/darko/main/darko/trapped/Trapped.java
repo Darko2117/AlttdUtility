@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
@@ -97,7 +98,7 @@ public class Trapped implements CommandExecutor, Listener {
     private TrappedObject getTrappedObjectFromPlayer(Player player) {
 
         for (TrappedObject trappedObject : trappedObjects) {
-            if (trappedObject.getPlayer().equals(player)) return trappedObject;
+            if (trappedObject.getPlayer().getUniqueId().equals(player.getUniqueId())) return trappedObject;
         }
 
         return null;
@@ -109,7 +110,7 @@ public class Trapped implements CommandExecutor, Listener {
         Boolean found = false;
 
         for (TrappedObject trappedObject : trappedObjects) {
-            if (trappedObject.getPlayer().equals(player)) {
+            if (trappedObject.getPlayer().getUniqueId().equals(player.getUniqueId())) {
                 found = true;
             }
         }
@@ -122,6 +123,17 @@ public class Trapped implements CommandExecutor, Listener {
     public void onPlayerDeath(PlayerDeathEvent event) {
 
         TrappedObject trappedObject = getTrappedObjectFromPlayer(event.getEntity());
+
+        if (trappedObject == null) return;
+
+        trappedObject.setStatus(Status.ON_COOLDOWN);
+
+    }
+
+    @EventHandler(ignoreCancelled = false, priority = EventPriority.HIGHEST)
+    public void onPlayerQuit(PlayerQuitEvent event) {
+
+        TrappedObject trappedObject = getTrappedObjectFromPlayer(event.getPlayer());
 
         if (trappedObject == null) return;
 
