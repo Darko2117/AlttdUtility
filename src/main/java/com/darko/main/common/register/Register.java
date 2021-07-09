@@ -18,6 +18,7 @@ import com.darko.main.darko.deathMessage.DeathMessage;
 import com.darko.main.darko.toggleScruff.ToggleScruff;
 import com.darko.main.darko.tpPunch.TPPunch;
 import com.darko.main.darko.trapped.Trapped;
+import com.darko.main.darko.witherOutsideClaim.WitherOutsideClaim;
 import com.darko.main.destro.pvpFishing.PvPFishing;
 import com.darko.main.destro.claimanimals.DamageListener;
 import com.darko.main.destro.kickFromBungee.KickFromBungeeCommand;
@@ -162,6 +163,10 @@ public class Register extends JavaPlugin {
 
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.TPPunchCommand")) {
                 registerEvents(new TPPunch());
+            }
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockWitherBlockAndEntityDamageOutsideClaim")) {
+                registerEvents(new WitherOutsideClaim());
             }
 
         }

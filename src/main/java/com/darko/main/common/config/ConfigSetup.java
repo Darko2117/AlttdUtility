@@ -170,6 +170,7 @@ public class ConfigSetup {
         toggles.add("BlockChorusFruitArrowBreakingOnPlot");
         toggles.add("TrappedCommand");
         toggles.add("TPPunchCommand");
+        toggles.add("BlockWitherBlockAndEntityDamageOutsideClaim");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
