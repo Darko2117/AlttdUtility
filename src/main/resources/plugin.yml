@@ -59,3 +59,5 @@ commands:
     permission: utility.togglescruff
   trapped:
     permission: utility.trapped
+  tppunch:
+    permission: utility.tppunch

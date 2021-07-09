@@ -96,7 +96,11 @@ public class ConfigSetup {
         InvalidUsageClaimPatrolCommand("Messages.InvalidUsageClaimPatrolCommand", "&cThe usage for this command is /claimpatrol <owner/trust> <user> <number(optional)>."),
         PlayerHasNotJoinedBefore("Messages.PlayerHasNotJoinedBefore", "&cThat player has not joined before."),
         NoClaimsToPatrol("Messages.NoClaimsToPatrol", "&cNo claims to patrol!"),
-        TrappedCommandOnCooldown("Messages.TrappedCommandOnCooldown", "&cThat command is on a cooldown for %time%!");
+        TrappedCommandOnCooldown("Messages.TrappedCommandOnCooldown", "&cThat command is on a cooldown for %time%!"),
+        InvalidUsageTPPunchCommand("Messages.InvalidUsageTPPunchCommand", "&cUsage of this command is /tppunch <x> <y> <z> <dimension(optional)>."),
+        ValidUsageTPPunchCommand("Messages.ValidUsageTPPunchCommand", "&aThe next thing you punch will be teleported to %location%."),
+        TPPunchCancelled("Messages.TPPunchCancelled", "&cTeleport punch cancelled."),
+        EntityTeleportedTPPunchCommand("Messages.EntityTeleportedTPPunchCommand", "&aEntity teleported to %location%.");
 
         private final String path;
         private final String message;
@@ -165,6 +169,7 @@ public class ConfigSetup {
         toggles.add("BlockChorusFruitArrowBreakingInClaim");
         toggles.add("BlockChorusFruitArrowBreakingOnPlot");
         toggles.add("TrappedCommand");
+        toggles.add("TPPunchCommand");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {

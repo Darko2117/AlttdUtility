@@ -16,6 +16,7 @@ import com.darko.main.darko.crash.Crash;
 import com.darko.main.darko.customChatMessage.CustomChatMessage;
 import com.darko.main.darko.deathMessage.DeathMessage;
 import com.darko.main.darko.toggleScruff.ToggleScruff;
+import com.darko.main.darko.tpPunch.TPPunch;
 import com.darko.main.darko.trapped.Trapped;
 import com.darko.main.destro.pvpFishing.PvPFishing;
 import com.darko.main.destro.claimanimals.DamageListener;
@@ -159,6 +160,10 @@ public class Register extends JavaPlugin {
                 registerEvents(new ChorusFruitInClaim());
             }
 
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.TPPunchCommand")) {
+                registerEvents(new TPPunch());
+            }
+
         }
 
         if (APIs.WorldGuardFound) {
@@ -247,12 +252,14 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("petgodmode").setExecutor(new PetGodMode());
         AlttdUtility.getInstance().getCommand("freezemail").setExecutor(new FreezeMail());
         AlttdUtility.getInstance().getCommand("trapped").setExecutor(new Trapped());
+        AlttdUtility.getInstance().getCommand("tppunch").setExecutor(new TPPunch());
 
         AlttdUtility.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         AlttdUtility.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());
         AlttdUtility.getInstance().getCommand("rebootwhitelist").setTabCompleter(new RebootWhitelist());
         AlttdUtility.getInstance().getCommand("commandonjoin").setTabCompleter(new CommandOnJoin());
         AlttdUtility.getInstance().getCommand("ccm").setTabCompleter(new CustomChatMessage());
+        AlttdUtility.getInstance().getCommand("tppunch").setTabCompleter(new TPPunch());
 
         AlttdUtility.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(AlttdUtility.getInstance(), "BungeeCord");
 
