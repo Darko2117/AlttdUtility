@@ -48,7 +48,7 @@ public class InvisibleItemFrame implements Listener, CommandExecutor {
 
         for (Entity entity : nearbyEntities) {
 
-            if (!entity.getType().equals(EntityType.ITEM_FRAME)) continue;
+            if (!(entity instanceof ItemFrame)) continue;
             ItemFrame itemFrame = (ItemFrame) entity;
             if (itemFrame.isVisible()) continue;
             invisibleItemFrames.add((ItemFrame) entity);
