@@ -349,7 +349,7 @@ public class ConfigSetup {
         // DatabaseInitiate
 
         if (!config.contains("Database.driver")) {
-            config.set("Database.driver", "mariadb");
+            config.set("Database.driver", "mysql");
             notFoundInConfigMessage("Database.driver");
         }
         if (!config.contains("Database.ip")) {

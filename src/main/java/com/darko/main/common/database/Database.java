@@ -45,7 +45,7 @@ public class Database implements Listener {
                 username = AlttdUtility.getInstance().getConfig().getString("Database.username");
                 password = AlttdUtility.getInstance().getConfig().getString("Database.password");
 
-                String url = "jdbc:mysql://" + ip + ":" + port + "/" + name;
+                String url = "jdbc:" + driver + "://" + ip + ":" + port + "/" + name + "?autoReconnect=true&useSSL=false";
 
                 try {
                     connection = DriverManager.getConnection(url, username, password);
