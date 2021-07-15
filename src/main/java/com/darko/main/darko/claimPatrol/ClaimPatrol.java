@@ -22,46 +22,48 @@ public class ClaimPatrol implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ClaimPatrolCommand")) return true;
-
-        if (!(sender instanceof Player)) {
-            new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
-            return true;
-        }
-
-        Player searchingPlayer = (Player) sender;
-
-        if (args.length < 2) {
-            new Methods().sendConfigMessage(sender, "Messages.InvalidUsageClaimPatrolCommand");
-            return true;
-        }
-
-        PatrolMode mode = null;
-        if (args[0].equals("owner")) mode = PatrolMode.OWNER;
-        else if (args[0].equals("trust")) mode = PatrolMode.TRUST;
-        if (mode == null) {
-            new Methods().sendConfigMessage(sender, "Messages.InvalidUsageClaimPatrolCommand");
-            return true;
-        }
-
-        String playerName = args[1];
-        OfflinePlayer searchedPlayer = Bukkit.getOfflinePlayerIfCached(playerName);
-        if (searchedPlayer == null) {
-            new Methods().sendConfigMessage(sender, "Messages.PlayerHasNotJoinedBefore");
-            return true;
-        }
-
-        Integer claimIndex = -1;
-        try {
-            claimIndex = Integer.parseInt(args[2]);
-        } catch (Throwable ignored) {
-        }
-
-        PatrolMode finalMode = mode;
-        Integer finalClaimIndex = claimIndex;
         new BukkitRunnable() {
             @Override
             public void run() {
+
+                if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ClaimPatrolCommand"))
+                    return;
+
+                if (!(sender instanceof Player)) {
+                    new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
+                    return;
+                }
+
+                Player searchingPlayer = (Player) sender;
+
+                if (args.length < 2) {
+                    new Methods().sendConfigMessage(sender, "Messages.InvalidUsageClaimPatrolCommand");
+                    return;
+                }
+
+                PatrolMode mode = null;
+                if (args[0].equals("owner")) mode = PatrolMode.OWNER;
+                else if (args[0].equals("trust")) mode = PatrolMode.TRUST;
+                if (mode == null) {
+                    new Methods().sendConfigMessage(sender, "Messages.InvalidUsageClaimPatrolCommand");
+                    return;
+                }
+
+                String playerName = args[1];
+                OfflinePlayer searchedPlayer = Bukkit.getOfflinePlayer(playerName);
+                if (!searchedPlayer.isOnline() && !searchedPlayer.hasPlayedBefore()) {
+                    new Methods().sendConfigMessage(sender, "Messages.PlayerHasNotJoinedBefore");
+                    return;
+                }
+
+                Integer claimIndex = -1;
+                try {
+                    claimIndex = Integer.parseInt(args[2]);
+                } catch (Throwable ignored) {
+                }
+
+                PatrolMode finalMode = mode;
+                Integer finalClaimIndex = claimIndex;
 
                 PatrolObject patrolObject = getNextClaimToPatrol(searchingPlayer, searchedPlayer, finalMode, finalClaimIndex);
 
