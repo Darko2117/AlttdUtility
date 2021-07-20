@@ -20,7 +20,7 @@ import java.util.*;
 
 public class LoggingSearch implements CommandExecutor, TabCompleter {
 
-    static Boolean inUse = false;
+    public static Boolean inUse = false;
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -1003,7 +1003,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
     }
 
-    static void clearTemporaryFiles() {
+    public static void clearTemporaryFiles() {
 
         for (File file : new File(AlttdUtility.getInstance().getDataFolder() + "/temporary-files").listFiles())
             if (!file.delete())

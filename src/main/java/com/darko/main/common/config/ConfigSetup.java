@@ -102,7 +102,8 @@ public class ConfigSetup {
         TPPunchCancelled("Messages.TPPunchCancelled", "&cTeleport punch cancelled."),
         EntityTeleportedTPPunchCommand("Messages.EntityTeleportedTPPunchCommand", "&aEntity teleported to %location%."),
         JoinLimiterCantJoin("Messages.JoinLimiterCantJoin", "&fYou've been joining this server too much, please wait %time% before joining again."),
-        JoinLimiterJoinWarning("Messages.JoinLimiterJoinWarning", "&cYou've been joining this server too much, you'll have to wait %time% to join again.");
+        JoinLimiterJoinWarning("Messages.JoinLimiterJoinWarning", "&cYou've been joining this server too much, you'll have to wait %time% to join again."),
+        InvalidUsageCommandUsageCommand("Messages.InvalidUsageCommandUsageCommand", "&cUsage of this command is /commandusage <user> <numberOfDays>.");
 
         private final String path;
         private final String message;
@@ -174,6 +175,7 @@ public class ConfigSetup {
         toggles.add("TPPunchCommand");
         toggles.add("BlockWitherBlockAndEntityDamageOutsideClaim");
         toggles.add("JoinLimiter");
+        toggles.add("CommandUsageCommand");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {

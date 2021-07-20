@@ -9,6 +9,7 @@ import com.darko.main.darko.eggThrowingInClaims.EggThrowingInClaims;
 import com.darko.main.darko.invisibleItemFrame.InvisibleItemFrame;
 import com.darko.main.darko.joinLimiter.JoinLimiter;
 import com.darko.main.darko.joinNotifications.JoinNotifications;
+import com.darko.main.darko.logging.commandUsage.CommandUsage;
 import com.darko.main.darko.sit.Sit;
 import com.darko.main.common.database.Database;
 import com.darko.main.darko.atPlayers.NameInChatNotification;
@@ -263,6 +264,7 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("freezemail").setExecutor(new FreezeMail());
         AlttdUtility.getInstance().getCommand("trapped").setExecutor(new Trapped());
         AlttdUtility.getInstance().getCommand("tppunch").setExecutor(new TPPunch());
+        AlttdUtility.getInstance().getCommand("commandusage").setExecutor(new CommandUsage());
 
         AlttdUtility.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         AlttdUtility.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());

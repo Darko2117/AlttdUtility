@@ -61,3 +61,5 @@ commands:
     permission: utility.trapped
   tppunch:
     permission: utility.tppunch
+  commandusage:
+    permission: utility.commandusage
