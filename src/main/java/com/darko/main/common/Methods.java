@@ -254,4 +254,40 @@ public class Methods {
 
     }
 
+    public String getTimeStringFromIntSeconds(Integer time) {
+
+        Integer hours = time / 3600;
+        Integer minutes = time % 3600 / 60;
+        Integer seconds = time % 60;
+
+        StringBuilder string = new StringBuilder();
+        if (hours != 0) {
+            if (hours == 1) {
+                string.append(hours).append(" hour ");
+            } else {
+                string.append(hours).append(" hours ");
+            }
+        }
+        if (minutes != 0) {
+            if (minutes == 1) {
+                string.append(minutes).append(" minute ");
+            } else {
+                string.append(minutes).append(" minutes ");
+            }
+        }
+        if (seconds != 0) {
+            if (seconds == 1) {
+                string.append(seconds).append(" second");
+            } else {
+                string.append(seconds).append(" seconds");
+            }
+        }
+        if (hours == 0 && minutes == 0 && seconds == 0) {
+            string = new StringBuilder("less than a second");
+        }
+
+        return string.toString();
+
+    }
+
 }
