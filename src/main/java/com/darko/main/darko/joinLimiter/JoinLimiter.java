@@ -18,6 +18,8 @@ public class JoinLimiter implements Listener {
     @EventHandler(ignoreCancelled = false, priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerLoginEvent event) {
 
+        if (event.getPlayer().hasPermission("utility.joinlimiterbypass")) return;
+
         if (!event.getResult().equals(PlayerLoginEvent.Result.ALLOWED)) return;
 
         JoinLimiterObject joinLimiterObject = getJoinLimiterObjectFromUUID(event.getPlayer().getUniqueId());
