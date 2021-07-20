@@ -130,6 +130,7 @@ public class CommandUsage implements CommandExecutor {
                     outputFilePath = outputFilePath.concat(commandSender.getName());
                     outputFilePath = outputFilePath.concat("-");
                     outputFilePath = outputFilePath.concat(String.valueOf(System.currentTimeMillis()));
+                    outputFilePath = outputFilePath.concat("-silent");
                     outputFilePath = outputFilePath.concat(".txt");
 
                     //Searching through the files for the arguments.
