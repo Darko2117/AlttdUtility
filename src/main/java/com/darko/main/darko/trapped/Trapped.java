@@ -2,6 +2,7 @@ package com.darko.main.darko.trapped;
 
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.BukkitTasksCache;
+import com.darko.main.common.Methods;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -64,28 +65,10 @@ public class Trapped implements CommandExecutor, Listener {
             if (trappedObject.getStatus().equals(Status.AWAITING_TELEPORT) || trappedObject.getStatus().equals(Status.ON_COOLDOWN)) {
 
                 Integer seconds = trappedObject.getRemainingCooldownSeconds();
-                Integer hours = 0, minutes = 0;
 
-                while (seconds >= 60) {
-                    minutes++;
-                    seconds -= 60;
-                }
-                while (minutes >= 60) {
-                    hours++;
-                    minutes -= 60;
-                }
+                String timeString = new Methods().getTimeStringFromIntSeconds(seconds);
 
-                Boolean displayHours = hours > 0;
-                Boolean displayMinutes = minutes > 0;
-                if (seconds == 0) seconds = 1;
-
-                String time = "";
-
-                if (displayHours) time = time.concat(String.valueOf(hours)).concat(" hours ");
-                if (displayMinutes) time = time.concat(String.valueOf(minutes)).concat(" minutes ");
-                time = time.concat(String.valueOf(seconds)).concat(" seconds");
-
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.TrappedCommandOnCooldown")).replace("%time%", time));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.TrappedCommandOnCooldown")).replace("%time%", timeString));
 
             }
 

@@ -23,7 +23,7 @@ public class Cooldown implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CooldownCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CooldownCommand")) return true;
 
         if (!(sender instanceof Player)) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
@@ -45,7 +45,7 @@ public class Cooldown implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 
-        if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CooldownCommand")) return null;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CooldownCommand")) return null;
 
         if (args.length == 1) {
 
@@ -88,7 +88,7 @@ public class Cooldown implements CommandExecutor, TabCompleter {
         LuckPerms api = APIs.LuckPermsApiCheck();
         User user = api.getUserManager().getUser(player.getUniqueId());
 
-        Integer hours = 0, minutes = 0, seconds = 0;
+        Integer seconds = null;
 
         for (Node node : user.getNodes()) {
             if (node.getKey().equals(permission)) {
@@ -96,30 +96,14 @@ public class Cooldown implements CommandExecutor, TabCompleter {
             }
         }
 
-        while (seconds >= 60) {
-            minutes++;
-            seconds -= 60;
-        }
-        while (minutes >= 60) {
-            hours++;
-            minutes -= 60;
-        }
-
-        Boolean displayHours = hours > 0;
-        Boolean displayMinutes = minutes > 0;
-        Boolean displaySeconds = seconds > 0;
-
-        if (!displaySeconds && !displayMinutes && !displayHours) {
+        if (seconds == null || seconds <= 0) {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&eYou have no cooldown on " + permissionName));
             return;
         }
 
-        StringBuilder message = new StringBuilder(ChatColor.GREEN + "Your cooldown on " + permissionName + " is ");
-        if (displayHours) message.append(hours).append(" hours ");
-        if (displayMinutes) message.append(minutes).append(" minutes ");
-        message.append(seconds).append(" seconds").append(".");
+        String timeString = new Methods().getTimeStringFromIntSeconds(seconds);
 
-        player.sendMessage(message.toString());
+        player.sendMessage(ChatColor.GREEN + "Your cooldown on " + permissionName + " is " + timeString + ".");
 
     }
 
