@@ -1,10 +1,12 @@
 package com.darko.main.darko.deathMessage;
 
+import com.darko.main.AlttdUtility;
 import com.darko.main.common.Methods;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class DeathMessage implements Listener {
 
@@ -12,7 +14,13 @@ public class DeathMessage implements Listener {
     public void onDeath(PlayerDeathEvent event) {
 
         if (event.getEntity().hasPermission("utility.deathmsg")) {
-            new Methods().sendConfigMessage(event.getEntity(), "Messages.DeathMessage");
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    new Methods().sendConfigMessage(event.getEntity(), "Messages.DeathMessage");
+                }
+            }.runTaskLater(AlttdUtility.getInstance(), 40);
         }
 
     }
