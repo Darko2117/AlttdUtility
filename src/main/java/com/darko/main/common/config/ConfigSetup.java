@@ -100,7 +100,9 @@ public class ConfigSetup {
         InvalidUsageTPPunchCommand("Messages.InvalidUsageTPPunchCommand", "&cUsage of this command is /tppunch <x> <y> <z> <dimension(optional)>."),
         ValidUsageTPPunchCommand("Messages.ValidUsageTPPunchCommand", "&aThe next thing you punch will be teleported to %location%."),
         TPPunchCancelled("Messages.TPPunchCancelled", "&cTeleport punch cancelled."),
-        EntityTeleportedTPPunchCommand("Messages.EntityTeleportedTPPunchCommand", "&aEntity teleported to %location%.");
+        EntityTeleportedTPPunchCommand("Messages.EntityTeleportedTPPunchCommand", "&aEntity teleported to %location%."),
+        JoinLimiterCantJoin("Messages.JoinLimiterCantJoin", "&fYou've been joining this server too much, please wait %time% before joining again."),
+        JoinLimiterJoinWarning("Messages.JoinLimiterJoinWarning", "&cYou've been joining this server too much, you'll have to wait %time% to join again.");
 
         private final String path;
         private final String message;
@@ -171,6 +173,7 @@ public class ConfigSetup {
         toggles.add("TrappedCommand");
         toggles.add("TPPunchCommand");
         toggles.add("BlockWitherBlockAndEntityDamageOutsideClaim");
+        toggles.add("JoinLimiter");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
@@ -517,6 +520,20 @@ public class ConfigSetup {
             config.set("Trapped.SecondsToTeleport", 15);
             notFoundInConfigMessage("Trapped.SecondsToTeleport");
         }
+
+        // ----------------------------------------------------------------------------------------------------
+
+        //JoinLimiter
+
+        if (!config.contains("JoinLimiter.JoinLimit")) {
+            config.set("JoinLimiter.JoinLimit", 5);
+            notFoundInConfigMessage("JoinLimiter.JoinLimit");
+        }
+        if (!config.contains("JoinLimiter.TimeLimit")) {
+            config.set("JoinLimiter.TimeLimit", 300);
+            notFoundInConfigMessage("JoinLimiter.TimeLimit");
+        }
+
 
         // ----------------------------------------------------------------------------------------------------
 

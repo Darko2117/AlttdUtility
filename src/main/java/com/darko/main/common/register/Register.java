@@ -7,6 +7,7 @@ import com.darko.main.darko.chorusFruitOnPlot.ChorusFruitOnPlot;
 import com.darko.main.darko.claimPatrol.ClaimPatrol;
 import com.darko.main.darko.eggThrowingInClaims.EggThrowingInClaims;
 import com.darko.main.darko.invisibleItemFrame.InvisibleItemFrame;
+import com.darko.main.darko.joinLimiter.JoinLimiter;
 import com.darko.main.darko.joinNotifications.JoinNotifications;
 import com.darko.main.darko.sit.Sit;
 import com.darko.main.common.database.Database;
@@ -167,6 +168,10 @@ public class Register extends JavaPlugin {
 
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockWitherBlockAndEntityDamageOutsideClaim")) {
                 registerEvents(new WitherOutsideClaim());
+            }
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.JoinLimiter")) {
+                registerEvents(new JoinLimiter());
             }
 
         }
