@@ -6,9 +6,6 @@ import com.darko.main.AlttdUtility;
 import com.darko.main.common.ConsoleColors;
 import com.gmail.filoghost.farmlimiter.FarmLimiter;
 import com.plotsquared.bukkit.BukkitMain;
-import com.plotsquared.core.PlotSquared;
-import com.plotsquared.core.api.PlotAPI;
-import com.plotsquared.core.plot.Plot;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import de.Keyle.MyPet.MyPetPlugin;
 import me.NoChance.PvPManager.PvPManager;
@@ -106,19 +103,29 @@ public class APIs extends JavaPlugin {
     }
 
     public static GriefPrevention GriefPreventionApiCheck() {
-        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("GriefPrevention");
-        if (plugin instanceof GriefPrevention) {
-            return (GriefPrevention) plugin;
-        } else {
+        try {
+            Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("GriefPrevention");
+            if (plugin instanceof GriefPrevention) {
+                return (GriefPrevention) plugin;
+            } else {
+                return null;
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
             return null;
         }
     }
 
     public static WorldGuardPlugin WorldGuardApiCheck() {
-        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
-        if (plugin instanceof WorldGuardPlugin) {
-            return (WorldGuardPlugin) plugin;
-        } else {
+        try {
+            Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
+            if (plugin instanceof WorldGuardPlugin) {
+                return (WorldGuardPlugin) plugin;
+            } else {
+                return null;
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
             return null;
         }
     }
@@ -128,81 +135,123 @@ public class APIs extends JavaPlugin {
             RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
             if (provider != null) {
                 return provider.getProvider();
+            } else {
+                return null;
             }
         } catch (Throwable throwable) {
+            throwable.printStackTrace();
             return null;
         }
-        return null;
     }
 
     public static MyPetPlugin MyPetApiCheck() {
-        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("MyPet");
-        if (plugin instanceof MyPetPlugin) {
-            return (MyPetPlugin) plugin;
-        } else {
+        try {
+            Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("MyPet");
+            if (plugin instanceof MyPetPlugin) {
+                return (MyPetPlugin) plugin;
+            } else {
+                return null;
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
             return null;
         }
     }
 
     public static me.badbones69.crazycrates.Main CrazyCratesApiCheck() {
-        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CrazyCrates");
-        if (plugin instanceof me.badbones69.crazycrates.Main) {
-            return (me.badbones69.crazycrates.Main) plugin;
-        } else {
+        try {
+            Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CrazyCrates");
+            if (plugin instanceof me.badbones69.crazycrates.Main) {
+                return (me.badbones69.crazycrates.Main) plugin;
+            } else {
+                return null;
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
             return null;
         }
     }
 
     public static com.gmail.nossr50.mcMMO mcMMOApiCheck() {
-        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("mcMMO");
-        if (plugin instanceof com.gmail.nossr50.mcMMO) {
-            return (com.gmail.nossr50.mcMMO) plugin;
-        } else {
+        try {
+            Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("mcMMO");
+            if (plugin instanceof com.gmail.nossr50.mcMMO) {
+                return (com.gmail.nossr50.mcMMO) plugin;
+            } else {
+                return null;
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
             return null;
         }
     }
 
     public static FarmLimiter FarmLimiterApiCheck() {
-        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("FarmLimiter");
-        if (plugin instanceof FarmLimiter) {
-            return (FarmLimiter) plugin;
-        } else {
+        try {
+            Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("FarmLimiter");
+            if (plugin instanceof FarmLimiter) {
+                return (FarmLimiter) plugin;
+            } else {
+                return null;
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
             return null;
         }
     }
 
     public static PvPManager PvPManagerAPICheck() {
-        Plugin plugin = Bukkit.getPluginManager().getPlugin("PvPManager");
-        if (plugin instanceof PvPManager) {
-            return (PvPManager) plugin;
-        } else {
+        try {
+            Plugin plugin = Bukkit.getPluginManager().getPlugin("PvPManager");
+            if (plugin instanceof PvPManager) {
+                return (PvPManager) plugin;
+            } else {
+                return null;
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
             return null;
         }
     }
 
     public static CMI CMIApiCheck() {
-        Plugin plugin = Bukkit.getPluginManager().getPlugin("CMI");
-        if (plugin instanceof CMI) {
-            return (CMI) plugin;
-        } else {
+        try {
+            Plugin plugin = Bukkit.getPluginManager().getPlugin("CMI");
+            if (plugin instanceof CMI) {
+                return (CMI) plugin;
+            } else {
+                return null;
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
             return null;
         }
     }
 
     public static Shop ShopApiCheck() {
-        Plugin plugin = Bukkit.getPluginManager().getPlugin("Shop");
-        if (plugin instanceof Shop) {
-            return (Shop) plugin;
-        } else {
+        try {
+            Plugin plugin = Bukkit.getPluginManager().getPlugin("Shop");
+            if (plugin instanceof Shop) {
+                return (Shop) plugin;
+            } else {
+                return null;
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
             return null;
         }
     }
 
     public static BukkitMain PlotSquaredApiCheck() {
-        Plugin plugin = Bukkit.getPluginManager().getPlugin("PlotSquared");
-        if (plugin instanceof BukkitMain) {
-            return (BukkitMain) plugin;
-        } else {
+        try {
+            Plugin plugin = Bukkit.getPluginManager().getPlugin("PlotSquared");
+            if (plugin instanceof BukkitMain) {
+                return (BukkitMain) plugin;
+            } else {
+                return null;
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
             return null;
         }
     }
