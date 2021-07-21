@@ -173,7 +173,7 @@ public class LavaSponge implements Listener {
             return true;
         }
 
-        Claim claim = GriefPrevention.instance.dataStore.getClaimAt(block.getLocation(), true, null);
+        Claim claim = GriefPrevention.instance.dataStore.getClaimAt(block.getLocation(), false, null);
 
         if (claim == null) return true;
 
