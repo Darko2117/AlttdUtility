@@ -2,10 +2,10 @@ package com.darko.main.darko.logging;
 
 import com.darko.main.common.API.APIs;
 import com.darko.main.AlttdUtility;
-import com.gmail.filoghost.farmlimiter.api.FarmLimitEvent;
+import me.filoghost.farmlimiter.api.FarmLimitEvent;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -20,7 +20,7 @@ public class LoggingFarmLimiter implements Listener {
         if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.farmLimiterLogName) + ".Enabled"))
             return;
 
-        for (LivingEntity entityToRemove : event.getEntitiesToRemove()) {
+        for (Entity entityToRemove : event.getEntitiesToRemove()) {
 
             String time = new Date(System.currentTimeMillis()).toString();
 
