@@ -109,6 +109,10 @@ public class Register extends JavaPlugin {
         if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.TrappedCommand"))
             registerEvents(new Trapped());
 
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.JoinLimiter")) {
+            registerEvents(new JoinLimiter());
+        }
+
         if (APIs.MyPetFound) {
 
             registerEvents(new LoggingMyPet());
@@ -169,10 +173,6 @@ public class Register extends JavaPlugin {
 
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockWitherBlockAndEntityDamageOutsideClaim")) {
                 registerEvents(new WitherOutsideClaim());
-            }
-
-            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.JoinLimiter")) {
-                registerEvents(new JoinLimiter());
             }
 
         }
