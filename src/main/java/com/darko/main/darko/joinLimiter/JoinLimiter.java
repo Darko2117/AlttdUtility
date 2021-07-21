@@ -24,12 +24,18 @@ public class JoinLimiter implements Listener {
 
         JoinLimiterObject joinLimiterObject = getJoinLimiterObjectFromUUID(event.getPlayer().getUniqueId());
 
+        if (joinLimiterObject != null) {
+            joinLimiterObject.update();
+            if (joinLimiterObject.getNumberOfRecentJoins() == 0) {
+                joinLimiterObjectList.remove(joinLimiterObject);
+                joinLimiterObject = null;
+            }
+        }
+
         if (joinLimiterObject == null) {
             joinLimiterObjectList.add(new JoinLimiterObject(event.getPlayer().getUniqueId(), System.currentTimeMillis()));
             return;
         }
-
-        joinLimiterObject.update();
 
         String timeString = new Methods().getTimeStringFromIntSeconds(Integer.parseInt(String.valueOf(joinLimiterObject.getRemainingWaitTime() / 1000)));
 
@@ -87,14 +93,6 @@ public class JoinLimiter implements Listener {
                 }
             }
             joinTimes.removeAll(toRemove);
-
-//            List<JoinLimiterObject> toRemove1 = new ArrayList<>();
-//            for (JoinLimiterObject joinLimiterObject : joinLimiterObjectList) {
-//                if (joinLimiterObject.getNumberOfRecentJoins() == 0) {
-//                    toRemove1.add(joinLimiterObject);
-//                }
-//            }
-//            joinLimiterObjectList.removeAll(toRemove1);
 
         }
 
