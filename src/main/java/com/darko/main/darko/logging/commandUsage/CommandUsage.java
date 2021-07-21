@@ -187,6 +187,8 @@ public class CommandUsage implements CommandExecutor {
                         temp.put(aa.getKey(), aa.getValue());
                     }
 
+                    writer.write(username + " command usage results");
+
                     for (Map.Entry<String, Integer> entry : temp.entrySet()) {
                         writer.write(entry.getKey() + " ----- " + entry.getValue() + "\n");
                     }
