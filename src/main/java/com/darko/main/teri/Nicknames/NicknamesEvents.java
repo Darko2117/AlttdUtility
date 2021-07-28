@@ -1,9 +1,9 @@
 package com.darko.main.teri.Nicknames;
 
-import com.Zrips.CMI.Containers.CMIChatColor;
 import com.darko.main.AlttdUtility;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -43,12 +43,14 @@ public class NicknamesEvents implements Listener, PluginMessageListener {
                 }
 
                 String nickName = nick.getCurrentNick();
-                final String cmiNick = CMIChatColor.stripColor(Nicknames.getInstance().getNick(player));
+                final String strippedNick = MiniMessage.get().stripTokens(Nicknames.getInstance().getNick(player));
+//                final String strippedNick = CMIChatColor.stripColor(Nicknames.getInstance().getNick(player));
+
                 //final String cmiNick = Util.CMIChatColor.deColorize(Nicknames.getInstance().getNick(player));
 
                 if (nickName == null) {
                     Nicknames.getInstance().resetNick(player);
-                } else if (!nickName.equals(cmiNick)) {
+                } else if (!nickName.equals(strippedNick)) {
                     Nicknames.getInstance().setNick(player, nickName);
                 }
 
