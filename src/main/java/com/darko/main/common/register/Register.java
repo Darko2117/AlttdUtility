@@ -1,65 +1,64 @@
 package com.darko.main.common.register;
 
 
+import com.darko.main.AlttdUtility;
 import com.darko.main.common.API.APIs;
+import com.darko.main.common.database.Database;
+import com.darko.main.darko.atPlayers.NameInChatNotification;
+import com.darko.main.darko.autofix.AutoFix;
 import com.darko.main.darko.chorusFruitInClaim.ChorusFruitInClaim;
 import com.darko.main.darko.chorusFruitOnPlot.ChorusFruitOnPlot;
 import com.darko.main.darko.claimPatrol.ClaimPatrol;
-import com.darko.main.darko.eggThrowingInClaims.EggThrowingInClaims;
-import com.darko.main.darko.invisibleItemFrame.InvisibleItemFrame;
-import com.darko.main.darko.joinLimiter.JoinLimiter;
-import com.darko.main.darko.joinNotifications.JoinNotifications;
-import com.darko.main.darko.logging.commandUsage.CommandUsage;
-import com.darko.main.darko.sit.Sit;
-import com.darko.main.common.database.Database;
-import com.darko.main.darko.atPlayers.NameInChatNotification;
 import com.darko.main.darko.commandOnJoin.CommandOnJoin;
+import com.darko.main.darko.cooldown.Cooldown;
 import com.darko.main.darko.crash.Crash;
 import com.darko.main.darko.customChatMessage.CustomChatMessage;
 import com.darko.main.darko.deathMessage.DeathMessage;
-import com.darko.main.darko.toggleScruff.ToggleScruff;
-import com.darko.main.darko.tpPunch.TPPunch;
-import com.darko.main.darko.trapped.Trapped;
-import com.darko.main.darko.witherOutsideClaim.WitherOutsideClaim;
-import com.darko.main.destro.pvpFishing.PvPFishing;
-import com.darko.main.destro.claimanimals.DamageListener;
-import com.darko.main.destro.kickFromBungee.KickFromBungeeCommand;
-import com.darko.main.darko.flags.*;
-import com.darko.main.destro.griefprevention.PublicChests;
-import com.darko.main.destro.griefprevention.PublicTraders;
-import com.darko.main.destro.griefprevention.TNTProtection;
+import com.darko.main.darko.disablePvpOnLeave.DisablePvpOnLeave;
+import com.darko.main.darko.eggThrowingInClaims.EggThrowingInClaims;
+import com.darko.main.darko.flags.Flags;
 import com.darko.main.darko.godMode.GodMode;
+import com.darko.main.darko.hat.Hat;
+import com.darko.main.darko.invisibleItemFrame.InvisibleItemFrame;
+import com.darko.main.darko.itemPickup.ItemPickup;
+import com.darko.main.darko.joinLimiter.JoinLimiter;
+import com.darko.main.darko.joinNotifications.JoinNotifications;
 import com.darko.main.darko.lavaSponge.LavaSponge;
 import com.darko.main.darko.logging.*;
-import com.darko.main.darko.itemPickup.ItemPickup;
+import com.darko.main.darko.logging.commandUsage.CommandUsage;
 import com.darko.main.darko.namedMobClaimDamage.NamedMobClaimDamage;
+import com.darko.main.darko.offlinePay.onPayCommand;
 import com.darko.main.darko.petGodMode.PetGodMode;
 import com.darko.main.darko.playerList.PlayerList;
 import com.darko.main.darko.prefixes.RemovePrefix;
 import com.darko.main.darko.prefixes.SetPrefix;
-import com.darko.main.darko.disablePvpOnLeave.DisablePvpOnLeave;
 import com.darko.main.darko.ravagerInClaim.RavagerInClaim;
 import com.darko.main.darko.rebootWhitelist.RebootWhitelist;
 import com.darko.main.darko.reload.ReloadCommand;
+import com.darko.main.darko.servermsg.Servermsg;
+import com.darko.main.darko.sit.Sit;
 import com.darko.main.darko.spawnLimiter.SpawnLimiter;
+import com.darko.main.darko.toggleScruff.ToggleScruff;
+import com.darko.main.darko.tpPunch.TPPunch;
+import com.darko.main.darko.trapped.Trapped;
+import com.darko.main.darko.witherOutsideClaim.WitherOutsideClaim;
+import com.darko.main.destro.claimanimals.DamageListener;
+import com.darko.main.destro.claimraids.RaidListener;
+import com.darko.main.destro.griefprevention.PublicChests;
+import com.darko.main.destro.griefprevention.PublicTraders;
+import com.darko.main.destro.griefprevention.TNTProtection;
+import com.darko.main.destro.kickFromBungee.KickFromBungeeCommand;
+import com.darko.main.destro.petpickup.PetPickupListener;
+import com.darko.main.destro.pvpFishing.PvPFishing;
 import com.darko.main.destro.shop.ShopSignListener;
+import com.darko.main.destro.tamedexpire.onEntityInteractWithLead;
 import com.darko.main.teri.FreezeMail.FreezeMail;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
 import com.darko.main.teri.Nicknames.Nicknames;
 import com.darko.main.teri.Nicknames.NicknamesEvents;
-import com.darko.main.darko.toggleGC.ToggleGC;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import com.darko.main.AlttdUtility;
-import com.darko.main.darko.hat.Hat;
-import com.darko.main.darko.offlinePay.onPayCommand;
-import com.darko.main.darko.cooldown.Cooldown;
-import com.darko.main.destro.claimraids.RaidListener;
-import com.darko.main.destro.petpickup.PetPickupListener;
-import com.darko.main.destro.tamedexpire.onEntityInteractWithLead;
-import com.darko.main.darko.autofix.AutoFix;
-import com.darko.main.darko.servermsg.Servermsg;
 
 public class Register extends JavaPlugin {
 
@@ -283,7 +282,7 @@ public class Register extends JavaPlugin {
         if (APIs.LuckPermsFound) {
             AlttdUtility.getInstance().getCommand("cooldown").setExecutor(new Cooldown());
             AlttdUtility.getInstance().getCommand("togglescruff").setExecutor(new ToggleScruff());
-            AlttdUtility.getInstance().getCommand("togglegc").setExecutor(new ToggleGC());
+//            AlttdUtility.getInstance().getCommand("togglegc").setExecutor(new ToggleGC());
 
             AlttdUtility.getInstance().getCommand("cooldown").setTabCompleter(new Cooldown());
         }
