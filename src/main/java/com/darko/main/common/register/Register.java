@@ -297,9 +297,9 @@ public class Register extends JavaPlugin {
             AlttdUtility.getInstance().getCommand("nick").setExecutor(new Nicknames());
         }
 
-        if (APIs.WorldGuardFound) {
-            Flags.FlagsEnable();
-        }
+//        if (APIs.WorldGuardFound) {
+//            Flags.FlagsEnable();
+//        }
 
     }
 

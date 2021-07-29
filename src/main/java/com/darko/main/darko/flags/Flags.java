@@ -45,6 +45,7 @@ public class Flags implements Listener {
             registry.register(flag);
             SIT = flag;
         } catch (Throwable throwable) {
+            throwable.printStackTrace();
             Flag<?> existing = registry.get("chair-sit");
             if (existing instanceof StateFlag) {
                 SIT = (StateFlag) existing;
