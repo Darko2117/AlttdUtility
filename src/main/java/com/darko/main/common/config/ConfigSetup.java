@@ -103,7 +103,8 @@ public class ConfigSetup {
         EntityTeleportedTPPunchCommand("Messages.EntityTeleportedTPPunchCommand", "&aEntity teleported to %location%."),
         JoinLimiterCantJoin("Messages.JoinLimiterCantJoin", "&fYou've been joining this server too much, please wait %time% before joining again."),
         JoinLimiterJoinWarning("Messages.JoinLimiterJoinWarning", "&cYou've been joining this server too much, you'll have to wait %time% to join again."),
-        InvalidUsageCommandUsageCommand("Messages.InvalidUsageCommandUsageCommand", "&cUsage of this command is /commandusage <user> <numberOfDays>.");
+        InvalidUsageCommandUsageCommand("Messages.InvalidUsageCommandUsageCommand", "&cUsage of this command is /commandusage <user> <numberOfDays>."),
+        BlockedBlocksCantPlace("Messages.BlockedBlocksCantPlace", "&cYou are not worthy!");
 
         private final String path;
         private final String message;
@@ -176,6 +177,7 @@ public class ConfigSetup {
         toggles.add("BlockWitherBlockAndEntityDamageOutsideClaim");
         toggles.add("JoinLimiter");
         toggles.add("CommandUsageCommand");
+        toggles.add("BlockedBlocks");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
@@ -536,6 +538,19 @@ public class ConfigSetup {
             notFoundInConfigMessage("JoinLimiter.TimeLimit");
         }
 
+
+        // ----------------------------------------------------------------------------------------------------
+
+        //BlockBlockPlace
+
+        if (!config.contains("BlockBlockPlace.BlockedBlocks")) {
+
+            List<String> blockedBlocks = new ArrayList<>();
+            blockedBlocks.add("bedrock");
+            config.set("BlockBlockPlace.BlockedBlocks", blockedBlocks);
+
+            notFoundInConfigMessage("BlockBlockPlace.BlockedBlocks");
+        }
 
         // ----------------------------------------------------------------------------------------------------
 

@@ -2,6 +2,7 @@ package com.darko.main.common.register;
 
 
 import com.darko.main.common.API.APIs;
+import com.darko.main.darko.blockBlockPlace.BlockBlockPlace;
 import com.darko.main.darko.chorusFruitInClaim.ChorusFruitInClaim;
 import com.darko.main.darko.chorusFruitOnPlot.ChorusFruitOnPlot;
 import com.darko.main.darko.claimPatrol.ClaimPatrol;
@@ -111,6 +112,10 @@ public class Register extends JavaPlugin {
 
         if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.JoinLimiter")) {
             registerEvents(new JoinLimiter());
+        }
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockedBlocks")) {
+            registerEvents(new BlockBlockPlace());
         }
 
         if (APIs.MyPetFound) {
@@ -227,7 +232,7 @@ public class Register extends JavaPlugin {
 
         }
 
-        if(APIs.PlotSquaredFound){
+        if (APIs.PlotSquaredFound) {
 
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockChorusFruitArrowBreakingOnPlot")) {
                 registerEvents(new ChorusFruitOnPlot());
