@@ -288,7 +288,7 @@ public class Register extends JavaPlugin {
         if (APIs.LuckPermsFound) {
             AlttdUtility.getInstance().getCommand("cooldown").setExecutor(new Cooldown());
             AlttdUtility.getInstance().getCommand("togglescruff").setExecutor(new ToggleScruff());
-            AlttdUtility.getInstance().getCommand("togglegc").setExecutor(new ToggleGC());
+            //AlttdUtility.getInstance().getCommand("togglegc").setExecutor(new ToggleGC());
 
             AlttdUtility.getInstance().getCommand("cooldown").setTabCompleter(new Cooldown());
         }
