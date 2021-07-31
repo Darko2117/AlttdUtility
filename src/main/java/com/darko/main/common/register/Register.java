@@ -224,13 +224,13 @@ public class Register extends JavaPlugin {
 
         }
 
-        if (APIs.ShopFound) {
-
-            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockSignEditIfShop")) {
-                registerEvents(new ShopSignListener());
-            }
-
-        }
+//        if (APIs.ShopFound) {
+//
+//            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockSignEditIfShop")) {
+//                registerEvents(new ShopSignListener());
+//            }
+//
+//        }
 
         if (APIs.PlotSquaredFound) {
 
