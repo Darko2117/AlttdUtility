@@ -2,9 +2,11 @@ package com.darko.main.darko.logging;
 
 import com.darko.main.common.API.APIs;
 import com.darko.main.AlttdUtility;
+import com.darko.main.common.BukkitTasksCache;
 import com.darko.main.teri.Nicknames.NickEvent;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -18,6 +20,7 @@ import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.event.weather.LightningStrikeEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Date;
 
@@ -778,6 +781,42 @@ public class LoggingNoAPI implements Listener {
 
         Logging.addToLogWriteQueue(Logging.tridentsLogName, message);
 
+    }
+
+    public static void startPlayerLocationLog() {
+        BukkitTasksCache.addTask(new BukkitRunnable() {
+            @Override
+            public void run() {
+
+                if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.playerLocationLogName) + ".Enabled"))
+                    return;
+
+                for (Player player : Bukkit.getOnlinePlayers()) {
+
+                    String time = new Date(System.currentTimeMillis()).toString();
+
+                    String playerName = player.getName();
+
+                    String location = Logging.getBetterLocationString(player.getLocation());
+
+                    String message = "";
+                    message = message.concat("|");
+                    message = message.concat("Time:");
+                    message = message.concat(time);
+                    message = message.concat("|");
+                    message = message.concat("Player:");
+                    message = message.concat(playerName);
+                    message = message.concat("|");
+                    message = message.concat("Location:");
+                    message = message.concat(location);
+                    message = message.concat("|");
+
+                    Logging.addToLogWriteQueue(Logging.playerLocationLogName, message);
+
+                }
+
+            }
+        }.runTaskTimer(AlttdUtility.getInstance(), 1, 200));
     }
 
 }

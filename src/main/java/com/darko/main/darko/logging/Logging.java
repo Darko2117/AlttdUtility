@@ -47,6 +47,7 @@ public class Logging {
     public static String minecartsDestroyedLogName = "minecartsDestroyed";
     public static String lightningStrikesLogName = "lightningStrikes";
     public static String tridentsLogName = "tridents";
+    public static String playerLocationLogName = "playerLocation";
 
     public static void initiate() {
 
@@ -75,6 +76,7 @@ public class Logging {
         logNamesAndConfigPaths.put(minecartsDestroyedLogName, "Logging.MinecartsDestroyed");
         logNamesAndConfigPaths.put(lightningStrikesLogName, "Logging.LightningStrikes");
         logNamesAndConfigPaths.put(tridentsLogName, "Logging.Tridents");
+        logNamesAndConfigPaths.put(playerLocationLogName, "Logging.PlayerLocation");
 
         List<String> directories = new ArrayList<>();
         directories.add("logs");
@@ -103,6 +105,8 @@ public class Logging {
         }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 1200, 1200));
 
         initializeLogWriting();
+
+        LoggingNoAPI.startPlayerLocationLog();
 
     }
 
@@ -470,6 +474,12 @@ public class Logging {
             arguments.add("Location:");
             arguments.add("Action:");
             arguments.add("Target:");
+
+        } else if (logName.equals("playerLocation")) {
+
+            arguments.add("Time:");
+            arguments.add("Player:");
+            arguments.add("Location:");
 
         }
 
