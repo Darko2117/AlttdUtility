@@ -178,6 +178,7 @@ public class ConfigSetup {
         toggles.add("JoinLimiter");
         toggles.add("CommandUsageCommand");
         toggles.add("BlockedBlocks");
+        toggles.add("TemporaryArmorStandRemover");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
