@@ -49,6 +49,10 @@
             <id>enginehub</id>
             <url>https://maven.enginehub.org/repo/</url>
         </repository>
+        <repository>
+            <id>CodeMC</id>
+            <url>https://repo.codemc.org/repository/maven-public/</url>
+        </repository>
 
         <repository> <!-- MiniMessage -->
             <id>sonatype-oss-snapshots</id>
@@ -103,6 +107,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>me.NoChance.PvPManager</groupId>
+            <artifactId>PvPManager</artifactId>
+            <version>3.8</version>
+            <scope>provided</scope>
+        </dependency>
 
         <dependency>
             <groupId>com.Zrips.CMI</groupId>
@@ -135,13 +145,13 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/FarmLimiter.jar</systemPath>
         </dependency>
-        <dependency>
-            <groupId>me.NoChance.PvPManager.PvPManager</groupId>
-            <artifactId>PvPManager</artifactId>
-            <version>3.13.4</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/PvPManager.jar</systemPath>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>me.NoChance.PvPManager.PvPManager</groupId>-->
+<!--            <artifactId>PvPManager</artifactId>-->
+<!--            <version>3.13.4</version>-->
+<!--            <scope>system</scope>-->
+<!--            <systemPath>${project.basedir}/lib/PvPManager.jar</systemPath>-->
+<!--        </dependency>-->
 <!--        <dependency>-->
 <!--            <groupId>com.liteflags</groupId>-->
 <!--            <artifactId>liteflags</artifactId>-->
