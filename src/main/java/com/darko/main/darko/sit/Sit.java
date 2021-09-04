@@ -131,11 +131,11 @@ public class Sit implements CommandExecutor, Listener {
             public void run() {
                 if (entity.getVehicle() == null) {
                     Location dismountLocation = entity.getLocation();
-                    dismountLocation.setY(dismountLocation.getY() + (1 - dismountLocation.getY() % 1));
+                    dismountLocation.setY(dismounted.getLocation().getY() + 1.75);
                     entity.teleport(dismountLocation);
                 }
             }
-        }.runTaskLater(AlttdUtility.getInstance(), 0);
+        }.runTaskLater(AlttdUtility.getInstance(), 1);
 
     }
 
