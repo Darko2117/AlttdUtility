@@ -18,7 +18,6 @@ import com.darko.main.darko.commandOnJoin.CommandOnJoin;
 import com.darko.main.darko.crash.Crash;
 import com.darko.main.darko.customChatMessage.CustomChatMessage;
 import com.darko.main.darko.deathMessage.DeathMessage;
-import com.darko.main.darko.temporaryArmorStandRemover.TemporaryArmorStandRemover;
 import com.darko.main.darko.toggleScruff.ToggleScruff;
 import com.darko.main.darko.tpPunch.TPPunch;
 import com.darko.main.darko.trapped.Trapped;
@@ -117,10 +116,6 @@ public class Register extends JavaPlugin {
 
         if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockedBlocks")) {
             registerEvents(new BlockBlockPlace());
-        }
-
-        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.TemporaryArmorStandRemover")) {
-            registerEvents(new TemporaryArmorStandRemover());
         }
 
         if (APIs.MyPetFound) {
