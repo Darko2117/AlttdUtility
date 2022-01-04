@@ -39,7 +39,7 @@
         </repository>
         <repository>
             <id>Alttd-Nexus</id>
-            <url>http://leo:8081/</url>
+            <url>https://repo.destro.xyz/snapshots</url>
         </repository>
         <repository>
             <id>intellectualsites snapshots</id>
