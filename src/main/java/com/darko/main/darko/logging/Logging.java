@@ -48,6 +48,7 @@ public class Logging {
     public static String lightningStrikesLogName = "lightningStrikes";
     public static String tridentsLogName = "tridents";
     public static String playerLocationLogName = "playerLocation";
+    public static String spawnShopLogName = "spawnShop";
 
     public static void initiate() {
 
@@ -77,6 +78,7 @@ public class Logging {
         logNamesAndConfigPaths.put(lightningStrikesLogName, "Logging.LightningStrikes");
         logNamesAndConfigPaths.put(tridentsLogName, "Logging.Tridents");
         logNamesAndConfigPaths.put(playerLocationLogName, "Logging.PlayerLocation");
+        logNamesAndConfigPaths.put(spawnShopLogName, "Logging.SpawnShop");
 
         List<String> directories = new ArrayList<>();
         directories.add("logs");
@@ -480,6 +482,17 @@ public class Logging {
             arguments.add("Time:");
             arguments.add("Player:");
             arguments.add("Location:");
+
+        } else if (logName.equals("spawnShop")) {
+
+            arguments.add("Time:");
+            arguments.add("User:");
+            arguments.add("Amount:");
+            arguments.add("Price:");
+            arguments.add("Item:");
+            arguments.add("PointsBefore:");
+            arguments.add("PointsAfter:");
+            arguments.add("Type:");
 
         }
 

@@ -1,6 +1,7 @@
 package com.darko.main.common.API;
 
 import com.Zrips.CMI.CMI;
+import com.alttd.VillagerUI;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.ConsoleColors;
 //import com.plotsquared.bukkit.BukkitMain;
@@ -26,6 +27,7 @@ public class APIs extends JavaPlugin {
     public static Boolean FarmLimiterFound = false;
     public static Boolean PvPManagerFound = false;
     public static Boolean CMIFound = false;
+    public static Boolean VillagerShopUIFound = false;
 //    public static Boolean PlotSquaredFound = false;
 
     public static void APIConnect() {
@@ -39,6 +41,8 @@ public class APIs extends JavaPlugin {
         FarmLimiterFound = FarmLimiterApiCheck() != null;
         PvPManagerFound = PvPManagerAPICheck() != null;
         CMIFound = CMIApiCheck() != null;
+        VillagerShopUIFound = VillagerUICheck() != null;
+
 //        PlotSquaredFound = PlotSquaredApiCheck() != null;
 
         if (GriefPreventionFound)
@@ -85,6 +89,11 @@ public class APIs extends JavaPlugin {
             AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "CMI found!... " + ConsoleColors.RESET);
         else
             AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "CMI not found!... " + ConsoleColors.RESET);
+
+        if (VillagerShopUIFound)
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "VillagerShopUI found!... " + ConsoleColors.RESET);
+        else
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "VillagerShopUI not found!... " + ConsoleColors.RESET);
 
 //        if (PlotSquaredFound)
 //            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "PlotSquared found!... " + ConsoleColors.RESET);
@@ -210,6 +219,20 @@ public class APIs extends JavaPlugin {
             Plugin plugin = Bukkit.getPluginManager().getPlugin("CMI");
             if (plugin instanceof CMI) {
                 return (CMI) plugin;
+            } else {
+                return null;
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+            return null;
+        }
+    }
+
+    public static VillagerUI VillagerUICheck() {
+        try {
+            Plugin plugin = Bukkit.getPluginManager().getPlugin("VillagerShopUI");
+            if (plugin instanceof VillagerUI) {
+                return (VillagerUI) plugin;
             } else {
                 return null;
             }

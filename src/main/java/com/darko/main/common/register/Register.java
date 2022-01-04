@@ -223,6 +223,12 @@ public class Register extends JavaPlugin {
 
         }
 
+        if (APIs.VillagerShopUIFound) {
+
+            registerEvents(new LoggingVillagerShopUI());
+
+        }
+
 //        if (APIs.PlotSquaredFound) {
 //
 //            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockChorusFruitArrowBreakingOnPlot")) {
