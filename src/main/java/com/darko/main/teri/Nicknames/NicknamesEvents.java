@@ -43,7 +43,7 @@ public class NicknamesEvents implements Listener, PluginMessageListener {
                 }
 
                 String nickName = nick.getCurrentNick();
-                final String strippedNick = MiniMessage.get().stripTokens(Nicknames.getInstance().getNick(player));
+                final String strippedNick = MiniMessage.miniMessage().stripTokens(Nicknames.getInstance().getNick(player));
 //                final String strippedNick = CMIChatColor.stripColor(Nicknames.getInstance().getNick(player));
 
                 //final String cmiNick = Util.CMIChatColor.deColorize(Nicknames.getInstance().getNick(player));
