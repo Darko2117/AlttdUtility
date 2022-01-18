@@ -47,7 +47,6 @@ import com.darko.main.teri.FreezeMail.FreezeMail;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
 import com.darko.main.teri.Nicknames.Nicknames;
 import com.darko.main.teri.Nicknames.NicknamesEvents;
-import com.darko.main.darko.toggleGC.ToggleGC;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -285,7 +284,6 @@ public class Register extends JavaPlugin {
         if (APIs.LuckPermsFound) {
             AlttdUtility.getInstance().getCommand("cooldown").setExecutor(new Cooldown());
             AlttdUtility.getInstance().getCommand("togglescruff").setExecutor(new ToggleScruff());
-            //AlttdUtility.getInstance().getCommand("togglegc").setExecutor(new ToggleGC());
 
             AlttdUtility.getInstance().getCommand("cooldown").setTabCompleter(new Cooldown());
         }
