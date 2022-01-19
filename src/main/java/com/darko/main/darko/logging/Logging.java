@@ -3,6 +3,35 @@ package com.darko.main.darko.logging;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.BukkitTasksCache;
 import com.darko.main.common.Methods;
+import com.darko.main.darko.logging.listeners.LoggingNoAPI;
+import com.darko.main.darko.logging.logs.ClaimsCreatedLog;
+import com.darko.main.darko.logging.logs.ClaimsDeletedLog;
+import com.darko.main.darko.logging.logs.ClaimsExpiredLog;
+import com.darko.main.darko.logging.logs.ClaimsModifiedLog;
+import com.darko.main.darko.logging.logs.CommandsWithLocationLog;
+import com.darko.main.darko.logging.logs.CratePrizesLog;
+import com.darko.main.darko.logging.logs.DroppedItemsLog;
+import com.darko.main.darko.logging.logs.DroppedItemsOnDeathLog;
+import com.darko.main.darko.logging.logs.EggsThrownLog;
+import com.darko.main.darko.logging.logs.FarmLimiterLog;
+import com.darko.main.darko.logging.logs.ItemsBrokenLog;
+import com.darko.main.darko.logging.logs.ItemsDespawnedLog;
+import com.darko.main.darko.logging.logs.ItemsDestroyedLog;
+import com.darko.main.darko.logging.logs.ItemsPlacedInItemFramesLog;
+import com.darko.main.darko.logging.logs.ItemsTakenOutOfItemFramesLog;
+import com.darko.main.darko.logging.logs.LightningStrikesLog;
+import com.darko.main.darko.logging.logs.Log;
+import com.darko.main.darko.logging.logs.MCMMORepairUseLog;
+import com.darko.main.darko.logging.logs.MinecartsDestroyedLog;
+import com.darko.main.darko.logging.logs.MyPetItemPickupLog;
+import com.darko.main.darko.logging.logs.NicknamesLog;
+import com.darko.main.darko.logging.logs.NumberOfClaimsNotificationLog;
+import com.darko.main.darko.logging.logs.PickedUpItemsLog;
+import com.darko.main.darko.logging.logs.PlayerLocationLog;
+import com.darko.main.darko.logging.logs.SpawnLimiterLog;
+import com.darko.main.darko.logging.logs.TridentsLog;
+import com.darko.main.darko.logging.logs.UIClicksLog;
+import com.darko.main.darko.logging.logs.VillagerShopUILog;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -10,75 +39,79 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 import java.io.FileWriter;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Logging {
 
-    static Integer cachedDayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+    public static final int defaultDaysOfLogsToKeep = 60;
 
-    static ConcurrentLinkedQueue<String> logQueue = new ConcurrentLinkedQueue<>();
-    static Boolean isWritingLogs = false;
+    static int cachedDayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 
-    public static HashMap<String, String> logNamesAndConfigPaths = new LinkedHashMap<>();
+    static ConcurrentLinkedQueue<Log> logQueue = new ConcurrentLinkedQueue<>();
+    static boolean isWritingLogs = false;
 
-    public static String claimsCreatedLogName = "claimsCreated";
-    public static String claimsDeletedLogName = "claimsDeleted";
-    public static String claimsExpiredLogName = "claimsExpired";
-    public static String claimsModifiedLogName = "claimsModified";
-    public static String eggsThrownLogName = "eggsThrown";
-    public static String droppedItemsLogName = "droppedItems";
-    public static String itemsPlacedInItemFramesLogName = "itemsPlacedInItemFrames";
-    public static String itemsTakenOutOfItemFramesLogName = "itemsTakenOutOfItemFrames";
-    public static String mcmmoRepairUseLogName = "mcmmoRepairUse";
-    public static String cratePrizesLogName = "cratePrizes";
-    public static String spawnLimitReachedLogName = "spawnLimitReached";
-    public static String pickedUpItemsLogName = "pickedUpItems";
-    public static String uiClicksLogName = "uiClicks";
-    public static String itemsBrokenLogName = "itemsBroken";
-    public static String numberOfClaimsNotificationLogName = "numberOfClaimsNotification";
-    public static String itemsDespawnedLogName = "itemsDespawned";
-    public static String farmLimiterLogName = "farmLimiter";
-    public static String itemsDestroyedLogName = "itemsDestroyed";
-    public static String commandsWithLocationLogName = "commandsWithLocation";
-    public static String droppedItemsOnDeathLogName = "droppedItemsOnDeath";
-    public static String nicknameLogName = "nicknames";
-    public static String petItemPickupLogName = "petItemPickup";
-    public static String minecartsDestroyedLogName = "minecartsDestroyed";
-    public static String lightningStrikesLogName = "lightningStrikes";
-    public static String tridentsLogName = "tridents";
-    public static String playerLocationLogName = "playerLocation";
-    public static String spawnShopLogName = "spawnShop";
+    private static List<Log> cachedLogs;
+
+    public static List<Log> getCachedLogs() {
+        return cachedLogs;
+    }
+
+    public static Log getCachedLogFromName(String logName) {
+        for (Log log : getCachedLogs()) {
+            if (log.getName().equals(logName)) {
+                return log;
+            }
+        }
+        return null;
+    }
+
+    public static void cacheLogs() {
+
+        cachedLogs = new ArrayList<>();
+        cachedLogs.add(new ClaimsCreatedLog());
+        cachedLogs.add(new ClaimsDeletedLog());
+        cachedLogs.add(new ClaimsExpiredLog());
+        cachedLogs.add(new ClaimsModifiedLog());
+        cachedLogs.add(new CommandsWithLocationLog());
+        cachedLogs.add(new CratePrizesLog());
+        cachedLogs.add(new DroppedItemsLog());
+        cachedLogs.add(new DroppedItemsOnDeathLog());
+        cachedLogs.add(new EggsThrownLog());
+        cachedLogs.add(new FarmLimiterLog());
+        cachedLogs.add(new ItemsBrokenLog());
+        cachedLogs.add(new ItemsDespawnedLog());
+        cachedLogs.add(new ItemsDestroyedLog());
+        cachedLogs.add(new ItemsPlacedInItemFramesLog());
+        cachedLogs.add(new ItemsTakenOutOfItemFramesLog());
+        cachedLogs.add(new LightningStrikesLog());
+        cachedLogs.add(new MCMMORepairUseLog());
+        cachedLogs.add(new MinecartsDestroyedLog());
+        cachedLogs.add(new MyPetItemPickupLog());
+        cachedLogs.add(new PickedUpItemsLog());
+        cachedLogs.add(new PlayerLocationLog());
+        cachedLogs.add(new TridentsLog());
+        cachedLogs.add(new UIClicksLog());
+        cachedLogs.add(new VillagerShopUILog());
+        cachedLogs.add(new SpawnLimiterLog());
+        cachedLogs.add(new NicknamesLog());
+        cachedLogs.add(new NumberOfClaimsNotificationLog());
+
+    }
+
+    public static void updateCachedLogsFromConfig() {
+
+        for (Log cachedLog : getCachedLogs()) {
+            cachedLog.setEnabled(AlttdUtility.getInstance().getConfig().getBoolean("Logging." + cachedLog.getName() + ".Enabled"));
+            cachedLog.setDaysOfLogsToKeep(AlttdUtility.getInstance().getConfig().getInt("Logging." + cachedLog.getName() + ".DaysOfLogsToKeep"));
+        }
+
+    }
 
     public static void initiate() {
-
-        logNamesAndConfigPaths.put(claimsCreatedLogName, "Logging.ClaimsCreatedLog");
-        logNamesAndConfigPaths.put(claimsDeletedLogName, "Logging.ClaimsDeletedLog");
-        logNamesAndConfigPaths.put(claimsExpiredLogName, "Logging.ClaimsExpiredLog");
-        logNamesAndConfigPaths.put(claimsModifiedLogName, "Logging.ClaimsModifiedLog");
-        logNamesAndConfigPaths.put(eggsThrownLogName, "Logging.EggsThrownLog");
-        logNamesAndConfigPaths.put(droppedItemsLogName, "Logging.DroppedItemsLog");
-        logNamesAndConfigPaths.put(itemsPlacedInItemFramesLogName, "Logging.ItemsPlacedInItemFramesLog");
-        logNamesAndConfigPaths.put(itemsTakenOutOfItemFramesLogName, "Logging.ItemsTakenOutOfItemFramesLog");
-        logNamesAndConfigPaths.put(mcmmoRepairUseLogName, "Logging.MCMMORepairUseLog");
-        logNamesAndConfigPaths.put(cratePrizesLogName, "Logging.CratePrizesLog");
-        logNamesAndConfigPaths.put(spawnLimitReachedLogName, "Logging.SpawnLimitReachedLog");
-        logNamesAndConfigPaths.put(pickedUpItemsLogName, "Logging.PickedUpItemsLog");
-        logNamesAndConfigPaths.put(uiClicksLogName, "Logging.UIClicksLog");
-        logNamesAndConfigPaths.put(itemsBrokenLogName, "Logging.ItemsBrokenLog");
-        logNamesAndConfigPaths.put(numberOfClaimsNotificationLogName, "Logging.NumberOfClaimsNotification");
-        logNamesAndConfigPaths.put(itemsDespawnedLogName, "Logging.ItemsDespawned");
-        logNamesAndConfigPaths.put(farmLimiterLogName, "Logging.FarmLimiter");
-        logNamesAndConfigPaths.put(itemsDestroyedLogName, "Logging.ItemsDestroyed");
-        logNamesAndConfigPaths.put(commandsWithLocationLogName, "Logging.CommandsWithLocation");
-        logNamesAndConfigPaths.put(droppedItemsOnDeathLogName, "Logging.DroppedItemsOnDeath");
-        logNamesAndConfigPaths.put(nicknameLogName, "Logging.Nicknames");
-        logNamesAndConfigPaths.put(petItemPickupLogName, "Logging.PetItemPickup");
-        logNamesAndConfigPaths.put(minecartsDestroyedLogName, "Logging.MinecartsDestroyed");
-        logNamesAndConfigPaths.put(lightningStrikesLogName, "Logging.LightningStrikes");
-        logNamesAndConfigPaths.put(tridentsLogName, "Logging.Tridents");
-        logNamesAndConfigPaths.put(playerLocationLogName, "Logging.PlayerLocation");
-        logNamesAndConfigPaths.put(spawnShopLogName, "Logging.SpawnShop");
 
         List<String> directories = new ArrayList<>();
         directories.add("logs");
@@ -87,7 +120,7 @@ public class Logging {
         directories.add("temporary-files");
 
         for (String directory : directories)
-            new File(AlttdUtility.getInstance().getDataFolder() + "/" + directory).mkdir();
+            new File(AlttdUtility.getInstance().getDataFolder() + File.separator + directory).mkdir();
 
         CreateAllBlankLogFiles();
 
@@ -104,7 +137,7 @@ public class Logging {
             public void run() {
                 CompressIfDateChanged();
             }
-        }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 1200, 1200));
+        }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 20, 20));
 
         initializeLogWriting();
 
@@ -114,24 +147,27 @@ public class Logging {
 
     static void CreateAllBlankLogFiles() {
 
-        for (Map.Entry<String, String> entry : logNamesAndConfigPaths.entrySet()) {
-            Logging.addToLogWriteQueue(entry.getKey(), "");
+        for (Log cachedLog : getCachedLogs()) {
+            Logging.addToLogWriteQueue(cachedLog);
         }
 
     }
 
     static void CheckAndCompress() {
 
-        String[] logsNames = new File(AlttdUtility.getInstance().getDataFolder() + "/logs").list();
+        String[] logsNames = new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "logs").list();
+        if (logsNames == null || logsNames.length == 0) {
+            return;
+        }
 
         for (String logName : logsNames) {
 
-            File log = new File(AlttdUtility.getInstance().getDataFolder() + "/logs/" + logName);
+            File log = new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "logs" + File.separator + logName);
 
             if (log.getName().startsWith(new Methods().getDateStringYYYYMMDD())) continue;
 
             try {
-                if (new Methods().compressFile(log.getAbsolutePath(), log.getAbsolutePath().replace("\\logs\\", "\\compressed-logs\\").replace("/logs/", "/compressed-logs/").concat(".gz"))) {
+                if (new Methods().compressFile(log.getAbsolutePath(), log.getAbsolutePath().replace(File.separator + "logs" + File.separator, File.separator + "compressed-logs" + File.separator).concat(".gz"))) {
                     if (!log.delete())
                         AlttdUtility.getInstance().getLogger().warning("Something failed during deletion of the file " + log.getAbsolutePath());
                 } else {
@@ -147,27 +183,32 @@ public class Logging {
 
     static void CheckAndDeleteOld() {
 
-        for (String fileName : new File(AlttdUtility.getInstance().getDataFolder() + "/compressed-logs").list()) {
+        String[] logsNames = new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "compressed-logs").list();
+        if (logsNames == null || logsNames.length == 0) {
+            return;
+        }
+
+        for (String logName : logsNames) {
 
             try {
 
-                File file = new File(AlttdUtility.getInstance().getDataFolder() + "/compressed-logs/" + fileName);
+                File file = new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "compressed-logs" + File.separator + logName);
 
                 String fileNameWithoutDate = file.getName().substring(11, file.getName().indexOf(".txt.gz"));
 
-                Integer numberOfLogsToKeepFromConfig = AlttdUtility.getInstance().getConfig().getInt(Logging.logNamesAndConfigPaths.get(fileNameWithoutDate) + ".NumberOfLogsToKeep");
+                int numberOfLogsToKeepFromConfig = Logging.getCachedLogFromName(fileNameWithoutDate).getDaysOfLogsToKeep();
 
                 if (numberOfLogsToKeepFromConfig == -1) numberOfLogsToKeepFromConfig = 999999999;
 
                 if (numberOfLogsToKeepFromConfig == 0) throw new Throwable();
 
-                Integer day = new Methods().getDateValuesFromStringYYYYMMDD(fileName.substring(0, 10))[0];
-                Integer month = new Methods().getDateValuesFromStringYYYYMMDD(fileName.substring(0, 10))[1];
-                Integer year = new Methods().getDateValuesFromStringYYYYMMDD(fileName.substring(0, 10))[2];
+                int day = new Methods().getDateValuesFromStringYYYYMMDD(logName.substring(0, 10))[0];
+                int month = new Methods().getDateValuesFromStringYYYYMMDD(logName.substring(0, 10))[1];
+                int year = new Methods().getDateValuesFromStringYYYYMMDD(logName.substring(0, 10))[2];
                 LocalDate fileDateLD = LocalDate.of(year, month, day);
 
-                Integer epochDayOfFileCreation = Math.toIntExact(fileDateLD.toEpochDay());
-                Integer epochDayRightNow = Math.toIntExact(LocalDate.now().toEpochDay());
+                int epochDayOfFileCreation = Math.toIntExact(fileDateLD.toEpochDay());
+                int epochDayRightNow = Math.toIntExact(LocalDate.now().toEpochDay());
 
                 if (epochDayOfFileCreation + numberOfLogsToKeepFromConfig < epochDayRightNow) {
 
@@ -178,7 +219,7 @@ public class Logging {
                 }
 
             } catch (Throwable throwable) {
-                AlttdUtility.getInstance().getLogger().warning(fileName + " has an invalid name. Please set it to yyyy-mm-dd format if you want the plugin to keep track of it and delete it after the specified time.");
+                AlttdUtility.getInstance().getLogger().warning(logName + " has an invalid name. Please set it to yyyy-mm-dd format if you want the plugin to keep track of it and delete it after the specified time.");
             }
 
         }
@@ -187,9 +228,9 @@ public class Logging {
 
     static void CompressIfDateChanged() {
 
-        Integer dayNow = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        int dayNow = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 
-        if (!cachedDayOfMonth.equals(dayNow)) {
+        if (!(cachedDayOfMonth == dayNow)) {
 
             CheckAndCompress();
             CheckAndDeleteOld();
@@ -270,12 +311,7 @@ public class Logging {
 
                     while (logQueue.peek() != null) {
 
-                        String log = logQueue.poll();
-
-                        String logName = log.substring(0, log.indexOf("."));
-                        String logMessage = log.substring(log.indexOf(".") + 1);
-
-                        writeToFile(logName, logMessage);
+                        writeToFile(logQueue.poll());
 
                     }
 
@@ -290,25 +326,27 @@ public class Logging {
 
     }
 
-    public static void addToLogWriteQueue(String logName, String logMessage) {
+    public static void addToLogWriteQueue(Log log) {
 
-        String log = logName + "." + logMessage;
         logQueue.add(log);
 
     }
 
-    public static void writeToFile(String logName, String logMessage) {
+    public static void writeToFile(Log log) {
         try {
 
-            String messageCopy = logMessage;
-            messageCopy = messageCopy.replace("\n", "\\n");
-            if (!messageCopy.equals("")) messageCopy = messageCopy.concat("\n");
-//                    messageCopy = ChatColor.stripColor(messageCopy);
+            boolean logArgumentsAreEmpty = log.getArguments().entrySet().iterator().next().getValue().isEmpty();
+            String logMessage = log.getLogArgumentsString();
 
-            String logPath = "/logs/" + new Methods().getDateStringYYYYMMDD() + "-" + logName + ".txt";
+            logMessage = logMessage.replace("\n", "\\n");
+            if (!logArgumentsAreEmpty) {
+                logMessage = logMessage.concat("\n");
+            } else {
+                logMessage = "";
+            }
 
-            FileWriter writer = new FileWriter(AlttdUtility.getInstance().getDataFolder() + logPath, true);
-            writer.write(messageCopy);
+            FileWriter writer = new FileWriter(AlttdUtility.getInstance().getDataFolder() + log.getPath(), true);
+            writer.write(logMessage);
             writer.close();
 
         } catch (Throwable throwable) {
@@ -318,182 +356,10 @@ public class Logging {
 
     static List<String> getArgumentListFromLogName(String logName) {
 
-        List<String> arguments = new ArrayList<>();
-
-        if (logName.equals("claimsCreated") || logName.equals("claimsDeleted") || logName.equals("claimsExpired") || logName.equals("claimsModified")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("LowestY:");
-            arguments.add("Area:");
-
-        } else if (logName.equals("eggsThrown")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Location:");
-            arguments.add("ClaimOwner:");
-
-        } else if (logName.equals("droppedItems")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Item:");
-            arguments.add("Location:");
-
-        } else if (logName.equals("itemsPlacedInItemFrames")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Item:");
-            arguments.add("Location:");
-
-        } else if (logName.equals("itemsTakenOutOfItemFrames")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Item:");
-            arguments.add("Location:");
-
-        } else if (logName.equals("mcmmoRepairUse")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Item:");
-
-        } else if (logName.equals("cratePrizes")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Items:");
-            arguments.add("Commands:");
-            arguments.add("Crate:");
-
-        } else if (logName.equals("spawnLimitReached")) {
-
-            arguments.add("Time:");
-            arguments.add("EntityType:");
-            arguments.add("Location:");
-            arguments.add("ClaimOwner:");
-
-        } else if (logName.equals("pickedUpItems")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Item:");
-            arguments.add("Location:");
-
-        } else if (logName.equals("uiClicks")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("InventoryName:");
-            arguments.add("ClickedItem:");
-            arguments.add("Location:");
-
-        } else if (logName.equals("itemsBroken")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Item:");
-            arguments.add("Location:");
-
-        } else if (logName.equals("numberOfClaimsNotification")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("NumberOfClaims:");
-
-        } else if (logName.equals("itemsDespawned")) {
-
-            arguments.add("Time:");
-            arguments.add("Item:");
-            arguments.add("Location:");
-
-        } else if (logName.equals("farmLimiter")) {
-
-            arguments.add("Time:");
-            arguments.add("Entity:");
-            arguments.add("Location:");
-            arguments.add("ClaimOwner:");
-
-        } else if (logName.equals("itemsDestroyed")) {
-
-            arguments.add("Time:");
-            arguments.add("Item:");
-            arguments.add("Location:");
-            arguments.add("Cause:");
-
-        } else if (logName.equals("commandsWithLocation")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Command:");
-            arguments.add("Location:");
-
-        } else if (logName.equals("droppedItemsOnDeath")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Killer:");
-            arguments.add("Items:");
-            arguments.add("Location:");
-
-        } else if (logName.equals("nicknames")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Nickname:");
-            arguments.add("WhoResponded:");
-            arguments.add("Action:");
-
-        } else if (logName.equals("petItemPickup")) {
-
-            arguments.add("Time:");
-            arguments.add("Pet:");
-            arguments.add("Owner:");
-            arguments.add("Item:");
-            arguments.add("Location:");
-
-        } else if (logName.equals("minecartsDestroyed")) {
-
-            arguments.add("Time:");
-            arguments.add("Attacker:");
-            arguments.add("Location:");
-            arguments.add("ClaimOwner:");
-
-        } else if (logName.equals("lightningStrikes")) {
-
-            arguments.add("Time:");
-            arguments.add("Cause:");
-            arguments.add("Location:");
-
-        } else if (logName.equals("tridents")) {
-
-            arguments.add("Time:");
-            arguments.add("Player:");
-            arguments.add("Trident:");
-            arguments.add("Location:");
-            arguments.add("Action:");
-            arguments.add("Target:");
-
-        } else if (logName.equals("playerLocation")) {
-
-            arguments.add("Time:");
-            arguments.add("Player:");
-            arguments.add("Location:");
-
-        } else if (logName.equals("spawnShop")) {
-
-            arguments.add("Time:");
-            arguments.add("User:");
-            arguments.add("Amount:");
-            arguments.add("Price:");
-            arguments.add("Item:");
-            arguments.add("PointsBefore:");
-            arguments.add("PointsAfter:");
-            arguments.add("Type:");
-
+        LinkedList<String> arguments = new LinkedList<>();
+        for (String argument : Logging.getCachedLogFromName(logName).getArguments().keySet().stream().toList()) {
+            argument = argument.concat(":");
+            arguments.add(argument);
         }
 
         if (arguments.contains("Location:") || arguments.contains("Area:"))

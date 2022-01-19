@@ -3,12 +3,12 @@ package com.darko.main.common.config;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.Methods;
 import com.darko.main.darko.logging.Logging;
+import com.darko.main.darko.logging.logs.Log;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ConfigSetup {
 
@@ -320,18 +320,20 @@ public class ConfigSetup {
 
         // Logging
 
-        for (Map.Entry<String, String> entry : Logging.logNamesAndConfigPaths.entrySet()) {
+            String checkedPath;
 
-            if (!config.contains(entry.getValue())) {
-
-                config.set(entry.getValue() + ".Enabled", true);
-                config.set(entry.getValue() + ".NumberOfLogsToKeep", 60);
-
-                notFoundInConfigMessage(entry.getValue());
-
+            for (Log cachedLog : Logging.getCachedLogs()) {
+                checkedPath = "Logging." + cachedLog.getName() + ".Enabled";
+                if (!config.contains(checkedPath)) {
+                    config.set(checkedPath, cachedLog.isEnabled());
+                    notFoundInConfigMessage(checkedPath);
+                }
+                checkedPath = "Logging." + cachedLog.getName() + ".DaysOfLogsToKeep";
+                if (!config.contains(checkedPath)) {
+                    config.set(checkedPath, cachedLog.getDaysOfLogsToKeep());
+                    notFoundInConfigMessage(checkedPath);
+                }
             }
-
-        }
 
         // ----------------------------------------------------------------------------------------------------
 

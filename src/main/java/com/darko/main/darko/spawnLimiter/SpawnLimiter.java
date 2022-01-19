@@ -1,7 +1,7 @@
 package com.darko.main.darko.spawnLimiter;
 
 import com.darko.main.AlttdUtility;
-import com.darko.main.darko.logging.LoggingNoAPI;
+import com.darko.main.darko.logging.listeners.LoggingNoAPI;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;

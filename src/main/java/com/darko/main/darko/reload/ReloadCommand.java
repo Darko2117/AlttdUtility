@@ -5,13 +5,13 @@ import com.darko.main.AlttdUtility;
 import com.darko.main.common.BukkitTasksCache;
 import com.darko.main.common.Methods;
 import com.darko.main.common.config.ConfigSetup;
+import com.darko.main.darko.logging.Logging;
 import com.darko.main.darko.sit.Sit;
 import com.darko.main.common.database.Database;
 import com.darko.main.common.register.Register;
 import com.darko.main.darko.timedTips.TimedTips;
 import com.darko.main.darko.trapped.Trapped;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
-import com.darko.main.darko.logging.Logging;
 import com.darko.main.darko.rebootWhitelist.RebootWhitelist;
 import com.darko.main.darko.spawnLimiter.SpawnLimiter;
 import org.bukkit.Bukkit;
@@ -43,6 +43,8 @@ public class ReloadCommand implements CommandExecutor {
             Bukkit.getPluginManager().disablePlugin(AlttdUtility.getInstance());
             return;
         }
+
+        Logging.cacheLogs();
 
         BukkitTasksCache.cancelRunningTasks();
 

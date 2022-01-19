@@ -1,6 +1,7 @@
-package com.darko.main.darko.logging;
+package com.darko.main.darko.logging.listeners;
 
-import com.darko.main.AlttdUtility;
+import com.darko.main.darko.logging.Logging;
+import com.darko.main.darko.logging.logs.CratePrizesLog;
 import me.badbones69.crazycrates.api.events.PlayerPrizeEvent;
 import me.badbones69.crazycrates.api.objects.ItemBuilder;
 import org.bukkit.event.EventHandler;
@@ -13,10 +14,9 @@ import java.util.List;
 public class LoggingCrazyCrates implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerPrize(PlayerPrizeEvent event) {
+    public void onPlayerPrizeEvent(PlayerPrizeEvent event) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.cratePrizesLogName) + ".Enabled"))
-            return;
+        if (!Logging.getCachedLogFromName("CratePrizesLog").isEnabled()) return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -56,25 +56,14 @@ public class LoggingCrazyCrates implements Listener {
 
         String crate = event.getCrateName();
 
-        String message = "";
-        message = message.concat("|");
-        message = message.concat("Time:");
-        message = message.concat(time);
-        message = message.concat("|");
-        message = message.concat("User:");
-        message = message.concat(user);
-        message = message.concat("|");
-        message = message.concat("Items:");
-        message = message.concat(items);
-        message = message.concat("|");
-        message = message.concat("Commands:");
-        message = message.concat(commands);
-        message = message.concat("|");
-        message = message.concat("Crate:");
-        message = message.concat(crate);
-        message = message.concat("|");
+        CratePrizesLog log = new CratePrizesLog();
+        log.addArgumentValue(time);
+        log.addArgumentValue(user);
+        log.addArgumentValue(items);
+        log.addArgumentValue(commands);
+        log.addArgumentValue(crate);
 
-        Logging.addToLogWriteQueue(Logging.cratePrizesLogName, message);
+        Logging.addToLogWriteQueue(log);
 
     }
 

@@ -1,7 +1,8 @@
-package com.darko.main.darko.logging;
+package com.darko.main.darko.logging.listeners;
 
 import com.darko.main.common.API.APIs;
-import com.darko.main.AlttdUtility;
+import com.darko.main.darko.logging.Logging;
+import com.darko.main.darko.logging.logs.FarmLimiterLog;
 import me.filoghost.farmlimiter.api.FarmLimitEvent;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
@@ -15,10 +16,9 @@ import java.util.Date;
 public class LoggingFarmLimiter implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onFarmLimit(FarmLimitEvent event) {
+    public void onFarmLimitEvent(FarmLimitEvent event) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean(Logging.logNamesAndConfigPaths.get(Logging.farmLimiterLogName) + ".Enabled"))
-            return;
+        if (!Logging.getCachedLogFromName("FarmLimiterLog").isEnabled()) return;
 
         for (Entity entityToRemove : event.getEntitiesToRemove()) {
 
@@ -34,22 +34,13 @@ public class LoggingFarmLimiter implements Listener {
                 if (claim != null) claimOwner = claim.getOwnerName();
             }
 
-            String message = "";
-            message = message.concat("|");
-            message = message.concat("Time:");
-            message = message.concat(time);
-            message = message.concat("|");
-            message = message.concat("Entity:");
-            message = message.concat(entity);
-            message = message.concat("|");
-            message = message.concat("Location:");
-            message = message.concat(location);
-            message = message.concat("|");
-            message = message.concat("ClaimOwner:");
-            message = message.concat(claimOwner);
-            message = message.concat("|");
+            FarmLimiterLog log = new FarmLimiterLog();
+            log.addArgumentValue(time);
+            log.addArgumentValue(entity);
+            log.addArgumentValue(location);
+            log.addArgumentValue(claimOwner);
 
-            Logging.addToLogWriteQueue(Logging.farmLimiterLogName, message);
+            Logging.addToLogWriteQueue(log);
 
         }
 
