@@ -14,6 +14,7 @@ import com.darko.main.darko.logging.logs.DroppedItemsLog;
 import com.darko.main.darko.logging.logs.DroppedItemsOnDeathLog;
 import com.darko.main.darko.logging.logs.EggsThrownLog;
 import com.darko.main.darko.logging.logs.FarmLimiterLog;
+import com.darko.main.darko.logging.logs.IllegalItemsLog;
 import com.darko.main.darko.logging.logs.ItemsBrokenLog;
 import com.darko.main.darko.logging.logs.ItemsDespawnedLog;
 import com.darko.main.darko.logging.logs.ItemsDestroyedLog;
@@ -99,6 +100,7 @@ public class Logging {
         cachedLogs.add(new SpawnLimiterLog());
         cachedLogs.add(new NicknamesLog());
         cachedLogs.add(new NumberOfClaimsNotificationLog());
+        cachedLogs.add(new IllegalItemsLog());
 
     }
 

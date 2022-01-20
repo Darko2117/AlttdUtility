@@ -8,6 +8,7 @@ import com.darko.main.darko.logging.logs.CommandsWithLocationLog;
 import com.darko.main.darko.logging.logs.DroppedItemsLog;
 import com.darko.main.darko.logging.logs.DroppedItemsOnDeathLog;
 import com.darko.main.darko.logging.logs.EggsThrownLog;
+import com.darko.main.darko.logging.logs.IllegalItemsLog;
 import com.darko.main.darko.logging.logs.ItemsBrokenLog;
 import com.darko.main.darko.logging.logs.ItemsDespawnedLog;
 import com.darko.main.darko.logging.logs.ItemsDestroyedLog;
@@ -32,6 +33,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Trident;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -609,6 +611,31 @@ public class LoggingNoAPI implements Listener {
         log.addArgumentValue(nickname);
         log.addArgumentValue(whoResponded);
         log.addArgumentValue(action);
+
+        Logging.addToLogWriteQueue(log);
+
+    }
+
+    public static void logIllegalItems(ItemStack itemStack, Player player, Event event) {
+
+        if (!Logging.getCachedLogFromName("IllegalItemsLog").isEnabled()) return;
+
+        String time = new Date(System.currentTimeMillis()).toString();
+
+        String player1 = player.getName();
+
+        String item = itemStack.toString();
+
+        String location = Logging.getBetterLocationString(player.getLocation());
+
+        String eventName = event.getEventName();
+
+        IllegalItemsLog log = new IllegalItemsLog();
+        log.addArgumentValue(time);
+        log.addArgumentValue(player1);
+        log.addArgumentValue(item);
+        log.addArgumentValue(location);
+        log.addArgumentValue(eventName);
 
         Logging.addToLogWriteQueue(log);
 

@@ -5,6 +5,7 @@ import com.darko.main.AlttdUtility;
 import com.darko.main.common.BukkitTasksCache;
 import com.darko.main.common.Methods;
 import com.darko.main.common.config.ConfigSetup;
+import com.darko.main.darko.illegalItemCheck.IllegalItemCheck;
 import com.darko.main.darko.logging.Logging;
 import com.darko.main.darko.sit.Sit;
 import com.darko.main.common.database.Database;
@@ -60,6 +61,8 @@ public class ReloadCommand implements CommandExecutor {
 
         ConfigSetup.configSetup();
 
+        Logging.updateCachedLogsFromConfig();
+
         APIs.APIConnect();
 
         Register.registerEvents();
@@ -67,6 +70,8 @@ public class ReloadCommand implements CommandExecutor {
         FreezeMailPlayerListener.startFreezemailRepeater();
 
         TimedTips.initiate();
+
+        IllegalItemCheck.loadIllegalItems();
 
         new BukkitRunnable() {
             @Override

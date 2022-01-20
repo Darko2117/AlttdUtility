@@ -2,6 +2,7 @@ package com.darko.main.common.config;
 
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.Methods;
+import com.darko.main.darko.illegalItemCheck.IllegalItem;
 import com.darko.main.darko.logging.Logging;
 import com.darko.main.darko.logging.logs.Log;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -178,6 +179,7 @@ public class ConfigSetup {
         toggles.add("JoinLimiter");
         toggles.add("CommandUsageCommand");
         toggles.add("BlockedBlocks");
+        toggles.add("IllegalItemCheck");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
@@ -320,20 +322,18 @@ public class ConfigSetup {
 
         // Logging
 
-            String checkedPath;
-
-            for (Log cachedLog : Logging.getCachedLogs()) {
-                checkedPath = "Logging." + cachedLog.getName() + ".Enabled";
-                if (!config.contains(checkedPath)) {
-                    config.set(checkedPath, cachedLog.isEnabled());
-                    notFoundInConfigMessage(checkedPath);
-                }
-                checkedPath = "Logging." + cachedLog.getName() + ".DaysOfLogsToKeep";
-                if (!config.contains(checkedPath)) {
-                    config.set(checkedPath, cachedLog.getDaysOfLogsToKeep());
-                    notFoundInConfigMessage(checkedPath);
-                }
+        for (Log cachedLog : Logging.getCachedLogs()) {
+            String checkedPath = "Logging." + cachedLog.getName() + ".Enabled";
+            if (!config.contains(checkedPath)) {
+                config.set(checkedPath, cachedLog.isEnabled());
+                notFoundInConfigMessage(checkedPath);
             }
+            checkedPath = "Logging." + cachedLog.getName() + ".DaysOfLogsToKeep";
+            if (!config.contains(checkedPath)) {
+                config.set(checkedPath, cachedLog.getDaysOfLogsToKeep());
+                notFoundInConfigMessage(checkedPath);
+            }
+        }
 
         // ----------------------------------------------------------------------------------------------------
 
@@ -437,14 +437,6 @@ public class ConfigSetup {
         if (!config.contains("AdditionalLogs")) {
 
             List<String> logNamesAndPaths = new ArrayList<>();
-
-            String sellItemsLogName = "SellItems";
-            String sellItemsLogPath = new Methods().getServerJarPath() + "logs/SellItems";
-            logNamesAndPaths.add("Name:" + sellItemsLogName + " " + "Path:" + sellItemsLogPath);
-
-            String shopLogName = "Shop";
-            String shopLogPath = new Methods().getServerJarPath() + "logs/Shop";
-            logNamesAndPaths.add("Name:" + shopLogName + " " + "Path:" + shopLogPath);
 
             String moneyLogName = "Money";
             String moneyLogPath = new Methods().getServerJarPath() + "plugins/CMI/moneyLog";
@@ -552,6 +544,33 @@ public class ConfigSetup {
             config.set("BlockBlockPlace.BlockedBlocks", blockedBlocks);
 
             notFoundInConfigMessage("BlockBlockPlace.BlockedBlocks");
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
+        //IllegalItemCheck
+
+        if (!config.contains("IllegalItemCheckWhitelistedWorlds")) {
+
+            List<String> worlds = new ArrayList<>();
+            worlds.add("staff");
+            config.set("IllegalItemCheckWhitelistedWorlds", worlds);
+
+            notFoundInConfigMessage("IllegalItemCheckWhitelistedWorlds");
+        }
+
+        if (!config.contains("IllegalItemCheck")) {
+
+            IllegalItem illegalItem = new IllegalItem("IllegalItem", "", "", "illegal", "");
+
+            config.createSection("IllegalItemCheck." + illegalItem.getName());
+
+            config.set("IllegalItemCheck." + illegalItem.getName() + ".Material", illegalItem.getItemMaterial());
+            config.set("IllegalItemCheck." + illegalItem.getName() + ".Name", illegalItem.getItemName());
+            config.set("IllegalItemCheck." + illegalItem.getName() + ".Lore", illegalItem.getItemLore());
+            config.set("IllegalItemCheck." + illegalItem.getName() + ".Enchant", illegalItem.getItemEnchant());
+
+            notFoundInConfigMessage("IllegalItemCheck");
         }
 
         // ----------------------------------------------------------------------------------------------------

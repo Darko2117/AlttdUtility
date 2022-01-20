@@ -7,6 +7,7 @@ import com.darko.main.darko.chorusFruitInClaim.ChorusFruitInClaim;
 //import com.darko.main.darko.chorusFruitOnPlot.ChorusFruitOnPlot;
 import com.darko.main.darko.claimPatrol.ClaimPatrol;
 import com.darko.main.darko.eggThrowingInClaims.EggThrowingInClaims;
+import com.darko.main.darko.illegalItemCheck.IllegalItemCheck;
 import com.darko.main.darko.invisibleItemFrame.InvisibleItemFrame;
 import com.darko.main.darko.joinLimiter.JoinLimiter;
 import com.darko.main.darko.joinNotifications.JoinNotifications;
@@ -120,6 +121,10 @@ public class Register extends JavaPlugin {
 
         if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockedBlocks")) {
             registerEvents(new BlockBlockPlace());
+        }
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.IllegalItemCheck")) {
+            registerEvents(new IllegalItemCheck());
         }
 
         if (APIs.MyPetFound) {
