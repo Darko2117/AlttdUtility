@@ -193,7 +193,7 @@ public class IllegalItemCheck implements Listener {
 
     private boolean playerBypassCheck(Player player) {
 
-        //if (player.hasPermission("utility.illegal-item-bypass")) return true;
+        if (player.hasPermission("utility.illegal-item-bypass")) return true;
 
         for (String string : whitelistedWorlds) {
             if (string.equals(player.getLocation().getWorld().getName())) {
