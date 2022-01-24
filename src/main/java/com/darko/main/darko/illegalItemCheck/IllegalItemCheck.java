@@ -168,8 +168,10 @@ public class IllegalItemCheck implements Listener {
                 if (itemStack.getItemMeta() == null) break lore;
                 if (!itemStack.getItemMeta().hasLore()) break lore;
                 for (Component component : itemStack.getItemMeta().lore()) {
-                    if (component.toString().toLowerCase().matches("(.*)" + illegalItem.getItemLore() + "(.*)"))
+                    if (component.toString().toLowerCase().matches("(.*)" + illegalItem.getItemLore() + "(.*)")) {
                         loreFound = true;
+                        break lore;
+                    }
                 }
             }
 
