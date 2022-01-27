@@ -100,10 +100,10 @@ public class IllegalItemCheck implements Listener {
 
             shulkerBoxCheck(item, player, playerChangedWorldEvent);
 
-            if (illegalItemCheck(item)) {
-                //player.getInventory().setItem(i, new ItemStack(Material.AIR));
-                LoggingNoAPI.logIllegalItems(item, player, playerChangedWorldEvent);
-            }
+            if (!illegalItemCheck(item)) continue;
+
+            //player.getInventory().setItem(i, new ItemStack(Material.AIR));
+            LoggingNoAPI.logIllegalItems(item, player, playerChangedWorldEvent);
 
         }
 
