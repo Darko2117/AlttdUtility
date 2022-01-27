@@ -37,7 +37,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        if (!sender.hasPermission("lottalogs.searchlogs." + args[0])) {
+        if (!sender.hasPermission("utility.searchlogs." + args[0])) {
             new Methods().sendConfigMessage(sender, "Messages.NoPermission");
             return true;
         }
@@ -882,13 +882,13 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             if (args.length == 1) {
 
                 List<String> choices = new ArrayList<>();
-                if (sender.hasPermission("lottalogs.searchlogs.normal")) {
+                if (sender.hasPermission("utility.searchlogs.normal")) {
                     choices.add("normal");
                 }
-                if (sender.hasPermission("lottalogs.searchlogs.special")) {
+                if (sender.hasPermission("utility.searchlogs.special")) {
                     choices.add("special");
                 }
-                if (sender.hasPermission("lottalogs.searchlogs.additional")) {
+                if (sender.hasPermission("utility.searchlogs.additional")) {
                     choices.add("additional");
                 }
 
@@ -905,7 +905,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             //Returning 0-9 for the days argument in the normal search
 
-            if (sender.hasPermission("lottalogs.searchlogs.normal") && args.length == 2 && args[0].equals("normal") && args[1].isEmpty()) {
+            if (sender.hasPermission("utility.searchlogs.normal") && args.length == 2 && args[0].equals("normal") && args[1].isEmpty()) {
 
                 List<String> completions = new ArrayList<>();
 
@@ -919,7 +919,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             //Returning 0-9 for the days argument in the special search
 
-            if (sender.hasPermission("lottalogs.searchlogs.special") && args.length == 3 && args[0].equals("special") && args[2].isEmpty()) {
+            if (sender.hasPermission("utility.searchlogs.special") && args.length == 3 && args[0].equals("special") && args[2].isEmpty()) {
 
                 List<String> completions = new ArrayList<>();
 
@@ -933,7 +933,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             //Returning 0-9 for the days argument in the additional search
 
-            if (sender.hasPermission("lottalogs.searchlogs.additional") && args.length == 3 && args[0].equals("additional") && args[2].isEmpty()) {
+            if (sender.hasPermission("utility.searchlogs.additional") && args.length == 3 && args[0].equals("additional") && args[2].isEmpty()) {
 
                 List<String> completions = new ArrayList<>();
 
@@ -947,7 +947,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             //Returning the arguments for the special search
 
-            if (sender.hasPermission("lottalogs.searchlogs.special") && args[0].equals("special")) {
+            if (sender.hasPermission("utility.searchlogs.special") && args[0].equals("special")) {
 
                 if (args.length == 2) {
 
@@ -990,7 +990,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             //Returning the arguments for the additional search
 
-            if (sender.hasPermission("lottalogs.searchlogs.additional") && args[0].equals("additional")) {
+            if (sender.hasPermission("utility.searchlogs.additional") && args[0].equals("additional")) {
 
                 if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.SearchAdditionalLogsCommand"))
                     return null;
