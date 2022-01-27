@@ -10,7 +10,8 @@ import com.darko.main.darko.eggThrowingInClaims.EggThrowingInClaims;
 import com.darko.main.darko.illegalItemCheck.IllegalItemCheck;
 import com.darko.main.darko.invisibleItemFrame.InvisibleItemFrame;
 import com.darko.main.darko.joinLimiter.JoinLimiter;
-import com.darko.main.darko.joinNotifications.JoinNotifications;
+import com.darko.main.darko.joinNotifications.CMIJoinNotifications;
+//import com.darko.main.darko.joinNotifications.GriefPreventionJoinNotifications;
 import com.darko.main.darko.logging.commandUsage.CommandUsage;
 import com.darko.main.darko.logging.listeners.LoggingCrazyCrates;
 import com.darko.main.darko.logging.listeners.LoggingFarmLimiter;
@@ -189,6 +190,10 @@ public class Register extends JavaPlugin {
                 registerEvents(new WitherOutsideClaim());
             }
 
+//            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.JoinNotifications")) {
+//                registerEvents(new GriefPreventionJoinNotifications());
+//            }
+
         }
 
         if (APIs.WorldGuardFound) {
@@ -228,7 +233,7 @@ public class Register extends JavaPlugin {
             }
 
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.JoinNotifications")) {
-                registerEvents(new JoinNotifications());
+                registerEvents(new CMIJoinNotifications());
             }
 
         }
