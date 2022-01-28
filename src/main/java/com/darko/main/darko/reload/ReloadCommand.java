@@ -14,7 +14,7 @@ import com.darko.main.darko.timedTips.TimedTips;
 import com.darko.main.darko.trapped.Trapped;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
 import com.darko.main.darko.rebootWhitelist.RebootWhitelist;
-import com.darko.main.darko.spawnLimiter.SpawnLimiter;
+import com.darko.main.darko.spawnLimiter.SpawnLimiterCheck;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -51,7 +51,7 @@ public class ReloadCommand implements CommandExecutor {
 
         Trapped.initialize();
 
-        SpawnLimiter.reload();
+        SpawnLimiterCheck.reload();
 
         Sit.startCheckingSeats();
 
