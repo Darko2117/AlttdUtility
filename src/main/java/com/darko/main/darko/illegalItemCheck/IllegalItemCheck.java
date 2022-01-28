@@ -214,18 +214,15 @@ public class IllegalItemCheck implements Listener {
 
         illegalItems.clear();
 
-        for (String key : AlttdUtility.getInstance().getConfig().getKeys(true)) {
+        for (String illegalItemName : AlttdUtility.getInstance().getConfig().getKeys(true)) {
 
-            StringBuilder illegalItemString = new StringBuilder(key);
+            if (!illegalItemName.startsWith("IllegalItemCheck.")) continue;
 
-            if (!illegalItemString.toString().startsWith("IllegalItemCheck.")) continue;
+            illegalItemName = illegalItemName.substring(17);
 
-            illegalItemString.delete(0, 17);
+            if (illegalItemName.contains(".")) continue;
+            if (illegalItemName.isEmpty()) continue;
 
-            if (illegalItemString.toString().contains(".")) continue;
-            if (illegalItemString.toString().isEmpty()) continue;
-
-            String illegalItemName = illegalItemString.toString();
             String illegalItemItemMaterial = AlttdUtility.getInstance().getConfig().getString("IllegalItemCheck." + illegalItemName + ".Material").toLowerCase();
             String illegalItemItemName = AlttdUtility.getInstance().getConfig().getString("IllegalItemCheck." + illegalItemName + ".Name").toLowerCase();
             String illegalItemItemLore = AlttdUtility.getInstance().getConfig().getString("IllegalItemCheck." + illegalItemName + ".Lore").toLowerCase();
