@@ -1,6 +1,7 @@
 package com.darko.main.common.database;
 
 import com.darko.main.AlttdUtility;
+import com.darko.main.darko.customCommandMacro.CustomCommandMacroCommand;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -57,7 +58,7 @@ public class Database implements Listener {
                 }
 
                 createUsersTable();
-                createCustomChatMessageTable();
+                createCustomCommandMacroTable();
                 createCommandOnJoinTable();
                 createFreezeMessageTable();
                 createNicknamesTable();
@@ -132,9 +133,9 @@ public class Database implements Listener {
                     throwable.printStackTrace();
                 }
 
-                //Custom chat message table
+                //Custom command macro table
 
-                statement = "SELECT * FROM custom_chat_message WHERE UUID = '" + uuid + "';";
+                statement = "SELECT * FROM custom_command_macro WHERE UUID = '" + uuid + "';";
 
                 try {
 
@@ -146,10 +147,10 @@ public class Database implements Listener {
 
                         if (!existingUsername.equals(username)) {
 
-                            statement = "UPDATE custom_chat_message SET Username = '" + username + "' WHERE UUID = '" + uuid + "';";
+                            statement = "UPDATE custom_command_macro SET Username = '" + username + "' WHERE UUID = '" + uuid + "';";
 
                             Database.connection.prepareStatement(statement).executeUpdate();
-                            AlttdUtility.getInstance().getLogger().info(username + " had a different username in the custom_chat_message table (" + existingUsername + "). Updated it.");
+                            AlttdUtility.getInstance().getLogger().info(username + " had a different username in the custom_command_macro table (" + existingUsername + "). Updated it.");
 
                         }
 
@@ -240,6 +241,8 @@ public class Database implements Listener {
             }
             FreezeMailPlayerListener.refreshON();
 
+            CustomCommandMacroCommand.loadMacros();
+
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
@@ -274,10 +277,10 @@ public class Database implements Listener {
 
     }
 
-    static void createCustomChatMessageTable() {
+    static void createCustomCommandMacroTable() {
 
         try {
-            String customChatMessageTableQuery = "CREATE TABLE IF NOT EXISTS custom_chat_message("
+            String customChatMessageTableQuery = "CREATE TABLE IF NOT EXISTS custom_command_macro("
                     + "ID INT NOT NULL AUTO_INCREMENT,"
                     + "PRIMARY KEY (ID))";
             connection.prepareStatement(customChatMessageTableQuery).executeUpdate();
@@ -286,10 +289,10 @@ public class Database implements Listener {
         }
 
         List<String> columns = new ArrayList<>();
-        columns.add("ALTER TABLE custom_chat_message ADD UUID TEXT NOT NULL");
-        columns.add("ALTER TABLE custom_chat_message ADD Username TEXT NOT NULL");
-        columns.add("ALTER TABLE custom_chat_message ADD MessageName TEXT NOT NULL");
-        columns.add("ALTER TABLE custom_chat_message ADD Message TEXT NOT NULL");
+        columns.add("ALTER TABLE custom_command_macro ADD UUID TEXT NOT NULL");
+        columns.add("ALTER TABLE custom_command_macro ADD Username TEXT NOT NULL");
+        columns.add("ALTER TABLE custom_command_macro ADD MacroName TEXT NOT NULL");
+        columns.add("ALTER TABLE custom_command_macro ADD Command TEXT NOT NULL");
         for (String string : columns) {
             try {
                 connection.prepareStatement(string).executeUpdate();

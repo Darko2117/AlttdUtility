@@ -24,7 +24,7 @@ import com.darko.main.common.database.Database;
 import com.darko.main.darko.atPlayers.NameInChatNotification;
 import com.darko.main.darko.commandOnJoin.CommandOnJoin;
 import com.darko.main.darko.crash.Crash;
-import com.darko.main.darko.customChatMessage.CustomChatMessage;
+import com.darko.main.darko.customCommandMacro.CustomCommandMacroCommand;
 import com.darko.main.darko.deathMessage.DeathMessage;
 import com.darko.main.darko.toggleScruff.ToggleScruff;
 import com.darko.main.darko.tpPunch.TPPunch;
@@ -275,7 +275,7 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("rebootwhitelist").setExecutor(new RebootWhitelist());
         AlttdUtility.getInstance().getCommand("sit").setExecutor(new Sit());
         AlttdUtility.getInstance().getCommand("commandonjoin").setExecutor(new CommandOnJoin());
-        AlttdUtility.getInstance().getCommand("ccm").setExecutor(new CustomChatMessage());
+        AlttdUtility.getInstance().getCommand("ccm").setExecutor(new CustomCommandMacroCommand());
         AlttdUtility.getInstance().getCommand("godmode").setExecutor(new GodMode());
         AlttdUtility.getInstance().getCommand("petgodmode").setExecutor(new PetGodMode());
         AlttdUtility.getInstance().getCommand("freezemail").setExecutor(new FreezeMail());
@@ -287,7 +287,7 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());
         AlttdUtility.getInstance().getCommand("rebootwhitelist").setTabCompleter(new RebootWhitelist());
         AlttdUtility.getInstance().getCommand("commandonjoin").setTabCompleter(new CommandOnJoin());
-        AlttdUtility.getInstance().getCommand("ccm").setTabCompleter(new CustomChatMessage());
+        AlttdUtility.getInstance().getCommand("ccm").setTabCompleter(new CustomCommandMacroCommand());
         AlttdUtility.getInstance().getCommand("tppunch").setTabCompleter(new TPPunch());
 
         AlttdUtility.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(AlttdUtility.getInstance(), "BungeeCord");
