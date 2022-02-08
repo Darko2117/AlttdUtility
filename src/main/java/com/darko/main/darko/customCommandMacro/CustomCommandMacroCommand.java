@@ -253,8 +253,6 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter 
 
                     macros.put(player, macrosForPlayer);
 
-                    System.out.println(macros);
-
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
