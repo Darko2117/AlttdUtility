@@ -272,7 +272,7 @@ public class FreezeMailPlayerListener implements Listener {
         try {
 
             Database.connection.prepareStatement(query).executeUpdate();
-            Database.reloadLoadedValues();
+            Database.reloadAllCaches();
 
         } catch (Throwable throwable) {
             throwable.printStackTrace();

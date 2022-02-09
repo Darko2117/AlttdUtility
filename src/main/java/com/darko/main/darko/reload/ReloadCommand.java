@@ -78,7 +78,7 @@ public class ReloadCommand implements CommandExecutor {
             public void run() {
                 Database.initiate();
                 if (Database.connection != null)
-                    Database.reloadLoadedValues();
+                    Database.reloadAllCaches();
             }
         }.runTaskAsynchronously(AlttdUtility.getInstance());
 

@@ -19,7 +19,7 @@ import java.util.List;
 
 public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter {
 
-    private static final HashMap<Player, List<CustomCommandMacro>> macros = new HashMap<>();
+    private static final HashMap<Player, List<CustomCommandMacro>> cachedMacros = new HashMap<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -77,7 +77,7 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter 
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
                                 .getString("Messages.CustomCommandMacroSavedMessage").replace("%macroName%", macroName).replace("%command%", commandString)));
 
-                        loadMacrosForPlayer(player);
+                        cacheMacrosForPlayer(player);
 
                     } catch (Throwable throwable) {
                         throwable.printStackTrace();
@@ -104,7 +104,7 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter 
                         Database.connection.prepareStatement(statement).executeUpdate();
                         new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroRemovedMessage");
 
-                        loadMacrosForPlayer(player);
+                        cacheMacrosForPlayer(player);
 
                     } catch (Throwable throwable) {
                         throwable.printStackTrace();
@@ -138,7 +138,7 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter 
                         Database.connection.prepareStatement(statement).executeUpdate();
                         new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroEdited");
 
-                        loadMacrosForPlayer(player);
+                        cacheMacrosForPlayer(player);
 
                     } catch (Throwable throwable) {
                         throwable.printStackTrace();
@@ -227,18 +227,18 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter 
 
     }
 
-    public static void loadMacros() {
+    public static void cacheMacros() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            loadMacrosForPlayer(player);
+            cacheMacrosForPlayer(player);
         }
     }
 
-    private static void loadMacrosForPlayer(Player player) {
+    private static void cacheMacrosForPlayer(Player player) {
         new BukkitRunnable() {
             @Override
             public void run() {
 
-                macros.remove(player);
+                cachedMacros.remove(player);
 
                 String statement = "SELECT * FROM custom_command_macro WHERE UUID = '" + player.getUniqueId() + "'";
 
@@ -251,7 +251,7 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter 
                     while (rs.next())
                         macrosForPlayer.add(new CustomCommandMacro(rs.getString("UUID"), rs.getString("MacroName"), rs.getString("Command")));
 
-                    macros.put(player, macrosForPlayer);
+                    cachedMacros.put(player, macrosForPlayer);
 
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
@@ -265,7 +265,7 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter 
 
         List<String> results = new ArrayList<>();
 
-        for (CustomCommandMacro customCommandMacro : macros.get(player)) {
+        for (CustomCommandMacro customCommandMacro : cachedMacros.get(player)) {
             results.add(customCommandMacro.getMacroName());
         }
 

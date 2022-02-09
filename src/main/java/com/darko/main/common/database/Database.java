@@ -1,7 +1,11 @@
 package com.darko.main.common.database;
 
 import com.darko.main.AlttdUtility;
+import com.darko.main.darko.autofix.AutoFix;
 import com.darko.main.darko.customCommandMacro.CustomCommandMacroCommand;
+import com.darko.main.darko.godMode.GodMode;
+import com.darko.main.darko.itemPickup.ItemPickup;
+import com.darko.main.darko.petGodMode.PetGodMode;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -21,13 +25,9 @@ public class Database implements Listener {
 
     public static Connection connection = null;
 
-    public static List<Player> autofixEnabledPlayers = new ArrayList<>();
-    public static List<Player> blockItemPickupEnabledPlayers = new ArrayList<>();
-    public static List<Player> godModeEnabledPlayers = new ArrayList<>();
-    public static List<Player> petGodModeEnabledPlayers = new ArrayList<>();
     public static List<Player> unreadFreezemailPlayers = new ArrayList<>();
 
-    private static List<String> logConfirmationMessages = new ArrayList<>();
+    private static final List<String> logConfirmationMessages = new ArrayList<>();
 
     public static void initiate() {
 
@@ -35,16 +35,12 @@ public class Database implements Listener {
             @Override
             public void run() {
 
-                connection = null;
-
-                String driver, ip, port, name, username, password;
-
-                driver = AlttdUtility.getInstance().getConfig().getString("Database.driver");
-                ip = AlttdUtility.getInstance().getConfig().getString("Database.ip");
-                port = AlttdUtility.getInstance().getConfig().getString("Database.port");
-                name = AlttdUtility.getInstance().getConfig().getString("Database.name");
-                username = AlttdUtility.getInstance().getConfig().getString("Database.username");
-                password = AlttdUtility.getInstance().getConfig().getString("Database.password");
+                String driver = AlttdUtility.getInstance().getConfig().getString("Database.driver");
+                String ip = AlttdUtility.getInstance().getConfig().getString("Database.ip");
+                String port = AlttdUtility.getInstance().getConfig().getString("Database.port");
+                String name = AlttdUtility.getInstance().getConfig().getString("Database.name");
+                String username = AlttdUtility.getInstance().getConfig().getString("Database.username");
+                String password = AlttdUtility.getInstance().getConfig().getString("Database.password");
 
                 String url = "jdbc:" + driver + "://" + ip + ":" + port + "/" + name + "?autoReconnect=true&useSSL=false";
 
@@ -64,11 +60,9 @@ public class Database implements Listener {
                 createNicknamesTable();
                 createRequestedNicknamesTable();
 
-                for (String message : logConfirmationMessages) {
-                    AlttdUtility.getInstance().getLogger().info(message);
-                }
+                for (String message : logConfirmationMessages) AlttdUtility.getInstance().getLogger().info(message);
 
-                Database.reloadLoadedValues();
+                Database.reloadAllCaches();
 
                 AlttdUtility.getInstance().getLogger().info("Connected to the database!");
 
@@ -173,7 +167,7 @@ public class Database implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Database.reloadLoadedValues();
+                Database.reloadAllCaches();
             }
         }.runTaskAsynchronously(AlttdUtility.getInstance());
 
@@ -187,61 +181,34 @@ public class Database implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Database.reloadLoadedValues();
+                Database.reloadAllCaches();
             }
         }.runTaskAsynchronously(AlttdUtility.getInstance());
 
     }
 
-    public static void reloadLoadedValues() {
+    public static void reloadAllCaches() {
 
         try {
 
-            ResultSet rs;
-            String statement;
+            AutoFix.cacheAllPlayers();
 
-            statement = "SELECT UUID FROM users WHERE autofix_enabled = true;";
-            rs = Database.connection.prepareStatement(statement).executeQuery();
-            autofixEnabledPlayers.clear();
-            while (rs.next()) {
-                Player player = Bukkit.getPlayer(UUID.fromString(rs.getString("UUID")));
-                if (Bukkit.getOnlinePlayers().contains(player)) autofixEnabledPlayers.add(player);
-            }
+            ItemPickup.cacheAllPlayers();
 
-            statement = "SELECT UUID FROM users WHERE block_item_pickup_enabled = true;";
-            rs = Database.connection.prepareStatement(statement).executeQuery();
-            blockItemPickupEnabledPlayers.clear();
-            while (rs.next()) {
-                Player player = Bukkit.getPlayer(UUID.fromString(rs.getString("UUID")));
-                if (Bukkit.getOnlinePlayers().contains(player)) blockItemPickupEnabledPlayers.add(player);
-            }
+            GodMode.cacheAllPlayers();
 
-            statement = "SELECT UUID FROM users WHERE god_mode_enabled = true;";
-            rs = Database.connection.prepareStatement(statement).executeQuery();
-            godModeEnabledPlayers.clear();
-            while (rs.next()) {
-                Player player = Bukkit.getPlayer(UUID.fromString(rs.getString("UUID")));
-                if (Bukkit.getOnlinePlayers().contains(player)) godModeEnabledPlayers.add(player);
-            }
+            PetGodMode.cacheAllPlayers();
 
-            statement = "SELECT UUID FROM users WHERE pet_god_mode_enabled = true;";
-            rs = Database.connection.prepareStatement(statement).executeQuery();
-            petGodModeEnabledPlayers.clear();
-            while (rs.next()) {
-                Player player = Bukkit.getPlayer(UUID.fromString(rs.getString("UUID")));
-                if (Bukkit.getOnlinePlayers().contains(player)) petGodModeEnabledPlayers.add(player);
-            }
+            CustomCommandMacroCommand.cacheMacros();
 
-            statement = "SELECT uuid FROM freeze_message WHERE IsRead = 0;";
-            rs = Database.connection.prepareStatement(statement).executeQuery();
+            String statement = "SELECT uuid FROM freeze_message WHERE IsRead = 0;";
+            ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
             unreadFreezemailPlayers.clear();
             while (rs.next()) {
                 Player player = Bukkit.getPlayer(UUID.fromString(rs.getString("uuid")));
                 if (Bukkit.getOnlinePlayers().contains(player)) unreadFreezemailPlayers.add(player);
             }
             FreezeMailPlayerListener.refreshON();
-
-            CustomCommandMacroCommand.loadMacros();
 
         } catch (Throwable throwable) {
             throwable.printStackTrace();

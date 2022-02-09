@@ -255,7 +255,7 @@ public class FreezeMail implements CommandExecutor, TabCompleter {
 
             preparedStatement.execute();
 
-            Database.reloadLoadedValues();
+            Database.reloadAllCaches();
             if (player.isOnline()) {
                 new FreezeMailPlayerListener().resendFreezeMailTitle((Player) player);
                 new FreezeMailPlayerListener().resendFreezeMailMessage((Player) player);

@@ -3,6 +3,7 @@ package com.darko.main.darko.godMode;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.database.Database;
 import com.darko.main.common.Methods;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,11 +13,17 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GodMode implements CommandExecutor, Listener {
+
+    private static final List<Player> enabledPlayers = new ArrayList<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -42,13 +49,10 @@ public class GodMode implements CommandExecutor, Listener {
                     String uuid = player.getUniqueId().toString();
 
                     String statement = "SELECT * FROM users WHERE UUID = '" + uuid + "';";
-
                     ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
                     rs.next();
 
-                    Boolean god_mode_enabled = rs.getBoolean("god_mode_enabled");
-
-                    if (!god_mode_enabled) {
+                    if (!rs.getBoolean("god_mode_enabled")) {
 
                         statement = "UPDATE users SET god_mode_enabled = true WHERE UUID = '" + uuid + "';";
                         Database.connection.prepareStatement(statement).executeUpdate();
@@ -62,7 +66,7 @@ public class GodMode implements CommandExecutor, Listener {
 
                     }
 
-                    Database.reloadLoadedValues();
+                    cachePlayer(player);
 
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
@@ -81,13 +85,11 @@ public class GodMode implements CommandExecutor, Listener {
 
         Player player = (Player) event.getEntity();
 
-        if (Database.godModeEnabledPlayers.contains(player)) {
+        if (!enabledPlayers.contains(player)) return;
 
-            event.setCancelled(true);
-            player.setSaturation(20);
-            player.setFoodLevel(20);
-
-        }
+        event.setCancelled(true);
+        player.setSaturation(20);
+        player.setFoodLevel(20);
 
     }
 
@@ -98,13 +100,46 @@ public class GodMode implements CommandExecutor, Listener {
 
         Player player = event.getEntity();
 
-        if (Database.godModeEnabledPlayers.contains(player)) {
+        if (!enabledPlayers.contains(player)) return;
 
-            event.setCancelled(true);
-            player.setHealth(1);
+        event.setCancelled(true);
+        player.setHealth(1);
 
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onPlayerJoinEvent(PlayerJoinEvent event) {
+        cachePlayer(event.getPlayer());
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onPlayerQuitEvent(PlayerQuitEvent event) {
+        enabledPlayers.remove(event.getPlayer());
+    }
+
+    //Caches a player from the database, if the player has god_mode enabled adds them to the list, removes them otherwise
+    public static void cachePlayer(Player player) {
+        try {
+
+            if (Database.connection == null) return;
+
+            String statement = "SELECT god_mode_enabled FROM users WHERE UUID = '" + player.getUniqueId() + "';";
+            ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
+            if (!rs.next()) return;
+
+            if (rs.getBoolean("god_mode_enabled")) {
+                enabledPlayers.add(player);
+            } else {
+                enabledPlayers.remove(player);
+            }
+
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
+    }
 
+    public static void cacheAllPlayers() {
+        for (Player player : Bukkit.getOnlinePlayers()) cachePlayer(player);
     }
 
 }
