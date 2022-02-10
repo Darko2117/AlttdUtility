@@ -7,25 +7,20 @@ import com.darko.main.darko.godMode.GodMode;
 import com.darko.main.darko.itemPickup.ItemPickup;
 import com.darko.main.darko.petGodMode.PetGodMode;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class Database implements Listener {
 
     public static Connection connection = null;
-
-    public static List<Player> unreadFreezemailPlayers = new ArrayList<>();
 
     private static final List<String> logConfirmationMessages = new ArrayList<>();
 
@@ -159,64 +154,18 @@ public class Database implements Listener {
 
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    public void onPlayerJoin_ReloadLoadedValues(PlayerJoinEvent event) {
-
-        if (Database.connection == null) return;
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Database.reloadAllCaches();
-            }
-        }.runTaskAsynchronously(AlttdUtility.getInstance());
-
-    }
-
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    public void onPlayerQuit_ReloadLoadedValues(PlayerQuitEvent event) {
-
-        if (Database.connection == null) return;
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Database.reloadAllCaches();
-            }
-        }.runTaskAsynchronously(AlttdUtility.getInstance());
-
-    }
-
     public static void reloadAllCaches() {
 
-        try {
-
-            AutoFix.cacheAllPlayers();
-
-            ItemPickup.cacheAllPlayers();
-
-            GodMode.cacheAllPlayers();
-
-            PetGodMode.cacheAllPlayers();
-
-            CustomCommandMacroCommand.cacheMacros();
-
-            String statement = "SELECT uuid FROM freeze_message WHERE IsRead = 0;";
-            ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
-            unreadFreezemailPlayers.clear();
-            while (rs.next()) {
-                Player player = Bukkit.getPlayer(UUID.fromString(rs.getString("uuid")));
-                if (Bukkit.getOnlinePlayers().contains(player)) unreadFreezemailPlayers.add(player);
-            }
-            FreezeMailPlayerListener.refreshON();
-
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
+        AutoFix.cacheAllPlayers();
+        ItemPickup.cacheAllPlayers();
+        GodMode.cacheAllPlayers();
+        PetGodMode.cacheAllPlayers();
+        CustomCommandMacroCommand.cacheAllPlayers();
+        FreezeMailPlayerListener.cacheAllPlayers();
 
     }
 
-    static void createUsersTable() {
+    private static void createUsersTable() {
 
         try {
             String usersTableQuery = "CREATE TABLE IF NOT EXISTS users("
@@ -244,7 +193,7 @@ public class Database implements Listener {
 
     }
 
-    static void createCustomCommandMacroTable() {
+    private static void createCustomCommandMacroTable() {
 
         try {
             String customChatMessageTableQuery = "CREATE TABLE IF NOT EXISTS custom_command_macro("
@@ -270,7 +219,7 @@ public class Database implements Listener {
 
     }
 
-    static void createCommandOnJoinTable() {
+    private static void createCommandOnJoinTable() {
 
         try {
             String commandOnJoinTableQuery = "CREATE TABLE IF NOT EXISTS command_on_join("
@@ -294,7 +243,7 @@ public class Database implements Listener {
 
     }
 
-    static void createFreezeMessageTable() {
+    private static void createFreezeMessageTable() {
 
         try {
             String freezeMessageTableQuery = "CREATE TABLE IF NOT EXISTS freeze_message("
@@ -319,7 +268,7 @@ public class Database implements Listener {
 
     }
 
-    static void createNicknamesTable() {
+    private static void createNicknamesTable() {
 
         try {
             String nicknamesTableQuery = "CREATE TABLE IF NOT EXISTS nicknames("
@@ -343,7 +292,7 @@ public class Database implements Listener {
 
     }
 
-    static void createRequestedNicknamesTable() {
+    private static void createRequestedNicknamesTable() {
 
         try {
             String requestedNicknamesTableQuery = "CREATE TABLE IF NOT EXISTS requested_nicknames("

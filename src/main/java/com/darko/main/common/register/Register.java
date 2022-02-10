@@ -128,6 +128,10 @@ public class Register extends JavaPlugin {
             registerEvents(new IllegalItemCheck());
         }
 
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CustomCommandMacroCommand")) {
+            registerEvents(new CustomCommandMacroCommand());
+        }
+
         if (APIs.MyPetFound) {
 
             registerEvents(new LoggingMyPet());

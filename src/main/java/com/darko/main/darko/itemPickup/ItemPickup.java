@@ -90,7 +90,12 @@ public class ItemPickup implements CommandExecutor, Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
-        cachePlayer(event.getPlayer());
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                cachePlayer(event.getPlayer());
+            }
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
@@ -120,7 +125,15 @@ public class ItemPickup implements CommandExecutor, Listener {
     }
 
     public static void cacheAllPlayers() {
-        for (Player player : Bukkit.getOnlinePlayers()) cachePlayer(player);
+        enabledPlayers.clear();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    cachePlayer(player);
+                }
+            }.runTaskAsynchronously(AlttdUtility.getInstance());
+        }
     }
 
 }

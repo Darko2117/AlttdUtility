@@ -10,6 +10,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.ResultSet;
@@ -17,7 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter {
+public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter, Listener {
 
     private static final HashMap<Player, List<CustomCommandMacro>> cachedMacros = new HashMap<>();
 
@@ -77,7 +82,7 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter 
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
                                 .getString("Messages.CustomCommandMacroSavedMessage").replace("%macroName%", macroName).replace("%command%", commandString)));
 
-                        cacheMacrosForPlayer(player);
+                        cachePlayer(player);
 
                     } catch (Throwable throwable) {
                         throwable.printStackTrace();
@@ -104,7 +109,7 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter 
                         Database.connection.prepareStatement(statement).executeUpdate();
                         new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroRemovedMessage");
 
-                        cacheMacrosForPlayer(player);
+                        cachePlayer(player);
 
                     } catch (Throwable throwable) {
                         throwable.printStackTrace();
@@ -138,7 +143,7 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter 
                         Database.connection.prepareStatement(statement).executeUpdate();
                         new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroEdited");
 
-                        cacheMacrosForPlayer(player);
+                        cachePlayer(player);
 
                     } catch (Throwable throwable) {
                         throwable.printStackTrace();
@@ -215,11 +220,23 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter 
 
         } else if (args.length == 2 && args[0].equals("remove")) {
 
-            return getMacroNamesForPlayer(player);
+            List<String> completions = new ArrayList<>();
+            for (String macroName : getMacroNamesForPlayer(player)) {
+                if (macroName.startsWith(args[1])) {
+                    completions.add(macroName);
+                }
+            }
+            return completions;
 
         } else if (args.length == 2 && args[0].equals("edit")) {
 
-            return getMacroNamesForPlayer(player);
+            List<String> completions = new ArrayList<>();
+            for (String macroName : getMacroNamesForPlayer(player)) {
+                if (macroName.startsWith(args[1])) {
+                    completions.add(macroName);
+                }
+            }
+            return completions;
 
         }
 
@@ -227,41 +244,52 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter 
 
     }
 
-    public static void cacheMacros() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            cacheMacrosForPlayer(player);
-        }
-    }
-
-    private static void cacheMacrosForPlayer(Player player) {
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onPlayerJoinEvent(PlayerJoinEvent event) {
         new BukkitRunnable() {
             @Override
             public void run() {
-
-                cachedMacros.remove(player);
-
-                String statement = "SELECT * FROM custom_command_macro WHERE UUID = '" + player.getUniqueId() + "'";
-
-                try {
-
-                    ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
-
-                    List<CustomCommandMacro> macrosForPlayer = new ArrayList<>();
-
-                    while (rs.next())
-                        macrosForPlayer.add(new CustomCommandMacro(rs.getString("UUID"), rs.getString("MacroName"), rs.getString("Command")));
-
-                    cachedMacros.put(player, macrosForPlayer);
-
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
-
+                cachePlayer(event.getPlayer());
             }
         }.runTaskAsynchronously(AlttdUtility.getInstance());
     }
 
-    private List<String> getMacroNamesForPlayer(Player player) {
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onPlayerQuitEvent(PlayerQuitEvent event) {
+        cachedMacros.remove(event.getPlayer());
+    }
+
+    public static void cachePlayer(Player player) {
+        try {
+
+            String statement = "SELECT * FROM custom_command_macro WHERE UUID = '" + player.getUniqueId() + "'";
+            ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
+
+            List<CustomCommandMacro> macrosForPlayer = new ArrayList<>();
+
+            while (rs.next())
+                macrosForPlayer.add(new CustomCommandMacro(rs.getString("UUID"), rs.getString("MacroName"), rs.getString("Command")));
+
+            cachedMacros.put(player, macrosForPlayer);
+
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+    }
+
+    public static void cacheAllPlayers() {
+        cachedMacros.clear();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    cachePlayer(player);
+                }
+            }.runTaskAsynchronously(AlttdUtility.getInstance());
+        }
+    }
+
+    public static List<String> getMacroNamesForPlayer(Player player) {
 
         List<String> results = new ArrayList<>();
 
