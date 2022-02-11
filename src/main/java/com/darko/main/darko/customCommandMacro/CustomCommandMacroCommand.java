@@ -293,6 +293,8 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
 
         List<String> results = new ArrayList<>();
 
+        if (!cachedMacros.containsKey(player)) return results;
+
         for (CustomCommandMacro customCommandMacro : cachedMacros.get(player)) {
             results.add(customCommandMacro.getMacroName());
         }

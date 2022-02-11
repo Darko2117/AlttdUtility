@@ -55,7 +55,7 @@ public class Logging {
     static ConcurrentLinkedQueue<Log> logQueue = new ConcurrentLinkedQueue<>();
     static boolean isWritingLogs = false;
 
-    private static List<Log> cachedLogs;
+    private static final List<Log> cachedLogs = new ArrayList<>();
 
     public static List<Log> getCachedLogs() {
         return cachedLogs;
@@ -70,9 +70,18 @@ public class Logging {
         return null;
     }
 
-    public static void cacheLogs() {
+    public static void updateCachedLogsFromConfig() {
 
-        cachedLogs = new ArrayList<>();
+        for (Log cachedLog : getCachedLogs()) {
+            cachedLog.setEnabled(AlttdUtility.getInstance().getConfig().getBoolean("Logging." + cachedLog.getName() + ".Enabled"));
+            cachedLog.setDaysOfLogsToKeep(AlttdUtility.getInstance().getConfig().getInt("Logging." + cachedLog.getName() + ".DaysOfLogsToKeep"));
+        }
+
+    }
+
+    public static void initiate() {
+
+        cachedLogs.clear();
         cachedLogs.add(new ClaimsCreatedLog());
         cachedLogs.add(new ClaimsDeletedLog());
         cachedLogs.add(new ClaimsExpiredLog());
@@ -102,42 +111,23 @@ public class Logging {
         cachedLogs.add(new NumberOfClaimsNotificationLog());
         cachedLogs.add(new IllegalItemsLog());
 
-    }
-
-    public static void updateCachedLogsFromConfig() {
-
-        for (Log cachedLog : getCachedLogs()) {
-            cachedLog.setEnabled(AlttdUtility.getInstance().getConfig().getBoolean("Logging." + cachedLog.getName() + ".Enabled"));
-            cachedLog.setDaysOfLogsToKeep(AlttdUtility.getInstance().getConfig().getInt("Logging." + cachedLog.getName() + ".DaysOfLogsToKeep"));
-        }
-
-    }
-
-    public static void initiate() {
-
-        List<String> directories = new ArrayList<>();
-        directories.add("logs");
-        directories.add("compressed-logs");
-        directories.add("search-output");
-        directories.add("temporary-files");
-
-        for (String directory : directories)
+        for (String directory : List.of("logs", "compressed-logs", "search-output", "temporary-files"))
             new File(AlttdUtility.getInstance().getDataFolder() + File.separator + directory).mkdir();
 
-        CreateAllBlankLogFiles();
+        createAllBlankLogFiles();
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                CheckAndCompress();
-                CheckAndDeleteOld();
+                checkAndCompress();
+                checkAndDeleteOld();
             }
         }.runTaskAsynchronously(AlttdUtility.getInstance());
 
         BukkitTasksCache.addTask(new BukkitRunnable() {
             @Override
             public void run() {
-                CompressIfDateChanged();
+                startDateCheck();
             }
         }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 20, 20));
 
@@ -147,7 +137,7 @@ public class Logging {
 
     }
 
-    static void CreateAllBlankLogFiles() {
+    private static void createAllBlankLogFiles() {
 
         for (Log cachedLog : getCachedLogs()) {
             Logging.addToLogWriteQueue(cachedLog);
@@ -155,7 +145,7 @@ public class Logging {
 
     }
 
-    static void CheckAndCompress() {
+    private static void checkAndCompress() {
 
         String[] logsNames = new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "logs").list();
         if (logsNames == null || logsNames.length == 0) {
@@ -183,7 +173,7 @@ public class Logging {
 
     }
 
-    static void CheckAndDeleteOld() {
+    private static void checkAndDeleteOld() {
 
         String[] logsNames = new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "compressed-logs").list();
         if (logsNames == null || logsNames.length == 0) {
@@ -228,19 +218,17 @@ public class Logging {
 
     }
 
-    static void CompressIfDateChanged() {
+    private static void startDateCheck() {
 
         int dayNow = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 
-        if (!(cachedDayOfMonth == dayNow)) {
+        if (cachedDayOfMonth == dayNow) return;
 
-            CheckAndCompress();
-            CheckAndDeleteOld();
-            CreateAllBlankLogFiles();
+        checkAndCompress();
+        checkAndDeleteOld();
+        createAllBlankLogFiles();
 
-            cachedDayOfMonth = dayNow;
-
-        }
+        cachedDayOfMonth = dayNow;
 
     }
 
@@ -300,8 +288,7 @@ public class Logging {
 
     }
 
-    static void initializeLogWriting() {
-
+    private static void initializeLogWriting() {
         BukkitTasksCache.addTask(new BukkitRunnable() {
             @Override
             public void run() {
@@ -325,7 +312,6 @@ public class Logging {
                 }
             }
         }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 1, 1));
-
     }
 
     public static void addToLogWriteQueue(Log log) {

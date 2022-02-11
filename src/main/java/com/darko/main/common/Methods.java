@@ -1,6 +1,7 @@
 package com.darko.main.common;
 
 import com.darko.main.AlttdUtility;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
@@ -21,19 +22,20 @@ public class Methods {
 
     }
 
-    public Boolean checkConfig() {
-
+    /*
+    * I don't remember exactly why I made this, but I'm pretty sure that in some cases where a value in the config is not set properly
+    * it can cause the whole config to reset to default. This tries loading it before the plugin itself does, if it fails it disables
+    * the plugin and stops it from resetting it.
+    * */
+    public void checkConfig() {
         try {
-            InputStream inputStream = new FileInputStream(AlttdUtility.getInstance().getDataFolder() + "/config.yml");
-            Yaml config = new Yaml();
-            config.load(inputStream);
+            AlttdUtility.getInstance().saveDefaultConfig();
+            new Yaml().load(new FileInputStream(AlttdUtility.getInstance().getDataFolder() + "/config.yml"));
+            AlttdUtility.getInstance().reloadConfig();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
-            return false;
+            Bukkit.getPluginManager().disablePlugin(AlttdUtility.getInstance());
         }
-
-        return true;
-
     }
 
     public String getDateStringDDMMYYYY() {

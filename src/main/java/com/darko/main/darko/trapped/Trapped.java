@@ -21,7 +21,7 @@ public class Trapped implements CommandExecutor, Listener {
 
     static List<TrappedObject> trappedObjects = new ArrayList<>();
 
-    public static void initialize() {
+    public static void initiate() {
         BukkitTasksCache.addTask(new BukkitRunnable() {
             @Override
             public void run() {

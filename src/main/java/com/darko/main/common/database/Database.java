@@ -25,7 +25,6 @@ public class Database implements Listener {
     private static final List<String> logConfirmationMessages = new ArrayList<>();
 
     public static void initiate() {
-
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -63,7 +62,6 @@ public class Database implements Listener {
 
             }
         }.runTaskAsynchronously(AlttdUtility.getInstance());
-
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
