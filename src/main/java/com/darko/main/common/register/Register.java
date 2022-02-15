@@ -19,6 +19,7 @@ import com.darko.main.darko.logging.listeners.LoggingGriefPrevention;
 import com.darko.main.darko.logging.listeners.LoggingMyPet;
 import com.darko.main.darko.logging.listeners.LoggingNoAPI;
 import com.darko.main.darko.logging.listeners.LoggingVillagerShopUI;
+import com.darko.main.darko.numberOfClaimsLimiter.NumberOfClaimsLimiter;
 import com.darko.main.darko.sit.Sit;
 import com.darko.main.common.database.Database;
 import com.darko.main.darko.atPlayers.NameInChatNotification;
@@ -201,6 +202,10 @@ public class Register extends JavaPlugin {
 //            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.JoinNotifications")) {
 //                registerEvents(new GriefPreventionJoinNotifications());
 //            }
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.NumberOfClaimsLimiter")) {
+                registerEvents(new NumberOfClaimsLimiter());
+            }
 
         }
 

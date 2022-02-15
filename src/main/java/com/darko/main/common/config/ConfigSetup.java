@@ -108,7 +108,9 @@ public class ConfigSetup {
         BlockedBlocksCantPlace("Messages.BlockedBlocksCantPlace", "&cYou are not worthy!"),
         CrazyCratesKeysLimiterAtLimitMinusOne("Messages.CrazyCratesKeysLimiterAtLimitMinusOne", "&7You can store &61 &7more key for that crate."),
         CrazyCratesKeysLimiterAtLimit("Messages.CrazyCratesKeysLimiterAtLimit", "&cYou are at the key limit for that crate, use a key or the next one you get will be deleted."),
-        CrazyCratesKeysLimiterOverLimit("Messages.CrazyCratesKeysLimiterOverLimit", "&cYou are over the key limit for that crate, key deleted.");
+        CrazyCratesKeysLimiterOverLimit("Messages.CrazyCratesKeysLimiterOverLimit", "&cYou are over the key limit for that crate, key deleted."),
+        NumberOfClaimsLimiterAtLimit("Messages.NumberOfClaimsLimiterAtLimit", "&cYou are at the limit of the number of claims you can have."),
+        NumberOfClaimsLimiterOverLimit("Messages.NumberOfClaimsLimiterOverLimit", "&cYou are over the limit of the number of claims you can have. You will have to remove a claim if you wish to make more claims.");
 
         private final String path;
         private final String message;
@@ -184,6 +186,7 @@ public class ConfigSetup {
         toggles.add("BlockedBlocks");
         toggles.add("IllegalItemCheck");
         toggles.add("CrazyCratesKeysLimiter");
+        toggles.add("NumberOfClaimsLimiter");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
@@ -403,19 +406,6 @@ public class ConfigSetup {
         if (!config.contains("RebootWhitelist.Enabled")) {
             config.set("RebootWhitelist.Enabled", false);
             notFoundInConfigMessage("RebootWhitelist.Enabled");
-        }
-
-        // ----------------------------------------------------------------------------------------------------
-
-        // NumberOfClaimsFlag
-
-        if (!config.contains("NumberOfClaimsFlag.MinNumberOfClaimsToLog")) {
-            config.set("NumberOfClaimsFlag.MinNumberOfClaimsToLog", 40);
-            notFoundInConfigMessage("NumberOfClaimsFlag.MinNumberOfClaimsToLog");
-        }
-        if (!config.contains("NumberOfClaimsFlag.ClaimDataDirectory")) {
-            config.set("NumberOfClaimsFlag.ClaimDataDirectory", new File("plugins/GriefPreventionData/ClaimData/").getAbsolutePath());
-            notFoundInConfigMessage("NumberOfClaimsFlag.ClaimDataDirectory");
         }
 
         // ----------------------------------------------------------------------------------------------------

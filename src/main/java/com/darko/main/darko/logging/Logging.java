@@ -26,7 +26,6 @@ import com.darko.main.darko.logging.logs.MCMMORepairUseLog;
 import com.darko.main.darko.logging.logs.MinecartsDestroyedLog;
 import com.darko.main.darko.logging.logs.MyPetItemPickupLog;
 import com.darko.main.darko.logging.logs.NicknamesLog;
-import com.darko.main.darko.logging.logs.NumberOfClaimsNotificationLog;
 import com.darko.main.darko.logging.logs.PickedUpItemsLog;
 import com.darko.main.darko.logging.logs.PlayerLocationLog;
 import com.darko.main.darko.logging.logs.SpawnLimiterLog;
@@ -108,7 +107,6 @@ public class Logging {
         cachedLogs.add(new VillagerShopUILog());
         cachedLogs.add(new SpawnLimiterLog());
         cachedLogs.add(new NicknamesLog());
-        cachedLogs.add(new NumberOfClaimsNotificationLog());
         cachedLogs.add(new IllegalItemsLog());
 
         for (String directory : List.of("logs", "compressed-logs", "search-output", "temporary-files"))
