@@ -2,15 +2,11 @@ package com.darko.main.teri.Nicknames;
 
 import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.Containers.CMIUser;
-import com.darko.main.common.API.APIs;
 import com.darko.main.AlttdUtility;
+import com.darko.main.common.API.APIs;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import net.luckperms.api.LuckPerms;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -24,11 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
-import java.util.Date;
+import java.util.*;
 
 public class Nicknames implements CommandExecutor, TabCompleter {
 
@@ -229,16 +221,6 @@ public class Nicknames implements CommandExecutor, TabCompleter {
         String notification = Utilities.applyColor(AlttdUtility.getInstance().getConfig().getString("Messages.NickNewRequest")
                 .replace("%player%", player.getName()));
 
-        TextComponent component = new TextComponent(TextComponent.fromLegacyText(Utilities.applyColor(notification)));
-        component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/nick review"));
-        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                new ComponentBuilder(Utilities.applyColor("&6Click this text to review the request!")).create()));
-
-        AlttdUtility.getInstance().getServer().getOnlinePlayers().forEach(p ->{
-            if (p.hasPermission("utility.nick.review")){
-                p.sendMessage(component);
-            }
-        });
         Nicknames.getInstance().nickCacheUpdate.add(uniqueId);
     }
 

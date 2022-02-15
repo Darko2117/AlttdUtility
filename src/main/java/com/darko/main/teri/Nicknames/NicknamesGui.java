@@ -193,12 +193,6 @@ public class NicknamesGui implements Listener {
                             }
 
                             Utilities.bungeeMessageHandled(uniqueId, e.getWhoClicked().getServer().getPlayer(e.getWhoClicked().getName()), "Accepted");
-                            final String messageAccepted = ChatColor.GREEN + owningPlayer.getName() + "'s nickname was accepted!";
-                            AlttdUtility.getInstance().getServer().getOnlinePlayers().forEach(p -> {
-                                if (p.hasPermission("utility.nick.review")) {
-                                    p.sendMessage(messageAccepted);
-                                }
-                            });
 
                             nick.setCurrentNick(nick.getNewNick());
                             nick.setLastChangedDate(new Date().getTime());
