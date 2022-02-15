@@ -218,9 +218,6 @@ public class Nicknames implements CommandExecutor, TabCompleter {
 
         player.sendPluginMessage(AlttdUtility.getInstance(), "BungeeCord", out.toByteArray());
 
-        String notification = Utilities.applyColor(AlttdUtility.getInstance().getConfig().getString("Messages.NickNewRequest")
-                .replace("%player%", player.getName()));
-
         Nicknames.getInstance().nickCacheUpdate.add(uniqueId);
     }
 
