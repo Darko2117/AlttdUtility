@@ -105,7 +105,10 @@ public class ConfigSetup {
         JoinLimiterCantJoin("Messages.JoinLimiterCantJoin", "&fYou've been joining this server too much, please wait %time% before joining again."),
         JoinLimiterJoinWarning("Messages.JoinLimiterJoinWarning", "&cYou've been joining this server too much, you'll have to wait %time% to join again."),
         InvalidUsageCommandUsageCommand("Messages.InvalidUsageCommandUsageCommand", "&cUsage of this command is /commandusage <user> <numberOfDays>."),
-        BlockedBlocksCantPlace("Messages.BlockedBlocksCantPlace", "&cYou are not worthy!");
+        BlockedBlocksCantPlace("Messages.BlockedBlocksCantPlace", "&cYou are not worthy!"),
+        CrazyCratesKeysLimiterAtLimitMinusOne("Messages.CrazyCratesKeysLimiterAtLimitMinusOne", "&7You can store &61 &7more key for that crate."),
+        CrazyCratesKeysLimiterAtLimit("Messages.CrazyCratesKeysLimiterAtLimit", "&cYou are at the key limit for that crate, use a key or the next one you get will be deleted."),
+        CrazyCratesKeysLimiterOverLimit("Messages.CrazyCratesKeysLimiterOverLimit", "&cYou are over the key limit for that crate, key deleted.");
 
         private final String path;
         private final String message;
@@ -180,6 +183,7 @@ public class ConfigSetup {
         toggles.add("CommandUsageCommand");
         toggles.add("BlockedBlocks");
         toggles.add("IllegalItemCheck");
+        toggles.add("CrazyCratesKeysLimiter");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
@@ -571,6 +575,19 @@ public class ConfigSetup {
             config.set("IllegalItemCheck." + illegalItem.getName() + ".Enchant", illegalItem.getItemEnchant());
 
             notFoundInConfigMessage("IllegalItemCheck");
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
+        //CrazyCratesKeysLimiter
+
+        if (!config.contains("CrazyCratesKeysLimiter")) {
+
+            config.set("CrazyCratesKeysLimiter.dailyvotecrate.KeyLimit", 7);
+            config.set("CrazyCratesKeysLimiter.weeklyvotecrate.KeyLimit", 1);
+            config.set("CrazyCratesKeysLimiter.questcrate.KeyLimit", 2);
+
+            notFoundInConfigMessage("CrazyCratesKeysLimiter");
         }
 
         // ----------------------------------------------------------------------------------------------------

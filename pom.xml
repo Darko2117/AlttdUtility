@@ -137,6 +137,8 @@
             <groupId>me.badbones69</groupId>
             <artifactId>crazycrates-plugin</artifactId>
             <version>1.10</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/CrazyCrates.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>de.keyle</groupId>

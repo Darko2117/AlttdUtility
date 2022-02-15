@@ -51,6 +51,7 @@ import com.darko.main.darko.ravagerInClaim.RavagerInClaim;
 import com.darko.main.darko.rebootWhitelist.RebootWhitelist;
 import com.darko.main.darko.reload.ReloadCommand;
 import com.darko.main.darko.spawnLimiter.SpawnLimiterCheck;
+import com.darko.main.teri.CrazyCratesKeysLimiter.CrazyCratesKeysLimiter;
 import com.darko.main.teri.FreezeMail.FreezeMail;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
 import com.darko.main.teri.Nicknames.Nicknames;
@@ -147,6 +148,9 @@ public class Register extends JavaPlugin {
         if (APIs.CrazyCratesFound) {
 
             registerEvents(new LoggingCrazyCrates());
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CrazyCratesKeysLimiter"))
+                registerEvents(new CrazyCratesKeysLimiter());
 
         }
 

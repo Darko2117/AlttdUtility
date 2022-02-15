@@ -158,11 +158,11 @@ public class APIs extends JavaPlugin {
         }
     }
 
-    public static me.badbones69.crazycrates.Main CrazyCratesApiCheck() {
+    public static com.badbones69.crazycrates.CrazyCrates CrazyCratesApiCheck() {
         try {
             Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CrazyCrates");
-            if (plugin instanceof me.badbones69.crazycrates.Main) {
-                return (me.badbones69.crazycrates.Main) plugin;
+            if (plugin instanceof com.badbones69.crazycrates.CrazyCrates) {
+                return (com.badbones69.crazycrates.CrazyCrates) plugin;
             } else {
                 return null;
             }
