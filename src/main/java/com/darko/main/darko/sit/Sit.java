@@ -286,7 +286,6 @@ public class Sit implements CommandExecutor, Listener {
     }
 
     public static void startCheckingSeats() {
-
         BukkitTasksCache.addTask(new BukkitRunnable() {
             @Override
             public void run() {
@@ -310,7 +309,6 @@ public class Sit implements CommandExecutor, Listener {
 
             }
         }.runTaskTimer(AlttdUtility.getInstance(), 20, 20));
-
     }
 
 }

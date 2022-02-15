@@ -51,12 +51,12 @@ public class ConfigSetup {
         GriefPreventionThatBelongsToMessage("Messages.GriefPreventionThatBelongsToMessage", "&cThat belongs to %player%."),
         InvalidUsageCommandOnJoinMessage("Messages.InvalidUsageCommandOnJoinMessage", "&cUsage of this command is /commandonjoin <player> <command>."),
         CommandOnJoinSetMessage("Messages.CommandOnJoinSetMessage", "&aSet command: %command% for player: %player%."),
-        CustomChatMessageUsage("Messages.CustomChatMessageUsage", "&cUsage of this command is\n/ccm <add/edit> <messageName> <message>\nor /ccm remove <messageName>\nor /ccm <messageName>."),
-        CustomChatMessageSavedMessage("Messages.CustomChatMessageSavedMessage", "&aMessage saved. MessageName: %messageName% Message: %message%"),
-        CustomChatMessageAlreadyExists("Messages.CustomChatMessageAlreadyExists", "&cA custom message with that name already exists, please chose another one."),
-        CustomChatMessageDoesntExist("Messages.CustomChatMessageDoesntExist", "&cA custom message with that name doesn't exist."),
-        CustomChatMessageRemovedMessage("Messages.CustomChatMessageRemovedMessage", "&aMessage removed."),
-        CustomChatMessageEdited("Messages.CustomChatMessageEdited", "&aMessage edited."),
+        CustomCommandMacroUsage("Messages.CustomCommandMacroUsage", "&cUsage of this command is\n/ccm <add/edit> <macroName> <command>\nor /ccm remove <macroName>\nor /ccm <macroName>"),
+        CustomCommandMacroSavedMessage("Messages.CustomCommandMacroSavedMessage", "&aMacro saved. MacroName: %macroName% Command: %command%"),
+        CustomCommandMacroAlreadyExists("Messages.CustomCommandMacroAlreadyExists", "&cA macro with that name already exists."),
+        CustomCommandMacroDoesntExist("Messages.CustomCommandMacroDoesntExist", "&cA macro with that name doesn't exist."),
+        CustomCommandMacroRemovedMessage("Messages.CustomCommandMacroRemovedMessage", "&aMacro removed."),
+        CustomCommandMacroEdited("Messages.CustomCommandMacroEdited", "&aMacro edited."),
         FreezeMailSuccessfullySend("Messages.FreezeMailSuccessfullySend", "&aSuccessfully sent freezemail to %player%!"),
         FreezeMailPlayerDoesntExist("Messages.FreezeMailPlayerDoesntExist", "&c%target% Is not a valid player!"),
         FreezeMailSuccessfullyCompleted("Messages.FreezeMailSuccessfullyCompleted", "&aThank you! You are now able to move and talk again!"),
@@ -105,7 +105,10 @@ public class ConfigSetup {
         JoinLimiterCantJoin("Messages.JoinLimiterCantJoin", "&fYou've been joining this server too much, please wait %time% before joining again."),
         JoinLimiterJoinWarning("Messages.JoinLimiterJoinWarning", "&cYou've been joining this server too much, you'll have to wait %time% to join again."),
         InvalidUsageCommandUsageCommand("Messages.InvalidUsageCommandUsageCommand", "&cUsage of this command is /commandusage <user> <numberOfDays>."),
-        BlockedBlocksCantPlace("Messages.BlockedBlocksCantPlace", "&cYou are not worthy!");
+        BlockedBlocksCantPlace("Messages.BlockedBlocksCantPlace", "&cYou are not worthy!"),
+        CrazyCratesKeysLimiterAtLimitMinusOne("Messages.CrazyCratesKeysLimiterAtLimitMinusOne", "&7You can store &61 &7more key for that crate."),
+        CrazyCratesKeysLimiterAtLimit("Messages.CrazyCratesKeysLimiterAtLimit", "&cYou are at the key limit for that crate, use a key or the next one you get will be deleted."),
+        CrazyCratesKeysLimiterOverLimit("Messages.CrazyCratesKeysLimiterOverLimit", "&cYou are over the key limit for that crate, key deleted.");
 
         private final String path;
         private final String message;
@@ -154,7 +157,7 @@ public class ConfigSetup {
         toggles.add("ToggleGCCommand");
         toggles.add("CommandOnJoin");
         toggles.add("NamedMobClaimDamageProtection");
-        toggles.add("CustomChatMessageCommand");
+        toggles.add("CustomCommandMacroCommand");
         toggles.add("PreventNoPvPFishing");
         toggles.add("AllowNamedPublicChests");
         toggles.add("AllowNamedPublicVillagers");
@@ -180,6 +183,7 @@ public class ConfigSetup {
         toggles.add("CommandUsageCommand");
         toggles.add("BlockedBlocks");
         toggles.add("IllegalItemCheck");
+        toggles.add("CrazyCratesKeysLimiter");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
@@ -571,6 +575,19 @@ public class ConfigSetup {
             config.set("IllegalItemCheck." + illegalItem.getName() + ".Enchant", illegalItem.getItemEnchant());
 
             notFoundInConfigMessage("IllegalItemCheck");
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
+        //CrazyCratesKeysLimiter
+
+        if (!config.contains("CrazyCratesKeysLimiter")) {
+
+            config.set("CrazyCratesKeysLimiter.dailyvotecrate.KeyLimit", 7);
+            config.set("CrazyCratesKeysLimiter.weeklyvotecrate.KeyLimit", 1);
+            config.set("CrazyCratesKeysLimiter.questcrate.KeyLimit", 2);
+
+            notFoundInConfigMessage("CrazyCratesKeysLimiter");
         }
 
         // ----------------------------------------------------------------------------------------------------

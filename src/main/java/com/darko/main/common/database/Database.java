@@ -1,49 +1,40 @@
 package com.darko.main.common.database;
 
 import com.darko.main.AlttdUtility;
+import com.darko.main.darko.autofix.AutoFix;
+import com.darko.main.darko.customCommandMacro.CustomCommandMacroCommand;
+import com.darko.main.darko.godMode.GodMode;
+import com.darko.main.darko.itemPickup.ItemPickup;
+import com.darko.main.darko.petGodMode.PetGodMode;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class Database implements Listener {
 
     public static Connection connection = null;
 
-    public static List<Player> autofixEnabledPlayers = new ArrayList<>();
-    public static List<Player> blockItemPickupEnabledPlayers = new ArrayList<>();
-    public static List<Player> godModeEnabledPlayers = new ArrayList<>();
-    public static List<Player> petGodModeEnabledPlayers = new ArrayList<>();
-    public static List<Player> unreadFreezemailPlayers = new ArrayList<>();
-
-    private static List<String> logConfirmationMessages = new ArrayList<>();
+    private static final List<String> logConfirmationMessages = new ArrayList<>();
 
     public static void initiate() {
-
         new BukkitRunnable() {
             @Override
             public void run() {
 
-                connection = null;
-
-                String driver, ip, port, name, username, password;
-
-                driver = AlttdUtility.getInstance().getConfig().getString("Database.driver");
-                ip = AlttdUtility.getInstance().getConfig().getString("Database.ip");
-                port = AlttdUtility.getInstance().getConfig().getString("Database.port");
-                name = AlttdUtility.getInstance().getConfig().getString("Database.name");
-                username = AlttdUtility.getInstance().getConfig().getString("Database.username");
-                password = AlttdUtility.getInstance().getConfig().getString("Database.password");
+                String driver = AlttdUtility.getInstance().getConfig().getString("Database.driver");
+                String ip = AlttdUtility.getInstance().getConfig().getString("Database.ip");
+                String port = AlttdUtility.getInstance().getConfig().getString("Database.port");
+                String name = AlttdUtility.getInstance().getConfig().getString("Database.name");
+                String username = AlttdUtility.getInstance().getConfig().getString("Database.username");
+                String password = AlttdUtility.getInstance().getConfig().getString("Database.password");
 
                 String url = "jdbc:" + driver + "://" + ip + ":" + port + "/" + name + "?autoReconnect=true&useSSL=false";
 
@@ -57,23 +48,20 @@ public class Database implements Listener {
                 }
 
                 createUsersTable();
-                createCustomChatMessageTable();
+                createCustomCommandMacroTable();
                 createCommandOnJoinTable();
                 createFreezeMessageTable();
                 createNicknamesTable();
                 createRequestedNicknamesTable();
 
-                for (String message : logConfirmationMessages) {
-                    AlttdUtility.getInstance().getLogger().info(message);
-                }
+                for (String message : logConfirmationMessages) AlttdUtility.getInstance().getLogger().info(message);
 
-                Database.reloadLoadedValues();
+                Database.reloadAllCaches();
 
                 AlttdUtility.getInstance().getLogger().info("Connected to the database!");
 
             }
         }.runTaskAsynchronously(AlttdUtility.getInstance());
-
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
@@ -132,9 +120,9 @@ public class Database implements Listener {
                     throwable.printStackTrace();
                 }
 
-                //Custom chat message table
+                //Custom command macro table
 
-                statement = "SELECT * FROM custom_chat_message WHERE UUID = '" + uuid + "';";
+                statement = "SELECT * FROM custom_command_macro WHERE UUID = '" + uuid + "';";
 
                 try {
 
@@ -146,10 +134,10 @@ public class Database implements Listener {
 
                         if (!existingUsername.equals(username)) {
 
-                            statement = "UPDATE custom_chat_message SET Username = '" + username + "' WHERE UUID = '" + uuid + "';";
+                            statement = "UPDATE custom_command_macro SET Username = '" + username + "' WHERE UUID = '" + uuid + "';";
 
                             Database.connection.prepareStatement(statement).executeUpdate();
-                            AlttdUtility.getInstance().getLogger().info(username + " had a different username in the custom_chat_message table (" + existingUsername + "). Updated it.");
+                            AlttdUtility.getInstance().getLogger().info(username + " had a different username in the custom_command_macro table (" + existingUsername + "). Updated it.");
 
                         }
 
@@ -164,89 +152,18 @@ public class Database implements Listener {
 
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    public void onPlayerJoin_ReloadLoadedValues(PlayerJoinEvent event) {
+    public static void reloadAllCaches() {
 
-        if (Database.connection == null) return;
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Database.reloadLoadedValues();
-            }
-        }.runTaskAsynchronously(AlttdUtility.getInstance());
+        AutoFix.cacheAllPlayers();
+        ItemPickup.cacheAllPlayers();
+        GodMode.cacheAllPlayers();
+        PetGodMode.cacheAllPlayers();
+        CustomCommandMacroCommand.cacheAllPlayers();
+        FreezeMailPlayerListener.cacheAllPlayers();
 
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    public void onPlayerQuit_ReloadLoadedValues(PlayerQuitEvent event) {
-
-        if (Database.connection == null) return;
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Database.reloadLoadedValues();
-            }
-        }.runTaskAsynchronously(AlttdUtility.getInstance());
-
-    }
-
-    public static void reloadLoadedValues() {
-
-        try {
-
-            ResultSet rs;
-            String statement;
-
-            statement = "SELECT UUID FROM users WHERE autofix_enabled = true;";
-            rs = Database.connection.prepareStatement(statement).executeQuery();
-            autofixEnabledPlayers.clear();
-            while (rs.next()) {
-                Player player = Bukkit.getPlayer(UUID.fromString(rs.getString("UUID")));
-                if (Bukkit.getOnlinePlayers().contains(player)) autofixEnabledPlayers.add(player);
-            }
-
-            statement = "SELECT UUID FROM users WHERE block_item_pickup_enabled = true;";
-            rs = Database.connection.prepareStatement(statement).executeQuery();
-            blockItemPickupEnabledPlayers.clear();
-            while (rs.next()) {
-                Player player = Bukkit.getPlayer(UUID.fromString(rs.getString("UUID")));
-                if (Bukkit.getOnlinePlayers().contains(player)) blockItemPickupEnabledPlayers.add(player);
-            }
-
-            statement = "SELECT UUID FROM users WHERE god_mode_enabled = true;";
-            rs = Database.connection.prepareStatement(statement).executeQuery();
-            godModeEnabledPlayers.clear();
-            while (rs.next()) {
-                Player player = Bukkit.getPlayer(UUID.fromString(rs.getString("UUID")));
-                if (Bukkit.getOnlinePlayers().contains(player)) godModeEnabledPlayers.add(player);
-            }
-
-            statement = "SELECT UUID FROM users WHERE pet_god_mode_enabled = true;";
-            rs = Database.connection.prepareStatement(statement).executeQuery();
-            petGodModeEnabledPlayers.clear();
-            while (rs.next()) {
-                Player player = Bukkit.getPlayer(UUID.fromString(rs.getString("UUID")));
-                if (Bukkit.getOnlinePlayers().contains(player)) petGodModeEnabledPlayers.add(player);
-            }
-
-            statement = "SELECT uuid FROM freeze_message WHERE IsRead = 0;";
-            rs = Database.connection.prepareStatement(statement).executeQuery();
-            unreadFreezemailPlayers.clear();
-            while (rs.next()) {
-                Player player = Bukkit.getPlayer(UUID.fromString(rs.getString("uuid")));
-                if (Bukkit.getOnlinePlayers().contains(player)) unreadFreezemailPlayers.add(player);
-            }
-            FreezeMailPlayerListener.refreshON();
-
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-
-    }
-
-    static void createUsersTable() {
+    private static void createUsersTable() {
 
         try {
             String usersTableQuery = "CREATE TABLE IF NOT EXISTS users("
@@ -274,10 +191,10 @@ public class Database implements Listener {
 
     }
 
-    static void createCustomChatMessageTable() {
+    private static void createCustomCommandMacroTable() {
 
         try {
-            String customChatMessageTableQuery = "CREATE TABLE IF NOT EXISTS custom_chat_message("
+            String customChatMessageTableQuery = "CREATE TABLE IF NOT EXISTS custom_command_macro("
                     + "ID INT NOT NULL AUTO_INCREMENT,"
                     + "PRIMARY KEY (ID))";
             connection.prepareStatement(customChatMessageTableQuery).executeUpdate();
@@ -286,10 +203,10 @@ public class Database implements Listener {
         }
 
         List<String> columns = new ArrayList<>();
-        columns.add("ALTER TABLE custom_chat_message ADD UUID TEXT NOT NULL");
-        columns.add("ALTER TABLE custom_chat_message ADD Username TEXT NOT NULL");
-        columns.add("ALTER TABLE custom_chat_message ADD MessageName TEXT NOT NULL");
-        columns.add("ALTER TABLE custom_chat_message ADD Message TEXT NOT NULL");
+        columns.add("ALTER TABLE custom_command_macro ADD UUID TEXT NOT NULL");
+        columns.add("ALTER TABLE custom_command_macro ADD Username TEXT NOT NULL");
+        columns.add("ALTER TABLE custom_command_macro ADD MacroName TEXT NOT NULL");
+        columns.add("ALTER TABLE custom_command_macro ADD Command TEXT NOT NULL");
         for (String string : columns) {
             try {
                 connection.prepareStatement(string).executeUpdate();
@@ -300,7 +217,7 @@ public class Database implements Listener {
 
     }
 
-    static void createCommandOnJoinTable() {
+    private static void createCommandOnJoinTable() {
 
         try {
             String commandOnJoinTableQuery = "CREATE TABLE IF NOT EXISTS command_on_join("
@@ -324,7 +241,7 @@ public class Database implements Listener {
 
     }
 
-    static void createFreezeMessageTable() {
+    private static void createFreezeMessageTable() {
 
         try {
             String freezeMessageTableQuery = "CREATE TABLE IF NOT EXISTS freeze_message("
@@ -349,7 +266,7 @@ public class Database implements Listener {
 
     }
 
-    static void createNicknamesTable() {
+    private static void createNicknamesTable() {
 
         try {
             String nicknamesTableQuery = "CREATE TABLE IF NOT EXISTS nicknames("
@@ -373,7 +290,7 @@ public class Database implements Listener {
 
     }
 
-    static void createRequestedNicknamesTable() {
+    private static void createRequestedNicknamesTable() {
 
         try {
             String requestedNicknamesTableQuery = "CREATE TABLE IF NOT EXISTS requested_nicknames("

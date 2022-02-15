@@ -3,6 +3,7 @@ package com.darko.main.teri.FreezeMail;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.BukkitTasksCache;
 import com.darko.main.common.database.Database;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,6 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FreezeMailPlayerListener implements Listener {
 
@@ -26,6 +28,8 @@ public class FreezeMailPlayerListener implements Listener {
     static String freezeMailTitle = ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.FreezeMailTitle"));
     static String freezeMailSubTitle = ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.FreezeMailSubTitle"));
     static String freezeMailSuccessfullyCompleted = ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.FreezeMailSuccessfullyCompleted"));
+
+    private static final List<Player> unreadFreezemailPlayers = new ArrayList<>();
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -40,7 +44,7 @@ public class FreezeMailPlayerListener implements Listener {
 
                 Player player = event.getPlayer();
 
-                if (!Database.unreadFreezemailPlayers.contains(player)) return;
+                if (!unreadFreezemailPlayers.contains(player)) return;
 
                 resendFreezeMailTitle(player);
                 resendFreezeMailMessage(player);
@@ -57,7 +61,7 @@ public class FreezeMailPlayerListener implements Listener {
 
         Player player = event.getPlayer();
 
-        if (!Database.unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player)) return;
 
         if (event.getFrom().getX() != event.getTo().getX()
                 || event.getFrom().getY() != event.getTo().getY()
@@ -74,7 +78,7 @@ public class FreezeMailPlayerListener implements Listener {
 
         Player player = event.getPlayer();
 
-        if (!Database.unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player)) return;
 
         event.setCancelled(true);
 
@@ -88,7 +92,7 @@ public class FreezeMailPlayerListener implements Listener {
 
         Player player = event.getPlayer();
 
-        if (!Database.unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player)) return;
 
         event.setCancelled(true);
 
@@ -103,7 +107,7 @@ public class FreezeMailPlayerListener implements Listener {
 
         Player player = (Player) event.getDamager();
 
-        if (!Database.unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player)) return;
 
         event.setCancelled(true);
 
@@ -118,7 +122,7 @@ public class FreezeMailPlayerListener implements Listener {
 
         Player player = (Player) event.getEntity();
 
-        if (!Database.unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player)) return;
 
         event.setCancelled(true);
 
@@ -131,7 +135,7 @@ public class FreezeMailPlayerListener implements Listener {
 
         Player player = event.getPlayer();
 
-        if (!Database.unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player)) return;
 
         event.setCancelled(true);
 
@@ -144,7 +148,7 @@ public class FreezeMailPlayerListener implements Listener {
 
         Player player = event.getPlayer();
 
-        if (!Database.unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player)) return;
 
         event.setCancelled(true);
 
@@ -157,7 +161,7 @@ public class FreezeMailPlayerListener implements Listener {
 
         Player player = event.getPlayer();
 
-        if (!Database.unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player)) return;
 
         event.setCancelled(true);
 
@@ -170,7 +174,7 @@ public class FreezeMailPlayerListener implements Listener {
 
         Player player = event.getPlayer();
 
-        if (!Database.unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player)) return;
 
         event.setCancelled(true);
 
@@ -185,7 +189,7 @@ public class FreezeMailPlayerListener implements Listener {
 
         Player player = (Player) event.getEntity().getShooter();
 
-        if (!Database.unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player)) return;
 
         event.setCancelled(true);
 
@@ -198,7 +202,7 @@ public class FreezeMailPlayerListener implements Listener {
 
         Player player = event.getPlayer();
 
-        if (Database.unreadFreezemailPlayers.contains(player)) {
+        if (unreadFreezemailPlayers.contains(player)) {
 
             event.setCancelled(true);
 
@@ -210,12 +214,6 @@ public class FreezeMailPlayerListener implements Listener {
             }
 
         }
-
-    }
-
-    public static void refreshON() {
-
-        on = !Database.unreadFreezemailPlayers.isEmpty();
 
     }
 
@@ -266,18 +264,20 @@ public class FreezeMailPlayerListener implements Listener {
     }
 
     private void setMailRead(Player player) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
 
-        String query = "UPDATE freeze_message SET IsRead = 1 WHERE uuid = '" + player.getUniqueId() + "' AND IsRead = 0;";
+                    String query = "UPDATE freeze_message SET IsRead = 1 WHERE uuid = '" + player.getUniqueId() + "' AND IsRead = 0;";
+                    Database.connection.prepareStatement(query).executeUpdate();
+                    cachePlayer(player);
 
-        try {
-
-            Database.connection.prepareStatement(query).executeUpdate();
-            Database.reloadLoadedValues();
-
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
     }
 
     public static void startFreezemailRepeater() {
@@ -286,14 +286,63 @@ public class FreezeMailPlayerListener implements Listener {
             @Override
             public void run() {
 
-                for (Player player : Database.unreadFreezemailPlayers) {
+                for (Player player : unreadFreezemailPlayers) {
                     new FreezeMailPlayerListener().resendFreezeMailTitle(player);
                     new FreezeMailPlayerListener().resendFreezeMailMessage(player);
                 }
 
             }
-        }.runTaskTimer(AlttdUtility.getInstance(), 240, 240));
+        }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 240, 240));
 
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onPlayerJoinEvent(PlayerJoinEvent event) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                cachePlayer(event.getPlayer());
+            }
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onPlayerQuitEvent(PlayerQuitEvent event) {
+        unreadFreezemailPlayers.remove(event.getPlayer());
+    }
+
+    //Caches a player from the database, if the player has IsRead = 0 adds them to the list, removes them otherwise
+    public static void cachePlayer(Player player) {
+        try {
+
+            if (Database.connection == null) return;
+
+            String statement = "SELECT IsRead FROM freeze_message WHERE UUID = '" + player.getUniqueId() + "' AND IsRead = 0;";
+            ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
+
+            if (rs.next()) {
+                unreadFreezemailPlayers.add(player);
+            } else {
+                unreadFreezemailPlayers.remove(player);
+            }
+
+            on = !unreadFreezemailPlayers.isEmpty();
+
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+    }
+
+    public static void cacheAllPlayers() {
+        unreadFreezemailPlayers.clear();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    cachePlayer(player);
+                }
+            }.runTaskAsynchronously(AlttdUtility.getInstance());
+        }
     }
 
 }

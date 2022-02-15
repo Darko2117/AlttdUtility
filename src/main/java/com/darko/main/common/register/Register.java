@@ -24,7 +24,7 @@ import com.darko.main.common.database.Database;
 import com.darko.main.darko.atPlayers.NameInChatNotification;
 import com.darko.main.darko.commandOnJoin.CommandOnJoin;
 import com.darko.main.darko.crash.Crash;
-import com.darko.main.darko.customChatMessage.CustomChatMessage;
+import com.darko.main.darko.customCommandMacro.CustomCommandMacroCommand;
 import com.darko.main.darko.deathMessage.DeathMessage;
 import com.darko.main.darko.toggleScruff.ToggleScruff;
 import com.darko.main.darko.tpPunch.TPPunch;
@@ -51,6 +51,7 @@ import com.darko.main.darko.ravagerInClaim.RavagerInClaim;
 import com.darko.main.darko.rebootWhitelist.RebootWhitelist;
 import com.darko.main.darko.reload.ReloadCommand;
 import com.darko.main.darko.spawnLimiter.SpawnLimiterCheck;
+import com.darko.main.teri.CrazyCratesKeysLimiter.CrazyCratesKeysLimiter;
 import com.darko.main.teri.FreezeMail.FreezeMail;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
 import com.darko.main.teri.Nicknames.Nicknames;
@@ -128,6 +129,10 @@ public class Register extends JavaPlugin {
             registerEvents(new IllegalItemCheck());
         }
 
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CustomCommandMacroCommand")) {
+            registerEvents(new CustomCommandMacroCommand());
+        }
+
         if (APIs.MyPetFound) {
 
             registerEvents(new LoggingMyPet());
@@ -143,6 +148,9 @@ public class Register extends JavaPlugin {
         if (APIs.CrazyCratesFound) {
 
             registerEvents(new LoggingCrazyCrates());
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CrazyCratesKeysLimiter"))
+                registerEvents(new CrazyCratesKeysLimiter());
 
         }
 
@@ -275,7 +283,7 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("rebootwhitelist").setExecutor(new RebootWhitelist());
         AlttdUtility.getInstance().getCommand("sit").setExecutor(new Sit());
         AlttdUtility.getInstance().getCommand("commandonjoin").setExecutor(new CommandOnJoin());
-        AlttdUtility.getInstance().getCommand("ccm").setExecutor(new CustomChatMessage());
+        AlttdUtility.getInstance().getCommand("ccm").setExecutor(new CustomCommandMacroCommand());
         AlttdUtility.getInstance().getCommand("godmode").setExecutor(new GodMode());
         AlttdUtility.getInstance().getCommand("petgodmode").setExecutor(new PetGodMode());
         AlttdUtility.getInstance().getCommand("freezemail").setExecutor(new FreezeMail());
@@ -287,7 +295,7 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());
         AlttdUtility.getInstance().getCommand("rebootwhitelist").setTabCompleter(new RebootWhitelist());
         AlttdUtility.getInstance().getCommand("commandonjoin").setTabCompleter(new CommandOnJoin());
-        AlttdUtility.getInstance().getCommand("ccm").setTabCompleter(new CustomChatMessage());
+        AlttdUtility.getInstance().getCommand("ccm").setTabCompleter(new CustomCommandMacroCommand());
         AlttdUtility.getInstance().getCommand("tppunch").setTabCompleter(new TPPunch());
 
         AlttdUtility.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(AlttdUtility.getInstance(), "BungeeCord");

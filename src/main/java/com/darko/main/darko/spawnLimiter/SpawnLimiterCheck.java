@@ -15,7 +15,7 @@ import java.util.List;
 
 public class SpawnLimiterCheck implements Listener {
 
-    static List<SpawnLimiter> spawnLimiters = new ArrayList<>();
+    private static final List<SpawnLimiter> spawnLimiters = new ArrayList<>();
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntitySpawn(EntitySpawnEvent event) {

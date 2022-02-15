@@ -7,20 +7,16 @@ import java.util.List;
 
 public class BukkitTasksCache {
 
-    static List<BukkitTask> tasksToCancel = new ArrayList<>();
+    private static final List<BukkitTask> runningTasks = new ArrayList<>();
 
     public static void cancelRunningTasks() {
-
-        for (BukkitTask task : tasksToCancel) {
-
+        for (BukkitTask task : runningTasks) {
             task.cancel();
-
         }
-
     }
 
     public static void addTask(BukkitTask task) {
-        tasksToCancel.add(task);
+        runningTasks.add(task);
     }
 
 }

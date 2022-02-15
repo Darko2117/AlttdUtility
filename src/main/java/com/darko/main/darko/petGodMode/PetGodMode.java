@@ -5,6 +5,7 @@ import com.darko.main.common.database.Database;
 import com.darko.main.common.Methods;
 import de.Keyle.MyPet.api.entity.MyPet;
 import de.Keyle.MyPet.api.entity.MyPetBukkitEntity;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,11 +14,17 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PetGodMode implements CommandExecutor, Listener {
+
+    private static final List<Player> enabledPlayers = new ArrayList<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -43,13 +50,10 @@ public class PetGodMode implements CommandExecutor, Listener {
                     String uuid = player.getUniqueId().toString();
 
                     String statement = "SELECT * FROM users WHERE UUID = '" + uuid + "';";
-
                     ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
                     rs.next();
 
-                    Boolean pet_god_mode_enabled = rs.getBoolean("pet_god_mode_enabled");
-
-                    if (!pet_god_mode_enabled) {
+                    if (!rs.getBoolean("pet_god_mode_enabled")) {
 
                         statement = "UPDATE users SET pet_god_mode_enabled = true WHERE UUID = '" + uuid + "';";
                         Database.connection.prepareStatement(statement).executeUpdate();
@@ -63,7 +67,7 @@ public class PetGodMode implements CommandExecutor, Listener {
 
                     }
 
-                    Database.reloadLoadedValues();
+                    cachePlayer(player);
 
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
@@ -80,15 +84,62 @@ public class PetGodMode implements CommandExecutor, Listener {
 
         if (Database.connection == null) return;
 
-        if (!(event.getEntity() instanceof MyPetBukkitEntity)) return;
-        MyPetBukkitEntity craftMyPet = (MyPetBukkitEntity) event.getEntity();
+        if (!(event.getEntity() instanceof MyPetBukkitEntity craftMyPet)) return;
         MyPet myPet = craftMyPet.getMyPet();
 
-        if (Database.petGodModeEnabledPlayers.contains(myPet.getOwner().getPlayer())) {
-            event.setCancelled(true);
-            myPet.setHealth(myPet.getMaxHealth());
-        }
+        if (!enabledPlayers.contains(myPet.getOwner().getPlayer())) return;
 
+        event.setCancelled(true);
+        myPet.setHealth(myPet.getMaxHealth());
+
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onPlayerJoinEvent(PlayerJoinEvent event) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                cachePlayer(event.getPlayer());
+            }
+        }.runTaskAsynchronously(AlttdUtility.getInstance());
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onPlayerQuitEvent(PlayerQuitEvent event) {
+        enabledPlayers.remove(event.getPlayer());
+    }
+
+    //Caches a player from the database, if the player has pet_god_mode enabled adds them to the list, removes them otherwise
+    public static void cachePlayer(Player player) {
+        try {
+
+            if (Database.connection == null) return;
+
+            String statement = "SELECT pet_god_mode_enabled FROM users WHERE UUID = '" + player.getUniqueId() + "';";
+            ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
+            if (!rs.next()) return;
+
+            if (rs.getBoolean("pet_god_mode_enabled")) {
+                enabledPlayers.add(player);
+            } else {
+                enabledPlayers.remove(player);
+            }
+
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+    }
+
+    public static void cacheAllPlayers() {
+        enabledPlayers.clear();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    cachePlayer(player);
+                }
+            }.runTaskAsynchronously(AlttdUtility.getInstance());
+        }
     }
 
 }
