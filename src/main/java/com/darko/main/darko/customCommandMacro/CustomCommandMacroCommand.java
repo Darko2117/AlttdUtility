@@ -65,6 +65,19 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
                     }
                     if (!commandString.startsWith("/")) commandString = "/" + commandString;
 
+                    //Blacklisted commands check
+                    {
+                        String commandName = commandString.substring(1);
+                        while (commandName.contains("/")) commandName = commandName.substring(1);
+                        if (commandName.contains(" ")) commandName = commandName.substring(0, commandName.indexOf(" "));
+
+                        List<String> blacklistedCommands = AlttdUtility.getInstance().getConfig().getStringList("CustomCommandMacro.BlacklistedCommands");
+                        if (blacklistedCommands.contains(commandName)) {
+                            new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroBlacklistedCommand");
+                            return;
+                        }
+                    }
+
                     if (getMacroNamesForPlayer(player).contains(macroName)) {
                         new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroAlreadyExists");
                         return;
@@ -151,26 +164,10 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
 
                 } else if (getMacroNamesForPlayer(player).contains(args[0].toLowerCase())) {
 
-                    String macroName = args[0].toLowerCase();
-                    String commandString;
-
-                    String statement = "SELECT * FROM custom_command_macro WHERE MacroName = '" + macroName + "' AND UUID = '" + UUID + "';";
-
-                    try {
-
-                        ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
-                        rs.next();
-                        commandString = rs.getString("Command");
-
-                    } catch (Throwable throwable) {
-                        throwable.printStackTrace();
-                        return;
-                    }
-
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            player.chat(commandString);
+                            player.chat(getMacroForPlayer(player, args[0].toLowerCase()).getCommand());
                         }
                     }.runTask(AlttdUtility.getInstance());
 
@@ -300,6 +297,20 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
         }
 
         return results;
+
+    }
+
+    public static CustomCommandMacro getMacroForPlayer(Player player, String macroName) {
+
+        if (!getMacroNamesForPlayer(player).contains(macroName)) return null;
+
+        for (CustomCommandMacro customCommandMacro : cachedMacros.get(player)) {
+            if (customCommandMacro.getMacroName().equals(macroName)) {
+                return customCommandMacro;
+            }
+        }
+
+        return null;
 
     }
 

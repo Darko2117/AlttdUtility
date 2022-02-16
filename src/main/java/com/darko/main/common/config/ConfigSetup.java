@@ -57,6 +57,7 @@ public class ConfigSetup {
         CustomCommandMacroDoesntExist("Messages.CustomCommandMacroDoesntExist", "&cA macro with that name doesn't exist."),
         CustomCommandMacroRemovedMessage("Messages.CustomCommandMacroRemovedMessage", "&aMacro removed."),
         CustomCommandMacroEdited("Messages.CustomCommandMacroEdited", "&aMacro edited."),
+        CustomCommandMacroBlacklistedCommand("Messages.CustomCommandMacroBlacklistedCommand", "&cYou can't make a macro with that command."),
         FreezeMailSuccessfullySend("Messages.FreezeMailSuccessfullySend", "&aSuccessfully sent freezemail to %player%!"),
         FreezeMailPlayerDoesntExist("Messages.FreezeMailPlayerDoesntExist", "&c%target% Is not a valid player!"),
         FreezeMailSuccessfullyCompleted("Messages.FreezeMailSuccessfullyCompleted", "&aThank you! You are now able to move and talk again!"),
@@ -578,6 +579,17 @@ public class ConfigSetup {
             config.set("CrazyCratesKeysLimiter.questcrate.KeyLimit", 2);
 
             notFoundInConfigMessage("CrazyCratesKeysLimiter");
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
+        //CustomCommandMacro
+
+        if (!config.contains("CustomCommandMacro.BlacklistedCommands")) {
+
+            List<String> blacklistedCommands = List.of("msg", "ac", "acg", "p", "tell", "r", "reply", "message");
+            config.set("CustomCommandMacro.BlacklistedCommands", blacklistedCommands);
+
         }
 
         // ----------------------------------------------------------------------------------------------------
