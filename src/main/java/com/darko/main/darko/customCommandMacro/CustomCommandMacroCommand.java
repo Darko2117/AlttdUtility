@@ -3,6 +3,7 @@ package com.darko.main.darko.customCommandMacro;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.database.Database;
 import com.darko.main.common.Methods;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -29,71 +30,72 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CustomCommandMacroCommand"))
+            return true;
 
-                if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CustomCommandMacroCommand"))
-                    return;
+        if (!(sender instanceof Player player)) {
+            new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
+            return true;
+        }
 
-                if (!(sender instanceof Player player)) {
-                    new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
-                    return;
+        String UUID = player.getUniqueId().toString();
+        String username = player.getName();
+
+        if (args.length == 0) {
+            new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroUsage");
+            return true;
+        }
+
+        if (args[0].equals("add")) {
+
+            if (args.length < 3) {
+                new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroUsage");
+                return true;
+            }
+
+            String macroName = args[1].toLowerCase();
+            String commandString = "";
+
+            for (int i = 2; i < args.length; i++) {
+                commandString = commandString.concat(args[i]);
+                if (i < args.length - 1) commandString = commandString.concat(" ");
+            }
+            if (!commandString.startsWith("/")) commandString = "/" + commandString;
+
+            //Blacklisted commands check
+            {
+                String commandName = commandString.substring(1);
+                while (commandName.contains("/")) commandName = commandName.substring(1);
+                if (commandName.contains(" ")) commandName = commandName.substring(0, commandName.indexOf(" "));
+
+                List<String> blacklistedCommands = AlttdUtility.getInstance().getConfig().getStringList("CustomCommandMacro.BlacklistedCommands");
+                if (blacklistedCommands.contains(commandName)) {
+                    new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroBlacklistedCommand");
+                    return true;
                 }
+            }
 
-                String UUID = player.getUniqueId().toString();
-                String username = player.getName();
+            if (getMacroNamesForPlayer(player).contains(macroName)) {
+                new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroAlreadyExists");
+                return true;
+            }
 
-                if (args.length == 0) {
-                    new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroUsage");
-                    return;
-                }
-
-                if (args[0].equals("add")) {
-
-                    if (args.length < 3) {
-                        new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroUsage");
-                        return;
-                    }
-
-                    String macroName = args[1].toLowerCase();
-                    String commandString = "";
-
-                    for (int i = 2; i < args.length; i++) {
-                        commandString = commandString.concat(args[i]);
-                        if (i < args.length - 1) commandString = commandString.concat(" ");
-                    }
-                    if (!commandString.startsWith("/")) commandString = "/" + commandString;
-
-                    //Blacklisted commands check
-                    {
-                        String commandName = commandString.substring(1);
-                        while (commandName.contains("/")) commandName = commandName.substring(1);
-                        if (commandName.contains(" ")) commandName = commandName.substring(0, commandName.indexOf(" "));
-
-                        List<String> blacklistedCommands = AlttdUtility.getInstance().getConfig().getStringList("CustomCommandMacro.BlacklistedCommands");
-                        if (blacklistedCommands.contains(commandName)) {
-                            new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroBlacklistedCommand");
-                            return;
-                        }
-                    }
-
-                    if (getMacroNamesForPlayer(player).contains(macroName)) {
-                        new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroAlreadyExists");
-                        return;
-                    }
+            String finalCommandString = commandString;
+            new BukkitRunnable() {
+                @Override
+                public void run() {
 
                     String statement = "INSERT INTO custom_command_macro(UUID, Username, MacroName, Command) VALUES("
                             + "'" + UUID + "', "
                             + "'" + username + "', "
                             + "'" + macroName + "', "
-                            + "'" + commandString + "');";
+                            + "'" + finalCommandString + "');";
 
                     try {
 
                         Database.connection.prepareStatement(statement).executeUpdate();
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
-                                .getString("Messages.CustomCommandMacroSavedMessage").replace("%macroName%", macroName).replace("%command%", commandString)));
+                                .getString("Messages.CustomCommandMacroSavedMessage").replace("%macroName%", macroName).replace("%command%", finalCommandString)));
 
                         cachePlayer(player);
 
@@ -101,19 +103,26 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
                         throwable.printStackTrace();
                     }
 
-                } else if (args[0].equals("remove")) {
+                }
+            }.runTaskAsynchronously(AlttdUtility.getInstance());
 
-                    if (args.length < 2) {
-                        new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroUsage");
-                        return;
-                    }
+        } else if (args[0].equals("remove")) {
 
-                    String macroName = args[1].toLowerCase();
+            if (args.length < 2) {
+                new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroUsage");
+                return true;
+            }
 
-                    if (!getMacroNamesForPlayer(player).contains(macroName)) {
-                        new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroDoesntExist");
-                        return;
-                    }
+            String macroName = args[1].toLowerCase();
+
+            if (!getMacroNamesForPlayer(player).contains(macroName)) {
+                new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroDoesntExist");
+                return true;
+            }
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
 
                     String statement = "DELETE FROM custom_command_macro WHERE MacroName = '" + macroName + "' AND UUID = '" + UUID + "';";
 
@@ -128,28 +137,36 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
                         throwable.printStackTrace();
                     }
 
-                } else if (args[0].equals("edit")) {
+                }
+            }.runTaskAsynchronously(AlttdUtility.getInstance());
 
-                    if (args.length < 3) {
-                        new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroUsage");
-                        return;
-                    }
+        } else if (args[0].equals("edit")) {
 
-                    String macroName = args[1].toLowerCase();
-                    String commandString = "";
+            if (args.length < 3) {
+                new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroUsage");
+                return true;
+            }
 
-                    if (!getMacroNamesForPlayer(player).contains(macroName)) {
-                        new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroDoesntExist");
-                        return;
-                    }
+            String macroName = args[1].toLowerCase();
+            String commandString = "";
 
-                    for (Integer i = 2; i < args.length; i++) {
-                        commandString = commandString.concat(args[i]);
-                        if (i < args.length - 1) commandString = commandString.concat(" ");
-                    }
-                    if (!commandString.startsWith("/")) commandString = "/" + commandString;
+            if (!getMacroNamesForPlayer(player).contains(macroName)) {
+                new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroDoesntExist");
+                return true;
+            }
 
-                    String statement = "UPDATE custom_command_macro SET Command = '" + commandString + "' WHERE MacroName = '" + macroName + "' AND UUID = '" + UUID + "';";
+            for (Integer i = 2; i < args.length; i++) {
+                commandString = commandString.concat(args[i]);
+                if (i < args.length - 1) commandString = commandString.concat(" ");
+            }
+            if (!commandString.startsWith("/")) commandString = "/" + commandString;
+
+            String finalCommandString = commandString;
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+
+                    String statement = "UPDATE custom_command_macro SET Command = '" + finalCommandString + "' WHERE MacroName = '" + macroName + "' AND UUID = '" + UUID + "';";
 
                     try {
 
@@ -162,23 +179,41 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
                         throwable.printStackTrace();
                     }
 
-                } else if (getMacroNamesForPlayer(player).contains(args[0].toLowerCase())) {
+                }
+            }.runTaskAsynchronously(AlttdUtility.getInstance());
 
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            player.chat(getMacroForPlayer(player, args[0].toLowerCase()).getCommand());
-                        }
-                    }.runTask(AlttdUtility.getInstance());
+        } else if (getMacroNamesForPlayer(player).contains(args[0].toLowerCase())) {
 
-                } else {
+            StringBuilder commandStringBuilder = new StringBuilder(getMacroForPlayer(player, args[0].toLowerCase()).getCommand());
+            String[] commandArgs = StringUtils.split(commandStringBuilder.toString(), " ");
 
-                    new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroDoesntExist");
+            int variableIndex = 1;
 
+            for (int i = 1; i < commandArgs.length; i++) {
+
+                if (!(commandArgs[i].startsWith("{") && commandArgs[i].endsWith("}"))) continue;
+
+                try {
+                    commandArgs[i] = args[variableIndex];
+                    variableIndex++;
+                } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
+                    player.sendMessage(ChatColor.RED + "You are missing variables needed for that command:\n" + commandStringBuilder);
+                    return true;
                 }
 
             }
-        }.runTaskAsynchronously(AlttdUtility.getInstance());
+
+            commandStringBuilder = new StringBuilder();
+            for (String s : commandArgs) {
+                commandStringBuilder.append(s).append(" ");
+            }
+            commandStringBuilder.deleteCharAt(commandStringBuilder.length() - 1);
+
+            player.chat(commandStringBuilder.toString());
+
+        } else {
+            new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroDoesntExist");
+        }
 
         return true;
 
