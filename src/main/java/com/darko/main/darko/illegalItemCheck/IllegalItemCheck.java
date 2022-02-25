@@ -39,8 +39,8 @@ public class IllegalItemCheck implements Listener {
 
         if (!illegalItemCheck(item)) return;
 
-        //inventoryClickEvent.getClickedInventory().setItem(inventoryClickEvent.getSlot(), new ItemStack(Material.AIR));
-        //inventoryClickEvent.setCancelled(true);
+        inventoryClickEvent.getClickedInventory().setItem(inventoryClickEvent.getSlot(), new ItemStack(Material.AIR));
+        inventoryClickEvent.setCancelled(true);
 
         LoggingNoAPI.logIllegalItems(item, player, inventoryClickEvent);
 
@@ -60,8 +60,8 @@ public class IllegalItemCheck implements Listener {
 
         if (!illegalItemCheck(item)) return;
 
-        //entityPickupItemEvent.getItem().remove();
-        //entityPickupItemEvent.setCancelled(true);
+        entityPickupItemEvent.getItem().remove();
+        entityPickupItemEvent.setCancelled(true);
 
         LoggingNoAPI.logIllegalItems(item, player, entityPickupItemEvent);
 
@@ -80,7 +80,7 @@ public class IllegalItemCheck implements Listener {
 
         if (!illegalItemCheck(item)) return;
 
-        //playerDropItemEvent.getItemDrop().remove();
+        playerDropItemEvent.getItemDrop().remove();
 
         LoggingNoAPI.logIllegalItems(item, player, playerDropItemEvent);
 
@@ -102,7 +102,8 @@ public class IllegalItemCheck implements Listener {
 
             if (!illegalItemCheck(item)) continue;
 
-            //player.getInventory().setItem(i, new ItemStack(Material.AIR));
+            player.getInventory().setItem(i, new ItemStack(Material.AIR));
+
             LoggingNoAPI.logIllegalItems(item, player, playerChangedWorldEvent);
 
         }
@@ -118,7 +119,7 @@ public class IllegalItemCheck implements Listener {
 
                         LoggingNoAPI.logIllegalItems(shulker.getInventory().getItem(i), player, event);
 
-                        //shulker.getInventory().setItem(i, new ItemStack(Material.AIR));
+                        shulker.getInventory().setItem(i, new ItemStack(Material.AIR));
 
                     }
                 }
