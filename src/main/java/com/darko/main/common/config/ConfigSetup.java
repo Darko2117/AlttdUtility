@@ -236,7 +236,6 @@ public class ConfigSetup {
 
             List<String> permissions = new ArrayList<>();
             permissions.add("Permission:rtp.no Name:RTP");
-            permissions.add("Permission:keyshop.buy Name:SuperCrate");
 
             config.set("CooldownCommandPermissions", permissions);
 
