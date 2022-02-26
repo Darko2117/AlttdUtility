@@ -53,6 +53,7 @@ public class Logging {
 
     static ConcurrentLinkedQueue<Log> logQueue = new ConcurrentLinkedQueue<>();
     static boolean isWritingLogs = false;
+    static boolean isCompressing = false;
 
     private static final List<Log> cachedLogs = new ArrayList<>();
 
@@ -114,20 +115,18 @@ public class Logging {
 
         createAllBlankLogFiles();
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                checkAndCompress();
-                checkAndDeleteOld();
-            }
-        }.runTaskAsynchronously(AlttdUtility.getInstance());
-
         BukkitTasksCache.addTask(new BukkitRunnable() {
             @Override
             public void run() {
-                startDateCheck();
+
+                if (isCompressing) return;
+
+                isCompressing = true;
+                startChecks();
+                isCompressing = false;
+
             }
-        }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 20, 20));
+        }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 0, 20));
 
         initializeLogWriting();
 
@@ -216,7 +215,7 @@ public class Logging {
 
     }
 
-    private static void startDateCheck() {
+    private static void startChecks() {
 
         int dayNow = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 
