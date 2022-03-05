@@ -223,9 +223,9 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             outputFilePath = outputFilePath.concat(silent);
             outputFilePath = outputFilePath.concat(".txt");
 
-            bossBar.setTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "READING LINES");
             int numberOfLinesToSearch = 0;
             if (sender instanceof Player) {
+                bossBar.setTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "READING LINES");
                 for (File f : filesToRead) {
                     BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
                     while (bufferedReader.readLine() != null) numberOfLinesToSearch++;
@@ -279,7 +279,9 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             writer.close();
 
-            bossBar.removeAll();
+            if (sender instanceof Player) {
+                bossBar.removeAll();
+            }
 
             //The maxFileSizeWithoutCompression is in MB so it's multiplied by 1mil to get the size in bytes.
             int maxFileSizeWithoutCompression = AlttdUtility.getInstance().getConfig().getInt("SearchLogs.MaxFileSizeWithoutCompression");
