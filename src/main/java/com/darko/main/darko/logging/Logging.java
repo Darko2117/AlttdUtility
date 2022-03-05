@@ -122,7 +122,7 @@ public class Logging {
                 if (isCompressing) return;
 
                 isCompressing = true;
-                startChecks();
+                dateCheck();
                 isCompressing = false;
 
             }
@@ -215,7 +215,7 @@ public class Logging {
 
     }
 
-    private static void startChecks() {
+    private static void dateCheck() {
 
         int dayNow = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 
