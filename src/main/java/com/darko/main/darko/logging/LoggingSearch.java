@@ -3,8 +3,12 @@ package com.darko.main.darko.logging;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.Methods;
 import com.darko.main.darko.logging.logs.Log;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,6 +28,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class LoggingSearch implements CommandExecutor, TabCompleter {
 
@@ -154,9 +159,23 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             }
             filesToRead.removeAll(filesToRemove);
 
+            double copyingPercentage = 0;
+            BossBar bossBar = null;
+            if (sender instanceof Player) {
+                bossBar = Bukkit.createBossBar(ChatColor.GOLD + "" + ChatColor.BOLD + "UNCOMPRESSING FILES", BarColor.YELLOW, BarStyle.SEGMENTED_10);
+                bossBar.setProgress(0);
+                bossBar.addPlayer((Player) sender);
+            }
+
             //Copying all the files that need to be read to /temporary-files/. Uncompressing the compressed ones.
             for (File f : filesToRead) {
                 try {
+
+                    if (sender instanceof Player) {
+                        copyingPercentage += 100.0 / filesToRead.size();
+                        if (copyingPercentage > 100) copyingPercentage = 100;
+                        bossBar.setProgress(copyingPercentage / 2 / 100);
+                    }
 
                     if (f.getName().contains(".gz")) {
                         String outputPath = AlttdUtility.getInstance().getDataFolder() + File.separator + "temporary-files" + File.separator + f.getName().replace(".gz", "");
@@ -169,6 +188,11 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
+            }
+
+            if (sender instanceof Player) {
+                copyingPercentage = 100;
+                bossBar.setProgress(copyingPercentage / 2 / 100);
             }
 
             //Reloading the list of files that need to be read with the files from /temporary-files/.
@@ -199,6 +223,16 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             outputFilePath = outputFilePath.concat(silent);
             outputFilePath = outputFilePath.concat(".txt");
 
+            bossBar.setTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "READING LINES");
+            int numberOfLinesToSearch = 0;
+            if (sender instanceof Player) {
+                for (File f : filesToRead) {
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
+                    while (bufferedReader.readLine() != null) numberOfLinesToSearch++;
+                }
+            }
+            double searchPercentage = 0;
+
             //Searching through the files for the arguments.
             File outputFile = new File(outputFilePath);
             FileWriter writer = new FileWriter(outputFile, true);
@@ -212,6 +246,15 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
                     lineReader:
                     while ((line = bufferedReader.readLine()) != null) {
+
+                        if (sender instanceof Player) {
+                            searchPercentage += 100.0 / numberOfLinesToSearch;
+                            if (searchPercentage > 100) searchPercentage = 100;
+                            if (ThreadLocalRandom.current().nextInt(10000) == 0) {
+                                bossBar.setTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "READING LINES");
+                                bossBar.setProgress(searchPercentage / 2 / 100 + 0.5);
+                            }
+                        }
 
                         if (!line.toLowerCase().matches("(.*)" + searchString + "(.*)")) continue lineReader;
 
@@ -235,6 +278,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             }
 
             writer.close();
+
+            bossBar.removeAll();
 
             //The maxFileSizeWithoutCompression is in MB so it's multiplied by 1mil to get the size in bytes.
             int maxFileSizeWithoutCompression = AlttdUtility.getInstance().getConfig().getInt("SearchLogs.MaxFileSizeWithoutCompression");
