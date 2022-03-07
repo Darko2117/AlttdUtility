@@ -154,7 +154,7 @@ public class Sit implements CommandExecutor, Listener {
 
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
 
         Player player = event.getPlayer();
