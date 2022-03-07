@@ -188,6 +188,7 @@ public class ConfigSetup {
         toggles.add("IllegalItemCheck");
         toggles.add("CrazyCratesKeysLimiter");
         toggles.add("NumberOfClaimsLimiter");
+        toggles.add("InvsaveOnPlayerQuit");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {

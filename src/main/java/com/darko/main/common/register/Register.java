@@ -9,6 +9,7 @@ import com.darko.main.darko.claimPatrol.ClaimPatrol;
 import com.darko.main.darko.eggThrowingInClaims.EggThrowingInClaims;
 import com.darko.main.darko.illegalItemCheck.IllegalItemCheck;
 import com.darko.main.darko.invisibleItemFrame.InvisibleItemFrame;
+import com.darko.main.darko.invsaveOnPlayerQuit.InvsaveOnPlayerQuit;
 import com.darko.main.darko.joinLimiter.JoinLimiter;
 import com.darko.main.darko.joinNotifications.CMIJoinNotifications;
 //import com.darko.main.darko.joinNotifications.GriefPreventionJoinNotifications;
@@ -132,6 +133,10 @@ public class Register extends JavaPlugin {
 
         if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CustomCommandMacroCommand")) {
             registerEvents(new CustomCommandMacroCommand());
+        }
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.InvsaveOnPlayerQuit")) {
+            registerEvents(new InvsaveOnPlayerQuit());
         }
 
         if (APIs.MyPetFound) {
