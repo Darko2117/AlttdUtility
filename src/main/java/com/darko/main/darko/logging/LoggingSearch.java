@@ -1100,7 +1100,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
                     List<String> completions = new ArrayList<>();
                     for (String name : logNames) {
-                        if (name.toLowerCase().startsWith(argument.toLowerCase())) {
+                        if (name.toLowerCase().contains(argument.toLowerCase())) {
                             completions.add(args[1].substring(0, args[1].lastIndexOf(argument)) + name);
                         }
                     }
