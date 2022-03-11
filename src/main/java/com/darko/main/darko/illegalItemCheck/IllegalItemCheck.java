@@ -2,6 +2,7 @@ package com.darko.main.darko.illegalItemCheck;
 
 import com.darko.main.AlttdUtility;
 import com.darko.main.darko.logging.listeners.LoggingNoAPI;
+import com.darko.main.darko.savedItems.SavedItem;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.block.ShulkerBox;
@@ -37,12 +38,22 @@ public class IllegalItemCheck implements Listener {
 
         shulkerBoxCheck(item, player, inventoryClickEvent);
 
-        if (!illegalItemCheck(item)) return;
+        ItemStack replacedWithItem;
 
-        inventoryClickEvent.getClickedInventory().setItem(inventoryClickEvent.getSlot(), new ItemStack(Material.AIR));
+        int itemStatus = illegalItemCheck(item);
+        if (itemStatus == -2) return;
+        else if (itemStatus == -1) {
+            replacedWithItem = new ItemStack(Material.AIR);
+        } else {
+            replacedWithItem = SavedItem.getSavedItemByID(itemStatus).getItemStack();
+        }
+
         inventoryClickEvent.setCancelled(true);
 
-        LoggingNoAPI.logIllegalItems(item, player, inventoryClickEvent);
+        ItemStack itemCloneForLog = item.clone();
+
+        inventoryClickEvent.getClickedInventory().setItem(inventoryClickEvent.getSlot(), replacedWithItem);
+        LoggingNoAPI.logIllegalItems(itemCloneForLog, replacedWithItem, player, inventoryClickEvent);
 
     }
 
@@ -58,12 +69,20 @@ public class IllegalItemCheck implements Listener {
 
         shulkerBoxCheck(item, player, entityPickupItemEvent);
 
-        if (!illegalItemCheck(item)) return;
+        ItemStack replacedWithItem;
 
-        entityPickupItemEvent.getItem().remove();
-        entityPickupItemEvent.setCancelled(true);
+        int itemStatus = illegalItemCheck(item);
+        if (itemStatus == -2) return;
+        else if (itemStatus == -1) {
+            replacedWithItem = new ItemStack(Material.AIR);
+        } else {
+            replacedWithItem = SavedItem.getSavedItemByID(itemStatus).getItemStack();
+        }
 
-        LoggingNoAPI.logIllegalItems(item, player, entityPickupItemEvent);
+        ItemStack itemCloneForLog = item.clone();
+
+        entityPickupItemEvent.getItem().setItemStack(replacedWithItem);
+        LoggingNoAPI.logIllegalItems(itemCloneForLog, replacedWithItem, player, entityPickupItemEvent);
 
     }
 
@@ -78,11 +97,20 @@ public class IllegalItemCheck implements Listener {
 
         shulkerBoxCheck(item, player, playerDropItemEvent);
 
-        if (!illegalItemCheck(item)) return;
+        ItemStack replacedWithItem;
 
-        playerDropItemEvent.getItemDrop().remove();
+        int itemStatus = illegalItemCheck(item);
+        if (itemStatus == -2) return;
+        else if (itemStatus == -1) {
+            replacedWithItem = new ItemStack(Material.AIR);
+        } else {
+            replacedWithItem = SavedItem.getSavedItemByID(itemStatus).getItemStack();
+        }
 
-        LoggingNoAPI.logIllegalItems(item, player, playerDropItemEvent);
+        ItemStack itemCloneForLog = item.clone();
+
+        playerDropItemEvent.getItemDrop().setItemStack(replacedWithItem);
+        LoggingNoAPI.logIllegalItems(itemCloneForLog, replacedWithItem, player, playerDropItemEvent);
 
     }
 
@@ -93,18 +121,27 @@ public class IllegalItemCheck implements Listener {
 
         if (playerBypassCheck(player)) return;
 
-        for (int i = 0; i <= 41; i++) {
+        for (int i = 0; i < 41; i++) {
 
             ItemStack item = player.getInventory().getItem(i);
             if (item == null) continue;
 
             shulkerBoxCheck(item, player, playerChangedWorldEvent);
 
-            if (!illegalItemCheck(item)) continue;
+            ItemStack replacedWithItem;
 
-            player.getInventory().setItem(i, new ItemStack(Material.AIR));
+            int itemStatus = illegalItemCheck(item);
+            if (itemStatus == -2) continue;
+            else if (itemStatus == -1) {
+                replacedWithItem = new ItemStack(Material.AIR);
+            } else {
+                replacedWithItem = SavedItem.getSavedItemByID(itemStatus).getItemStack();
+            }
 
-            LoggingNoAPI.logIllegalItems(item, player, playerChangedWorldEvent);
+            ItemStack itemCloneForLog = item.clone();
+
+            player.getInventory().setItem(i, replacedWithItem);
+            LoggingNoAPI.logIllegalItems(itemCloneForLog, replacedWithItem, player, playerChangedWorldEvent);
 
         }
 
@@ -115,13 +152,23 @@ public class IllegalItemCheck implements Listener {
         if (itemStack.getItemMeta() instanceof BlockStateMeta blockStateMeta) {
             if (blockStateMeta.getBlockState() instanceof ShulkerBox shulker) {
                 for (int i = 0; i < 27; i++) {
-                    if (illegalItemCheck(shulker.getInventory().getItem(i))) {
 
-                        LoggingNoAPI.logIllegalItems(shulker.getInventory().getItem(i), player, event);
+                    ItemStack item = shulker.getInventory().getItem(i);
+                    ItemStack replacedWithItem;
 
-                        shulker.getInventory().setItem(i, new ItemStack(Material.AIR));
-
+                    int itemStatus = illegalItemCheck(item);
+                    if (itemStatus == -2) continue;
+                    else if (itemStatus == -1) {
+                        replacedWithItem = new ItemStack(Material.AIR);
+                    } else {
+                        replacedWithItem = SavedItem.getSavedItemByID(itemStatus).getItemStack();
                     }
+
+                    ItemStack itemCloneForLog = item.clone();
+
+                    shulker.getInventory().setItem(i, replacedWithItem);
+                    LoggingNoAPI.logIllegalItems(itemCloneForLog, replacedWithItem, player, event);
+
                 }
                 blockStateMeta.setBlockState(shulker);
             }
@@ -130,11 +177,17 @@ public class IllegalItemCheck implements Listener {
 
     }
 
-    private boolean illegalItemCheck(ItemStack itemStack) {
+    /*
+    Returns -2 if the item isn't illegal,
+    -1 if it is and should be deleted,
+    anything else is the ID of the item it should be replaced with
+     */
+    private int illegalItemCheck(ItemStack itemStack) {
 
-        if (itemStack == null) return false;
-        if (itemStack.getType().equals(Material.AIR)) return false;
+        if (itemStack == null) return -2;
+        if (itemStack.getType().equals(Material.AIR)) return -2;
 
+        loop:
         for (IllegalItem illegalItem : illegalItems) {
 
             boolean materialNeeded = !illegalItem.getItemMaterial().isEmpty();
@@ -153,6 +206,7 @@ public class IllegalItemCheck implements Listener {
                 if (itemStack.getType().toString().toLowerCase().matches("(.*)" + illegalItem.getItemMaterial() + "(.*)"))
                     materialFound = true;
             }
+            if (materialFound != materialNeeded) continue loop;
 
             name:
             {
@@ -162,6 +216,7 @@ public class IllegalItemCheck implements Listener {
                 if (itemStack.getItemMeta().displayName().toString().toLowerCase().matches("(.*)" + illegalItem.getItemName() + "(.*)"))
                     nameFound = true;
             }
+            if (nameFound != nameNeeded) continue loop;
 
             lore:
             {
@@ -175,6 +230,7 @@ public class IllegalItemCheck implements Listener {
                     }
                 }
             }
+            if (loreFound != loreNeeded) continue loop;
 
             enchant:
             {
@@ -184,13 +240,13 @@ public class IllegalItemCheck implements Listener {
                 if (itemStack.getEnchantments().toString().toLowerCase().matches("(.*)" + illegalItem.getItemEnchant() + "(.*)"))
                     enchantFound = true;
             }
+            if (enchantFound != enchantNeeded) continue loop;
 
-            if (materialNeeded == materialFound && nameNeeded == nameFound && loreNeeded == loreFound && enchantNeeded == enchantFound)
-                return true;
+            return illegalItem.getReplaceWithID();
 
         }
 
-        return false;
+        return -2;
 
     }
 
@@ -228,11 +284,12 @@ public class IllegalItemCheck implements Listener {
             String illegalItemItemName = AlttdUtility.getInstance().getConfig().getString("IllegalItemCheck." + illegalItemName + ".Name").toLowerCase();
             String illegalItemItemLore = AlttdUtility.getInstance().getConfig().getString("IllegalItemCheck." + illegalItemName + ".Lore").toLowerCase();
             String illegalItemItemEnchant = AlttdUtility.getInstance().getConfig().getString("IllegalItemCheck." + illegalItemName + ".Enchant").toLowerCase();
+            int illegalItemReplaceWithID = AlttdUtility.getInstance().getConfig().getInt("IllegalItemCheck." + illegalItemName + ".ReplaceWithID", -1);
 
             if (illegalItemItemMaterial.isEmpty() && illegalItemItemName.isEmpty() && illegalItemItemLore.isEmpty() && illegalItemItemEnchant.isEmpty())
                 continue;
 
-            illegalItems.add(new IllegalItem(illegalItemName, illegalItemItemMaterial, illegalItemItemName, illegalItemItemLore, illegalItemItemEnchant));
+            illegalItems.add(new IllegalItem(illegalItemName, illegalItemItemMaterial, illegalItemItemName, illegalItemItemLore, illegalItemItemEnchant, illegalItemReplaceWithID));
 
         }
 

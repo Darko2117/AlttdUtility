@@ -21,6 +21,7 @@ import com.darko.main.darko.logging.listeners.LoggingMyPet;
 import com.darko.main.darko.logging.listeners.LoggingNoAPI;
 import com.darko.main.darko.logging.listeners.LoggingVillagerShopUI;
 import com.darko.main.darko.numberOfClaimsLimiter.NumberOfClaimsLimiter;
+import com.darko.main.darko.savedItems.SaveItem;
 import com.darko.main.darko.sit.Sit;
 import com.darko.main.common.database.Database;
 import com.darko.main.darko.atPlayers.NameInChatNotification;
@@ -31,6 +32,7 @@ import com.darko.main.darko.deathMessage.DeathMessage;
 import com.darko.main.darko.toggleScruff.ToggleScruff;
 import com.darko.main.darko.tpPunch.TPPunch;
 import com.darko.main.darko.trapped.Trapped;
+import com.darko.main.darko.savedItems.ViewSavedItems;
 import com.darko.main.darko.witherOutsideClaim.WitherOutsideClaim;
 import com.darko.main.destro.pvpFishing.PvPFishing;
 import com.darko.main.destro.claimanimals.DamageListener;
@@ -300,6 +302,8 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("trapped").setExecutor(new Trapped());
         AlttdUtility.getInstance().getCommand("tppunch").setExecutor(new TPPunch());
         AlttdUtility.getInstance().getCommand("commandusage").setExecutor(new CommandUsage());
+        AlttdUtility.getInstance().getCommand("saveitem").setExecutor(new SaveItem());
+        AlttdUtility.getInstance().getCommand("viewsaveditems").setExecutor(new ViewSavedItems());
 
         AlttdUtility.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         AlttdUtility.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());

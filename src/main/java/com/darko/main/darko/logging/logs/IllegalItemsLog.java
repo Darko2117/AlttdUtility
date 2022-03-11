@@ -13,6 +13,7 @@ public class IllegalItemsLog extends Log{
         super.addArgument("Time", "");
         super.addArgument("Player", "");
         super.addArgument("Item", "");
+        super.addArgument("ReplacedWithItem", "");
         super.addArgument("Location", "");
         super.addArgument("Event", "");
 

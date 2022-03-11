@@ -111,7 +111,9 @@ public class ConfigSetup {
         CrazyCratesKeysLimiterAtLimit("Messages.CrazyCratesKeysLimiterAtLimit", "&cYou are at the key limit for that crate, use a key or the next one you get will be deleted."),
         CrazyCratesKeysLimiterOverLimit("Messages.CrazyCratesKeysLimiterOverLimit", "&cYou are over the key limit for that crate, key deleted."),
         NumberOfClaimsLimiterAtLimit("Messages.NumberOfClaimsLimiterAtLimit", "&cYou are at the limit of the number of claims you can have."),
-        NumberOfClaimsLimiterOverLimit("Messages.NumberOfClaimsLimiterOverLimit", "&cYou are over the limit of the number of claims you can have. You will have to remove a claim if you wish to make more claims.");
+        NumberOfClaimsLimiterOverLimit("Messages.NumberOfClaimsLimiterOverLimit", "&cYou are over the limit of the number of claims you can have. You will have to remove a claim if you wish to make more claims."),
+        SaveItemEmptyHand("Messages.SaveItemEmptyHand", "&cYou need to hold an item in your main hand to save it."),
+        SaveItemSaved("Messages.SaveItemSaved", "&aItem saved with the ID: %ID%");
 
         private final String path;
         private final String message;
@@ -189,6 +191,8 @@ public class ConfigSetup {
         toggles.add("CrazyCratesKeysLimiter");
         toggles.add("NumberOfClaimsLimiter");
         toggles.add("InvsaveOnPlayerQuit");
+        toggles.add("SaveItemCommand");
+        toggles.add("ViewSavedItemsCommand");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
@@ -556,7 +560,7 @@ public class ConfigSetup {
 
         if (!config.contains("IllegalItemCheck")) {
 
-            IllegalItem illegalItem = new IllegalItem("IllegalItem", "", "", "illegal", "");
+            IllegalItem illegalItem = new IllegalItem("IllegalItem", "", "", "illegal", "", -1);
 
             config.createSection("IllegalItemCheck." + illegalItem.getName());
 
@@ -564,6 +568,7 @@ public class ConfigSetup {
             config.set("IllegalItemCheck." + illegalItem.getName() + ".Name", illegalItem.getItemName());
             config.set("IllegalItemCheck." + illegalItem.getName() + ".Lore", illegalItem.getItemLore());
             config.set("IllegalItemCheck." + illegalItem.getName() + ".Enchant", illegalItem.getItemEnchant());
+            config.set("IllegalItemCheck." + illegalItem.getName() + ".ReplaceWithID", illegalItem.getReplaceWithID());
 
             notFoundInConfigMessage("IllegalItemCheck");
         }
@@ -589,6 +594,16 @@ public class ConfigSetup {
 
             List<String> blacklistedCommands = List.of("msg", "ac", "acg", "p", "tell", "r", "reply", "message");
             config.set("CustomCommandMacro.BlacklistedCommands", blacklistedCommands);
+
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
+        //SavedItems
+
+        if (!config.contains("SavedItems")) {
+
+            config.createSection("SavedItems");
 
         }
 

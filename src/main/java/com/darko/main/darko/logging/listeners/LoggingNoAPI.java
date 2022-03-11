@@ -616,7 +616,7 @@ public class LoggingNoAPI implements Listener {
 
     }
 
-    public static void logIllegalItems(ItemStack itemStack, Player player, Event event) {
+    public static void logIllegalItems(ItemStack itemStack, ItemStack replacedWithItem, Player player, Event event) {
 
         if (!Logging.getCachedLogFromName("IllegalItemsLog").isEnabled()) return;
 
@@ -626,6 +626,8 @@ public class LoggingNoAPI implements Listener {
 
         String item = itemStack.toString();
 
+        String replacedWithItemString = replacedWithItem.toString();
+
         String location = Logging.getBetterLocationString(player.getLocation());
 
         String eventName = event.getEventName();
@@ -634,6 +636,7 @@ public class LoggingNoAPI implements Listener {
         log.addArgumentValue(time);
         log.addArgumentValue(player1);
         log.addArgumentValue(item);
+        log.addArgumentValue(replacedWithItemString);
         log.addArgumentValue(location);
         log.addArgumentValue(eventName);
 

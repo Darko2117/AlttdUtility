@@ -6,6 +6,7 @@ import com.darko.main.common.Methods;
 import com.darko.main.common.config.ConfigSetup;
 import com.darko.main.darko.illegalItemCheck.IllegalItemCheck;
 import com.darko.main.darko.logging.Logging;
+import com.darko.main.darko.savedItems.SavedItem;
 import com.darko.main.darko.sit.Sit;
 import com.darko.main.common.database.Database;
 import com.darko.main.common.register.Register;
@@ -34,6 +35,7 @@ public class ReloadCommand implements CommandExecutor {
         Register.registerEvents();
 
         //These can go in whatever order
+        SavedItem.loadSavedItems();
         Trapped.initiate();
         SpawnLimiterCheck.reload();
         Sit.startCheckingSeats();

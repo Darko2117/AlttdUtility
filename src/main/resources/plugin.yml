@@ -62,3 +62,7 @@ commands:
     permission: utility.tppunch
   commandusage:
     permission: utility.commandusage
+  saveitem:
+    permission: utility.saveitem
+  viewsaveditems:
+    permission: utility.viewsaveditems
