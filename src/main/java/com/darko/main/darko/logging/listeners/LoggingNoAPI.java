@@ -59,7 +59,9 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class LoggingNoAPI implements Listener {
 
@@ -352,24 +354,25 @@ public class LoggingNoAPI implements Listener {
         } catch (Throwable ignored) {
         }
 
-        String items = "";
+        List<String> items = new ArrayList<>();
         for (ItemStack item : event.getDrops()) {
-            if (!items.isEmpty()) {
-                items = items.concat(", ");
-            }
-            items = items.concat(item.toString());
+            items.add(item.toString());
         }
 
         String location = Logging.getBetterLocationString(event.getEntity().getLocation());
 
-        DroppedItemsOnDeathLog log = new DroppedItemsOnDeathLog();
-        log.addArgumentValue(time);
-        log.addArgumentValue(user);
-        log.addArgumentValue(killer);
-        log.addArgumentValue(items);
-        log.addArgumentValue(location);
+        for (String item : items) {
 
-        Logging.addToLogWriteQueue(log);
+            DroppedItemsOnDeathLog log = new DroppedItemsOnDeathLog();
+            log.addArgumentValue(time);
+            log.addArgumentValue(user);
+            log.addArgumentValue(killer);
+            log.addArgumentValue(item);
+            log.addArgumentValue(location);
+
+            Logging.addToLogWriteQueue(log);
+
+        }
 
     }
 

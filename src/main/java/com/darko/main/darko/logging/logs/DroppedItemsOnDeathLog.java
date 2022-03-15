@@ -13,7 +13,7 @@ public class DroppedItemsOnDeathLog extends Log {
         super.addArgument("Time", "");
         super.addArgument("User", "");
         super.addArgument("Killer", "");
-        super.addArgument("Items", "");
+        super.addArgument("Item", "");
         super.addArgument("Location", "");
 
     }
