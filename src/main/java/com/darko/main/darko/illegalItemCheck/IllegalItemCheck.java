@@ -81,7 +81,13 @@ public class IllegalItemCheck implements Listener {
 
         ItemStack itemCloneForLog = item.clone();
 
-        entityPickupItemEvent.getItem().setItemStack(replacedWithItem);
+        if (replacedWithItem.getType().equals(Material.AIR)) {
+            entityPickupItemEvent.setCancelled(true);
+            entityPickupItemEvent.getItem().remove();
+        } else {
+            entityPickupItemEvent.getItem().setItemStack(replacedWithItem);
+        }
+
         LoggingNoAPI.logIllegalItems(itemCloneForLog, replacedWithItem, player, entityPickupItemEvent);
 
     }
@@ -109,7 +115,12 @@ public class IllegalItemCheck implements Listener {
 
         ItemStack itemCloneForLog = item.clone();
 
-        playerDropItemEvent.getItemDrop().setItemStack(replacedWithItem);
+        if (replacedWithItem.getType().equals(Material.AIR)) {
+            playerDropItemEvent.getItemDrop().remove();
+        } else {
+            playerDropItemEvent.getItemDrop().setItemStack(replacedWithItem);
+        }
+
         LoggingNoAPI.logIllegalItems(itemCloneForLog, replacedWithItem, player, playerDropItemEvent);
 
     }
