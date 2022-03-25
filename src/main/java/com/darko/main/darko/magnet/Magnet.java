@@ -92,7 +92,7 @@ public class Magnet implements CommandExecutor, Listener {
                 if (Database.connection == null) return;
 
                 for (Player player : enabledPlayers) {
-                    for (Entity entity : player.getNearbyEntities(5, 5, 5)) {
+                    for (Entity entity : player.getNearbyEntities(10, 10, 10)) {
 
                         if (!(entity instanceof Item)) continue;
 
