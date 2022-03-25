@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class LoggingMyPet implements Listener {
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onMyPetPickupItemEvent(MyPetPickupItemEvent event) {
 
         if (!Logging.getCachedLogFromName("MyPetItemPickupLog").isEnabled()) return;
