@@ -6,6 +6,7 @@ import com.darko.main.common.Methods;
 import com.darko.main.common.config.ConfigSetup;
 import com.darko.main.darko.illegalItemCheck.IllegalItemCheck;
 import com.darko.main.darko.logging.Logging;
+import com.darko.main.darko.magnet.Magnet;
 import com.darko.main.darko.savedItems.SavedItem;
 import com.darko.main.darko.sit.Sit;
 import com.darko.main.common.database.Database;
@@ -43,6 +44,7 @@ public class ReloadCommand implements CommandExecutor {
         FreezeMailPlayerListener.startFreezemailRepeater();
         TimedTips.initiate();
         IllegalItemCheck.loadIllegalItems();
+        Magnet.initiate();
 
         Database.initiate();
 

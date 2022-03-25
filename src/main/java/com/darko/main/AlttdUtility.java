@@ -8,6 +8,7 @@ import com.darko.main.common.register.Register;
 import com.darko.main.darko.flags.Flags;
 import com.darko.main.darko.illegalItemCheck.IllegalItemCheck;
 import com.darko.main.darko.logging.Logging;
+import com.darko.main.darko.magnet.Magnet;
 import com.darko.main.darko.rebootWhitelist.RebootWhitelist;
 import com.darko.main.darko.savedItems.SavedItem;
 import com.darko.main.darko.sit.Sit;
@@ -58,6 +59,7 @@ public class AlttdUtility extends JavaPlugin {
         FreezeMailPlayerListener.startFreezemailRepeater();
         TimedTips.initiate();
         IllegalItemCheck.loadIllegalItems();
+        Magnet.initiate();
 
         Database.initiate();
 

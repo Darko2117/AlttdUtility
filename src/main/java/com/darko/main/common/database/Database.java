@@ -5,6 +5,7 @@ import com.darko.main.darko.autofix.AutoFix;
 import com.darko.main.darko.customCommandMacro.CustomCommandMacroCommand;
 import com.darko.main.darko.godMode.GodMode;
 import com.darko.main.darko.itemPickup.ItemPickup;
+import com.darko.main.darko.magnet.Magnet;
 import com.darko.main.darko.petGodMode.PetGodMode;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
 import org.bukkit.entity.Player;
@@ -89,9 +90,10 @@ public class Database implements Listener {
 
                     if (!rs.next()) {
 
-                        statement = "INSERT INTO users(UUID, Username, autofix_enabled, block_item_pickup_enabled, god_mode_enabled, pet_god_mode_enabled) VALUES("
+                        statement = "INSERT INTO users(UUID, Username, autofix_enabled, block_item_pickup_enabled, god_mode_enabled, pet_god_mode_enabled, magnet_enabled) VALUES("
                                 + "'" + uuid + "', "
                                 + "'" + username + "', "
+                                + "false" + ", "
                                 + "false" + ", "
                                 + "false" + ", "
                                 + "false" + ", "
@@ -160,6 +162,7 @@ public class Database implements Listener {
         PetGodMode.cacheAllPlayers();
         CustomCommandMacroCommand.cacheAllPlayers();
         FreezeMailPlayerListener.cacheAllPlayers();
+        Magnet.cacheAllPlayers();
 
     }
 
@@ -181,6 +184,7 @@ public class Database implements Listener {
         columns.add("ALTER TABLE users ADD block_item_pickup_enabled BOOLEAN NOT NULL");
         columns.add("ALTER TABLE users ADD god_mode_enabled BOOLEAN NOT NULL");
         columns.add("ALTER TABLE users ADD pet_god_mode_enabled BOOLEAN NOT NULL");
+        columns.add("ALTER TABLE users ADD magnet_enabled BOOLEAN NOT NULL");
         for (String string : columns) {
             try {
                 connection.prepareStatement(string).executeUpdate();

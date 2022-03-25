@@ -20,6 +20,7 @@ import com.darko.main.darko.logging.listeners.LoggingGriefPrevention;
 import com.darko.main.darko.logging.listeners.LoggingMyPet;
 import com.darko.main.darko.logging.listeners.LoggingNoAPI;
 import com.darko.main.darko.logging.listeners.LoggingVillagerShopUI;
+import com.darko.main.darko.magnet.Magnet;
 import com.darko.main.darko.numberOfClaimsLimiter.NumberOfClaimsLimiter;
 import com.darko.main.darko.savedItems.SaveItem;
 import com.darko.main.darko.sit.Sit;
@@ -139,6 +140,10 @@ public class Register extends JavaPlugin {
 
         if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.InvsaveOnPlayerQuit")) {
             registerEvents(new InvsaveOnPlayerQuit());
+        }
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.MagnetCommand")) {
+            registerEvents(new Magnet());
         }
 
         if (APIs.MyPetFound) {
@@ -304,6 +309,7 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("commandusage").setExecutor(new CommandUsage());
         AlttdUtility.getInstance().getCommand("saveitem").setExecutor(new SaveItem());
         AlttdUtility.getInstance().getCommand("viewsaveditems").setExecutor(new ViewSavedItems());
+        AlttdUtility.getInstance().getCommand("magnet").setExecutor(new Magnet());
 
         AlttdUtility.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         AlttdUtility.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());

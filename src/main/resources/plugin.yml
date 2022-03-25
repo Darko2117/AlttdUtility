@@ -66,3 +66,5 @@ commands:
     permission: utility.saveitem
   viewsaveditems:
     permission: utility.viewsaveditems
+  magnet:
+    permission: utility.magnet

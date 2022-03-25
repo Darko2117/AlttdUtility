@@ -113,7 +113,9 @@ public class ConfigSetup {
         NumberOfClaimsLimiterAtLimit("Messages.NumberOfClaimsLimiterAtLimit", "&cYou are at the limit of the number of claims you can have."),
         NumberOfClaimsLimiterOverLimit("Messages.NumberOfClaimsLimiterOverLimit", "&cYou are over the limit of the number of claims you can have. You will have to remove a claim if you wish to make more claims."),
         SaveItemEmptyHand("Messages.SaveItemEmptyHand", "&cYou need to hold an item in your main hand to save it."),
-        SaveItemSaved("Messages.SaveItemSaved", "&aItem saved with the ID: %ID%");
+        SaveItemSaved("Messages.SaveItemSaved", "&aItem saved with the ID: %ID%"),
+        MagnetEnabled("Messages.MagnetEnabled", "&aMagnet enabled"),
+        MagnetDisabled("Messages.MagnetDisabled", "&cMagnet disabled");
 
         private final String path;
         private final String message;
@@ -193,6 +195,7 @@ public class ConfigSetup {
         toggles.add("InvsaveOnPlayerQuit");
         toggles.add("SaveItemCommand");
         toggles.add("ViewSavedItemsCommand");
+        toggles.add("MagnetCommand");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
