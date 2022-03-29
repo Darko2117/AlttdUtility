@@ -5,6 +5,7 @@ import com.darko.main.common.Methods;
 import com.darko.main.common.config.ConfigSetup;
 import com.darko.main.common.database.Database;
 import com.darko.main.common.register.Register;
+import com.darko.main.darko.aprilfools.AprilFools;
 import com.darko.main.darko.flags.Flags;
 import com.darko.main.darko.illegalItemCheck.IllegalItemCheck;
 import com.darko.main.darko.logging.Logging;
@@ -60,6 +61,7 @@ public class AlttdUtility extends JavaPlugin {
         TimedTips.initiate();
         IllegalItemCheck.loadIllegalItems();
         Magnet.initiate();
+        AprilFools.initiate();
 
         Database.initiate();
 

@@ -4,6 +4,7 @@ import com.darko.main.common.API.APIs;
 import com.darko.main.common.BukkitTasksCache;
 import com.darko.main.common.Methods;
 import com.darko.main.common.config.ConfigSetup;
+import com.darko.main.darko.aprilfools.AprilFools;
 import com.darko.main.darko.illegalItemCheck.IllegalItemCheck;
 import com.darko.main.darko.logging.Logging;
 import com.darko.main.darko.magnet.Magnet;
@@ -45,6 +46,7 @@ public class ReloadCommand implements CommandExecutor {
         TimedTips.initiate();
         IllegalItemCheck.loadIllegalItems();
         Magnet.initiate();
+        AprilFools.initiate();
 
         Database.initiate();
 
