@@ -6,7 +6,9 @@ import com.darko.main.common.Methods;
 import com.darko.main.common.database.Database;
 import com.destroystokyo.paper.ParticleBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -92,6 +94,9 @@ public class Magnet implements CommandExecutor, Listener {
                 if (Database.connection == null) return;
 
                 for (Player player : enabledPlayers) {
+
+                    if (player.getGameMode().equals(GameMode.SPECTATOR)) continue;
+
                     for (Entity entity : player.getNearbyEntities(10, 10, 10)) {
 
                         if (!(entity instanceof Item)) continue;
@@ -108,7 +113,10 @@ public class Magnet implements CommandExecutor, Listener {
                         if (remainingAmount == 0) {
 
                             Bukkit.getPluginManager().callEvent(new EntityPickupItemEvent(player, (Item) entity, remainingAmount));
+
                             entity.remove();
+
+                            player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 5);
 
                         } else if (originalAmount != remainingAmount) {
 
@@ -118,6 +126,8 @@ public class Magnet implements CommandExecutor, Listener {
                             Bukkit.getPluginManager().callEvent(new EntityPickupItemEvent(player, (Item) entity, remainingAmount));
 
                             ((Item) entity).setItemStack(remainingItems.get(0));
+
+                            player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 5);
 
                         } else continue;
 
