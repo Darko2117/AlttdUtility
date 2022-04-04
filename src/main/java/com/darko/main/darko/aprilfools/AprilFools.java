@@ -42,7 +42,6 @@ public class AprilFools {
                 }
 
                 for (AprilFoolsObject aprilFoolsObject : aprilFoolsObjectList) {
-
                     if (timeNow >= aprilFoolsObject.getLastSoundTime() + aprilFoolsObject.getNextSoundDelay()) {
 
                         Player player = aprilFoolsObject.getPlayer();
@@ -57,7 +56,6 @@ public class AprilFools {
                         aprilFoolsObject.setNextSoundDelay(getRandomSoundDelay());
 
                     }
-
                 }
 
             }
