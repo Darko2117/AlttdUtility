@@ -28,6 +28,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class Magnet implements CommandExecutor, Listener {
 
@@ -116,7 +117,7 @@ public class Magnet implements CommandExecutor, Listener {
 
                             entity.remove();
 
-                            player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 5);
+                            player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, new Random().nextFloat(0F, 1F), new Random().nextFloat(0F, 10F));
 
                         } else if (originalAmount != remainingAmount) {
 
@@ -127,7 +128,7 @@ public class Magnet implements CommandExecutor, Listener {
 
                             ((Item) entity).setItemStack(remainingItems.get(0));
 
-                            player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 5);
+                            player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, new Random().nextFloat(0F, 1F), new Random().nextFloat(0F, 10F));
 
                         } else continue;
 
