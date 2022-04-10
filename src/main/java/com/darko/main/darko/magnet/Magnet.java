@@ -141,6 +141,7 @@ public class Magnet implements CommandExecutor, Listener {
                         particleBuilder.spawn();
 
                     }
+
                 }
 
             }
