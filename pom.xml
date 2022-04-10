@@ -58,6 +58,10 @@
             <name>Altitude Maven Repo</name>
             <url>https://repo.destro.xyz/snapshots</url>
         </repository>
+        <repository>
+            <id>dmulloy2-repo</id>
+            <url>https://repo.dmulloy2.net/repository/public/</url>
+        </repository>
 
         <repository> <!-- MiniMessage -->
             <id>sonatype-oss-snapshots</id>
@@ -124,6 +128,11 @@
             <groupId>com.alttd</groupId>
             <artifactId>VillagerShopUI</artifactId>
             <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib</artifactId>
+            <version>4.7.0</version>
         </dependency>
 
         <dependency>
