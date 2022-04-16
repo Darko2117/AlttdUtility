@@ -22,6 +22,7 @@ import com.darko.main.darko.logging.listeners.LoggingNoAPI;
 import com.darko.main.darko.logging.listeners.LoggingVillagerShopUI;
 import com.darko.main.darko.magnet.Magnet;
 import com.darko.main.darko.numberOfClaimsLimiter.NumberOfClaimsLimiter;
+import com.darko.main.darko.preventChannelingWhenPvPOff.PreventChannelingWhenPvPOff;
 import com.darko.main.darko.savedItems.SaveItem;
 import com.darko.main.darko.sit.Sit;
 import com.darko.main.common.database.Database;
@@ -243,8 +244,13 @@ public class Register extends JavaPlugin {
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.PreventNoPvPFishing")) {
                 registerEvents(new PvPFishing());
             }
+
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.DisablePvpOnLeave")) {
                 registerEvents(new DisablePvpOnLeave());
+            }
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.PreventChannelingWhenPvPOff")) {
+                registerEvents(new PreventChannelingWhenPvPOff());
             }
 
         }

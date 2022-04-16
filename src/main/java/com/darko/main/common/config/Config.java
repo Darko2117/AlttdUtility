@@ -198,6 +198,7 @@ public class Config {
         toggles.add("SaveItemCommand");
         toggles.add("ViewSavedItemsCommand");
         toggles.add("MagnetCommand");
+        toggles.add("PreventChannelingWhenPvPOff");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
