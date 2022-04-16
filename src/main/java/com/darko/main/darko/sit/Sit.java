@@ -1,5 +1,6 @@
 package com.darko.main.darko.sit;
 
+import com.Zrips.CMI.events.CMIPlayerTeleportEvent;
 import com.darko.main.common.API.APIs;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.BukkitTasksCache;
@@ -39,33 +40,48 @@ import java.util.Map;
 
 public class Sit implements CommandExecutor, Listener {
 
-    static HashMap<Location, Entity> aliveSeats = new HashMap<>();
-    static String seatName = "There is a 35 character limit on a name tag.";
+    private static final HashMap<Location, Entity> aliveSeats = new HashMap<>();
+    private static final String seatName = "There is a 35 character limit on a name tag.";
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return true;
 
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
             return true;
         }
 
-        Player player = (Player) sender;
+        Location playerLocation = player.getLocation().clone();
 
-        Block block = Bukkit.getWorld(player.getLocation().getWorld().getName()).getBlockAt(player.getLocation().subtract(0, 0.01, 0));
+        Block block = playerLocation.getWorld().getBlockAt(playerLocation.subtract(0, 0.00001, 0));
 
-        if (!blockAboveCheck(player, block)) return true;
-        if (!blockBelowCheck(player, block)) return true;
-        if (!onGroundCheck(player)) return true;
-        if (!occupiedCheck(player)) return true;
-        if (getSmallestNearCenterBlockHeight(block) == null) {
+        if (!blockAboveCheck(block)) {
+            new Methods().sendConfigMessage(player, "Messages.SeatInvalidBlockAbove");
+            return true;
+        }
+        if (!blockBelowCheck(block)) {
+            new Methods().sendConfigMessage(player, "Messages.SeatInvalidBlockBelow");
+            return true;
+        }
+        if (!((Entity) player).isOnGround()) {
+            new Methods().sendConfigMessage(player, "Messages.SitCommandNotOnGroundMessage");
+            return true;
+        }
+        if (!occupiedCheck(player)) {
+            new Methods().sendConfigMessage(player, "Messages.SeatOccupiedMessage");
+            return false;
+        }
+        if (getSmallestNearCenterBlockHeight(block) == -1) {
             new Methods().sendConfigMessage(player, "Messages.SeatInvalidBlock");
             return true;
         }
-        //if (!claimCheck(player, block)) return true;
-        if (!regionCheck(player, block)) return true;
+//        //if (!claimCheck(player, block)) return true;
+        if (!regionCheck(player, block)) {
+            new Methods().sendConfigMessage(player, "Messages.SeatNoRegionPerm");
+            return false;
+        }
 
         Location location = block.getLocation().add(0.5, 0, 0.5);
         location.setY(getSmallestNearCenterBlockHeight(block) - 1.75);
@@ -155,72 +171,64 @@ public class Sit implements CommandExecutor, Listener {
 
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
-    public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onCMIPlayerTeleportEvent(CMIPlayerTeleportEvent cmiPlayerTeleportEvent) {
 
-        Player player = event.getPlayer();
+        Player player = cmiPlayerTeleportEvent.getPlayer();
 
-        if (!player.isInsideVehicle()) return;
-        if (player.getVehicle().getCustomName() == null) return;
-        if (!player.getVehicle().getCustomName().equals(seatName)) return;
+        if (player.isInsideVehicle()) {
 
-        String command = event.getMessage();
-        String[] tpCommands = {"/tp", "/ptp", "/spawn", "/warp", "/home", "/back"};
+            cmiPlayerTeleportEvent.setCancelled(true);
+            player.sendMessage(ChatColor.WHITE + "You " + ChatColor.RED + "can't" + ChatColor.WHITE + " teleport while sitting.");
 
-        for (String tpCommand : tpCommands) {
-            if (command.startsWith(tpCommand)) {
-                event.setCancelled(true);
-                player.sendMessage(ChatColor.WHITE + "You " + ChatColor.RED + "can't" + ChatColor.WHITE + " teleport while sitting.");
-            }
         }
 
     }
 
-    Boolean blockAboveCheck(Player player, Block block) {
+//    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+//    public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
+//
+//        Player player = event.getPlayer();
+//
+//        if (!player.isInsideVehicle()) return;
+//        if (player.getVehicle().getCustomName() == null) return;
+//        if (!player.getVehicle().getCustomName().equals(seatName)) return;
+//
+//        String command = event.getMessage();
+//        String[] tpCommands = {"/tp", "/ptp", "/spawn", "/warp", "/home", "/back"};
+//
+//        for (String tpCommand : tpCommands) {
+//            if (command.startsWith(tpCommand)) {
+//                event.setCancelled(true);
+//                player.sendMessage(ChatColor.WHITE + "You " + ChatColor.RED + "can't" + ChatColor.WHITE + " teleport while sitting.");
+//            }
+//        }
+//
+//    }
 
-        Block blockAbove = block.getLocation().getWorld().getBlockAt(block.getLocation().add(0, 1, 0));
+    boolean blockAboveCheck(Block block) {
 
-        if (!(blockAbove.getBlockData().getMaterial().isAir() || blockAbove.isLiquid())) {
-            new Methods().sendConfigMessage(player, "Messages.SeatInvalidBlock");
-            return false;
-        }
+        Location blockLocation = block.getLocation().clone();
 
-        return true;
+        Block blockAbove = blockLocation.getWorld().getBlockAt(blockLocation.add(0, 1, 0));
 
-    }
-
-    boolean blockBelowCheck(Player player, Block block) {
-
-        Block blockBelow = block.getLocation().getWorld().getBlockAt(block.getLocation().subtract(0, 1, 0));
-
-        if (blockBelow.getBlockData().getMaterial().isAir()) {
-            new Methods().sendConfigMessage(player, "Messages.SeatInvalidBlockBelow");
-            return false;
-        }
-
-        return true;
-
-    }
-
-    Boolean onGroundCheck(Player player) {
-
-        if (!((Entity) player).isOnGround()) {
-            new Methods().sendConfigMessage(player, "Messages.SitCommandNotOnGroundMessage");
-            return false;
-        }
-
-        return true;
+        return blockAbove.getBlockData().getMaterial().isAir();
 
     }
 
-    Boolean occupiedCheck(Player player) {
+    boolean blockBelowCheck(Block block) {
 
-        if (aliveSeats.containsKey(player.getLocation())) {
-            new Methods().sendConfigMessage(player, "Messages.SeatOccupiedMessage");
-            return false;
-        }
+        Location blockLocation = block.getLocation().clone();
 
-        return true;
+        Block blockBelow = blockLocation.getWorld().getBlockAt(blockLocation.subtract(0, 1, 0));
+
+        return blockBelow.getType().isSolid();
+
+    }
+
+    boolean occupiedCheck(Player player) {
+
+        return !aliveSeats.containsKey(player.getLocation());
 
     }
 
@@ -254,28 +262,23 @@ public class Sit implements CommandExecutor, Listener {
         LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
         RegionQuery query = container.createQuery();
-        if (query.testState(blockLocation, localPlayer, com.darko.main.darko.flags.Flags.SIT)) {
-            return true;
-        } else {
-            new Methods().sendConfigMessage(player, "Messages.SeatNoRegionPerm");
-            return false;
-        }
+        return query.testState(blockLocation, localPlayer, com.darko.main.darko.flags.Flags.SIT);
 
     }
 
-    Double getSmallestNearCenterBlockHeight(Block block) {
-
-        List<Double> points = new ArrayList<>();
+    double getSmallestNearCenterBlockHeight(Block block) {
 
         Location startingPoint = block.getLocation().clone().add(0.5, 1.01, 0.5);
         Vector directionVector = new Vector(0, -1, 0);
+
+        List<Double> points = new ArrayList<>();
 
         if (startingPoint.getWorld().rayTraceBlocks(startingPoint, directionVector, 1, FluidCollisionMode.NEVER, true) != null) {
             points.add(startingPoint.getWorld().rayTraceBlocks(startingPoint, directionVector, 1, FluidCollisionMode.NEVER, true).getHitPosition().getY());
         }
 
-        for (Double x = -0.25; x <= 0.25; x += 0.5) {
-            for (Double z = -0.25; z <= 0.25; z += 0.5) {
+        for (double x = -0.25; x <= 0.25; x += 0.5) {
+            for (double z = -0.25; z <= 0.25; z += 0.5) {
 
                 Location startingPointTemp = startingPoint.clone();
 
@@ -288,10 +291,10 @@ public class Sit implements CommandExecutor, Listener {
             }
         }
 
-        Double smallest = null;
+        double smallest = -1;
 
-        for (Double point : points) {
-            if (smallest == null) smallest = point;
+        for (double point : points) {
+            if (smallest == -1) smallest = point;
             if (point < smallest) smallest = point;
         }
 
