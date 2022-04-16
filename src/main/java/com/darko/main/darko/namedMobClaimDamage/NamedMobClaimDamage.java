@@ -17,7 +17,7 @@ import java.util.List;
 
 public class NamedMobClaimDamage implements Listener {
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
 
         Entity entity = event.getEntity();
