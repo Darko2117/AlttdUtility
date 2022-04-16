@@ -212,7 +212,7 @@ public class Sit implements CommandExecutor, Listener {
 
     Boolean claimCheck(Player player, Block block) {
 
-        if (!APIs.GriefPreventionFound) {
+        if (!APIs.isGriefPreventionFound()) {
             return true;
         }
 
@@ -232,7 +232,7 @@ public class Sit implements CommandExecutor, Listener {
 
     Boolean regionCheck(Player player, Block block) {
 
-        if (!APIs.WorldGuardFound) {
+        if (!APIs.isWorldGuardFound()) {
             return true;
         }
 

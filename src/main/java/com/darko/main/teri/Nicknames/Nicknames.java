@@ -84,7 +84,7 @@ public class Nicknames implements CommandExecutor, TabCompleter {
                     break;
                 case "try":
                     if (args.length == 2 && hasPermission(sender, "utility.nick.try")){
-                        LuckPerms api = APIs.LuckPermsApiCheck();
+                        LuckPerms api = APIs.getLuckPermsAPI();
                         if (api != null){
                             if (Utilities.validNick(player, player, args[1])) {
                                 sender.sendMessage(format(AlttdUtility.getInstance().getConfig().getString("Messages.NickTryout")

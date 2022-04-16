@@ -4,9 +4,9 @@ import com.Zrips.CMI.CMI;
 import com.alttd.VillagerUI;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.ConsoleColors;
-//import com.plotsquared.bukkit.BukkitMain;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import de.Keyle.MyPet.MyPetPlugin;
+import lombok.Getter;
 import me.NoChance.PvPManager.PvPManager;
 import me.filoghost.farmlimiter.FarmLimiter;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
@@ -16,93 +16,105 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@Getter
 public class APIs extends JavaPlugin {
 
-    public static Boolean GriefPreventionFound = false;
-    public static Boolean WorldGuardFound = false;
-    public static Boolean LuckPermsFound = false;
-    public static Boolean MyPetFound = false;
-    public static Boolean CrazyCratesFound = false;
-    public static Boolean mcMMOFound = false;
-    public static Boolean FarmLimiterFound = false;
-    public static Boolean PvPManagerFound = false;
-    public static Boolean CMIFound = false;
-    public static Boolean VillagerShopUIFound = false;
-//    public static Boolean PlotSquaredFound = false;
+    @Getter
+    private static boolean griefPreventionFound = false;
+    @Getter
+    private static boolean worldGuardFound = false;
+    @Getter
+    private static boolean luckPermsFound = false;
+    @Getter
+    private static boolean myPetFound = false;
+    @Getter
+    private static boolean crazyCratesFound = false;
+    @Getter
+    private static boolean MCMMOFound = false;
+    @Getter
+    private static boolean farmLimiterFound = false;
+    @Getter
+    private static boolean PvPManagerFound = false;
+    @Getter
+    private static boolean CMIFound = false;
+    @Getter
+    private static boolean villagerShopUIFound = false;
+
+    public static void connectGriefPreventionAPI() {
+        griefPreventionFound = getGriefPreventionAPI() != null;
+        sendFoundMessage("GriefPrevention", griefPreventionFound);
+    }
+
+    public static void connectWorldGuardAPI() {
+        worldGuardFound = getWorldGuardAPI() != null;
+        sendFoundMessage("WorldGuard", worldGuardFound);
+    }
+
+    public static void connectLuckPermsAPI() {
+        luckPermsFound = getLuckPermsAPI() != null;
+        sendFoundMessage("LuckPerms", luckPermsFound);
+    }
+
+    public static void connectMyPetAPI() {
+        myPetFound = getMyPetAPI() != null;
+        sendFoundMessage("MyPet", myPetFound);
+    }
+
+    public static void connectCrazyCratesAPI() {
+        crazyCratesFound = getCrazyCratesAPI() != null;
+        sendFoundMessage("CrazyCrates", crazyCratesFound);
+    }
+
+    public static void connectMCMMOAPI() {
+        MCMMOFound = getMCMMOAPI() != null;
+        sendFoundMessage("MCMMO", MCMMOFound);
+    }
+
+    public static void connectFarmLimiterAPI() {
+        farmLimiterFound = getFarmLimiterAPI() != null;
+        sendFoundMessage("FarmLimiter", farmLimiterFound);
+    }
+
+    public static void connectPvPManagerAPI() {
+        PvPManagerFound = getPvPManagerAPI() != null;
+        sendFoundMessage("PvPManager", PvPManagerFound);
+    }
+
+    public static void connectCMIAPI() {
+        CMIFound = getCMIAPI() != null;
+        sendFoundMessage("CMI", CMIFound);
+    }
+
+    public static void connectVillagerShopUIAPI() {
+        villagerShopUIFound = getVillagerUIAPI() != null;
+        sendFoundMessage("VillagerShopUI", villagerShopUIFound);
+    }
 
     public static void APIConnect() {
 
-        GriefPreventionFound = GriefPreventionApiCheck() != null;
-        WorldGuardFound = WorldGuardApiCheck() != null;
-        LuckPermsFound = LuckPermsApiCheck() != null;
-        MyPetFound = MyPetApiCheck() != null;
-        CrazyCratesFound = CrazyCratesApiCheck() != null;
-        mcMMOFound = mcMMOApiCheck() != null;
-        FarmLimiterFound = FarmLimiterApiCheck() != null;
-        PvPManagerFound = PvPManagerAPICheck() != null;
-        CMIFound = CMIApiCheck() != null;
-        VillagerShopUIFound = VillagerUICheck() != null;
-
-//        PlotSquaredFound = PlotSquaredApiCheck() != null;
-
-        if (GriefPreventionFound)
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "GriefPrevention found!... " + ConsoleColors.RESET);
-        else
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "GriefPrevention not found!... " + ConsoleColors.RESET);
-
-        if (WorldGuardFound)
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "WorldGuard found!... " + ConsoleColors.RESET);
-        else
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "WorldGuard not found!... " + ConsoleColors.RESET);
-
-        if (LuckPermsFound)
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "LuckPerms found!... " + ConsoleColors.RESET);
-        else
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "LuckPerms not found!... " + ConsoleColors.RESET);
-
-        if (MyPetFound)
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "MyPet found!... " + ConsoleColors.RESET);
-        else
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "MyPet not found!... " + ConsoleColors.RESET);
-
-        if (CrazyCratesFound)
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "CrazyCrates found!... " + ConsoleColors.RESET);
-        else
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "CrazyCrates not found!... " + ConsoleColors.RESET);
-
-        if (mcMMOFound)
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "mcMMO found!... " + ConsoleColors.RESET);
-        else
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "mcMMO not found!... " + ConsoleColors.RESET);
-
-        if (FarmLimiterFound)
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "FarmLimiter found!... " + ConsoleColors.RESET);
-        else
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "FarmLimiter not found!... " + ConsoleColors.RESET);
-
-        if (PvPManagerFound)
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "PvPManager found!... " + ConsoleColors.RESET);
-        else
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "PvPManager not found!... " + ConsoleColors.RESET);
-
-        if (CMIFound)
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "CMI found!... " + ConsoleColors.RESET);
-        else
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "CMI not found!... " + ConsoleColors.RESET);
-
-        if (VillagerShopUIFound)
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "VillagerShopUI found!... " + ConsoleColors.RESET);
-        else
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "VillagerShopUI not found!... " + ConsoleColors.RESET);
-
-//        if (PlotSquaredFound)
-//            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + "PlotSquared found!... " + ConsoleColors.RESET);
-//        else
-//            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + "PlotSquared not found!... " + ConsoleColors.RESET);
+        connectGriefPreventionAPI();
+        connectWorldGuardAPI();
+        connectLuckPermsAPI();
+        connectMyPetAPI();
+        connectCrazyCratesAPI();
+        connectMCMMOAPI();
+        connectFarmLimiterAPI();
+        connectPvPManagerAPI();
+        connectCMIAPI();
+        connectVillagerShopUIAPI();
 
     }
 
-    public static GriefPrevention GriefPreventionApiCheck() {
+    private static void sendFoundMessage(String pluginName, boolean found) {
+
+        if (found)
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + pluginName + " found!");
+        else
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + pluginName + " not found!");
+
+    }
+
+    public static GriefPrevention getGriefPreventionAPI() {
         try {
             Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("GriefPrevention");
             if (plugin instanceof GriefPrevention) {
@@ -116,7 +128,7 @@ public class APIs extends JavaPlugin {
         }
     }
 
-    public static WorldGuardPlugin WorldGuardApiCheck() {
+    public static WorldGuardPlugin getWorldGuardAPI() {
         try {
             Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
             if (plugin instanceof WorldGuardPlugin) {
@@ -130,7 +142,7 @@ public class APIs extends JavaPlugin {
         }
     }
 
-    public static LuckPerms LuckPermsApiCheck() {
+    public static LuckPerms getLuckPermsAPI() {
         try {
             RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
             if (provider != null) {
@@ -144,7 +156,7 @@ public class APIs extends JavaPlugin {
         }
     }
 
-    public static MyPetPlugin MyPetApiCheck() {
+    public static MyPetPlugin getMyPetAPI() {
         try {
             Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("MyPet");
             if (plugin instanceof MyPetPlugin) {
@@ -158,7 +170,7 @@ public class APIs extends JavaPlugin {
         }
     }
 
-    public static com.badbones69.crazycrates.CrazyCrates CrazyCratesApiCheck() {
+    public static com.badbones69.crazycrates.CrazyCrates getCrazyCratesAPI() {
         try {
             Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CrazyCrates");
             if (plugin instanceof com.badbones69.crazycrates.CrazyCrates) {
@@ -172,7 +184,7 @@ public class APIs extends JavaPlugin {
         }
     }
 
-    public static com.gmail.nossr50.mcMMO mcMMOApiCheck() {
+    public static com.gmail.nossr50.mcMMO getMCMMOAPI() {
         try {
             Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("mcMMO");
             if (plugin instanceof com.gmail.nossr50.mcMMO) {
@@ -186,7 +198,7 @@ public class APIs extends JavaPlugin {
         }
     }
 
-    public static FarmLimiter FarmLimiterApiCheck() {
+    public static FarmLimiter getFarmLimiterAPI() {
         try {
             Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("FarmLimiter");
             if (plugin instanceof FarmLimiter) {
@@ -200,7 +212,7 @@ public class APIs extends JavaPlugin {
         }
     }
 
-    public static PvPManager PvPManagerAPICheck() {
+    public static PvPManager getPvPManagerAPI() {
         try {
             Plugin plugin = Bukkit.getPluginManager().getPlugin("PvPManager");
             if (plugin instanceof PvPManager) {
@@ -214,7 +226,7 @@ public class APIs extends JavaPlugin {
         }
     }
 
-    public static CMI CMIApiCheck() {
+    public static CMI getCMIAPI() {
         try {
             Plugin plugin = Bukkit.getPluginManager().getPlugin("CMI");
             if (plugin instanceof CMI) {
@@ -228,7 +240,7 @@ public class APIs extends JavaPlugin {
         }
     }
 
-    public static VillagerUI VillagerUICheck() {
+    public static VillagerUI getVillagerUIAPI() {
         try {
             Plugin plugin = Bukkit.getPluginManager().getPlugin("VillagerShopUI");
             if (plugin instanceof VillagerUI) {
@@ -241,19 +253,5 @@ public class APIs extends JavaPlugin {
             return null;
         }
     }
-
-//    public static MyPlotPlugin PlotSquaredApiCheck() {
-//        try {
-//            Plugin plugin = Bukkit.getPluginManager().getPlugin("PlotSquared");
-//            if (plugin instanceof BukkitMain) {
-//                return (BukkitMain) plugin;
-//            } else {
-//                return null;
-//            }
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//            return null;
-//        }
-//    }
 
 }

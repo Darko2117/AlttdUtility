@@ -77,7 +77,7 @@ public class LoggingNoAPI implements Listener {
         String location = Logging.getBetterLocationString(event.getEgg().getLocation());
 
         String claimOwner = "";
-        if (APIs.GriefPreventionFound) {
+        if (APIs.isGriefPreventionFound()) {
             Claim claim = GriefPrevention.instance.dataStore.getClaimAt(event.getEgg().getLocation(), true, null);
             if (claim != null) claimOwner = claim.getOwnerName();
         }
@@ -392,7 +392,7 @@ public class LoggingNoAPI implements Listener {
         String location = Logging.getBetterLocationString(event.getVehicle().getLocation());
 
         String claimOwner = "";
-        if (APIs.GriefPreventionFound) {
+        if (APIs.isGriefPreventionFound()) {
             Claim claim = GriefPrevention.instance.dataStore.getClaimAt(event.getVehicle().getLocation(), true, null);
             if (claim != null) claimOwner = claim.getOwnerName();
         }
@@ -578,7 +578,7 @@ public class LoggingNoAPI implements Listener {
         String location = Logging.getBetterLocationString(event.getLocation());
 
         String claimOwner = "";
-        if (APIs.GriefPreventionFound) {
+        if (APIs.isGriefPreventionFound()) {
             Claim claim = GriefPrevention.instance.dataStore.getClaimAt(event.getLocation(), true, null);
             if (claim != null) claimOwner = claim.getOwnerName();
         }

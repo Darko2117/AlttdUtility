@@ -85,7 +85,7 @@ public class Cooldown implements CommandExecutor, TabCompleter {
             return;
         }
 
-        LuckPerms api = APIs.LuckPermsApiCheck();
+        LuckPerms api = APIs.getLuckPermsAPI();
         User user = api.getUserManager().getUser(player.getUniqueId());
 
         Integer seconds = null;

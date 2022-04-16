@@ -35,19 +35,19 @@ public class RebootWhitelist implements CommandExecutor, TabCompleter, Listener 
     }
 
     public static void disableAfterBoot() {
-
         new BukkitRunnable() {
             @Override
             public void run() {
+
                 if (enabled) {
                     enabled = false;
                     AlttdUtility.getInstance().getConfig().set("RebootWhitelist.Enabled", false);
                     AlttdUtility.getInstance().saveConfig();
                     AlttdUtility.getInstance().getLogger().info("RebootWhitelist disabled.");
                 }
-            }
-        }.runTaskLater(AlttdUtility.getInstance(), AlttdUtility.getInstance().getConfig().getInt("RebootWhitelist.DisableTimeAfterBoot") * 20);
 
+            }
+        }.runTaskLater(AlttdUtility.getInstance(), AlttdUtility.getInstance().getConfig().getInt("RebootWhitelist.DisableTimeAfterBoot") * 20L);
     }
 
     @Override

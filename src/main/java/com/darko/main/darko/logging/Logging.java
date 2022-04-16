@@ -49,84 +49,25 @@ public class Logging {
 
     public static final int defaultDaysOfLogsToKeep = 60;
 
-    static int cachedDayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+    private static int cachedDayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 
-    static ConcurrentLinkedQueue<Log> logQueue = new ConcurrentLinkedQueue<>();
-    static boolean isWritingLogs = false;
-    static boolean isCompressing = false;
+    private static final ConcurrentLinkedQueue<Log> logQueue = new ConcurrentLinkedQueue<>();
+
+    private static boolean isWritingLogs = false;
+    private static boolean isCompressing = false;
 
     private static final List<Log> cachedLogs = new ArrayList<>();
 
-    public static List<Log> getCachedLogs() {
-        return cachedLogs;
-    }
-
-    public static Log getCachedLogFromName(String logName) {
-        for (Log log : getCachedLogs()) {
-            if (log.getName().equals(logName)) {
-                return log;
-            }
-        }
-        return null;
-    }
-
-    public static void updateCachedLogsFromConfig() {
-
-        for (Log cachedLog : getCachedLogs()) {
-            cachedLog.setEnabled(AlttdUtility.getInstance().getConfig().getBoolean("Logging." + cachedLog.getName() + ".Enabled"));
-            cachedLog.setDaysOfLogsToKeep(AlttdUtility.getInstance().getConfig().getInt("Logging." + cachedLog.getName() + ".DaysOfLogsToKeep"));
-        }
-
-    }
-
     public static void initiate() {
-
-        cachedLogs.clear();
-        cachedLogs.add(new ClaimsCreatedLog());
-        cachedLogs.add(new ClaimsDeletedLog());
-        cachedLogs.add(new ClaimsExpiredLog());
-        cachedLogs.add(new ClaimsModifiedLog());
-        cachedLogs.add(new CommandsWithLocationLog());
-        cachedLogs.add(new CratePrizesLog());
-        cachedLogs.add(new DroppedItemsLog());
-        cachedLogs.add(new DroppedItemsOnDeathLog());
-        cachedLogs.add(new EggsThrownLog());
-        cachedLogs.add(new FarmLimiterLog());
-        cachedLogs.add(new ItemsBrokenLog());
-        cachedLogs.add(new ItemsDespawnedLog());
-        cachedLogs.add(new ItemsDestroyedLog());
-        cachedLogs.add(new ItemsPlacedInItemFramesLog());
-        cachedLogs.add(new ItemsTakenOutOfItemFramesLog());
-        cachedLogs.add(new LightningStrikesLog());
-        cachedLogs.add(new MCMMORepairUseLog());
-        cachedLogs.add(new MinecartsDestroyedLog());
-        cachedLogs.add(new MyPetItemPickupLog());
-        cachedLogs.add(new PickedUpItemsLog());
-        cachedLogs.add(new PlayerLocationLog());
-        cachedLogs.add(new TridentsLog());
-        cachedLogs.add(new UIClicksLog());
-        cachedLogs.add(new VillagerShopUILog());
-        cachedLogs.add(new SpawnLimiterLog());
-        cachedLogs.add(new NicknamesLog());
-        cachedLogs.add(new IllegalItemsLog());
 
         for (String directory : List.of("logs", "compressed-logs", "search-output", "temporary-files"))
             new File(AlttdUtility.getInstance().getDataFolder() + File.separator + directory).mkdir();
 
+        cacheDefaultLogs();
+
         createAllBlankLogFiles();
 
-        BukkitTasksCache.addTask(new BukkitRunnable() {
-            @Override
-            public void run() {
-
-                if (isCompressing) return;
-
-                isCompressing = true;
-                dateCheck();
-                isCompressing = false;
-
-            }
-        }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 0, 20));
+        startDateCheck();
 
         initializeLogWriting();
 
@@ -215,18 +156,34 @@ public class Logging {
 
     }
 
-    private static void dateCheck() {
+    private static void startDateCheck() {
+        BukkitTasksCache.addTask(new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
 
-        int dayNow = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+                    if (isCompressing) return;
 
-        if (cachedDayOfMonth == dayNow) return;
+                    int dayNow = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 
-        checkAndCompress();
-        checkAndDeleteOld();
-        createAllBlankLogFiles();
+                    if (cachedDayOfMonth == dayNow) return;
 
-        cachedDayOfMonth = dayNow;
+                    isCompressing = true;
 
+                    checkAndCompress();
+                    checkAndDeleteOld();
+                    createAllBlankLogFiles();
+
+                    cachedDayOfMonth = dayNow;
+
+                    isCompressing = false;
+
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                    isCompressing = false;
+                }
+            }
+        }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 0, 20));
     }
 
     public static String getBetterLocationString(Location location) {
@@ -285,6 +242,7 @@ public class Logging {
 
     }
 
+    //TODO: try making this not a task
     private static void initializeLogWriting() {
         BukkitTasksCache.addTask(new BukkitRunnable() {
             @Override
@@ -368,6 +326,64 @@ public class Logging {
         }
 
         return logNames;
+
+    }
+
+    public static List<Log> getCachedLogs() {
+
+        if (cachedLogs.isEmpty()) cacheDefaultLogs();
+
+        return cachedLogs;
+    }
+
+    public static void cacheDefaultLogs() {
+
+        cachedLogs.clear();
+        cachedLogs.add(new ClaimsCreatedLog());
+        cachedLogs.add(new ClaimsDeletedLog());
+        cachedLogs.add(new ClaimsExpiredLog());
+        cachedLogs.add(new ClaimsModifiedLog());
+        cachedLogs.add(new CommandsWithLocationLog());
+        cachedLogs.add(new CratePrizesLog());
+        cachedLogs.add(new DroppedItemsLog());
+        cachedLogs.add(new DroppedItemsOnDeathLog());
+        cachedLogs.add(new EggsThrownLog());
+        cachedLogs.add(new FarmLimiterLog());
+        cachedLogs.add(new ItemsBrokenLog());
+        cachedLogs.add(new ItemsDespawnedLog());
+        cachedLogs.add(new ItemsDestroyedLog());
+        cachedLogs.add(new ItemsPlacedInItemFramesLog());
+        cachedLogs.add(new ItemsTakenOutOfItemFramesLog());
+        cachedLogs.add(new LightningStrikesLog());
+        cachedLogs.add(new MCMMORepairUseLog());
+        cachedLogs.add(new MinecartsDestroyedLog());
+        cachedLogs.add(new MyPetItemPickupLog());
+        cachedLogs.add(new PickedUpItemsLog());
+        cachedLogs.add(new PlayerLocationLog());
+        cachedLogs.add(new TridentsLog());
+        cachedLogs.add(new UIClicksLog());
+        cachedLogs.add(new VillagerShopUILog());
+        cachedLogs.add(new SpawnLimiterLog());
+        cachedLogs.add(new NicknamesLog());
+        cachedLogs.add(new IllegalItemsLog());
+
+    }
+
+    public static Log getCachedLogFromName(String logName) {
+        for (Log log : getCachedLogs()) {
+            if (log.getName().equals(logName)) {
+                return log;
+            }
+        }
+        return null;
+    }
+
+    public static void updateCachedLogsFromConfig() {
+
+        for (Log cachedLog : getCachedLogs()) {
+            cachedLog.setEnabled(AlttdUtility.getInstance().getConfig().getBoolean("Logging." + cachedLog.getName() + ".Enabled"));
+            cachedLog.setDaysOfLogsToKeep(AlttdUtility.getInstance().getConfig().getInt("Logging." + cachedLog.getName() + ".DaysOfLogsToKeep"));
+        }
 
     }
 

@@ -67,7 +67,7 @@ public class PlayerList implements CommandExecutor, TabCompleter {
 
             }
 
-            LuckPerms api = APIs.LuckPermsApiCheck();
+            LuckPerms api = APIs.getLuckPermsAPI();
 
             for (Map.Entry<String, List<String>> entry : groupSectionsWithListsOfGroups.entrySet()) {
 
@@ -108,7 +108,7 @@ public class PlayerList implements CommandExecutor, TabCompleter {
 
                 String group = args[0];
 
-                LuckPerms api = APIs.LuckPermsApiCheck();
+                LuckPerms api = APIs.getLuckPermsAPI();
 
                 StringBuilder message = new StringBuilder();
 
@@ -183,7 +183,7 @@ public class PlayerList implements CommandExecutor, TabCompleter {
     private static Set<String> OnlineGroups() {
 
         Set<String> groups = new HashSet<>();
-        LuckPerms api = APIs.LuckPermsApiCheck();
+        LuckPerms api = APIs.getLuckPermsAPI();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
 

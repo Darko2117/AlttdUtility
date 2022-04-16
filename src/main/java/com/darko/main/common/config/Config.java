@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfigSetup {
+public class Config {
 
     private enum Messages {
 

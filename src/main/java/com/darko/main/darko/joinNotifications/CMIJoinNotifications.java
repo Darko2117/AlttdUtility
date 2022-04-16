@@ -17,7 +17,7 @@ public class CMIJoinNotifications implements Listener {
         Player player = event.getPlayer();
         if (!player.hasPermission("utility.canseejoinnotifications")) return;
 
-        CMI cmiAPI = APIs.CMIApiCheck();
+        CMI cmiAPI = APIs.getCMIAPI();
 
         String message = "";
 

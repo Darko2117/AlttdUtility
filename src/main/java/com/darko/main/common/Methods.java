@@ -23,10 +23,10 @@ public class Methods {
     }
 
     /*
-    * I don't remember exactly why I made this, but I'm pretty sure that in some cases where a value in the config is not set properly
-    * it can cause the whole config to reset to default. This tries loading it before the plugin itself does, if it fails it disables
-    * the plugin and stops it from resetting it.
-    * */
+     * I don't remember exactly why I made this, but I'm pretty sure that in some cases where a value in the config is not set properly
+     * it can cause the whole config to reset to default. This tries loading it before the plugin itself does, if it fails it disables
+     * the plugin and stops it from resetting it.
+     * */
     public void checkConfig() {
         try {
             AlttdUtility.getInstance().saveDefaultConfig();
@@ -34,6 +34,7 @@ public class Methods {
             AlttdUtility.getInstance().reloadConfig();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
+            AlttdUtility.getInstance().getLogger().warning("Plugin encountered an error while trying to load the config, disabling...");
             Bukkit.getPluginManager().disablePlugin(AlttdUtility.getInstance());
         }
     }

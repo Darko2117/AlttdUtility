@@ -23,7 +23,7 @@ public class WitherOutsideClaim implements Listener {
         if (!(event.getEntity().getType().equals(EntityType.WITHER_SKULL) || event.getEntity().getType().equals(EntityType.WITHER)))
             return;
 
-        if (APIs.GriefPreventionFound) {
+        if (APIs.isGriefPreventionFound()) {
 
             List<Block> blocksToNotBreak = new ArrayList<>();
 
@@ -48,7 +48,7 @@ public class WitherOutsideClaim implements Listener {
         if (!(event.getDamager().getType().equals(EntityType.WITHER_SKULL) || event.getDamager().getType().equals(EntityType.WITHER)))
             return;
 
-        if(APIs.GriefPreventionFound){
+        if(APIs.isGriefPreventionFound()){
             Claim claim = GriefPrevention.instance.dataStore.getClaimAt(event.getEntity().getLocation(), true, null);
             if (claim != null) {
                 return;
@@ -56,7 +56,7 @@ public class WitherOutsideClaim implements Listener {
         }
 
         if (!(event.getEntity().getType().equals(EntityType.PLAYER) || event.getEntity().getType().equals(EntityType.DROPPED_ITEM))) {
-            if (!APIs.MyPetFound) {
+            if (!APIs.isMyPetFound()) {
                 event.setCancelled(true);
                 return;
             }

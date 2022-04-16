@@ -29,7 +29,7 @@ public class LoggingFarmLimiter implements Listener {
             String location = Logging.getBetterLocationString(entityToRemove.getLocation());
 
             String claimOwner = "";
-            if (APIs.GriefPreventionFound) {
+            if (APIs.isGriefPreventionFound()) {
                 Claim claim = GriefPrevention.instance.dataStore.getClaimAt(entityToRemove.getLocation(), true, null);
                 if (claim != null) claimOwner = claim.getOwnerName();
             }

@@ -54,7 +54,7 @@ import com.darko.main.darko.prefixes.SetPrefix;
 import com.darko.main.darko.disablePvpOnLeave.DisablePvpOnLeave;
 import com.darko.main.darko.ravagerInClaim.RavagerInClaim;
 import com.darko.main.darko.rebootWhitelist.RebootWhitelist;
-import com.darko.main.darko.reload.ReloadCommand;
+import com.darko.main.darko.reloadCommand.ReloadCommand;
 import com.darko.main.darko.spawnLimiter.SpawnLimiterCheck;
 import com.darko.main.teri.CrazyCratesKeysLimiter.CrazyCratesKeysLimiter;
 import com.darko.main.teri.FreezeMail.FreezeMail;
@@ -113,6 +113,10 @@ public class Register extends JavaPlugin {
         if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit"))
             registerEvents(new Sit());
 
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.TPPunchCommand")) {
+            registerEvents(new TPPunch());
+        }
+
         if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CommandOnJoin"))
             registerEvents(new CommandOnJoin());
 
@@ -146,7 +150,7 @@ public class Register extends JavaPlugin {
             registerEvents(new Magnet());
         }
 
-        if (APIs.MyPetFound) {
+        if (APIs.isMyPetFound()) {
 
             registerEvents(new LoggingMyPet());
 
@@ -158,7 +162,7 @@ public class Register extends JavaPlugin {
 
         }
 
-        if (APIs.CrazyCratesFound) {
+        if (APIs.isCrazyCratesFound()) {
 
             registerEvents(new LoggingCrazyCrates());
 
@@ -167,7 +171,7 @@ public class Register extends JavaPlugin {
 
         }
 
-        if (APIs.GriefPreventionFound) {
+        if (APIs.isGriefPreventionFound()) {
 
             registerEvents(new LoggingGriefPrevention());
 
@@ -203,10 +207,6 @@ public class Register extends JavaPlugin {
                 registerEvents(new ChorusFruitInClaim());
             }
 
-            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.TPPunchCommand")) {
-                registerEvents(new TPPunch());
-            }
-
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockWitherBlockAndEntityDamageOutsideClaim")) {
                 registerEvents(new WitherOutsideClaim());
             }
@@ -221,7 +221,7 @@ public class Register extends JavaPlugin {
 
         }
 
-        if (APIs.WorldGuardFound) {
+        if (APIs.isWorldGuardFound()) {
 
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CustomWorldGuardFlags"))
                 registerEvents(new Flags());
@@ -232,13 +232,13 @@ public class Register extends JavaPlugin {
 
         }
 
-        if (APIs.FarmLimiterFound) {
+        if (APIs.isFarmLimiterFound()) {
 
             registerEvents(new LoggingFarmLimiter());
 
         }
 
-        if (APIs.PvPManagerFound) {
+        if (APIs.isPvPManagerFound()) {
 
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.PreventNoPvPFishing")) {
                 registerEvents(new PvPFishing());
@@ -249,7 +249,7 @@ public class Register extends JavaPlugin {
 
         }
 
-        if (APIs.CMIFound) {
+        if (APIs.isCMIFound()) {
 
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")) {
                 NicknamesEvents nicknamesEvents = new NicknamesEvents();
@@ -263,19 +263,11 @@ public class Register extends JavaPlugin {
 
         }
 
-        if (APIs.VillagerShopUIFound) {
+        if (APIs.isVillagerShopUIFound()) {
 
             registerEvents(new LoggingVillagerShopUI());
 
         }
-
-//        if (APIs.PlotSquaredFound) {
-//
-//            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.BlockChorusFruitArrowBreakingOnPlot")) {
-//                registerEvents(new ChorusFruitOnPlot());
-//            }
-//
-//        }
 
     }
 
@@ -320,31 +312,27 @@ public class Register extends JavaPlugin {
 
         AlttdUtility.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(AlttdUtility.getInstance(), "BungeeCord");
 
-        if (APIs.GriefPreventionFound) {
+        if (APIs.isGriefPreventionFound()) {
             AlttdUtility.getInstance().getCommand("claimpatrol").setExecutor(new ClaimPatrol());
             AlttdUtility.getInstance().getCommand("claimpatrol").setTabCompleter(new ClaimPatrol());
         }
 
-        APIs.LuckPermsFound = APIs.LuckPermsApiCheck() != null;
-        if (APIs.LuckPermsFound) {
+        APIs.connectLuckPermsAPI();
+        if (APIs.isLuckPermsFound()) {
             AlttdUtility.getInstance().getCommand("cooldown").setExecutor(new Cooldown());
             AlttdUtility.getInstance().getCommand("togglescruff").setExecutor(new ToggleScruff());
 
             AlttdUtility.getInstance().getCommand("cooldown").setTabCompleter(new Cooldown());
         }
 
-        if (APIs.LuckPermsFound) {
+        if (APIs.isLuckPermsFound()) {
             AlttdUtility.getInstance().getCommand("setprefix").setExecutor(new SetPrefix());
             AlttdUtility.getInstance().getCommand("removeprefix").setExecutor(new RemovePrefix());
         }
 
-        if (APIs.CMIFound) {
+        if (APIs.isCMIFound()) {
             AlttdUtility.getInstance().getCommand("nick").setExecutor(new Nicknames());
         }
-
-//        if (APIs.WorldGuardFound) {
-//            Flags.FlagsEnable();
-//        }
 
     }
 

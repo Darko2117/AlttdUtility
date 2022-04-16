@@ -169,7 +169,7 @@ public class LavaSponge implements Listener {
 
     Boolean claimCheck(Block block, Player player) {
 
-        if (!APIs.GriefPreventionFound) {
+        if (!APIs.isGriefPreventionFound()) {
             return true;
         }
 
@@ -183,7 +183,7 @@ public class LavaSponge implements Listener {
 
     Boolean regionCheck(Block block, Player player) {
 
-        if (!APIs.WorldGuardFound) {
+        if (!APIs.isWorldGuardFound()) {
             return true;
         }
 
