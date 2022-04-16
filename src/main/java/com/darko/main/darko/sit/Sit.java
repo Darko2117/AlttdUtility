@@ -57,6 +57,7 @@ public class Sit implements CommandExecutor, Listener {
         Block block = Bukkit.getWorld(player.getLocation().getWorld().getName()).getBlockAt(player.getLocation().subtract(0, 0.01, 0));
 
         if (!blockAboveCheck(player, block)) return true;
+        if (!blockBelowCheck(player, block)) return true;
         if (!onGroundCheck(player)) return true;
         if (!occupiedCheck(player)) return true;
         if (getSmallestNearCenterBlockHeight(block) == null) {
@@ -181,6 +182,19 @@ public class Sit implements CommandExecutor, Listener {
 
         if (!(blockAbove.getBlockData().getMaterial().isAir() || blockAbove.isLiquid())) {
             new Methods().sendConfigMessage(player, "Messages.SeatInvalidBlock");
+            return false;
+        }
+
+        return true;
+
+    }
+
+    boolean blockBelowCheck(Player player, Block block) {
+
+        Block blockBelow = block.getLocation().getWorld().getBlockAt(block.getLocation().subtract(0, 1, 0));
+
+        if (blockBelow.getBlockData().getMaterial().isAir()) {
+            new Methods().sendConfigMessage(player, "Messages.SeatInvalidBlockBelow");
             return false;
         }
 

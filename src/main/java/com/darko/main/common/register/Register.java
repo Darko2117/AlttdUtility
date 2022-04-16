@@ -317,7 +317,6 @@ public class Register extends JavaPlugin {
             AlttdUtility.getInstance().getCommand("claimpatrol").setTabCompleter(new ClaimPatrol());
         }
 
-        APIs.connectLuckPermsAPI();
         if (APIs.isLuckPermsFound()) {
             AlttdUtility.getInstance().getCommand("cooldown").setExecutor(new Cooldown());
             AlttdUtility.getInstance().getCommand("togglescruff").setExecutor(new ToggleScruff());

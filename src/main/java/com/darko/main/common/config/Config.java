@@ -47,6 +47,7 @@ public class Config {
         SitCommandNotOnGroundMessage("Messages.SitCommandNotOnGroundMessage", "&cYou must be standing on the ground to do this command."),
         SeatOccupiedMessage("Messages.SeatOccupiedMessage", "&cThat seat is occupied."),
         SeatInvalidBlock("Messages.SeatInvalidBlock", "&cYou can't sit on that block."),
+        SeatInvalidBlockBelow("Messages.SeatInvalidBlockBelow", "&cThe block under the one you're trying to sit on can't be air."),
         GriefPreventionNoBuildPermMessage("Messages.GriefPreventionNoBuildPermMessage", "&cYou don't have %player%'s permission to build here."),
         GriefPreventionThatBelongsToMessage("Messages.GriefPreventionThatBelongsToMessage", "&cThat belongs to %player%."),
         InvalidUsageCommandOnJoinMessage("Messages.InvalidUsageCommandOnJoinMessage", "&cUsage of this command is /commandonjoin <player> <command>."),

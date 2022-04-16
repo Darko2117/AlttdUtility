@@ -2,6 +2,7 @@ package com.darko.main.common.API;
 
 import com.Zrips.CMI.CMI;
 import com.alttd.VillagerUI;
+import com.comphenix.protocol.ProtocolLib;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.ConsoleColors;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -39,6 +40,9 @@ public class APIs extends JavaPlugin {
     private static boolean CMIFound = false;
     @Getter
     private static boolean villagerShopUIFound = false;
+
+    @Getter
+    private static boolean protocolLibFound = false;
 
     public static void connectGriefPreventionAPI() {
         griefPreventionFound = getGriefPreventionAPI() != null;
@@ -90,6 +94,11 @@ public class APIs extends JavaPlugin {
         sendFoundMessage("VillagerShopUI", villagerShopUIFound);
     }
 
+    public static void connectProtocolLibAPI() {
+        protocolLibFound = getProtocolLibAPI() != null;
+        sendFoundMessage("ProtocolLib", protocolLibFound);
+    }
+
     public static void APIConnect() {
 
         connectGriefPreventionAPI();
@@ -102,6 +111,7 @@ public class APIs extends JavaPlugin {
         connectPvPManagerAPI();
         connectCMIAPI();
         connectVillagerShopUIAPI();
+        connectProtocolLibAPI();
 
     }
 
@@ -245,6 +255,20 @@ public class APIs extends JavaPlugin {
             Plugin plugin = Bukkit.getPluginManager().getPlugin("VillagerShopUI");
             if (plugin instanceof VillagerUI) {
                 return (VillagerUI) plugin;
+            } else {
+                return null;
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ProtocolLib getProtocolLibAPI() {
+        try {
+            Plugin plugin = Bukkit.getPluginManager().getPlugin("ProtocolLib");
+            if (plugin instanceof ProtocolLib) {
+                return (ProtocolLib) plugin;
             } else {
                 return null;
             }
