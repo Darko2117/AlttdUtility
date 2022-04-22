@@ -489,22 +489,25 @@ public class Config {
         //TimedTips
 
         if (!config.contains("TimedTips.Delay")) {
-            config.set("TimedTips.Delay", 15);
+            config.set("TimedTips.Delay", 900);
             notFoundInConfigMessage("TimedTips.Delay");
         }
-        if (!config.contains("TimedTips.Messages")) {
+        if (!config.contains("TimedTips.Prefix")) {
+            config.set("TimedTips.Prefix", "&f====================");
+            notFoundInConfigMessage("TimedTips.Prefix");
+        }
+        if (!config.contains("TimedTips.Suffix")) {
+            config.set("TimedTips.Suffix", "&f====================");
+            notFoundInConfigMessage("TimedTips.Suffix");
+        }
+        if (!config.contains("TimedTips.Tips")) {
 
-            List<String> messages = new ArrayList<>();
-            String message = "";
+            List<String> tips = new ArrayList<>();
 
-            message = message.concat("&f====================\\n");
-            message = message.concat("&fThis is what a tip is supposed to look like!\\n");
-            message = message.concat("&f====================");
+            tips.add("This is what a tip is supposed to look like!");
 
-            messages.add(message);
-
-            config.set("TimedTips.Messages", messages);
-            notFoundInConfigMessage("TimedTips.Messages");
+            config.set("TimedTips.Tips", tips);
+            notFoundInConfigMessage("TimedTips.Tips");
         }
 
         // ----------------------------------------------------------------------------------------------------

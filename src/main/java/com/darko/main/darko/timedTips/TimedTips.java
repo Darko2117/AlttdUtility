@@ -9,38 +9,57 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class TimedTips {
 
-    static List<String> messages = new ArrayList<>();
-    static Integer delay = null;
+    private static final List<String> tips = new ArrayList<>();
+    private static int delay;
+    private static String prefix;
+    private static String suffix;
+    private static long lastSentTip;
 
     public static void initiate() {
 
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.TimedTips")) return;
 
-        messages = AlttdUtility.getInstance().getConfig().getStringList("TimedTips.Messages");
-        delay = AlttdUtility.getInstance().getConfig().getInt("TimedTips.Delay") * 20 * 60;
+        tips.clear();
+        delay = AlttdUtility.getInstance().getConfig().getInt("TimedTips.Delay") * 1000;
+        prefix = AlttdUtility.getInstance().getConfig().getString("TimedTips.Prefix");
+        suffix = AlttdUtility.getInstance().getConfig().getString("TimedTips.Suffix");
+        lastSentTip = System.currentTimeMillis();
 
         BukkitTasksCache.addTask(new BukkitRunnable() {
             @Override
             public void run() {
 
-                String message = ChatColor.translateAlternateColorCodes('&', messages.get(new Random().nextInt(messages.size())).replace("\\n", "\n"));
+                if (System.currentTimeMillis() < lastSentTip + delay) return;
 
-//                for (String message1 : message.split("\\n"))
-//                    AlttdUtility.getInstance().getLogger().info(message1);
+                if (tips.isEmpty()) tips.addAll(AlttdUtility.getInstance().getConfig().getStringList("TimedTips.Tips"));
+
+                int tipIndex = ThreadLocalRandom.current().nextInt(tips.size());
+
+                String tip = prefix;
+                tip = tip.concat("\n&f");
+                tip = tip.concat(tips.get(tipIndex));
+                tip = tip.concat("\n");
+                tip = tip.concat(suffix);
+                tip = ChatColor.translateAlternateColorCodes('&', tip);
+                tip = tip.replace("\\n", "\n");
+
+                tips.remove(tipIndex);
 
                 for (Player player : Bukkit.getOnlinePlayers()) {
 
                     if (!player.hasPermission("utility.seetimedtips")) continue;
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+                    player.sendMessage(tip);
 
                 }
 
+                lastSentTip = System.currentTimeMillis();
+
             }
-        }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), delay, delay));
+        }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 20, 20));
 
     }
 
