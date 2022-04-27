@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -90,6 +91,36 @@ public class GodMode implements CommandExecutor, Listener {
         event.setCancelled(true);
         player.setSaturation(20);
         player.setFoodLevel(20);
+
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onEntityDamageEvent(EntityDamageEvent event) {
+
+        if (Database.connection == null) return;
+
+        if (!(event.getEntity() instanceof Player player)) return;
+
+        if (!enabledPlayers.contains(player)) return;
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+
+                double health = player.getHealth();
+
+                if (health > 19 && health < 20) {
+                    health = 20;
+                } else if (health <= 19) {
+                    health++;
+                } else {
+                    this.cancel();
+                }
+
+                player.setHealth(health);
+
+            }
+        }.runTaskTimer(AlttdUtility.getInstance(), 5, 5);
 
     }
 
