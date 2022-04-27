@@ -120,7 +120,7 @@ public class GodMode implements CommandExecutor, Listener {
                 player.setHealth(health);
 
             }
-        }.runTaskTimer(AlttdUtility.getInstance(), 5, 5);
+        }.runTaskTimer(AlttdUtility.getInstance(), 2, 2);
 
     }
 
