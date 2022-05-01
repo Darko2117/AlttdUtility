@@ -13,12 +13,11 @@ import java.util.List;
 
 public class BlockBlockPlace implements Listener {
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    public void onBlockPlace(BlockPlaceEvent event) {
+    private static final List<Material> blockedMaterials = new ArrayList<>();
 
-        if (event.getPlayer().hasPermission("utility.blockedblocksbypass")) return;
+    public static void initiate() {
 
-        List<Material> blockedMaterials = new ArrayList<>();
+        blockedMaterials.clear();
 
         for (String material : AlttdUtility.getInstance().getConfig().getStringList("BlockBlockPlace.BlockedBlocks")) {
             try {
@@ -27,6 +26,13 @@ public class BlockBlockPlace implements Listener {
                 throwable.printStackTrace();
             }
         }
+
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onBlockPlace(BlockPlaceEvent event) {
+
+        if (event.getPlayer().hasPermission("utility.blockedblocksbypass")) return;
 
         if (blockedMaterials.contains(event.getBlockPlaced().getType())) {
             event.setCancelled(true);

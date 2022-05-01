@@ -7,6 +7,7 @@ import com.darko.main.common.config.Config;
 import com.darko.main.common.database.Database;
 import com.darko.main.common.register.Register;
 import com.darko.main.darko.aprilfools.AprilFools;
+import com.darko.main.darko.blockBlockPlace.BlockBlockPlace;
 import com.darko.main.darko.illegalItemCheck.IllegalItemCheck;
 import com.darko.main.darko.logging.Logging;
 import com.darko.main.darko.magnet.Magnet;
@@ -56,6 +57,8 @@ public class Reload {
         TimedTips.initiate(); //Reads from the config, needs to be after Config.configSetup()
 
         IllegalItemCheck.loadIllegalItems(); //Reads from the config, needs to be after Config.configSetup()
+
+        BlockBlockPlace.initiate(); //Reads from the config, needs to be after Config.configSetup()
 
         Magnet.initiate();
 
