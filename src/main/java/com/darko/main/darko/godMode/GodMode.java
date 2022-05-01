@@ -25,6 +25,7 @@ import java.util.List;
 public class GodMode implements CommandExecutor, Listener {
 
     private static final List<Player> enabledPlayers = new ArrayList<>();
+    private static final List<Player> healingPlayers = new ArrayList<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -103,6 +104,8 @@ public class GodMode implements CommandExecutor, Listener {
 
         if (!enabledPlayers.contains(player)) return;
 
+        if (healingPlayers.contains(player)) return;
+
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -113,11 +116,16 @@ public class GodMode implements CommandExecutor, Listener {
                     health = 20;
                 } else if (health <= 19) {
                     health++;
-                } else {
-                    this.cancel();
                 }
 
                 player.setHealth(health);
+
+                if (health >= 20) {
+                    healingPlayers.remove(player);
+                    this.cancel();
+                } else if (!healingPlayers.contains(player)) {
+                    healingPlayers.add(player);
+                }
 
             }
         }.runTaskTimer(AlttdUtility.getInstance(), 2, 2);
