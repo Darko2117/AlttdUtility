@@ -4,6 +4,7 @@ import com.darko.main.AlttdUtility;
 import com.darko.main.common.API.APIs;
 import com.darko.main.common.BukkitTasksCache;
 import com.darko.main.darko.logging.Logging;
+import com.darko.main.darko.logging.logs.ChatWithLocationLog;
 import com.darko.main.darko.logging.logs.CommandsWithLocationLog;
 import com.darko.main.darko.logging.logs.DroppedItemsLog;
 import com.darko.main.darko.logging.logs.DroppedItemsOnDeathLog;
@@ -24,6 +25,7 @@ import com.darko.main.darko.logging.logs.SpawnLimiterLog;
 import com.darko.main.darko.logging.logs.TridentsLog;
 import com.darko.main.darko.logging.logs.UIClicksLog;
 import com.darko.main.teri.Nicknames.NickEvent;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.Bukkit;
@@ -642,6 +644,32 @@ public class LoggingNoAPI implements Listener {
         log.addArgumentValue(replacedWithItemString);
         log.addArgumentValue(location);
         log.addArgumentValue(eventName);
+
+        Logging.addToLogWriteQueue(log);
+
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onAsyncChatEvent(AsyncChatEvent event) {
+
+        if (!Logging.getCachedLogFromName("ChatWithLocationLog").isEnabled()) return;
+
+        String time = new Date(System.currentTimeMillis()).toString();
+
+        String user = event.getPlayer().getName();
+
+        String message = event.message().toString();
+
+        String originalMessage = event.originalMessage().toString();
+
+        String location = Logging.getBetterLocationString(event.getPlayer().getLocation());
+
+        ChatWithLocationLog log = new ChatWithLocationLog();
+        log.addArgumentValue(time);
+        log.addArgumentValue(user);
+        log.addArgumentValue(message);
+        log.addArgumentValue(originalMessage);
+        log.addArgumentValue(location);
 
         Logging.addToLogWriteQueue(log);
 

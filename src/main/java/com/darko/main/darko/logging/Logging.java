@@ -4,6 +4,7 @@ import com.darko.main.AlttdUtility;
 import com.darko.main.common.BukkitTasksCache;
 import com.darko.main.common.Methods;
 import com.darko.main.darko.logging.listeners.LoggingNoAPI;
+import com.darko.main.darko.logging.logs.ChatWithLocationLog;
 import com.darko.main.darko.logging.logs.ClaimsCreatedLog;
 import com.darko.main.darko.logging.logs.ClaimsDeletedLog;
 import com.darko.main.darko.logging.logs.ClaimsExpiredLog;
@@ -366,6 +367,7 @@ public class Logging {
         cachedLogs.add(new SpawnLimiterLog());
         cachedLogs.add(new NicknamesLog());
         cachedLogs.add(new IllegalItemsLog());
+        cachedLogs.add(new ChatWithLocationLog());
 
     }
 
