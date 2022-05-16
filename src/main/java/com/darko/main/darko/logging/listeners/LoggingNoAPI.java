@@ -28,6 +28,8 @@ import com.darko.main.teri.Nicknames.NickEvent;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -658,17 +660,25 @@ public class LoggingNoAPI implements Listener {
 
         String user = event.getPlayer().getName();
 
-        String message = event.message().toString();
+        Component message = event.message();
+        String messageString;
+        boolean messageIsJustContent = false;
+        if (message instanceof TextComponent && !message.hasStyling() && message.children().isEmpty()) {
+            messageString = ((TextComponent) message).content();
+            messageIsJustContent = true;
+        } else {
+            messageString = message.toString();
+        }
 
-        String originalMessage = event.originalMessage().toString();
+        String originalMessageString = messageIsJustContent ? "" : event.originalMessage().toString();
 
         String location = Logging.getBetterLocationString(event.getPlayer().getLocation());
 
         ChatWithLocationLog log = new ChatWithLocationLog();
         log.addArgumentValue(time);
         log.addArgumentValue(user);
-        log.addArgumentValue(message);
-        log.addArgumentValue(originalMessage);
+        log.addArgumentValue(messageString);
+        log.addArgumentValue(originalMessageString);
         log.addArgumentValue(location);
 
         Logging.addToLogWriteQueue(log);

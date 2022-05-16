@@ -53,6 +53,7 @@ public class Log {
     }
 
     public void addArgumentValue(String argumentValue) {
+        if(argumentValue.isEmpty()) argumentValue = "-";
         for (Map.Entry<String, String> entry : arguments.entrySet()) {
             if (!entry.getValue().isEmpty()) continue;
             entry.setValue(argumentValue);
