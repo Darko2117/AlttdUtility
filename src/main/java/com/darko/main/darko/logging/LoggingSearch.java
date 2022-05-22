@@ -556,12 +556,12 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             FileWriter writer = new FileWriter(outputFile, true);
             writer.write("");
 
-            //Caching the first argument's value so that it can be used to optimize the search
-            String firstArgumentValue = null;
-            if (!arguments.isEmpty()) {
-                Map.Entry<String, String> entry = arguments.entrySet().iterator().next();
-                firstArgumentValue = entry.getValue();
-            }
+//            //Caching the first argument's value so that it can be used to optimize the search
+//            String firstArgumentValue = null;
+//            if (!arguments.isEmpty()) {
+//                Map.Entry<String, String> entry = arguments.entrySet().iterator().next();
+//                firstArgumentValue = entry.getValue();
+//            }
 
             for (File f : filesToRead) {
                 try {
@@ -584,10 +584,10 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
                             String lineCopy = line;
 
-                            if (firstArgumentValue != null) {
-                                if (!lineCopy.toLowerCase().contains(firstArgumentValue.toLowerCase()))
-                                    continue lineReader;
-                            }
+//                            if (firstArgumentValue != null) {
+//                                if (!lineCopy.toLowerCase().matches("(.*)" + firstArgumentValue.toLowerCase() + "(.*)"))
+//                                    continue lineReader;
+//                            }
 
                             if (!lineCopy.startsWith("|") || !lineCopy.endsWith("|"))
                                 continue lineReader;
@@ -615,7 +615,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                                     if (!lineArguments.containsKey(inputArguments.getKey()))
                                         continue lineReader;
 
-                                    if (!lineArguments.get(inputArguments.getKey()).toLowerCase().contains(inputArguments.getValue().toLowerCase()))
+                                    if (!lineArguments.get(inputArguments.getKey()).toLowerCase().matches("(.*)" + inputArguments.getValue().toLowerCase() + "(.*)"))
                                         continue lineReader;
 
                                 }
