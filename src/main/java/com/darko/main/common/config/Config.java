@@ -117,7 +117,10 @@ public class Config {
         SaveItemEmptyHand("Messages.SaveItemEmptyHand", "&cYou need to hold an item in your main hand to save it."),
         SaveItemSaved("Messages.SaveItemSaved", "&aItem saved with the ID: %ID%"),
         MagnetEnabled("Messages.MagnetEnabled", "&aMagnet enabled"),
-        MagnetDisabled("Messages.MagnetDisabled", "&cMagnet disabled");
+        MagnetDisabled("Messages.MagnetDisabled", "&cMagnet disabled"),
+        InvalidUsageFindItemCommand("Messages.InvalidUsageFindItemCommand", "&cUsage of this command is /finditem <item>."),
+        FindItemCommandInvalidItem("Messages.FindItemCommandInvalidItem", "&cInvalid item."),
+        FindItemCommandOnCooldown("Messages.FindItemCommandOnCooldown", "&cThat command is on a cooldown for %seconds% seconds.");
 
         private final String path;
         private final String message;
@@ -199,6 +202,7 @@ public class Config {
         toggles.add("ViewSavedItemsCommand");
         toggles.add("MagnetCommand");
         toggles.add("PreventChannelingWhenPvPOff");
+        toggles.add("FindItemCommand");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
@@ -614,6 +618,17 @@ public class Config {
 
             config.createSection("SavedItems");
 
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
+        //FindItem
+
+        if (!config.contains("FindItem.Radius")) {
+            config.set("FindItem.Radius", 10);
+        }
+        if (!config.contains("FindItem.Cooldown")) {
+            config.set("FindItem.Cooldown", 15);
         }
 
         // ----------------------------------------------------------------------------------------------------

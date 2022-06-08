@@ -68,3 +68,5 @@ commands:
     permission: utility.viewsaveditems
   magnet:
     permission: utility.magnet
+  finditem:
+    permission: utility.finditem

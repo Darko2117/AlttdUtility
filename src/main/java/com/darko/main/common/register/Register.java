@@ -7,6 +7,7 @@ import com.darko.main.darko.chorusFruitInClaim.ChorusFruitInClaim;
 //import com.darko.main.darko.chorusFruitOnPlot.ChorusFruitOnPlot;
 import com.darko.main.darko.claimPatrol.ClaimPatrol;
 import com.darko.main.darko.eggThrowingInClaims.EggThrowingInClaims;
+import com.darko.main.darko.finditem.FindItem;
 import com.darko.main.darko.illegalItemCheck.IllegalItemCheck;
 import com.darko.main.darko.invisibleItemFrame.InvisibleItemFrame;
 import com.darko.main.darko.invsaveOnPlayerQuit.InvsaveOnPlayerQuit;
@@ -308,6 +309,7 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("saveitem").setExecutor(new SaveItem());
         AlttdUtility.getInstance().getCommand("viewsaveditems").setExecutor(new ViewSavedItems());
         AlttdUtility.getInstance().getCommand("magnet").setExecutor(new Magnet());
+        AlttdUtility.getInstance().getCommand("finditem").setExecutor(new FindItem());
 
         AlttdUtility.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         AlttdUtility.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());
@@ -315,6 +317,7 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("commandonjoin").setTabCompleter(new CommandOnJoin());
         AlttdUtility.getInstance().getCommand("ccm").setTabCompleter(new CustomCommandMacroCommand());
         AlttdUtility.getInstance().getCommand("tppunch").setTabCompleter(new TPPunch());
+        AlttdUtility.getInstance().getCommand("finditem").setTabCompleter(new FindItem());
 
         AlttdUtility.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(AlttdUtility.getInstance(), "BungeeCord");
 
