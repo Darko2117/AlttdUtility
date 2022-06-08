@@ -221,12 +221,11 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
         for (Chunk chunk : chunks) {
             for (BlockState blockState : chunk.getTileEntities()) {
-                if (blockState instanceof Container container)
-                    containers.add(container);
+                if (!(blockState instanceof Container container)) continue;
+                if (container.getBlock().getLocation().toCenterLocation().distance(location) > radius) continue;
+                containers.add(container);
             }
         }
-
-        containers.removeAll(containers.stream().filter(tooFar -> tooFar.getBlock().getLocation().toCenterLocation().distance(location) > radius).toList());
 
         return containers;
 
