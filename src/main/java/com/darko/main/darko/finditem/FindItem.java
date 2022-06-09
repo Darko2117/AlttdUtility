@@ -4,13 +4,11 @@ import com.darko.main.AlttdUtility;
 import com.darko.main.common.Methods;
 import com.destroystokyo.paper.ParticleBuilder;
 import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.Container;
 import org.bukkit.block.ShulkerBox;
 import org.bukkit.command.Command;
@@ -92,22 +90,48 @@ public class FindItem implements CommandExecutor, TabCompleter {
             }
 
             Location playerEyeLocation = player.getEyeLocation();
+
             Location centerOfBlockLocation = container.getBlock().getLocation().toCenterLocation();
 
-            Vector rayTraceDirection = centerOfBlockLocation.toVector().subtract(playerEyeLocation.toVector());
+            Location[] sidesAndCornersOfBlock = new Location[14];
+            sidesAndCornersOfBlock[0] = centerOfBlockLocation.clone().add(0.5, 0.5, 0.5);
+            sidesAndCornersOfBlock[1] = centerOfBlockLocation.clone().add(0.5, 0.5, -0.5);
+            sidesAndCornersOfBlock[2] = centerOfBlockLocation.clone().add(-0.5, 0.5, 0.5);
+            sidesAndCornersOfBlock[3] = centerOfBlockLocation.clone().add(-0.5, 0.5, -0.5);
+            sidesAndCornersOfBlock[4] = centerOfBlockLocation.clone().add(0.5, -0.5, 0.5);
+            sidesAndCornersOfBlock[5] = centerOfBlockLocation.clone().add(0.5, -0.5, -0.5);
+            sidesAndCornersOfBlock[6] = centerOfBlockLocation.clone().add(-0.5, -0.5, 0.5);
+            sidesAndCornersOfBlock[7] = centerOfBlockLocation.clone().add(-0.5, -0.5, -0.5);
+            sidesAndCornersOfBlock[8] = centerOfBlockLocation.clone().add(0, -0.5, 0);
+            sidesAndCornersOfBlock[9] = centerOfBlockLocation.clone().add(0, 0.5, 0);
+            sidesAndCornersOfBlock[10] = centerOfBlockLocation.clone().add(0.5, 0, 0);
+            sidesAndCornersOfBlock[11] = centerOfBlockLocation.clone().add(-0.5, 0, 0);
+            sidesAndCornersOfBlock[12] = centerOfBlockLocation.clone().add(0, 0, 0.5);
+            sidesAndCornersOfBlock[13] = centerOfBlockLocation.clone().add(0, 0, -0.5);
 
-            RayTraceResult rayTraceResult = playerEyeLocation.getWorld().rayTraceBlocks(playerEyeLocation, rayTraceDirection, radius);
-            if (rayTraceResult != null && !rayTraceResult.getHitBlock().equals(container.getBlock()))
-                continue containerLoop;
+            boolean blockHit = false;
+            for (Location location : sidesAndCornersOfBlock) {
+
+                Vector rayTraceDirection = location.toVector().subtract(playerEyeLocation.toVector());
+
+                RayTraceResult rayTraceResult = playerEyeLocation.getWorld().rayTraceBlocks(playerEyeLocation, rayTraceDirection, radius);
+
+                if (rayTraceResult == null || rayTraceResult.getHitBlock().equals(container.getBlock())) {
+                    blockHit = true;
+                    break;
+                }
+
+            }
+            if (!blockHit) continue containerLoop;
 
             for (ItemStack itemStack : container.getInventory()) {
 
                 if (itemStack == null) continue;
 
                 if (itemStack.getItemMeta() instanceof BlockStateMeta blockStateMeta && blockStateMeta.getBlockState() instanceof ShulkerBox shulkerBox) {
-                    for (ItemStack itemStack1 : shulkerBox.getInventory()) {
-                        if (itemStack1 == null) continue;
-                        if (itemStack1.getType().equals(searchedItem)) {
+                    for (ItemStack itemStackInShulker : shulkerBox.getInventory()) {
+                        if (itemStackInShulker == null) continue;
+                        if (itemStackInShulker.getType().equals(searchedItem)) {
                             blocksContaining.add(container.getBlock());
                             continue containerLoop;
                         }
@@ -196,34 +220,22 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
     private List<Container> getContainers(Location location, int radius) {
 
-        int xMin = location.getBlockX() - radius, zMin = location.getBlockZ() - radius;
-        int xMax = location.getBlockX() + radius, zMax = location.getBlockZ() + radius;
-
-        List<Chunk> chunks = new ArrayList<>();
-
-        for (int x = xMin; x <= xMax; x++) {
-            for (int z = zMin; z <= zMax; z++) {
-
-                Location location1 = location.clone();
-                location1.setX(x);
-                location1.setZ(z);
-
-                Chunk chunk = location1.getWorld().getChunkAt(location1);
-
-                if (chunks.stream().noneMatch(key -> key.getChunkKey() == chunk.getChunkKey())) {
-                    chunks.add(chunk);
-                }
-
-            }
-        }
+        int xMin = location.getBlockX() - radius, yMin = location.getBlockY() - radius, zMin = location.getBlockZ() - radius;
+        int xMax = location.getBlockX() + radius, yMax = location.getBlockY() + radius, zMax = location.getBlockZ() + radius;
 
         List<Container> containers = new ArrayList<>();
 
-        for (Chunk chunk : chunks) {
-            for (BlockState blockState : chunk.getTileEntities()) {
-                if (!(blockState instanceof Container container)) continue;
-                if (container.getBlock().getLocation().toCenterLocation().distance(location) > radius) continue;
-                containers.add(container);
+        for (int x = xMin; x <= xMax; x++) {
+            for (int y = yMin; y <= yMax; y++) {
+                for (int z = zMin; z <= zMax; z++) {
+
+                    Block block = location.getWorld().getBlockAt(x, y, z);
+
+                    if (!(block.getState() instanceof Container container)) continue;
+
+                    containers.add(container);
+
+                }
             }
         }
 
