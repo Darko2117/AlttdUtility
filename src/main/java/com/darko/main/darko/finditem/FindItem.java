@@ -144,9 +144,11 @@ public class FindItem implements CommandExecutor, TabCompleter {
                 }
 
             }
+
         }
 
-        player.sendMessage(ChatColor.YELLOW + "Found " + ChatColor.GOLD + blocksContaining.size() + ChatColor.YELLOW + " containers containing " + ChatColor.GOLD + strings[0] + ChatColor.YELLOW + " in a radius of " + ChatColor.GOLD + radius + ChatColor.YELLOW + " blocks.");
+        String containerOrContainers = (blocksContaining.size() == 1) ? "container" : "containers";
+        player.sendMessage(ChatColor.YELLOW + "Found " + ChatColor.GOLD + blocksContaining.size() + ChatColor.YELLOW + " " + containerOrContainers + " containing " + ChatColor.GOLD + strings[0] + ChatColor.YELLOW + " in a radius of " + ChatColor.GOLD + radius + ChatColor.YELLOW + " blocks.");
 
         ParticleBuilder particleBuilder = new ParticleBuilder(Particle.REDSTONE);
         particleBuilder.color(255, 255, 255);
