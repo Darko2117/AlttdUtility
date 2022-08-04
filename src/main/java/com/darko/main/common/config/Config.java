@@ -203,6 +203,8 @@ public class Config {
         toggles.add("MagnetCommand");
         toggles.add("PreventChannelingWhenPvPOff");
         toggles.add("FindItemCommand");
+        toggles.add("DatabaseVillagerShopLog");
+        //toggles.add("DatabaseMoneyLog");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {

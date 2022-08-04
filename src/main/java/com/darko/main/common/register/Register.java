@@ -6,6 +6,7 @@ import com.darko.main.darko.blockBlockPlace.BlockBlockPlace;
 import com.darko.main.darko.chorusFruitInClaim.ChorusFruitInClaim;
 //import com.darko.main.darko.chorusFruitOnPlot.ChorusFruitOnPlot;
 import com.darko.main.darko.claimPatrol.ClaimPatrol;
+import com.darko.main.darko.databaseLogs.DatabaseMoneyLog;
 import com.darko.main.darko.eggThrowingInClaims.EggThrowingInClaims;
 import com.darko.main.darko.finditem.FindItem;
 import com.darko.main.darko.illegalItemCheck.IllegalItemCheck;
@@ -268,11 +269,19 @@ public class Register extends JavaPlugin {
                 registerEvents(new CMIJoinNotifications());
             }
 
+//            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.DatabaseMoneyLog")) {
+//                registerEvents(new DatabaseMoneyLog());
+//            }
+
         }
 
         if (APIs.isVillagerShopUIFound()) {
 
             registerEvents(new LoggingVillagerShopUI());
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.DatabaseVillagerShopLog")) {
+                registerEvents(new DatabaseMoneyLog());
+            }
 
         }
 
