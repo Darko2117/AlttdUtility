@@ -209,6 +209,7 @@ public class BalStatsCommand implements CommandExecutor {
 
         // Sort the list
         list.sort(Map.Entry.comparingByValue());
+        Collections.reverse(list);
 
         // put data from sorted list to hashmap
         HashMap<Material, Double> temp = new LinkedHashMap<>();
