@@ -2,11 +2,12 @@ package com.darko.main.common.register;
 
 
 import com.darko.main.common.API.APIs;
+import com.darko.main.darko.balanceStats.balStats.BalStatsCommand;
 import com.darko.main.darko.blockBlockPlace.BlockBlockPlace;
 import com.darko.main.darko.chorusFruitInClaim.ChorusFruitInClaim;
 //import com.darko.main.darko.chorusFruitOnPlot.ChorusFruitOnPlot;
 import com.darko.main.darko.claimPatrol.ClaimPatrol;
-import com.darko.main.darko.databaseLogs.DatabaseVillagerShopLog;
+import com.darko.main.darko.balanceStats.databaseLogs.DatabaseVillagerShopLog;
 import com.darko.main.darko.eggThrowingInClaims.EggThrowingInClaims;
 import com.darko.main.darko.finditem.FindItem;
 import com.darko.main.darko.illegalItemCheck.IllegalItemCheck;
@@ -319,6 +320,7 @@ public class Register extends JavaPlugin {
         AlttdUtility.getInstance().getCommand("viewsaveditems").setExecutor(new ViewSavedItems());
         AlttdUtility.getInstance().getCommand("magnet").setExecutor(new Magnet());
         AlttdUtility.getInstance().getCommand("finditem").setExecutor(new FindItem());
+        AlttdUtility.getInstance().getCommand("balstats").setExecutor(new BalStatsCommand());
 
         AlttdUtility.getInstance().getCommand("list").setTabCompleter(new PlayerList());
         AlttdUtility.getInstance().getCommand("searchlogs").setTabCompleter(new LoggingSearch());

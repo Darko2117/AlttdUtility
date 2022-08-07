@@ -337,7 +337,6 @@ public class Database implements Listener {
         columns.add("ALTER TABLE villager_shop_log ADD item TEXT NOT NULL");
         columns.add("ALTER TABLE villager_shop_log ADD item_amount INT NOT NULL");
         columns.add("ALTER TABLE villager_shop_log ADD balance_change DOUBLE NOT NULL");
-        columns.add("ALTER TABLE villager_shop_log ADD type TEXT NOT NULL");
         columns.add("ALTER TABLE villager_shop_log ADD time BIGINT NOT NULL");
         for (String string : columns) {
             try {

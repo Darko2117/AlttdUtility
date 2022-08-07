@@ -1,4 +1,4 @@
-package com.darko.main.darko.databaseLogs;
+package com.darko.main.darko.balanceStats.databaseLogs;
 
 import com.Zrips.CMI.events.CMIUserBalanceChangeEvent;
 import com.darko.main.AlttdUtility;

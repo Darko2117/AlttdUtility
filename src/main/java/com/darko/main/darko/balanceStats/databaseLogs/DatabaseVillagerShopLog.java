@@ -1,4 +1,4 @@
-package com.darko.main.darko.databaseLogs;
+package com.darko.main.darko.balanceStats.databaseLogs;
 
 import com.alttd.events.SpawnShopEvent;
 import com.darko.main.AlttdUtility;
@@ -22,26 +22,19 @@ public class DatabaseVillagerShopLog implements Listener {
         String item = spawnShopEvent.item().toString();
 
         int itemAmount = spawnShopEvent.amount();
+        if (itemAmount == 0) return;
 
         double balanceChange = spawnShopEvent.price();
         if (spawnShopEvent.buy()) balanceChange *= -1;
 
-        String type;
-        if (spawnShopEvent.buy()) {
-            type = "Buy";
-        } else {
-            type = "Sell";
-        }
-
         long time = System.currentTimeMillis();
 
-        String statement = "INSERT INTO villager_shop_log(user_UUID, user_username, item, item_amount, balance_change, type, time) VALUES("
+        String statement = "INSERT INTO villager_shop_log(user_UUID, user_username, item, item_amount, balance_change, time) VALUES("
                 + "'" + userUUID + "', "
                 + "'" + userUsername + "', "
                 + "'" + item + "', "
                 + itemAmount + ", "
                 + balanceChange + ", "
-                + "'" + type + "', "
                 + time + ");";
 
         new BukkitRunnable() {

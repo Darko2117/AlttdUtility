@@ -205,6 +205,7 @@ public class Config {
         toggles.add("FindItemCommand");
         toggles.add("DatabaseVillagerShopLog");
         //toggles.add("DatabaseMoneyLog");
+        toggles.add("BalStatsCommand");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
