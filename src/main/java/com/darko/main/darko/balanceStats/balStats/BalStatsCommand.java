@@ -43,7 +43,7 @@ public class BalStatsCommand implements CommandExecutor {
                     else if (numberOfDays > 60) numberOfDays = 60;
 
                     //1 day = 86400000 ms
-                    long earliestAllowedTimestamp = System.currentTimeMillis() - (numberOfDays * 86400000L);
+                    long earliestAllowedTimestamp = System.currentTimeMillis() - ((numberOfDays + 1) * 86400000L);
 
                     String statement = "SELECT * FROM villager_shop_log WHERE user_UUID = '" + player.getUniqueId() + "' AND time >= " + earliestAllowedTimestamp;
                     ResultSet resultSet = Database.connection.prepareStatement(statement).executeQuery();
