@@ -39,6 +39,7 @@ public class BalStatsCommand implements CommandExecutor {
 
                     int numberOfDays = 7;
                     if (strings.length != 0) numberOfDays = Integer.parseInt(strings[0]);
+                    if (numberOfDays > 60) numberOfDays = 60;
 
                     //1 day = 86400000 ms
                     long earliestAllowedTimestamp = System.currentTimeMillis() - (numberOfDays * 86400000L);
