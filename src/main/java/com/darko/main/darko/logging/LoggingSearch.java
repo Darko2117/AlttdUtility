@@ -3,6 +3,8 @@ package com.darko.main.darko.logging;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.Methods;
 import com.darko.main.darko.logging.logs.Log;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -234,6 +236,9 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             }
             double searchPercentage = 0;
 
+            String hoverText = "";
+            int hoverTextLines = 0;
+
             //Searching through the files for the arguments.
             File outputFile = new File(outputFilePath);
             FileWriter writer = new FileWriter(outputFile, true);
@@ -268,6 +273,15 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
                         //Writes only those lines which contain the provided search string, it skips over the rest.
                         writer.write(f.getName() + ":" + line + "\n");
+
+                        if (hoverTextLines < 50) {
+                            if (line.length() > 80) {
+                                hoverText += line.substring(0, 80) + "...\n";
+                            } else {
+                                hoverText += line + "\n";
+                            }
+                            hoverTextLines++;
+                        }
 
                     }
 
@@ -308,23 +322,20 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 sender.sendMessage(ChatColor.RED + "The results file is empty, not sending it.");
             }
 
-            long endingTime = System.currentTimeMillis();
-            long totalTime = endingTime - startingTime;
-            int seconds = 0;
-            while (totalTime >= 1000) {
-                seconds += 1;
-                totalTime -= 1000;
-            }
+            long totalTime = System.currentTimeMillis() - startingTime;
 
-            double totalFileSize = 0d;
-            for (File file : filesToRead)
-                totalFileSize += file.length();
-            totalFileSize /= 1000000;
+            double resultFileSize = outputFile.length() / 1000000d;
 
             clearTemporaryFiles();
 
-            sender.sendMessage(ChatColor.GREEN + "Search completed, took " + seconds + "." + totalTime + "s. Scanned " + filesToRead.size() + " files with a total size of " + Math.round(totalFileSize * 100.0) / 100.0 + "MB.");
-            AlttdUtility.getInstance().getLogger().info("Search completed, took " + seconds + "." + totalTime + "s. Scanned " + filesToRead.size() + " files with a total size of " + Math.round(totalFileSize * 100.0) / 100.0 + "MB.");
+            String message = "Search completed, took " + totalTime + "ms. Result file size is " + Math.round(resultFileSize * 100.0) / 100.0 + "MB.";
+
+            sender.sendMessage(ChatColor.GREEN + message);
+            AlttdUtility.getInstance().getLogger().info(message);
+
+            TextComponent textComponent = Component.text(ChatColor.GREEN + "" + ChatColor.BOLD + "HOVER FOR A RESULT PREVIEW");
+            textComponent = textComponent.hoverEvent(Component.text(hoverText));
+            sender.sendMessage(textComponent);
 
             inUse = false;
 
@@ -551,6 +562,9 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             }
             double searchPercentage = 0;
 
+            String hoverText = "";
+            int hoverTextLines = 0;
+
             //Searching through the files for the arguments.
             File outputFile = new File(outputFilePath);
             FileWriter writer = new FileWriter(outputFile, true);
@@ -686,6 +700,15 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
                             writer.write(f.getName() + ":" + line + "\n");
 
+                            if (hoverTextLines < 50) {
+                                if (line.length() > 80) {
+                                    hoverText += line.substring(0, 80) + "...\n";
+                                } else {
+                                    hoverText += line + "\n";
+                                }
+                                hoverTextLines++;
+                            }
+
                         } catch (Throwable throwable) {
                             throwable.printStackTrace();
                         }
@@ -728,23 +751,20 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 sender.sendMessage(ChatColor.RED + "The results file is empty, not sending it.");
             }
 
-            long endingTime = System.currentTimeMillis();
-            long totalTime = endingTime - startingTime;
-            int seconds = 0;
-            while (totalTime >= 1000) {
-                seconds += 1;
-                totalTime -= 1000;
-            }
+            long totalTime = System.currentTimeMillis() - startingTime;
 
-            double totalFileSize = 0d;
-            for (File file : filesToRead)
-                totalFileSize += file.length();
-            totalFileSize /= 1000000;
+            double resultFileSize = outputFile.length() / 1000000d;
 
             clearTemporaryFiles();
 
-            sender.sendMessage(ChatColor.GREEN + "Search completed, took " + seconds + "." + totalTime + "s. Scanned " + filesToRead.size() + " files with a total size of " + Math.round(totalFileSize * 100.0) / 100.0 + "MB.");
-            AlttdUtility.getInstance().getLogger().info("Search completed, took " + seconds + "." + totalTime + "s. Scanned " + filesToRead.size() + " files with a total size of " + Math.round(totalFileSize * 100.0) / 100.0 + "MB.");
+            String message = "Search completed, took " + totalTime + "ms. Result file size is " + Math.round(resultFileSize * 100.0) / 100.0 + "MB.";
+
+            sender.sendMessage(ChatColor.GREEN + message);
+            AlttdUtility.getInstance().getLogger().info(message);
+
+            TextComponent textComponent = Component.text(ChatColor.GREEN + "" + ChatColor.BOLD + "HOVER FOR A RESULT PREVIEW");
+            textComponent = textComponent.hoverEvent(Component.text(hoverText));
+            sender.sendMessage(textComponent);
 
             inUse = false;
 
@@ -914,6 +934,9 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             }
             double searchPercentage = 0;
 
+            String hoverText = "";
+            int hoverTextLines = 0;
+
             //Searching through the files for the arguments.
             File outputFile = new File(outputFilePath);
             FileWriter writer = new FileWriter(outputFile, true);
@@ -941,6 +964,15 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
                         //Writes only those lines which contain the provided search string, it skips over the rest.
                         writer.write(f.getName() + ":" + line + "\n");
+
+                        if (hoverTextLines < 50) {
+                            if (line.length() > 80) {
+                                hoverText += line.substring(0, 80) + "...\n";
+                            } else {
+                                hoverText += line + "\n";
+                            }
+                            hoverTextLines++;
+                        }
 
                     }
 
@@ -981,23 +1013,20 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 sender.sendMessage(ChatColor.RED + "The results file is empty, not sending it.");
             }
 
-            long endingTime = System.currentTimeMillis();
-            long totalTime = endingTime - startingTime;
-            int seconds = 0;
-            while (totalTime >= 1000) {
-                seconds += 1;
-                totalTime -= 1000;
-            }
+            long totalTime = System.currentTimeMillis() - startingTime;
 
-            double totalFileSize = 0d;
-            for (File file : filesToRead)
-                totalFileSize += file.length();
-            totalFileSize /= 1000000;
+            double resultFileSize = outputFile.length() / 1000000d;
 
             clearTemporaryFiles();
 
-            sender.sendMessage(ChatColor.GREEN + "Search completed, took " + seconds + "." + totalTime + "s. Scanned " + filesToRead.size() + " files with a total size of " + Math.round(totalFileSize * 100.0) / 100.0 + "MB.");
-            AlttdUtility.getInstance().getLogger().info("Search completed, took " + seconds + "." + totalTime + "s. Scanned " + filesToRead.size() + " files with a total size of " + Math.round(totalFileSize * 100.0) / 100.0 + "MB.");
+            String message = "Search completed, took " + totalTime + "ms. Result file size is " + Math.round(resultFileSize * 100.0) / 100.0 + "MB.";
+
+            sender.sendMessage(ChatColor.GREEN + message);
+            AlttdUtility.getInstance().getLogger().info(message);
+
+            TextComponent textComponent = Component.text(ChatColor.GREEN + "" + ChatColor.BOLD + "HOVER FOR A RESULT PREVIEW");
+            textComponent = textComponent.hoverEvent(Component.text(hoverText));
+            sender.sendMessage(textComponent);
 
             inUse = false;
 
