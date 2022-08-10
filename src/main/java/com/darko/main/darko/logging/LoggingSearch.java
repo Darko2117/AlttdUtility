@@ -275,11 +275,13 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         writer.write(f.getName() + ":" + line + "\n");
 
                         if (hoverTextLines < 50) {
-                            if (line.length() > 80) {
-                                hoverText += line.substring(0, 80) + "...\n";
-                            } else {
-                                hoverText += line + "\n";
+                            String lineCopy = line;
+                            while (lineCopy.length() > 80 && hoverTextLines < 50) {
+                                hoverText += lineCopy.substring(0, 80) + "\n";
+                                lineCopy = lineCopy.substring(80);
+                                hoverTextLines++;
                             }
+                            hoverText += lineCopy + "\n";
                             hoverTextLines++;
                         }
 
@@ -701,11 +703,13 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                             writer.write(f.getName() + ":" + line + "\n");
 
                             if (hoverTextLines < 50) {
-                                if (line.length() > 80) {
-                                    hoverText += line.substring(0, 80) + "...\n";
-                                } else {
-                                    hoverText += line + "\n";
+                                String lineCopy1 = line;
+                                while (lineCopy1.length() > 80 && hoverTextLines < 50) {
+                                    hoverText += lineCopy1.substring(0, 80) + "\n";
+                                    lineCopy1 = lineCopy1.substring(80);
+                                    hoverTextLines++;
                                 }
+                                hoverText += lineCopy1 + "\n";
                                 hoverTextLines++;
                             }
 
@@ -966,11 +970,13 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         writer.write(f.getName() + ":" + line + "\n");
 
                         if (hoverTextLines < 50) {
-                            if (line.length() > 80) {
-                                hoverText += line.substring(0, 80) + "...\n";
-                            } else {
-                                hoverText += line + "\n";
+                            String lineCopy = line;
+                            while (lineCopy.length() > 80 && hoverTextLines < 50) {
+                                hoverText += lineCopy.substring(0, 80) + "\n";
+                                lineCopy = lineCopy.substring(80);
+                                hoverTextLines++;
                             }
+                            hoverText += lineCopy + "\n";
                             hoverTextLines++;
                         }
 
