@@ -22,6 +22,7 @@ import com.darko.main.darko.logging.listeners.LoggingFarmLimiter;
 import com.darko.main.darko.logging.listeners.LoggingGriefPrevention;
 import com.darko.main.darko.logging.listeners.LoggingMyPet;
 import com.darko.main.darko.logging.listeners.LoggingNoAPI;
+import com.darko.main.darko.logging.listeners.LoggingPlayerShops;
 import com.darko.main.darko.logging.listeners.LoggingVillagerShopUI;
 import com.darko.main.darko.magnet.Magnet;
 import com.darko.main.darko.numberOfClaimsLimiter.NumberOfClaimsLimiter;
@@ -283,6 +284,12 @@ public class Register extends JavaPlugin {
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.DatabaseVillagerShopLog")) {
                 registerEvents(new DatabaseVillagerShopLog());
             }
+
+        }
+
+        if (APIs.isPlayerShopsFound()) {
+
+            registerEvents(new LoggingPlayerShops());
 
         }
 

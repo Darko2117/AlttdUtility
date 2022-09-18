@@ -2,6 +2,7 @@ package com.darko.main.common.API;
 
 import com.Zrips.CMI.CMI;
 import com.alttd.VillagerUI;
+import com.alttd.playershops.PlayerShops;
 import com.comphenix.protocol.ProtocolLib;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.ConsoleColors;
@@ -40,9 +41,10 @@ public class APIs extends JavaPlugin {
     private static boolean CMIFound = false;
     @Getter
     private static boolean villagerShopUIFound = false;
-
     @Getter
     private static boolean protocolLibFound = false;
+    @Getter
+    private static boolean playerShopsFound = false;
 
     public static void connectGriefPreventionAPI() {
         griefPreventionFound = getGriefPreventionAPI() != null;
@@ -99,6 +101,11 @@ public class APIs extends JavaPlugin {
         sendFoundMessage("ProtocolLib", protocolLibFound);
     }
 
+    public static void connectPlayerShopsAPI() {
+        playerShopsFound = getPlayerShopsAPI() != null;
+        sendFoundMessage("PlayerShops", playerShopsFound);
+    }
+
     public static void APIConnect() {
 
         connectGriefPreventionAPI();
@@ -112,6 +119,7 @@ public class APIs extends JavaPlugin {
         connectCMIAPI();
         connectVillagerShopUIAPI();
         connectProtocolLibAPI();
+        connectPlayerShopsAPI();
 
     }
 
@@ -269,6 +277,20 @@ public class APIs extends JavaPlugin {
             Plugin plugin = Bukkit.getPluginManager().getPlugin("ProtocolLib");
             if (plugin instanceof ProtocolLib) {
                 return (ProtocolLib) plugin;
+            } else {
+                return null;
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+            return null;
+        }
+    }
+
+    public static PlayerShops getPlayerShopsAPI() {
+        try {
+            Plugin plugin = Bukkit.getPluginManager().getPlugin("PlayerShops");
+            if (plugin instanceof PlayerShops) {
+                return (PlayerShops) plugin;
             } else {
                 return null;
             }

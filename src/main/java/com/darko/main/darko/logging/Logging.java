@@ -29,6 +29,7 @@ import com.darko.main.darko.logging.logs.MyPetItemPickupLog;
 import com.darko.main.darko.logging.logs.NicknamesLog;
 import com.darko.main.darko.logging.logs.PickedUpItemsLog;
 import com.darko.main.darko.logging.logs.PlayerLocationLog;
+import com.darko.main.darko.logging.logs.ShopTransactionsLog;
 import com.darko.main.darko.logging.logs.SpawnLimiterLog;
 import com.darko.main.darko.logging.logs.TridentsLog;
 import com.darko.main.darko.logging.logs.UIClicksLog;
@@ -368,6 +369,7 @@ public class Logging {
         cachedLogs.add(new NicknamesLog());
         cachedLogs.add(new IllegalItemsLog());
         cachedLogs.add(new ChatWithLocationLog());
+        cachedLogs.add(new ShopTransactionsLog());
 
     }
 

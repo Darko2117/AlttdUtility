@@ -168,6 +168,13 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/FarmLimiter.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>me.alttd.playershops</groupId>
+            <artifactId>PlayerShops</artifactId>
+            <version>1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/PlayerShops.jar</systemPath>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
