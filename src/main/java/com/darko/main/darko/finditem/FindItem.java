@@ -67,16 +67,16 @@ public class FindItem implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        Material searchedItem = getMaterialFromStringCaseInsensitive(strings[0]);
+        List<Material> searchedMaterials = getMaterialsList(strings[0]);
 
-        if (searchedItem == null) {
+        if (searchedMaterials.isEmpty()) {
             new Methods().sendConfigMessage(commandSender, "Messages.FindItemCommandInvalidItem");
             return true;
         }
 
         int radius = AlttdUtility.getInstance().getConfig().getInt("FindItem.Radius");
 
-        List<Container> containers = getContainers(player.getLocation(), radius);
+        List<Container> containers = getContainers(player.getLocation());
 
         List<Block> blocksContaining = new ArrayList<>();
 
@@ -131,16 +131,20 @@ public class FindItem implements CommandExecutor, TabCompleter {
                 if (itemStack.getItemMeta() instanceof BlockStateMeta blockStateMeta && blockStateMeta.getBlockState() instanceof ShulkerBox shulkerBox) {
                     for (ItemStack itemStackInShulker : shulkerBox.getInventory()) {
                         if (itemStackInShulker == null) continue;
-                        if (itemStackInShulker.getType().equals(searchedItem)) {
-                            blocksContaining.add(container.getBlock());
-                            continue containerLoop;
+                        for (Material material : searchedMaterials) {
+                            if (itemStackInShulker.getType().equals(material)) {
+                                blocksContaining.add(container.getBlock());
+                                continue containerLoop;
+                            }
                         }
                     }
                 }
 
-                if (itemStack.getType().equals(searchedItem)) {
-                    blocksContaining.add(container.getBlock());
-                    continue containerLoop;
+                for (Material material : searchedMaterials) {
+                    if (itemStack.getType().equals(material)) {
+                        blocksContaining.add(container.getBlock());
+                        continue containerLoop;
+                    }
                 }
 
             }
@@ -148,7 +152,7 @@ public class FindItem implements CommandExecutor, TabCompleter {
         }
 
         String containerOrContainers = (blocksContaining.size() == 1) ? "container" : "containers";
-        player.sendMessage(ChatColor.YELLOW + "Found " + ChatColor.GOLD + blocksContaining.size() + ChatColor.YELLOW + " " + containerOrContainers + " containing " + ChatColor.GOLD + strings[0] + ChatColor.YELLOW + " in a radius of " + ChatColor.GOLD + radius + ChatColor.YELLOW + " blocks.");
+        player.sendMessage(ChatColor.YELLOW + "Found " + ChatColor.GOLD + blocksContaining.size() + ChatColor.YELLOW + " " + containerOrContainers + " containing " + ChatColor.GOLD + getMaterialsStringFromList(searchedMaterials) + ChatColor.YELLOW + " in a radius of " + ChatColor.GOLD + radius + ChatColor.YELLOW + " blocks.");
 
         ParticleBuilder particleBuilder = new ParticleBuilder(Particle.REDSTONE);
         particleBuilder.color(255, 255, 255);
@@ -203,12 +207,16 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
         if (strings.length == 1) {
 
+            String lastMaterial = strings[0];
+
+            if (lastMaterial.contains(",")) lastMaterial = lastMaterial.substring(lastMaterial.lastIndexOf(",") + 1);
+
             List<String> results = new ArrayList<>();
 
             for (Material material : Material.values()) {
 
-                if (material.toString().toLowerCase().contains(strings[0].toLowerCase()))
-                    results.add(material.toString().toLowerCase());
+                if (material.toString().toLowerCase().contains(lastMaterial.toLowerCase()))
+                    results.add(strings[0].substring(0, strings[0].lastIndexOf(lastMaterial)) + material.toString().toLowerCase());
 
             }
 
@@ -220,7 +228,9 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
     }
 
-    private List<Container> getContainers(Location location, int radius) {
+    private List<Container> getContainers(Location location) {
+
+        int radius = AlttdUtility.getInstance().getConfig().getInt("FindItem.Radius");
 
         int xMin = location.getBlockX() - radius, yMin = location.getBlockY() - radius, zMin = location.getBlockZ() - radius;
         int xMax = location.getBlockX() + radius, yMax = location.getBlockY() + radius, zMax = location.getBlockZ() + radius;
@@ -245,13 +255,46 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
     }
 
-    private Material getMaterialFromStringCaseInsensitive(String material) {
+    private Material getMaterialFromString(String material) {
 
         for (Material material1 : Material.values()) {
             if (material1.toString().equalsIgnoreCase(material)) return material1;
         }
 
         return null;
+
+    }
+
+    private List<Material> getMaterialsList(String materialsString) {
+
+        List<Material> materialsList = new ArrayList<>();
+
+        for (String material : materialsString.split(",")) {
+            Material material1 = getMaterialFromString(material);
+            if (material1 != null) materialsList.add(material1);
+        }
+
+        while (materialsList.size() > AlttdUtility.getInstance().getConfig().getInt("FindItem.ItemLimit")) {
+            materialsList.remove(materialsList.size() - 1);
+        }
+
+        return materialsList;
+
+    }
+
+    private String getMaterialsStringFromList(List<Material> materials) {
+
+        StringBuilder string = new StringBuilder();
+
+        if (materials.isEmpty()) return string.toString();
+
+        for (Material material : materials) {
+            string.append(material.toString().toLowerCase()).append(", ");
+        }
+
+        string = new StringBuilder(string.substring(0, string.length() - 2));
+
+        return string.toString();
 
     }
 

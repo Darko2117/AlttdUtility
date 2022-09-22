@@ -633,6 +633,9 @@ public class Config {
         if (!config.contains("FindItem.Cooldown")) {
             config.set("FindItem.Cooldown", 15);
         }
+        if (!config.contains("FindItem.ItemLimit")) {
+            config.set("FindItem.ItemLimit", 10);
+        }
 
         // ----------------------------------------------------------------------------------------------------
 
