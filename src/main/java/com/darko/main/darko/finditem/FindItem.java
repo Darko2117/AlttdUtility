@@ -37,6 +37,50 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
     private static final HashMap<Player, Long> lastTimeUsedCommand = new HashMap<>();
 
+    private final int radius = AlttdUtility.getInstance().getConfig().getInt("FindItem.Radius");
+    private final int allowedMilisecondsPerTick = AlttdUtility.getInstance().getConfig().getInt("FindItem.AllowedMilisecondsPerTick");
+
+    private Player player = null;
+    private List<Material> searchedMaterials = null;
+
+    private Location playerEyeLocation = null;
+
+    private final List<Container> containers = new ArrayList<>();
+
+    private int processStepCount = 0;
+    private long thisTickStartTime;
+
+    //Step 0 - finding all containers in area
+    private boolean stepZeroFirstRun = true;
+    private int stepZeroXMin, stepZeroYMin, stepZeroZMin, stepZeroXMax, stepZeroYMax, stepZeroZMax;
+
+    //Step 1 - remove unseeable containers
+    private final List<Container> stepOneToRemove = new ArrayList<>();
+    private int stepOneLastCheckedIndex = 0;
+
+    //Step 2 - remove unopenable containers
+    private final List<Container> stepTwoToRemove = new ArrayList<>();
+    private int stepTwoLastCheckedIndex = 0;
+
+    //Step 3 - remove not containing containers
+    private final List<Container> stepThreeToRemove = new ArrayList<>();
+    private int stepThreeLastCheckedIndex = 0;
+
+    //Step 4 - searching done, finish up
+
+    public FindItem(){}
+
+    public FindItem(Player player, List<Material> searchedMaterials){
+
+        this.player = player;
+        this.searchedMaterials = searchedMaterials;
+
+        this.playerEyeLocation = player.getEyeLocation().clone();
+
+        startSearchingProcess();
+
+    }
+
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
@@ -61,6 +105,7 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
             }
         }
+        lastTimeUsedCommand.put(player, System.currentTimeMillis());
 
         if (strings.length < 1) {
             new Methods().sendConfigMessage(commandSender, "Messages.InvalidUsageFindItemCommand");
@@ -74,122 +119,7 @@ public class FindItem implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        int radius = AlttdUtility.getInstance().getConfig().getInt("FindItem.Radius");
-
-        List<Container> containers = getContainers(player.getLocation());
-
-        List<Block> blocksContaining = new ArrayList<>();
-
-        containerLoop:
-        for (Container container : containers) {
-
-            PlayerInteractEvent playerInteractEvent = new PlayerInteractEvent(player, Action.RIGHT_CLICK_BLOCK, new ItemStack(Material.AIR), container.getBlock(), BlockFace.UP, EquipmentSlot.HAND);
-            playerInteractEvent.callEvent();
-            if (playerInteractEvent.useInteractedBlock().equals(Event.Result.DENY) || playerInteractEvent.isCancelled()) {
-                continue containerLoop;
-            }
-
-            Location playerEyeLocation = player.getEyeLocation();
-
-            Location centerOfBlockLocation = container.getBlock().getLocation().toCenterLocation();
-
-            Location[] sidesAndCornersOfBlock = new Location[14];
-            sidesAndCornersOfBlock[0] = centerOfBlockLocation.clone().add(0.5, 0.5, 0.5);
-            sidesAndCornersOfBlock[1] = centerOfBlockLocation.clone().add(0.5, 0.5, -0.5);
-            sidesAndCornersOfBlock[2] = centerOfBlockLocation.clone().add(-0.5, 0.5, 0.5);
-            sidesAndCornersOfBlock[3] = centerOfBlockLocation.clone().add(-0.5, 0.5, -0.5);
-            sidesAndCornersOfBlock[4] = centerOfBlockLocation.clone().add(0.5, -0.5, 0.5);
-            sidesAndCornersOfBlock[5] = centerOfBlockLocation.clone().add(0.5, -0.5, -0.5);
-            sidesAndCornersOfBlock[6] = centerOfBlockLocation.clone().add(-0.5, -0.5, 0.5);
-            sidesAndCornersOfBlock[7] = centerOfBlockLocation.clone().add(-0.5, -0.5, -0.5);
-            sidesAndCornersOfBlock[8] = centerOfBlockLocation.clone().add(0, -0.5, 0);
-            sidesAndCornersOfBlock[9] = centerOfBlockLocation.clone().add(0, 0.5, 0);
-            sidesAndCornersOfBlock[10] = centerOfBlockLocation.clone().add(0.5, 0, 0);
-            sidesAndCornersOfBlock[11] = centerOfBlockLocation.clone().add(-0.5, 0, 0);
-            sidesAndCornersOfBlock[12] = centerOfBlockLocation.clone().add(0, 0, 0.5);
-            sidesAndCornersOfBlock[13] = centerOfBlockLocation.clone().add(0, 0, -0.5);
-
-            boolean blockHit = false;
-            for (Location location : sidesAndCornersOfBlock) {
-
-                Vector rayTraceDirection = location.toVector().subtract(playerEyeLocation.toVector());
-
-                RayTraceResult rayTraceResult = playerEyeLocation.getWorld().rayTraceBlocks(playerEyeLocation, rayTraceDirection, radius);
-
-                if (rayTraceResult == null || rayTraceResult.getHitBlock().equals(container.getBlock())) {
-                    blockHit = true;
-                    break;
-                }
-
-            }
-            if (!blockHit) continue containerLoop;
-
-            for (ItemStack itemStack : container.getInventory()) {
-
-                if (itemStack == null) continue;
-
-                if (itemStack.getItemMeta() instanceof BlockStateMeta blockStateMeta && blockStateMeta.getBlockState() instanceof ShulkerBox shulkerBox) {
-                    for (ItemStack itemStackInShulker : shulkerBox.getInventory()) {
-                        if (itemStackInShulker == null) continue;
-                        for (Material material : searchedMaterials) {
-                            if (itemStackInShulker.getType().equals(material)) {
-                                blocksContaining.add(container.getBlock());
-                                continue containerLoop;
-                            }
-                        }
-                    }
-                }
-
-                for (Material material : searchedMaterials) {
-                    if (itemStack.getType().equals(material)) {
-                        blocksContaining.add(container.getBlock());
-                        continue containerLoop;
-                    }
-                }
-
-            }
-
-        }
-
-        String containerOrContainers = (blocksContaining.size() == 1) ? "container" : "containers";
-        player.sendMessage(ChatColor.YELLOW + "Found " + ChatColor.GOLD + blocksContaining.size() + ChatColor.YELLOW + " " + containerOrContainers + " containing " + ChatColor.GOLD + getMaterialsStringFromList(searchedMaterials) + ChatColor.YELLOW + " in a radius of " + ChatColor.GOLD + radius + ChatColor.YELLOW + " blocks.");
-
-        ParticleBuilder particleBuilder = new ParticleBuilder(Particle.REDSTONE);
-        particleBuilder.color(255, 255, 255);
-        particleBuilder.receivers(player);
-        particleBuilder.count(3);
-
-        for (int i = 0; i < 10; i++) {
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-
-                    for (Block block : blocksContaining) {
-
-                        Location centerOfBlock = block.getLocation().clone().toCenterLocation();
-
-                        Location[] cornersOfBlock = new Location[8];
-                        cornersOfBlock[0] = centerOfBlock.clone().add(0.5, 0.5, 0.5);
-                        cornersOfBlock[1] = centerOfBlock.clone().add(0.5, 0.5, -0.5);
-                        cornersOfBlock[2] = centerOfBlock.clone().add(-0.5, 0.5, 0.5);
-                        cornersOfBlock[3] = centerOfBlock.clone().add(-0.5, 0.5, -0.5);
-                        cornersOfBlock[4] = centerOfBlock.clone().add(0.5, -0.5, 0.5);
-                        cornersOfBlock[5] = centerOfBlock.clone().add(0.5, -0.5, -0.5);
-                        cornersOfBlock[6] = centerOfBlock.clone().add(-0.5, -0.5, 0.5);
-                        cornersOfBlock[7] = centerOfBlock.clone().add(-0.5, -0.5, -0.5);
-
-                        for (Location location : cornersOfBlock) {
-                            particleBuilder.location(location);
-                            particleBuilder.spawn();
-                        }
-
-                    }
-
-                }
-            }.runTaskLater(AlttdUtility.getInstance(), i * 10);
-        }
-
-        lastTimeUsedCommand.put(player, System.currentTimeMillis());
+        new FindItem(player, searchedMaterials);
 
         return true;
 
@@ -228,30 +158,238 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
     }
 
-    private List<Container> getContainers(Location location) {
+    private void startSearchingProcess() {
 
-        int radius = AlttdUtility.getInstance().getConfig().getInt("FindItem.Radius");
+        new BukkitRunnable() {
+            @Override
+            public void run() {
 
-        int xMin = location.getBlockX() - radius, yMin = location.getBlockY() - radius, zMin = location.getBlockZ() - radius;
-        int xMax = location.getBlockX() + radius, yMax = location.getBlockY() + radius, zMax = location.getBlockZ() + radius;
+                thisTickStartTime = System.currentTimeMillis();
 
-        List<Container> containers = new ArrayList<>();
+                if (processStepCount == 0) {
+                    findAreaContainers();
+                }
 
-        for (int x = xMin; x <= xMax; x++) {
-            for (int y = yMin; y <= yMax; y++) {
-                for (int z = zMin; z <= zMax; z++) {
+                if (processStepCount == 1) {
+                    removeUnseeableContainers();
+                }
 
-                    Block block = location.getWorld().getBlockAt(x, y, z);
+                if (processStepCount == 2) {
+                    removeUnopenableContainers();
+                }
 
-                    if (!(block.getState() instanceof Container container)) continue;
+                if (processStepCount == 3) {
+                    removeNotContainingContainers();
+                }
 
-                    containers.add(container);
+                if (processStepCount == 4) {
+                    finishUp();
+                } else {
+                    startSearchingProcess();
+                }
+
+            }
+        }.runTaskLater(AlttdUtility.getInstance(), 1);
+
+    }
+
+    private boolean outOfThisTickTime() {
+
+        return thisTickStartTime + allowedMilisecondsPerTick < System.currentTimeMillis();
+
+    }
+
+    private void findAreaContainers() {
+
+        if (stepZeroFirstRun) {
+            stepZeroXMin = playerEyeLocation.getBlockX() - radius;
+            stepZeroYMin = playerEyeLocation.getBlockY() - radius;
+            stepZeroZMin = playerEyeLocation.getBlockZ() - radius;
+            stepZeroXMax = playerEyeLocation.getBlockX() + radius;
+            stepZeroYMax = playerEyeLocation.getBlockY() + radius;
+            stepZeroZMax = playerEyeLocation.getBlockZ() + radius;
+            stepZeroFirstRun = false;
+        }
+
+        for (; stepZeroXMin <= stepZeroXMax; stepZeroXMin++, stepZeroYMin = playerEyeLocation.getBlockY() - radius) {
+            for (; stepZeroYMin <= stepZeroYMax; stepZeroYMin++, stepZeroZMin = playerEyeLocation.getBlockZ() - radius) {
+                for (; stepZeroZMin <= stepZeroZMax; stepZeroZMin++) {
+
+                    Block block = playerEyeLocation.getWorld().getBlockAt(stepZeroXMin, stepZeroYMin, stepZeroZMin);
+
+                    if (block.getState() instanceof Container container) containers.add(container);
+
+                    if (outOfThisTickTime()) {
+                        stepZeroZMin++;
+                        return;
+                    }
 
                 }
             }
         }
 
-        return containers;
+        processStepCount++;
+
+    }
+
+    private void removeUnseeableContainers() {
+
+        for (; stepOneLastCheckedIndex < containers.size(); stepOneLastCheckedIndex++) {
+
+            Container container = containers.get(stepOneLastCheckedIndex);
+
+            Location centerOfBlockLocation = container.getBlock().getLocation().toCenterLocation();
+
+            Location[] sidesAndCornersOfBlock = new Location[14];
+            sidesAndCornersOfBlock[0] = centerOfBlockLocation.clone().add(0.5, 0.5, 0.5);
+            sidesAndCornersOfBlock[1] = centerOfBlockLocation.clone().add(0.5, 0.5, -0.5);
+            sidesAndCornersOfBlock[2] = centerOfBlockLocation.clone().add(-0.5, 0.5, 0.5);
+            sidesAndCornersOfBlock[3] = centerOfBlockLocation.clone().add(-0.5, 0.5, -0.5);
+            sidesAndCornersOfBlock[4] = centerOfBlockLocation.clone().add(0.5, -0.5, 0.5);
+            sidesAndCornersOfBlock[5] = centerOfBlockLocation.clone().add(0.5, -0.5, -0.5);
+            sidesAndCornersOfBlock[6] = centerOfBlockLocation.clone().add(-0.5, -0.5, 0.5);
+            sidesAndCornersOfBlock[7] = centerOfBlockLocation.clone().add(-0.5, -0.5, -0.5);
+            sidesAndCornersOfBlock[8] = centerOfBlockLocation.clone().add(0, -0.5, 0);
+            sidesAndCornersOfBlock[9] = centerOfBlockLocation.clone().add(0, 0.5, 0);
+            sidesAndCornersOfBlock[10] = centerOfBlockLocation.clone().add(0.5, 0, 0);
+            sidesAndCornersOfBlock[11] = centerOfBlockLocation.clone().add(-0.5, 0, 0);
+            sidesAndCornersOfBlock[12] = centerOfBlockLocation.clone().add(0, 0, 0.5);
+            sidesAndCornersOfBlock[13] = centerOfBlockLocation.clone().add(0, 0, -0.5);
+
+            boolean blockHit = false;
+            for (Location location : sidesAndCornersOfBlock) {
+
+                Vector rayTraceDirection = location.toVector().subtract(playerEyeLocation.toVector());
+
+                RayTraceResult rayTraceResult = playerEyeLocation.getWorld().rayTraceBlocks(playerEyeLocation, rayTraceDirection, radius);
+
+                if (rayTraceResult == null || rayTraceResult.getHitBlock().equals(container.getBlock())) {
+                    blockHit = true;
+                    break;
+                }
+
+            }
+
+            if (!blockHit) {
+                stepOneToRemove.add(container);
+            }
+
+            if (outOfThisTickTime()) return;
+
+        }
+
+        containers.removeAll(stepOneToRemove);
+        processStepCount++;
+
+    }
+
+    private void removeUnopenableContainers() {
+
+        for (; stepTwoLastCheckedIndex < containers.size(); stepTwoLastCheckedIndex++) {
+
+            Container container = containers.get(stepTwoLastCheckedIndex);
+
+            PlayerInteractEvent playerInteractEvent = new PlayerInteractEvent(player, Action.RIGHT_CLICK_BLOCK, new ItemStack(Material.AIR), container.getBlock(), BlockFace.UP, EquipmentSlot.HAND);
+            playerInteractEvent.callEvent();
+
+            if (playerInteractEvent.useInteractedBlock().equals(Event.Result.DENY) || playerInteractEvent.isCancelled()) {
+                stepTwoToRemove.add(container);
+            }
+
+            if (outOfThisTickTime()) return;
+
+        }
+
+        containers.removeAll(stepTwoToRemove);
+        processStepCount++;
+
+    }
+
+    private void removeNotContainingContainers() {
+
+        for (; stepThreeLastCheckedIndex < containers.size(); stepThreeLastCheckedIndex++) {
+
+            Container container = containers.get(stepThreeLastCheckedIndex);
+
+            boolean itemFound = false;
+
+            for (ItemStack itemStack : container.getInventory()) {
+
+                if (itemStack == null) continue;
+
+                for (Material material : searchedMaterials) {
+                    if (itemStack.getType().equals(material)) {
+                        itemFound = true;
+                    }
+                }
+
+                if (itemStack.getItemMeta() instanceof BlockStateMeta blockStateMeta && blockStateMeta.getBlockState() instanceof ShulkerBox shulkerBox) {
+                    for (ItemStack itemStackInShulker : shulkerBox.getInventory()) {
+                        if (itemStackInShulker == null) continue;
+                        for (Material material : searchedMaterials) {
+                            if (itemStackInShulker.getType().equals(material)) {
+                                itemFound = true;
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            if (!itemFound) {
+                stepThreeToRemove.add(container);
+            }
+
+            if (outOfThisTickTime()) return;
+
+        }
+
+        containers.removeAll(stepThreeToRemove);
+        processStepCount++;
+
+    }
+
+    private void finishUp() {
+
+        String containerOrContainers = (containers.size() == 1) ? "container" : "containers";
+        player.sendMessage(ChatColor.YELLOW + "Found " + ChatColor.GOLD + containers.size() + ChatColor.YELLOW + " " + containerOrContainers + " containing " + ChatColor.GOLD + getMaterialsString(searchedMaterials) + ChatColor.YELLOW + " in a radius of " + ChatColor.GOLD + radius + ChatColor.YELLOW + " blocks.");
+
+        ParticleBuilder particleBuilder = new ParticleBuilder(Particle.REDSTONE);
+        particleBuilder.color(255, 255, 255);
+        particleBuilder.receivers(player);
+        particleBuilder.count(3);
+
+        for (int i = 0; i < 10; i++) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+
+                    for (Container container : containers) {
+
+                        Block block = container.getBlock();
+
+                        Location centerOfBlock = block.getLocation().clone().toCenterLocation();
+
+                        Location[] cornersOfBlock = new Location[8];
+                        cornersOfBlock[0] = centerOfBlock.clone().add(0.5, 0.5, 0.5);
+                        cornersOfBlock[1] = centerOfBlock.clone().add(0.5, 0.5, -0.5);
+                        cornersOfBlock[2] = centerOfBlock.clone().add(-0.5, 0.5, 0.5);
+                        cornersOfBlock[3] = centerOfBlock.clone().add(-0.5, 0.5, -0.5);
+                        cornersOfBlock[4] = centerOfBlock.clone().add(0.5, -0.5, 0.5);
+                        cornersOfBlock[5] = centerOfBlock.clone().add(0.5, -0.5, -0.5);
+                        cornersOfBlock[6] = centerOfBlock.clone().add(-0.5, -0.5, 0.5);
+                        cornersOfBlock[7] = centerOfBlock.clone().add(-0.5, -0.5, -0.5);
+
+                        for (Location location : cornersOfBlock) {
+                            particleBuilder.location(location);
+                            particleBuilder.spawn();
+                        }
+
+                    }
+
+                }
+            }.runTaskLater(AlttdUtility.getInstance(), i * 10);
+        }
 
     }
 
@@ -282,7 +420,7 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
     }
 
-    private String getMaterialsStringFromList(List<Material> materials) {
+    private String getMaterialsString(List<Material> materials) {
 
         StringBuilder string = new StringBuilder();
 

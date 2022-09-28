@@ -636,6 +636,9 @@ public class Config {
         if (!config.contains("FindItem.ItemLimit")) {
             config.set("FindItem.ItemLimit", 10);
         }
+        if (!config.contains("FindItem.AllowedMilisecondsPerTick")) {
+            config.set("FindItem.AllowedMilisecondsPerTick", 10);
+        }
 
         // ----------------------------------------------------------------------------------------------------
 
