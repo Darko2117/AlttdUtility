@@ -134,6 +134,11 @@
             <artifactId>ProtocolLib</artifactId>
             <version>4.7.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.alttd.chat</groupId>
+            <artifactId>api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>com.Zrips.CMI</groupId>

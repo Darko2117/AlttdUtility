@@ -1,5 +1,6 @@
 package com.darko.main.darko.logging.listeners;
 
+import com.alttd.chat.events.NickEvent;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.API.APIs;
 import com.darko.main.common.BukkitTasksCache;
@@ -24,7 +25,6 @@ import com.darko.main.darko.logging.logs.PlayerLocationLog;
 import com.darko.main.darko.logging.logs.SpawnLimiterLog;
 import com.darko.main.darko.logging.logs.TridentsLog;
 import com.darko.main.darko.logging.logs.UIClicksLog;
-import com.darko.main.teri.Nicknames.NickEvent;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;

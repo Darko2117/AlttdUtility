@@ -64,8 +64,6 @@ import com.darko.main.darko.spawnLimiter.SpawnLimiterCheck;
 import com.darko.main.teri.CrazyCratesKeysLimiter.CrazyCratesKeysLimiter;
 import com.darko.main.teri.FreezeMail.FreezeMail;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
-import com.darko.main.teri.Nicknames.Nicknames;
-import com.darko.main.teri.Nicknames.NicknamesEvents;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -261,12 +259,6 @@ public class Register extends JavaPlugin {
 
         if (APIs.isCMIFound()) {
 
-            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Nicknames")) {
-                NicknamesEvents nicknamesEvents = new NicknamesEvents();
-                AlttdUtility.getInstance().getServer().getMessenger().registerIncomingPluginChannel(AlttdUtility.getInstance(), "BungeeCord", nicknamesEvents);
-                registerEvents(nicknamesEvents);
-            }
-
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.JoinNotifications")) {
                 registerEvents(new CMIJoinNotifications());
             }
@@ -354,10 +346,6 @@ public class Register extends JavaPlugin {
         if (APIs.isLuckPermsFound()) {
             AlttdUtility.getInstance().getCommand("setprefix").setExecutor(new SetPrefix());
             AlttdUtility.getInstance().getCommand("removeprefix").setExecutor(new RemovePrefix());
-        }
-
-        if (APIs.isCMIFound()) {
-            AlttdUtility.getInstance().getCommand("nick").setExecutor(new Nicknames());
         }
 
     }

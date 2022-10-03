@@ -52,8 +52,6 @@ public class Database implements Listener {
                 createCustomCommandMacroTable();
                 createCommandOnJoinTable();
                 createFreezeMessageTable();
-                createNicknamesTable();
-                createRequestedNicknamesTable();
                 createVillagerShopLogTable();
                 //createMoneyLogTable();
 
@@ -262,54 +260,6 @@ public class Database implements Listener {
         columns.add("ALTER TABLE freeze_message ADD UUID VARCHAR(36) NOT NULL");
         columns.add("ALTER TABLE freeze_message ADD Message VARCHAR(256) NOT NULL");
         columns.add("ALTER TABLE freeze_message ADD IsRead SMALLINT(1) DEFAULT 0");
-        for (String string : columns) {
-            try {
-                connection.prepareStatement(string).executeUpdate();
-                logConfirmationMessages.add(string + " executed!");
-            } catch (Throwable ignored) {
-            }
-        }
-
-    }
-
-    private static void createNicknamesTable() {
-
-        try {
-            String nicknamesTableQuery = "CREATE TABLE IF NOT EXISTS nicknames("
-                    + "uuid VARCHAR(48) NOT NULL,"
-                    + "PRIMARY KEY (uuid))";
-            connection.prepareStatement(nicknamesTableQuery).executeUpdate();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-
-        List<String> columns = new ArrayList<>();
-        columns.add("ALTER TABLE nicknames ADD nickname VARCHAR(192)");
-        columns.add("ALTER TABLE nicknames ADD date_changed BIGINT default 0");
-        for (String string : columns) {
-            try {
-                connection.prepareStatement(string).executeUpdate();
-                logConfirmationMessages.add(string + " executed!");
-            } catch (Throwable ignored) {
-            }
-        }
-
-    }
-
-    private static void createRequestedNicknamesTable() {
-
-        try {
-            String requestedNicknamesTableQuery = "CREATE TABLE IF NOT EXISTS requested_nicknames("
-                    + "uuid VARCHAR(48) NOT NULL,"
-                    + "PRIMARY KEY (uuid))";
-            connection.prepareStatement(requestedNicknamesTableQuery).executeUpdate();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-
-        List<String> columns = new ArrayList<>();
-        columns.add("ALTER TABLE requested_nicknames ADD nickname VARCHAR(192)");
-        columns.add("ALTER TABLE requested_nicknames ADD date_requested BIGINT default 0");
         for (String string : columns) {
             try {
                 connection.prepareStatement(string).executeUpdate();
