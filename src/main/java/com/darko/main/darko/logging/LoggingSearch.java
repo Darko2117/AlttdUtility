@@ -1,6 +1,7 @@
 package com.darko.main.darko.logging;
 
 import com.darko.main.AlttdUtility;
+import com.darko.main.common.BukkitTasksCache;
 import com.darko.main.common.Methods;
 import com.darko.main.darko.logging.logs.Log;
 import net.kyori.adventure.text.Component;
@@ -35,6 +36,9 @@ import java.util.concurrent.ThreadLocalRandom;
 public class LoggingSearch implements CommandExecutor, TabCompleter {
 
     public static boolean inUse = false;
+
+    private static BossBar progressBossBar = null;
+    private static double bossBarProgress = 0;
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -162,11 +166,10 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             filesToRead.removeAll(filesToRemove);
 
             double copyingPercentage = 0;
-            BossBar bossBar = null;
             if (sender instanceof Player) {
-                bossBar = Bukkit.createBossBar(ChatColor.GOLD + "" + ChatColor.BOLD + "UNCOMPRESSING FILES", BarColor.YELLOW, BarStyle.SEGMENTED_10);
-                bossBar.setProgress(0);
-                bossBar.addPlayer((Player) sender);
+                progressBossBar = Bukkit.createBossBar(ChatColor.GOLD + "" + ChatColor.BOLD + "UNCOMPRESSING FILES", BarColor.YELLOW, BarStyle.SEGMENTED_10);
+                progressBossBar.setProgress(0);
+                progressBossBar.addPlayer((Player) sender);
             }
 
             //Copying all the files that need to be read to /temporary-files/. Uncompressing the compressed ones.
@@ -176,7 +179,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                     if (sender instanceof Player) {
                         copyingPercentage += 100.0 / filesToRead.size();
                         if (copyingPercentage > 100) copyingPercentage = 100;
-                        bossBar.setProgress(copyingPercentage / 2 / 100);
+                        bossBarProgress = copyingPercentage / 2 / 100;
                     }
 
                     if (f.getName().contains(".gz")) {
@@ -193,8 +196,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             }
 
             if (sender instanceof Player) {
-                copyingPercentage = 100;
-                bossBar.setProgress(copyingPercentage / 2 / 100);
+                bossBarProgress = 0.5;
             }
 
             //Reloading the list of files that need to be read with the files from /temporary-files/.
@@ -227,7 +229,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             int numberOfLinesToSearch = 0;
             if (sender instanceof Player) {
-                bossBar.setTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "READING LINES");
+                progressBossBar.setTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "READING LINES");
                 for (File f : filesToRead) {
                     BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
                     while (bufferedReader.readLine() != null) numberOfLinesToSearch++;
@@ -256,10 +258,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         if (sender instanceof Player) {
                             searchPercentage += 100.0 / numberOfLinesToSearch;
                             if (searchPercentage > 100) searchPercentage = 100;
-                            if (ThreadLocalRandom.current().nextInt(10000) == 0) {
-                                bossBar.setTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "READING LINES");
-                                bossBar.setProgress(searchPercentage / 2 / 100 + 0.5);
-                            }
+                            bossBarProgress = searchPercentage / 2 / 100 + 0.5;
                         }
 
                         if (!line.toLowerCase().matches("(.*)" + searchString + "(.*)")) continue lineReader;
@@ -297,7 +296,9 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             writer.close();
 
             if (sender instanceof Player) {
-                bossBar.removeAll();
+                progressBossBar.removeAll();
+                progressBossBar = null;
+                bossBarProgress = 0;
             }
 
             //The maxFileSizeWithoutCompression is in MB so it's multiplied by 1mil to get the size in bytes.
@@ -483,11 +484,10 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             filesToRead.removeAll(filesToRemove);
 
             double copyingPercentage = 0;
-            BossBar bossBar = null;
             if (sender instanceof Player) {
-                bossBar = Bukkit.createBossBar(ChatColor.GOLD + "" + ChatColor.BOLD + "UNCOMPRESSING FILES", BarColor.YELLOW, BarStyle.SEGMENTED_10);
-                bossBar.setProgress(0);
-                bossBar.addPlayer((Player) sender);
+                progressBossBar = Bukkit.createBossBar(ChatColor.GOLD + "" + ChatColor.BOLD + "UNCOMPRESSING FILES", BarColor.YELLOW, BarStyle.SEGMENTED_10);
+                progressBossBar.setProgress(0);
+                progressBossBar.addPlayer((Player) sender);
             }
 
             //Copying all the files that need to be read to /temporary-files/. Uncompressing the compressed ones.
@@ -497,7 +497,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                     if (sender instanceof Player) {
                         copyingPercentage += 100.0 / filesToRead.size();
                         if (copyingPercentage > 100) copyingPercentage = 100;
-                        bossBar.setProgress(copyingPercentage / 2 / 100);
+                        bossBarProgress = copyingPercentage / 2 / 100;
                     }
 
                     if (f.getName().contains(".gz")) {
@@ -514,8 +514,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             }
 
             if (sender instanceof Player) {
-                copyingPercentage = 100;
-                bossBar.setProgress(copyingPercentage / 2 / 100);
+                bossBarProgress = 0.5;
             }
 
             //Reloading the list of files that need to be read with the files from /temporary-files/.
@@ -555,7 +554,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             int numberOfLinesToSearch = 0;
             if (sender instanceof Player) {
-                bossBar.setTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "READING LINES");
+                progressBossBar.setTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "READING LINES");
                 for (File f : filesToRead) {
                     BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
                     while (bufferedReader.readLine() != null) numberOfLinesToSearch++;
@@ -592,10 +591,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                             if (sender instanceof Player) {
                                 searchPercentage += 100.0 / numberOfLinesToSearch;
                                 if (searchPercentage > 100) searchPercentage = 100;
-                                if (ThreadLocalRandom.current().nextInt(10000) == 0) {
-                                    bossBar.setTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "READING LINES");
-                                    bossBar.setProgress(searchPercentage / 2 / 100 + 0.5);
-                                }
+                                bossBarProgress = searchPercentage / 2 / 100 + 0.5;
                             }
 
                             String lineCopy = line;
@@ -728,7 +724,9 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             writer.close();
 
             if (sender instanceof Player) {
-                bossBar.removeAll();
+                progressBossBar.removeAll();
+                progressBossBar = null;
+                bossBarProgress = 0;
             }
 
             //The maxFileSizeWithoutCompression is in MB so it's multiplied by 1mil to get the size in bytes.
@@ -874,11 +872,10 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             filesToRead.removeAll(filesToRemove);
 
             double copyingPercentage = 0;
-            BossBar bossBar = null;
             if (sender instanceof Player) {
-                bossBar = Bukkit.createBossBar(ChatColor.GOLD + "" + ChatColor.BOLD + "UNCOMPRESSING FILES", BarColor.YELLOW, BarStyle.SEGMENTED_10);
-                bossBar.setProgress(0);
-                bossBar.addPlayer((Player) sender);
+                progressBossBar = Bukkit.createBossBar(ChatColor.GOLD + "" + ChatColor.BOLD + "UNCOMPRESSING FILES", BarColor.YELLOW, BarStyle.SEGMENTED_10);
+                progressBossBar.setProgress(0);
+                progressBossBar.addPlayer((Player) sender);
             }
 
             //Copying all the files that need to be read to /temporary-files/.
@@ -887,7 +884,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 if (sender instanceof Player) {
                     copyingPercentage += 100.0 / filesToRead.size();
                     if (copyingPercentage > 100) copyingPercentage = 100;
-                    bossBar.setProgress(copyingPercentage / 2 / 100);
+                    bossBarProgress = copyingPercentage / 2 / 100;
                 }
 
                 new Methods().copyPasteFile(new File(f.getAbsolutePath()), new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "temporary-files" + File.separator + f.getName()));
@@ -895,8 +892,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             }
 
             if (sender instanceof Player) {
-                copyingPercentage = 100;
-                bossBar.setProgress(copyingPercentage / 2 / 100);
+                bossBarProgress = 0.5;
             }
 
             //Reloading the list of files that need to be read with the files from /temporary-files/.
@@ -929,7 +925,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             int numberOfLinesToSearch = 0;
             if (sender instanceof Player) {
-                bossBar.setTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "READING LINES");
+                progressBossBar.setTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "READING LINES");
                 for (File f : filesToRead) {
                     BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
                     while (bufferedReader.readLine() != null) numberOfLinesToSearch++;
@@ -958,10 +954,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         if (sender instanceof Player) {
                             searchPercentage += 100.0 / numberOfLinesToSearch;
                             if (searchPercentage > 100) searchPercentage = 100;
-                            if (ThreadLocalRandom.current().nextInt(10000) == 0) {
-                                bossBar.setTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "READING LINES");
-                                bossBar.setProgress(searchPercentage / 2 / 100 + 0.5);
-                            }
+                            bossBarProgress = searchPercentage / 2 / 100 + 0.5;
                         }
 
                         if (!line.toLowerCase().matches("(.*)" + searchString + "(.*)")) continue lineReader;
@@ -992,7 +985,9 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             writer.close();
 
             if (sender instanceof Player) {
-                bossBar.removeAll();
+                progressBossBar.removeAll();
+                progressBossBar = null;
+                bossBarProgress = 0;
             }
 
             //The maxFileSizeWithoutCompression is in MB so it's multiplied by 1mil to get the size in bytes.
@@ -1189,6 +1184,19 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
         return null;
 
+    }
+
+    public static void startProgressBossBarTask() {
+        BukkitTasksCache.addTask(new BukkitRunnable() {
+            @Override
+            public void run() {
+
+                if (progressBossBar == null) return;
+
+                progressBossBar.setProgress(bossBarProgress);
+
+            }
+        }.runTaskTimer(AlttdUtility.getInstance(), 1, 1));
     }
 
     public static void clearTemporaryFiles() {

@@ -10,6 +10,7 @@ import com.darko.main.darko.aprilfools.AprilFools;
 import com.darko.main.darko.blockBlockPlace.BlockBlockPlace;
 import com.darko.main.darko.illegalItemCheck.IllegalItemCheck;
 import com.darko.main.darko.logging.Logging;
+import com.darko.main.darko.logging.LoggingSearch;
 import com.darko.main.darko.magnet.Magnet;
 import com.darko.main.darko.rebootWhitelist.RebootWhitelist;
 import com.darko.main.darko.savedItems.SavedItem;
@@ -32,6 +33,8 @@ public class Reload {
         Logging.initiate();
 
         Logging.updateCachedLogsFromConfig(); //Reads from the config, needs to be called after Config.configSetup()
+
+        LoggingSearch.startProgressBossBarTask();
 
         APIs.APIConnect();
 
