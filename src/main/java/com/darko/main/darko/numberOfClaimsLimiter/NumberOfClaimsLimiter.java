@@ -21,6 +21,8 @@ public class NumberOfClaimsLimiter implements Listener {
 
         if (player.hasPermission("utility.claim-limit.bypass")) return;
 
+        if (event.getClaim().parent != null) return;
+
         int numberOfClaimsAfterEvent = GriefPrevention.instance.dataStore.getPlayerData(player.getUniqueId()).getClaims().size() + 1;
         int claimLimitFromPermission = -1;
 
