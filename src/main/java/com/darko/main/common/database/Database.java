@@ -82,10 +82,9 @@ public class Database implements Listener {
 
                 //Users table
 
-                statement = "SELECT * FROM users WHERE UUID = '" + uuid + "';";
-
                 try {
 
+                    statement = "SELECT * FROM users WHERE UUID = '" + uuid + "';";
                     ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
 
                     if (!rs.next()) {
@@ -99,8 +98,8 @@ public class Database implements Listener {
                                 + "false" + ", "
                                 + "false"
                                 + ");";
-
                         Database.connection.prepareStatement(statement).executeUpdate();
+
                         AlttdUtility.getInstance().getLogger().info(username + " was not in the database, adding them now.");
 
                     } else {
@@ -110,8 +109,8 @@ public class Database implements Listener {
                         if (!existingUsername.equals(username)) {
 
                             statement = "UPDATE users SET Username = '" + username + "' WHERE UUID = '" + uuid + "';";
-
                             Database.connection.prepareStatement(statement).executeUpdate();
+
                             AlttdUtility.getInstance().getLogger().info(username + " had a different username in the users table (" + existingUsername + "). Updated it.");
 
                         }
@@ -124,24 +123,41 @@ public class Database implements Listener {
 
                 //Custom command macro table
 
-                statement = "SELECT * FROM custom_command_macro WHERE UUID = '" + uuid + "';";
-
                 try {
 
+                    statement = "SELECT Username FROM custom_command_macro WHERE UUID = '" + uuid + "' AND Username != '" + username + "';";
                     ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
 
-                    while (rs.next()) {
+                    if (rs.next()) {
 
                         String existingUsername = rs.getString("Username");
 
-                        if (!existingUsername.equals(username)) {
+                        statement = "UPDATE custom_command_macro SET Username = '" + username + "' WHERE UUID = '" + uuid + "' AND Username != '" + username + "';";
+                        Database.connection.prepareStatement(statement).executeUpdate();
 
-                            statement = "UPDATE custom_command_macro SET Username = '" + username + "' WHERE UUID = '" + uuid + "';";
+                        AlttdUtility.getInstance().getLogger().info(username + " had a different username in the custom_command_macro table (" + existingUsername + "). Updated it.");
 
-                            Database.connection.prepareStatement(statement).executeUpdate();
-                            AlttdUtility.getInstance().getLogger().info(username + " had a different username in the custom_command_macro table (" + existingUsername + "). Updated it.");
+                    }
 
-                        }
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+
+                //Villager shop log table
+
+                try {
+
+                    statement = "SELECT user_Username FROM villager_shop_log WHERE user_UUID = '" + uuid + "' AND user_Username != '" + username + "';";
+                    ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
+
+                    if (rs.next()) {
+
+                        String existingUsername = rs.getString("user_Username");
+
+                        statement = "UPDATE villager_shop_log SET user_Username = '" + username + "' WHERE user_UUID = '" + uuid + "' AND user_Username != '" + username + "';";
+                        Database.connection.prepareStatement(statement).executeUpdate();
+
+                        AlttdUtility.getInstance().getLogger().info(username + " had a different username in the villager_shop_log table (" + existingUsername + "). Updated it.");
 
                     }
 
