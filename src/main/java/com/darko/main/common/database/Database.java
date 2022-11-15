@@ -147,14 +147,14 @@ public class Database implements Listener {
 
                 try {
 
-                    statement = "SELECT user_Username FROM villager_shop_log WHERE user_UUID = '" + uuid + "' AND user_Username != '" + username + "';";
+                    statement = "SELECT user_username FROM villager_shop_log WHERE user_UUID = '" + uuid + "' AND user_username != '" + username + "';";
                     ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
 
                     if (rs.next()) {
 
-                        String existingUsername = rs.getString("user_Username");
+                        String existingUsername = rs.getString("user_username");
 
-                        statement = "UPDATE villager_shop_log SET user_Username = '" + username + "' WHERE user_UUID = '" + uuid + "' AND user_Username != '" + username + "';";
+                        statement = "UPDATE villager_shop_log SET user_username = '" + username + "' WHERE user_UUID = '" + uuid + "' AND user_username != '" + username + "';";
                         Database.connection.prepareStatement(statement).executeUpdate();
 
                         AlttdUtility.getInstance().getLogger().info(username + " had a different username in the villager_shop_log table (" + existingUsername + "). Updated it.");
