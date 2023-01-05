@@ -36,6 +36,7 @@ import com.darko.main.darko.commandOnJoin.CommandOnJoin;
 import com.darko.main.darko.crash.Crash;
 import com.darko.main.darko.customCommandMacro.CustomCommandMacroCommand;
 import com.darko.main.darko.deathMessage.DeathMessage;
+import com.darko.main.darko.storepetonpvp.StorePetOnPVP;
 import com.darko.main.darko.toggleScruff.ToggleScruff;
 import com.darko.main.darko.tpPunch.TPPunch;
 import com.darko.main.darko.trapped.Trapped;
@@ -289,6 +290,12 @@ public class Register extends JavaPlugin {
         if (APIs.isChatPluginFound()) {
 
             registerEvents(new LoggingChatPlugin());
+
+        }
+
+        if (APIs.isPvPManagerFound() && APIs.isMyPetFound()) {
+
+            registerEvents(new StorePetOnPVP());
 
         }
 

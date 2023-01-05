@@ -97,7 +97,8 @@ public class Config {
         MagnetDisabled("Messages.MagnetDisabled", "&cMagnet disabled"),
         InvalidUsageFindItemCommand("Messages.InvalidUsageFindItemCommand", "&cUsage of this command is /finditem <item>."),
         FindItemCommandInvalidItem("Messages.FindItemCommandInvalidItem", "&cInvalid item."),
-        FindItemCommandOnCooldown("Messages.FindItemCommandOnCooldown", "&cThat command is on a cooldown for %seconds% seconds.");
+        FindItemCommandOnCooldown("Messages.FindItemCommandOnCooldown", "&cThat command is on a cooldown for %seconds% seconds."),
+        StorePetOnPVPPetStored("Messages.StorePetOnPVPPetStored", "&cPet stored due to enabling PvP. If you die while it's out it'll drop it's inventory.");
 
         private final String path;
         private final String message;
@@ -182,6 +183,7 @@ public class Config {
         toggles.add("DatabaseVillagerShopLog");
         //toggles.add("DatabaseMoneyLog");
         toggles.add("BalStatsCommand");
+        toggles.add("StorePetOnPVP");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
