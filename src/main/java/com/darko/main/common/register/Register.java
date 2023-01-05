@@ -17,6 +17,7 @@ import com.darko.main.darko.joinLimiter.JoinLimiter;
 import com.darko.main.darko.joinNotifications.CMIJoinNotifications;
 //import com.darko.main.darko.joinNotifications.GriefPreventionJoinNotifications;
 import com.darko.main.darko.logging.commandUsage.CommandUsage;
+import com.darko.main.darko.logging.listeners.LoggingChatPlugin;
 import com.darko.main.darko.logging.listeners.LoggingCrazyCrates;
 import com.darko.main.darko.logging.listeners.LoggingFarmLimiter;
 import com.darko.main.darko.logging.listeners.LoggingGriefPrevention;
@@ -282,6 +283,12 @@ public class Register extends JavaPlugin {
         if (APIs.isPlayerShopsFound()) {
 
             registerEvents(new LoggingPlayerShops());
+
+        }
+
+        if (APIs.isChatPluginFound()) {
+
+            registerEvents(new LoggingChatPlugin());
 
         }
 

@@ -2,6 +2,7 @@ package com.darko.main.common.API;
 
 import com.Zrips.CMI.CMI;
 import com.alttd.VillagerUI;
+import com.alttd.chat.ChatAPI;
 import com.alttd.playershops.PlayerShops;
 import com.comphenix.protocol.ProtocolLib;
 import com.darko.main.AlttdUtility;
@@ -45,6 +46,8 @@ public class APIs extends JavaPlugin {
     private static boolean protocolLibFound = false;
     @Getter
     private static boolean playerShopsFound = false;
+    @Getter
+    private static boolean chatPluginFound = false;
 
     public static void connectGriefPreventionAPI() {
         griefPreventionFound = getGriefPreventionAPI() != null;
@@ -106,6 +109,11 @@ public class APIs extends JavaPlugin {
         sendFoundMessage("PlayerShops", playerShopsFound);
     }
 
+    public static void connectChatPluginAPI() {
+        chatPluginFound = getChatPluginAPI() != null;
+        sendFoundMessage("ChatPlugin", chatPluginFound);
+    }
+
     public static void APIConnect() {
 
         connectGriefPreventionAPI();
@@ -120,6 +128,7 @@ public class APIs extends JavaPlugin {
         connectVillagerShopUIAPI();
         connectProtocolLibAPI();
         connectPlayerShopsAPI();
+        connectChatPluginAPI();
 
     }
 
@@ -291,6 +300,20 @@ public class APIs extends JavaPlugin {
             Plugin plugin = Bukkit.getPluginManager().getPlugin("PlayerShops");
             if (plugin instanceof PlayerShops) {
                 return (PlayerShops) plugin;
+            } else {
+                return null;
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+            return null;
+        }
+    }
+
+    public static com.alttd.chat.ChatAPI getChatPluginAPI() {
+        try {
+            Plugin plugin = Bukkit.getPluginManager().getPlugin("ChatPlugin");
+            if (plugin instanceof ChatAPI) {
+                return (ChatAPI) plugin;
             } else {
                 return null;
             }
