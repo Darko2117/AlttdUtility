@@ -24,44 +24,44 @@ public class Reload {
 
     public static void reload(ReloadType reloadType) {
 
-        new Methods().checkConfig(); //Needs to be called before loading the config
+        new Methods().checkConfig(); // Needs to be called before loading the config
 
         Config.configSetup();
 
-        BukkitTasksCache.cancelRunningTasks(); //Needs to be called before any new tasks are added
+        BukkitTasksCache.cancelRunningTasks(); // Needs to be called before any new tasks are added
 
         Logging.initiate();
 
-        Logging.updateCachedLogsFromConfig(); //Reads from the config, needs to be called after Config.configSetup()
+        Logging.updateCachedLogsFromConfig(); // Reads from the config, needs to be called after Config.configSetup()
 
         LoggingSearch.startProgressBossBarTask();
 
         APIs.APIConnect();
 
-        Register.registerEvents(); //Needs to be called after APIs.APIConnect()
+        Register.registerEvents(); // Needs to be called after APIs.APIConnect()
 
-        Register.registerCommands(); //Needs to be called after APIs.APIConnect()
+        Register.registerCommands(); // Needs to be called after APIs.APIConnect()
 
         if (reloadType.equals(ReloadType.ON_ENABLE)) {
-            RebootWhitelist.reload(); //Reads from the config, needs to be called after Config.configSetup()
-            RebootWhitelist.disableAfterBoot(); //Reads from the config, needs to be called after Config.configSetup()
+            RebootWhitelist.reload(); // Reads from the config, needs to be called after Config.configSetup()
+            RebootWhitelist.disableAfterBoot(); // Reads from the config, needs to be called after Config.configSetup()
         }
 
-        SavedItem.loadSavedItems(); //Reads from the config, needs to be after Config.configSetup()
+        SavedItem.loadSavedItems(); // Reads from the config, needs to be after Config.configSetup()
 
-        Trapped.initiate(); //Reads from the config, needs to be after Config.configSetup()
+        Trapped.initiate(); // Reads from the config, needs to be after Config.configSetup()
 
-        SpawnLimiterCheck.reload(); //Reads from the config, needs to be after Config.configSetup()
+        SpawnLimiterCheck.reload(); // Reads from the config, needs to be after Config.configSetup()
 
         Sit.startCheckingSeats();
 
-        FreezeMailPlayerListener.startFreezemailRepeater(); //Reads from the config, needs to be after Config.configSetup()
+        FreezeMailPlayerListener.startFreezemailRepeater(); // Reads from the config, needs to be after Config.configSetup()
 
-        TimedTips.initiate(); //Reads from the config, needs to be after Config.configSetup()
+        TimedTips.initiate(); // Reads from the config, needs to be after Config.configSetup()
 
-        IllegalItemCheck.loadIllegalItems(); //Reads from the config, needs to be after Config.configSetup()
+        IllegalItemCheck.loadIllegalItems(); // Reads from the config, needs to be after Config.configSetup()
 
-        BlockBlockPlace.initiate(); //Reads from the config, needs to be after Config.configSetup()
+        BlockBlockPlace.initiate(); // Reads from the config, needs to be after Config.configSetup()
 
         Magnet.initiate();
 

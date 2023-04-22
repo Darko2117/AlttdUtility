@@ -18,9 +18,11 @@ public class JoinLimiter implements Listener {
     @EventHandler(ignoreCancelled = false, priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerLoginEvent event) {
 
-        if (event.getPlayer().hasPermission("utility.joinlimiterbypass")) return;
+        if (event.getPlayer().hasPermission("utility.joinlimiterbypass"))
+            return;
 
-        if (!event.getResult().equals(PlayerLoginEvent.Result.ALLOWED)) return;
+        if (!event.getResult().equals(PlayerLoginEvent.Result.ALLOWED))
+            return;
 
         JoinLimiterObject joinLimiterObject = getJoinLimiterObjectFromUUID(event.getPlayer().getUniqueId());
 
@@ -120,7 +122,8 @@ public class JoinLimiter implements Listener {
 
             Long firstTime = joinTimes.get(0);
             for (Long time : joinTimes) {
-                if (time < firstTime) firstTime = time;
+                if (time < firstTime)
+                    firstTime = time;
             }
             return (firstTime + (AlttdUtility.getInstance().getConfig().getLong("JoinLimiter.TimeLimit") * 1000)) - System.currentTimeMillis();
 

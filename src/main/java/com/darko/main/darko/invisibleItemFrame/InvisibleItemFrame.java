@@ -27,7 +27,8 @@ public class InvisibleItemFrame implements Listener, CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.InvisibleItemFramesCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.InvisibleItemFramesCommand"))
+            return true;
 
         if (!(sender instanceof Player)) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
@@ -39,7 +40,8 @@ public class InvisibleItemFrame implements Listener, CommandExecutor {
         Integer radius = 100;
         try {
             radius = Integer.parseInt(args[0]);
-            if (radius > 100) radius = 100;
+            if (radius > 100)
+                radius = 100;
         } catch (Throwable ignored) {
         }
 
@@ -48,9 +50,11 @@ public class InvisibleItemFrame implements Listener, CommandExecutor {
 
         for (Entity entity : nearbyEntities) {
 
-            if (!(entity instanceof ItemFrame)) continue;
+            if (!(entity instanceof ItemFrame))
+                continue;
             ItemFrame itemFrame = (ItemFrame) entity;
-            if (itemFrame.isVisible()) continue;
+            if (itemFrame.isVisible())
+                continue;
             invisibleItemFrames.add((ItemFrame) entity);
 
         }
@@ -84,14 +88,18 @@ public class InvisibleItemFrame implements Listener, CommandExecutor {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onItemFrameClick(PlayerInteractEntityEvent event) {
 
-        if (!event.getHand().equals(EquipmentSlot.HAND)) return;
-        if (!(event.getRightClicked() instanceof ItemFrame)) return;
+        if (!event.getHand().equals(EquipmentSlot.HAND))
+            return;
+        if (!(event.getRightClicked() instanceof ItemFrame))
+            return;
 
         ItemFrame itemFrame = (ItemFrame) event.getRightClicked();
 
-        if (itemFrame.getItem().getType().equals(Material.AIR)) return;
+        if (itemFrame.getItem().getType().equals(Material.AIR))
+            return;
 
-        if (!event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.DIAMOND)) return;
+        if (!event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.DIAMOND))
+            return;
 
         Boolean takeDiamond = itemFrame.isVisible();
 

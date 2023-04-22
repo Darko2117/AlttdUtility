@@ -50,27 +50,27 @@ public class FindItem implements CommandExecutor, TabCompleter {
     private int processStepCount = 0;
     private long thisTickStartTime;
 
-    //Step 0 - finding all containers in area
+    // Step 0 - finding all containers in area
     private boolean stepZeroFirstRun = true;
     private int stepZeroXMin, stepZeroYMin, stepZeroZMin, stepZeroXMax, stepZeroYMax, stepZeroZMax;
 
-    //Step 1 - remove unseeable containers
+    // Step 1 - remove unseeable containers
     private final List<Container> stepOneToRemove = new ArrayList<>();
     private int stepOneLastCheckedIndex = 0;
 
-    //Step 2 - remove unopenable containers
+    // Step 2 - remove unopenable containers
     private final List<Container> stepTwoToRemove = new ArrayList<>();
     private int stepTwoLastCheckedIndex = 0;
 
-    //Step 3 - remove not containing containers
+    // Step 3 - remove not containing containers
     private final List<Container> stepThreeToRemove = new ArrayList<>();
     private int stepThreeLastCheckedIndex = 0;
 
-    //Step 4 - searching done, finish up
+    // Step 4 - searching done, finish up
 
-    public FindItem(){}
+    public FindItem() {}
 
-    public FindItem(Player player, List<Material> searchedMaterials){
+    public FindItem(Player player, List<Material> searchedMaterials) {
 
         this.player = player;
         this.searchedMaterials = searchedMaterials;
@@ -84,7 +84,8 @@ public class FindItem implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FindItemCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FindItemCommand"))
+            return true;
 
         if (!(commandSender instanceof Player player)) {
             new Methods().sendConfigMessage(commandSender, "Messages.PlayerOnlyCommandMessage");
@@ -128,7 +129,8 @@ public class FindItem implements CommandExecutor, TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FindItemCommand")) return null;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.FindItemCommand"))
+            return null;
 
         if (!(commandSender instanceof Player)) {
             new Methods().sendConfigMessage(commandSender, "Messages.PlayerOnlyCommandMessage");
@@ -139,7 +141,8 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
             String lastMaterial = strings[0];
 
-            if (lastMaterial.contains(",")) lastMaterial = lastMaterial.substring(lastMaterial.lastIndexOf(",") + 1);
+            if (lastMaterial.contains(","))
+                lastMaterial = lastMaterial.substring(lastMaterial.lastIndexOf(",") + 1);
 
             List<String> results = new ArrayList<>();
 
@@ -217,7 +220,8 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
                     Block block = playerEyeLocation.getWorld().getBlockAt(stepZeroXMin, stepZeroYMin, stepZeroZMin);
 
-                    if (block.getState() instanceof Container container) containers.add(container);
+                    if (block.getState() instanceof Container container)
+                        containers.add(container);
 
                     if (outOfThisTickTime()) {
                         stepZeroZMin++;
@@ -274,7 +278,8 @@ public class FindItem implements CommandExecutor, TabCompleter {
                 stepOneToRemove.add(container);
             }
 
-            if (outOfThisTickTime()) return;
+            if (outOfThisTickTime())
+                return;
 
         }
 
@@ -296,7 +301,8 @@ public class FindItem implements CommandExecutor, TabCompleter {
                 stepTwoToRemove.add(container);
             }
 
-            if (outOfThisTickTime()) return;
+            if (outOfThisTickTime())
+                return;
 
         }
 
@@ -315,7 +321,8 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
             for (ItemStack itemStack : container.getInventory()) {
 
-                if (itemStack == null) continue;
+                if (itemStack == null)
+                    continue;
 
                 for (Material material : searchedMaterials) {
                     if (itemStack.getType().equals(material)) {
@@ -325,7 +332,8 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
                 if (itemStack.getItemMeta() instanceof BlockStateMeta blockStateMeta && blockStateMeta.getBlockState() instanceof ShulkerBox shulkerBox) {
                     for (ItemStack itemStackInShulker : shulkerBox.getInventory()) {
-                        if (itemStackInShulker == null) continue;
+                        if (itemStackInShulker == null)
+                            continue;
                         for (Material material : searchedMaterials) {
                             if (itemStackInShulker.getType().equals(material)) {
                                 itemFound = true;
@@ -340,7 +348,8 @@ public class FindItem implements CommandExecutor, TabCompleter {
                 stepThreeToRemove.add(container);
             }
 
-            if (outOfThisTickTime()) return;
+            if (outOfThisTickTime())
+                return;
 
         }
 
@@ -396,7 +405,8 @@ public class FindItem implements CommandExecutor, TabCompleter {
     private Material getMaterialFromString(String material) {
 
         for (Material material1 : Material.values()) {
-            if (material1.toString().equalsIgnoreCase(material)) return material1;
+            if (material1.toString().equalsIgnoreCase(material))
+                return material1;
         }
 
         return null;
@@ -409,7 +419,8 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
         for (String material : materialsString.split(",")) {
             Material material1 = getMaterialFromString(material);
-            if (material1 != null) materialsList.add(material1);
+            if (material1 != null)
+                materialsList.add(material1);
         }
 
         while (materialsList.size() > AlttdUtility.getInstance().getConfig().getInt("FindItem.ItemLimit")) {
@@ -424,7 +435,8 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
         StringBuilder string = new StringBuilder();
 
-        if (materials.isEmpty()) return string.toString();
+        if (materials.isEmpty())
+            return string.toString();
 
         for (Material material : materials) {
             string.append(material.toString().toLowerCase()).append(", ");

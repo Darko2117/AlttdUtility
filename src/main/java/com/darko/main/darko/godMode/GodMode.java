@@ -30,7 +30,8 @@ public class GodMode implements CommandExecutor, Listener {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.GodModeCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.GodModeCommand"))
+            return true;
 
         if (!(sender instanceof Player)) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
@@ -83,11 +84,13 @@ public class GodMode implements CommandExecutor, Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
 
-        if (Database.connection == null) return;
+        if (Database.connection == null)
+            return;
 
         Player player = (Player) event.getEntity();
 
-        if (!enabledPlayers.contains(player)) return;
+        if (!enabledPlayers.contains(player))
+            return;
 
         event.setCancelled(true);
         player.setSaturation(20);
@@ -98,13 +101,17 @@ public class GodMode implements CommandExecutor, Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDamageEvent(EntityDamageEvent event) {
 
-        if (Database.connection == null) return;
+        if (Database.connection == null)
+            return;
 
-        if (!(event.getEntity() instanceof Player player)) return;
+        if (!(event.getEntity() instanceof Player player))
+            return;
 
-        if (!enabledPlayers.contains(player)) return;
+        if (!enabledPlayers.contains(player))
+            return;
 
-        if (healingPlayers.contains(player)) return;
+        if (healingPlayers.contains(player))
+            return;
 
         new BukkitRunnable() {
             @Override
@@ -135,11 +142,13 @@ public class GodMode implements CommandExecutor, Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerDeath(PlayerDeathEvent event) {
 
-        if (Database.connection == null) return;
+        if (Database.connection == null)
+            return;
 
         Player player = event.getEntity();
 
-        if (!enabledPlayers.contains(player)) return;
+        if (!enabledPlayers.contains(player))
+            return;
 
         event.setCancelled(true);
         player.setHealth(1);
@@ -161,15 +170,18 @@ public class GodMode implements CommandExecutor, Listener {
         enabledPlayers.remove(event.getPlayer());
     }
 
-    //Caches a player from the database, if the player has god_mode enabled adds them to the list, removes them otherwise
+    // Caches a player from the database, if the player has god_mode enabled adds them to the list,
+    // removes them otherwise
     public static void cachePlayer(Player player) {
         try {
 
-            if (Database.connection == null) return;
+            if (Database.connection == null)
+                return;
 
             String statement = "SELECT god_mode_enabled FROM users WHERE UUID = '" + player.getUniqueId() + "';";
             ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
-            if (!rs.next()) return;
+            if (!rs.next())
+                return;
 
             if (rs.getBoolean("god_mode_enabled")) {
                 enabledPlayers.add(player);

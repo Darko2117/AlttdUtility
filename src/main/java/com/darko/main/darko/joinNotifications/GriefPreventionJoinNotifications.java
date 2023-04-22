@@ -15,7 +15,8 @@ public class GriefPreventionJoinNotifications implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
 
         Player player = event.getPlayer();
-        if (!player.hasPermission("utility.canseejoinnotifications")) return;
+        if (!player.hasPermission("utility.canseejoinnotifications"))
+            return;
 
         GriefPrevention griefPreventionAPI = APIs.getGriefPreventionAPI();
 

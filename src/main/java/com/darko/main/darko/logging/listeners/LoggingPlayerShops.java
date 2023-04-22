@@ -15,7 +15,8 @@ public class LoggingPlayerShops implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerExchangeShopEvent(PlayerExchangeShopEvent playerExchangeShopEvent) {
 
-        if (!Logging.getCachedLogFromName("ShopTransactionsLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("ShopTransactionsLog").isEnabled())
+            return;
 
         PlayerShop playerShop = playerExchangeShopEvent.getShop();
 

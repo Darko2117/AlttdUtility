@@ -61,7 +61,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         sender.sendMessage(ChatColor.RED + "A search is in progress, this one will start when that one finishes.");
                     }
 
-                    //Waiting until other searches finish. Only one can be active at the time.
+                    // Waiting until other searches finish. Only one can be active at the time.
                     while (inUse) {
                         AlttdUtility.getInstance().getLogger().info("Waiting until the last search finishes to start this one.");
                         Thread.sleep(1000);
@@ -99,7 +99,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             AlttdUtility.getInstance().getLogger().info("Search started.");
             long startingTime = System.currentTimeMillis();
 
-            //Deleting all the temporary files in case some are left.
+            // Deleting all the temporary files in case some are left.
             clearTemporaryFiles();
 
             if (args.length < 3) {
@@ -127,7 +127,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             String searchString = "";
             for (int i = 2; i < args.length; i++) {
-                if (args[i].equals("-silent")) continue;
+                if (args[i].equals("-silent"))
+                    continue;
                 if (!searchString.isEmpty())
                     searchString = searchString.concat(" ");
                 searchString = searchString.concat(args[i]);
@@ -136,11 +137,11 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             List<String> blacklistedStrings = AlttdUtility.getInstance().getConfig().getStringList("SearchLogs.NormalSearchBlacklistedStrings");
 
-            //Getting a list of all the log files.
+            // Getting a list of all the log files.
             String logsDirectoryPath = new File(".").getAbsolutePath() + File.separator + "logs" + File.separator;
             List<File> filesToRead = new ArrayList<>(Arrays.asList(new File(logsDirectoryPath).listFiles()));
 
-            //Removing from that list all the ones that aren't in the defined time limit.
+            // Removing from that list all the ones that aren't in the defined time limit.
             List<File> filesToRemove = new ArrayList<>();
             for (File file : filesToRead) {
                 try {
@@ -171,13 +172,15 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 progressBossBar.addPlayer((Player) sender);
             }
 
-            //Copying all the files that need to be read to /temporary-files/. Uncompressing the compressed ones.
+            // Copying all the files that need to be read to /temporary-files/. Uncompressing the compressed
+            // ones.
             for (File f : filesToRead) {
                 try {
 
                     if (sender instanceof Player) {
                         copyingPercentage += 100.0 / filesToRead.size();
-                        if (copyingPercentage > 100) copyingPercentage = 100;
+                        if (copyingPercentage > 100)
+                            copyingPercentage = 100;
                         bossBarProgress = copyingPercentage / 2 / 100;
                     }
 
@@ -198,7 +201,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 bossBarProgress = 0.5;
             }
 
-            //Reloading the list of files that need to be read with the files from /temporary-files/.
+            // Reloading the list of files that need to be read with the files from /temporary-files/.
             filesToRead.clear();
             filesToRead.addAll(Arrays.asList(new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "temporary-files").listFiles()));
             filesToRead.sort(Comparator.naturalOrder());
@@ -212,7 +215,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 serverName = "unknownServerName";
             }
 
-            //The file is first written to /temporary-files/. It'll get moved after the whole search is completed.
+            // The file is first written to /temporary-files/. It'll get moved after the whole search is
+            // completed.
             String outputFilePath = "";
             outputFilePath = outputFilePath.concat(AlttdUtility.getInstance().getDataFolder() + File.separator + "temporary-files" + File.separator);
             outputFilePath = outputFilePath.concat(File.separator);
@@ -231,7 +235,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 progressBossBar.setTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "READING LINES");
                 for (File f : filesToRead) {
                     BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
-                    while (bufferedReader.readLine() != null) numberOfLinesToSearch++;
+                    while (bufferedReader.readLine() != null)
+                        numberOfLinesToSearch++;
                     bufferedReader.close();
                 }
             }
@@ -240,7 +245,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             String hoverText = "";
             int hoverTextLines = 0;
 
-            //Searching through the files for the arguments.
+            // Searching through the files for the arguments.
             File outputFile = new File(outputFilePath);
             FileWriter writer = new FileWriter(outputFile, true);
             writer.write("");
@@ -251,16 +256,17 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                     BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
                     String line;
 
-                    lineReader:
-                    while ((line = bufferedReader.readLine()) != null) {
+                    lineReader: while ((line = bufferedReader.readLine()) != null) {
 
                         if (sender instanceof Player) {
                             searchPercentage += 100.0 / numberOfLinesToSearch;
-                            if (searchPercentage > 100) searchPercentage = 100;
+                            if (searchPercentage > 100)
+                                searchPercentage = 100;
                             bossBarProgress = searchPercentage / 2 / 100 + 0.5;
                         }
 
-                        if (!line.toLowerCase().matches("(.*)" + searchString + "(.*)")) continue lineReader;
+                        if (!line.toLowerCase().matches("(.*)" + searchString + "(.*)"))
+                            continue lineReader;
 
                         for (String s : blacklistedStrings) {
                             if (line.toLowerCase().contains(s)) {
@@ -269,7 +275,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                             }
                         }
 
-                        //Writes only those lines which contain the provided search string, it skips over the rest.
+                        // Writes only those lines which contain the provided search string, it skips over the rest.
                         writer.write(f.getName() + ":" + line + "\n");
 
                         if (hoverTextLines < 50) {
@@ -300,11 +306,11 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 bossBarProgress = 0;
             }
 
-            //The maxFileSizeWithoutCompression is in MB so it's multiplied by 1mil to get the size in bytes.
+            // The maxFileSizeWithoutCompression is in MB so it's multiplied by 1mil to get the size in bytes.
             int maxFileSizeWithoutCompression = AlttdUtility.getInstance().getConfig().getInt("SearchLogs.MaxFileSizeWithoutCompression");
             maxFileSizeWithoutCompression *= 1000000;
 
-            //If the file is bigger than the defined limit, it gets compressed.
+            // If the file is bigger than the defined limit, it gets compressed.
             if (outputFile.length() > maxFileSizeWithoutCompression) {
 
                 new Methods().compressFile(outputFile.getAbsolutePath(), outputFile.getAbsolutePath().concat(".gz"));
@@ -313,7 +319,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             }
 
-            //The file with all the results is copied to the defined output path and all the other files are removed.
+            // The file with all the results is copied to the defined output path and all the other files are
+            // removed.
             String tempOutputFilePathString = outputFile.getAbsolutePath();
             tempOutputFilePathString = tempOutputFilePathString.substring(tempOutputFilePathString.lastIndexOf(File.separator) + 1);
             tempOutputFilePathString = AlttdUtility.getInstance().getConfig().getString("SearchLogs.OutputPath") + File.separator + tempOutputFilePathString;
@@ -359,7 +366,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             AlttdUtility.getInstance().getLogger().info("Search started.");
             long startingTime = System.currentTimeMillis();
 
-            //Deleting all the temporary files in case some are left.
+            // Deleting all the temporary files in case some are left.
             clearTemporaryFiles();
 
             if (args.length < 5) {
@@ -417,16 +424,20 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
                 }
 
-                if (args[i].equalsIgnoreCase("-silent")) continue;
+                if (args[i].equalsIgnoreCase("-silent"))
+                    continue;
 
-                if (!args[i].contains(":")) continue;
+                if (!args[i].contains(":"))
+                    continue;
 
                 argumentKey = args[i].replace(":", "");
 
                 for (int j = i + 1; j < args.length; j++) {
 
-                    if (args[j].equalsIgnoreCase("-silent")) break;
-                    if (args[j].contains(":")) break;
+                    if (args[j].equalsIgnoreCase("-silent"))
+                        break;
+                    if (args[j].contains(":"))
+                        break;
 
                     if (!argumentValues.isEmpty())
                         argumentValues = argumentValues.concat(" ");
@@ -438,7 +449,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             }
 
-            //Getting a list of all the files with the correct log name from /logs/ and /compressed-logs/.
+            // Getting a list of all the files with the correct log name from /logs/ and /compressed-logs/.
             List<File> filesToRead = new ArrayList<>();
             for (File file : new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "logs" + File.separator).listFiles()) {
                 for (String logName : logNames) {
@@ -459,7 +470,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 }
             }
 
-            //Removing from that list all the ones that aren't in the defined time limit.
+            // Removing from that list all the ones that aren't in the defined time limit.
             List<File> filesToRemove = new ArrayList<>();
             for (File file : filesToRead) {
                 try {
@@ -489,13 +500,15 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 progressBossBar.addPlayer((Player) sender);
             }
 
-            //Copying all the files that need to be read to /temporary-files/. Uncompressing the compressed ones.
+            // Copying all the files that need to be read to /temporary-files/. Uncompressing the compressed
+            // ones.
             for (File f : filesToRead) {
                 try {
 
                     if (sender instanceof Player) {
                         copyingPercentage += 100.0 / filesToRead.size();
-                        if (copyingPercentage > 100) copyingPercentage = 100;
+                        if (copyingPercentage > 100)
+                            copyingPercentage = 100;
                         bossBarProgress = copyingPercentage / 2 / 100;
                     }
 
@@ -516,7 +529,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 bossBarProgress = 0.5;
             }
 
-            //Reloading the list of files that need to be read with the files from /temporary-files/.
+            // Reloading the list of files that need to be read with the files from /temporary-files/.
             filesToRead.clear();
             filesToRead.addAll(Arrays.asList(new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "temporary-files").listFiles()));
             filesToRead.sort(Comparator.naturalOrder());
@@ -537,7 +550,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 logNamesString = logNamesString.concat(logName);
             }
 
-            //The file is first written to /temporary-files/. It'll get moved after the whole search is completed.
+            // The file is first written to /temporary-files/. It'll get moved after the whole search is
+            // completed.
             String outputFilePath = "";
             outputFilePath = outputFilePath.concat(AlttdUtility.getInstance().getDataFolder() + File.separator + "temporary-files" + File.separator);
             outputFilePath = outputFilePath.concat(File.separator);
@@ -556,7 +570,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 progressBossBar.setTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "READING LINES");
                 for (File f : filesToRead) {
                     BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
-                    while (bufferedReader.readLine() != null) numberOfLinesToSearch++;
+                    while (bufferedReader.readLine() != null)
+                        numberOfLinesToSearch++;
                     bufferedReader.close();
                 }
             }
@@ -565,17 +580,17 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             String hoverText = "";
             int hoverTextLines = 0;
 
-            //Searching through the files for the arguments.
+            // Searching through the files for the arguments.
             File outputFile = new File(outputFilePath);
             FileWriter writer = new FileWriter(outputFile, true);
             writer.write("");
 
-//            //Caching the first argument's value so that it can be used to optimize the search
-//            String firstArgumentValue = null;
-//            if (!arguments.isEmpty()) {
-//                Map.Entry<String, String> entry = arguments.entrySet().iterator().next();
-//                firstArgumentValue = entry.getValue();
-//            }
+            // //Caching the first argument's value so that it can be used to optimize the search
+            // String firstArgumentValue = null;
+            // if (!arguments.isEmpty()) {
+            // Map.Entry<String, String> entry = arguments.entrySet().iterator().next();
+            // firstArgumentValue = entry.getValue();
+            // }
 
             for (File f : filesToRead) {
                 try {
@@ -583,22 +598,22 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                     BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
                     String line;
 
-                    lineReader:
-                    while ((line = bufferedReader.readLine()) != null) {
+                    lineReader: while ((line = bufferedReader.readLine()) != null) {
                         try {
 
                             if (sender instanceof Player) {
                                 searchPercentage += 100.0 / numberOfLinesToSearch;
-                                if (searchPercentage > 100) searchPercentage = 100;
+                                if (searchPercentage > 100)
+                                    searchPercentage = 100;
                                 bossBarProgress = searchPercentage / 2 / 100 + 0.5;
                             }
 
                             String lineCopy = line;
 
-//                            if (firstArgumentValue != null) {
-//                                if (!lineCopy.toLowerCase().matches("(.*)" + firstArgumentValue.toLowerCase() + "(.*)"))
-//                                    continue lineReader;
-//                            }
+                            // if (firstArgumentValue != null) {
+                            // if (!lineCopy.toLowerCase().matches("(.*)" + firstArgumentValue.toLowerCase() + "(.*)"))
+                            // continue lineReader;
+                            // }
 
                             if (!lineCopy.startsWith("|") || !lineCopy.endsWith("|"))
                                 continue lineReader;
@@ -633,7 +648,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                             } catch (Throwable ignored) {
                             }
 
-                            //Writes only those lines which contain all the provided arguments, it skips over the rest. If the radius is provided checks that.
+                            // Writes only those lines which contain all the provided arguments, it skips over the rest. If the
+                            // radius is provided checks that.
                             if (!radiusString.equals("-1")) {
 
                                 if (!(sender instanceof Player))
@@ -728,11 +744,11 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 bossBarProgress = 0;
             }
 
-            //The maxFileSizeWithoutCompression is in MB so it's multiplied by 1mil to get the size in bytes.
+            // The maxFileSizeWithoutCompression is in MB so it's multiplied by 1mil to get the size in bytes.
             int maxFileSizeWithoutCompression = AlttdUtility.getInstance().getConfig().getInt("SearchLogs.MaxFileSizeWithoutCompression");
             maxFileSizeWithoutCompression *= 1000000;
 
-            //If the file is bigger than the defined limit, it gets compressed.
+            // If the file is bigger than the defined limit, it gets compressed.
             if (outputFile.length() > maxFileSizeWithoutCompression) {
 
                 new Methods().compressFile(outputFile.getAbsolutePath(), outputFile.getAbsolutePath().concat(".gz"));
@@ -741,7 +757,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             }
 
-            //The file with all the results is copied to the defined output path and all the other files are removed.
+            // The file with all the results is copied to the defined output path and all the other files are
+            // removed.
             String tempOutputFilePathString = outputFile.getAbsolutePath();
             tempOutputFilePathString = tempOutputFilePathString.substring(tempOutputFilePathString.lastIndexOf(File.separator) + 1);
             tempOutputFilePathString = AlttdUtility.getInstance().getConfig().getString("SearchLogs.OutputPath") + File.separator + tempOutputFilePathString;
@@ -787,7 +804,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             AlttdUtility.getInstance().getLogger().info("Search started.");
             long startingTime = System.currentTimeMillis();
 
-            //Deleting all the temporary files in case some are left.
+            // Deleting all the temporary files in case some are left.
             clearTemporaryFiles();
 
             if (args.length < 4) {
@@ -823,7 +840,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             String searchString = "";
             for (int i = 3; i < args.length; i++) {
-                if (args[i].equals("-silent")) continue;
+                if (args[i].equals("-silent"))
+                    continue;
                 if (!searchString.isEmpty())
                     searchString = searchString.concat(" ");
                 searchString = searchString.concat(args[i]);
@@ -844,10 +862,10 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 return;
             }
 
-            //Getting a list of all the log files.
+            // Getting a list of all the log files.
             List<File> filesToRead = new ArrayList<>(Arrays.asList(new File(logsDirectoryPath).listFiles()));
 
-            //Removing from that list all the ones that aren't in the defined time limit.
+            // Removing from that list all the ones that aren't in the defined time limit.
             List<File> filesToRemove = new ArrayList<>();
             for (File file : filesToRead) {
                 try {
@@ -877,12 +895,13 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 progressBossBar.addPlayer((Player) sender);
             }
 
-            //Copying all the files that need to be read to /temporary-files/.
+            // Copying all the files that need to be read to /temporary-files/.
             for (File f : filesToRead) {
 
                 if (sender instanceof Player) {
                     copyingPercentage += 100.0 / filesToRead.size();
-                    if (copyingPercentage > 100) copyingPercentage = 100;
+                    if (copyingPercentage > 100)
+                        copyingPercentage = 100;
                     bossBarProgress = copyingPercentage / 2 / 100;
                 }
 
@@ -894,7 +913,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 bossBarProgress = 0.5;
             }
 
-            //Reloading the list of files that need to be read with the files from /temporary-files/.
+            // Reloading the list of files that need to be read with the files from /temporary-files/.
             filesToRead.clear();
             filesToRead.addAll(Arrays.asList(new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "temporary-files").listFiles()));
             filesToRead.sort(Comparator.naturalOrder());
@@ -908,7 +927,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 serverName = "unknownServerName";
             }
 
-            //The file is first written to /temporary-files/. It'll get moved after the whole search is completed.
+            // The file is first written to /temporary-files/. It'll get moved after the whole search is
+            // completed.
             String outputFilePath = "";
             outputFilePath = outputFilePath.concat(AlttdUtility.getInstance().getDataFolder() + File.separator + "temporary-files" + File.separator);
             outputFilePath = outputFilePath.concat(File.separator);
@@ -927,7 +947,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 progressBossBar.setTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "READING LINES");
                 for (File f : filesToRead) {
                     BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
-                    while (bufferedReader.readLine() != null) numberOfLinesToSearch++;
+                    while (bufferedReader.readLine() != null)
+                        numberOfLinesToSearch++;
                     bufferedReader.close();
                 }
             }
@@ -936,7 +957,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             String hoverText = "";
             int hoverTextLines = 0;
 
-            //Searching through the files for the arguments.
+            // Searching through the files for the arguments.
             File outputFile = new File(outputFilePath);
             FileWriter writer = new FileWriter(outputFile, true);
             writer.write("");
@@ -947,18 +968,19 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                     BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
                     String line;
 
-                    lineReader:
-                    while ((line = bufferedReader.readLine()) != null) {
+                    lineReader: while ((line = bufferedReader.readLine()) != null) {
 
                         if (sender instanceof Player) {
                             searchPercentage += 100.0 / numberOfLinesToSearch;
-                            if (searchPercentage > 100) searchPercentage = 100;
+                            if (searchPercentage > 100)
+                                searchPercentage = 100;
                             bossBarProgress = searchPercentage / 2 / 100 + 0.5;
                         }
 
-                        if (!line.toLowerCase().matches("(.*)" + searchString + "(.*)")) continue lineReader;
+                        if (!line.toLowerCase().matches("(.*)" + searchString + "(.*)"))
+                            continue lineReader;
 
-                        //Writes only those lines which contain the provided search string, it skips over the rest.
+                        // Writes only those lines which contain the provided search string, it skips over the rest.
                         writer.write(f.getName() + ":" + line + "\n");
 
                         if (hoverTextLines < 50) {
@@ -989,11 +1011,11 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                 bossBarProgress = 0;
             }
 
-            //The maxFileSizeWithoutCompression is in MB so it's multiplied by 1mil to get the size in bytes.
+            // The maxFileSizeWithoutCompression is in MB so it's multiplied by 1mil to get the size in bytes.
             int maxFileSizeWithoutCompression = AlttdUtility.getInstance().getConfig().getInt("SearchLogs.MaxFileSizeWithoutCompression");
             maxFileSizeWithoutCompression *= 1000000;
 
-            //If the file is bigger than the defined limit, it gets compressed.
+            // If the file is bigger than the defined limit, it gets compressed.
             if (outputFile.length() > maxFileSizeWithoutCompression) {
 
                 new Methods().compressFile(outputFile.getAbsolutePath(), outputFile.getAbsolutePath().concat(".gz"));
@@ -1002,7 +1024,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             }
 
-            //The file with all the results is copied to the defined output path and all the other files are removed.
+            // The file with all the results is copied to the defined output path and all the other files are
+            // removed.
             String tempOutputFilePathString = outputFile.getAbsolutePath();
             tempOutputFilePathString = tempOutputFilePathString.substring(tempOutputFilePathString.lastIndexOf(File.separator) + 1);
             tempOutputFilePathString = AlttdUtility.getInstance().getConfig().getString("SearchLogs.OutputPath") + File.separator + tempOutputFilePathString;
@@ -1044,7 +1067,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
         try {
 
-            //The 3 types of logs you can search
+            // The 3 types of logs you can search
 
             if (args.length == 1) {
 
@@ -1070,7 +1093,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             }
 
-            //Returning 0-9 for the days argument in the normal search
+            // Returning 0-9 for the days argument in the normal search
 
             if (sender.hasPermission("utility.searchlogs.normal") && args.length == 2 && args[0].equals("normal") && args[1].isEmpty()) {
 
@@ -1084,7 +1107,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             }
 
-            //Returning 0-9 for the days argument in the special search
+            // Returning 0-9 for the days argument in the special search
 
             if (sender.hasPermission("utility.searchlogs.special") && args.length == 3 && args[0].equals("special") && args[2].isEmpty()) {
 
@@ -1098,7 +1121,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             }
 
-            //Returning 0-9 for the days argument in the additional search
+            // Returning 0-9 for the days argument in the additional search
 
             if (sender.hasPermission("utility.searchlogs.additional") && args.length == 3 && args[0].equals("additional") && args[2].isEmpty()) {
 
@@ -1112,7 +1135,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             }
 
-            //Returning the arguments for the special search
+            // Returning the arguments for the special search
 
             if (sender.hasPermission("utility.searchlogs.special") && args[0].equals("special")) {
 
@@ -1120,7 +1143,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
                     String argument = args[1];
 
-                    if (argument.contains(",")) argument = argument.substring(argument.lastIndexOf(",") + 1);
+                    if (argument.contains(","))
+                        argument = argument.substring(argument.lastIndexOf(",") + 1);
 
                     List<String> logNames = new ArrayList<>();
                     for (Log log : Logging.getCachedLogs()) {
@@ -1155,7 +1179,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
             }
 
-            //Returning the arguments for the additional search
+            // Returning the arguments for the additional search
 
             if (sender.hasPermission("utility.searchlogs.additional") && args[0].equals("additional")) {
 
@@ -1190,7 +1214,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             @Override
             public void run() {
 
-                if (progressBossBar == null) return;
+                if (progressBossBar == null)
+                    return;
 
                 progressBossBar.setProgress(bossBarProgress);
 

@@ -2,9 +2,9 @@ package com.darko.main.darko.logging.logs;
 
 import com.darko.main.darko.logging.Logging;
 
-public class IllegalItemsLog extends Log{
+public class IllegalItemsLog extends Log {
 
-    public IllegalItemsLog(){
+    public IllegalItemsLog() {
 
         super();
         super.setName("IllegalItemsLog");

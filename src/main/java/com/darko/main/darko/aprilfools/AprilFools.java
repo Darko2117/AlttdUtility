@@ -28,7 +28,8 @@ public class AprilFools {
 
                 isAprilFools = LocalDate.now().getMonthValue() == 4 && LocalDate.now().getDayOfMonth() == 1;
 
-                if (!isAprilFools) return;
+                if (!isAprilFools)
+                    return;
 
                 long timeNow = System.currentTimeMillis();
 

@@ -11,12 +11,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class KickFromBungeeCommand implements CommandExecutor{
+public class KickFromBungeeCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.KickFromBungeeCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.KickFromBungeeCommand"))
+            return true;
 
         if (sender.hasPermission("utility.kickfrombungee")) {
             if (!(args.length == 0)) {

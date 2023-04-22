@@ -27,7 +27,8 @@ public class ItemPickup implements CommandExecutor, Listener {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ItemPickupCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ItemPickupCommand"))
+            return true;
 
         if (!(sender instanceof Player)) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
@@ -80,11 +81,14 @@ public class ItemPickup implements CommandExecutor, Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onItemPickup(EntityPickupItemEvent event) {
 
-        if (Database.connection == null) return;
+        if (Database.connection == null)
+            return;
 
-        if (!(event.getEntity() instanceof Player player)) return;
+        if (!(event.getEntity() instanceof Player player))
+            return;
 
-        if (enabledPlayers.contains(player)) event.setCancelled(true);
+        if (enabledPlayers.contains(player))
+            event.setCancelled(true);
 
     }
 
@@ -103,15 +107,18 @@ public class ItemPickup implements CommandExecutor, Listener {
         enabledPlayers.remove(event.getPlayer());
     }
 
-    //Caches a player from the database, if the player has block_item_pickup enabled adds them to the list, removes them otherwise
+    // Caches a player from the database, if the player has block_item_pickup enabled adds them to the
+    // list, removes them otherwise
     public static void cachePlayer(Player player) {
         try {
 
-            if (Database.connection == null) return;
+            if (Database.connection == null)
+                return;
 
             String statement = "SELECT block_item_pickup_enabled FROM users WHERE UUID = '" + player.getUniqueId() + "';";
             ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
-            if (!rs.next()) return;
+            if (!rs.next())
+                return;
 
             if (rs.getBoolean("block_item_pickup_enabled")) {
                 enabledPlayers.add(player);

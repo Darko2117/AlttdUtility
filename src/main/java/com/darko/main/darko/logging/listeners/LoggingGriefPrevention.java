@@ -20,7 +20,8 @@ public class LoggingGriefPrevention implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onClaimCreatedEvent(ClaimCreatedEvent event) {
 
-        if (!Logging.getCachedLogFromName("ClaimsCreatedLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("ClaimsCreatedLog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -45,7 +46,8 @@ public class LoggingGriefPrevention implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onClaimDeletedEvent(ClaimDeletedEvent event) {
 
-        if (!Logging.getCachedLogFromName("ClaimsDeletedLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("ClaimsDeletedLog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -70,7 +72,8 @@ public class LoggingGriefPrevention implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onClaimModifiedEvent(ClaimModifiedEvent event) {
 
-        if (!Logging.getCachedLogFromName("ClaimsModifiedLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("ClaimsModifiedLog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -95,7 +98,8 @@ public class LoggingGriefPrevention implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onClaimExpirationEvent(ClaimExpirationEvent event) {
 
-        if (!Logging.getCachedLogFromName("ClaimsExpiredLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("ClaimsExpiredLog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 

@@ -30,7 +30,8 @@ public class AutoFix implements CommandExecutor, Listener {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.AutofixCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.AutofixCommand"))
+            return true;
 
         if (!(sender instanceof Player)) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
@@ -83,9 +84,11 @@ public class AutoFix implements CommandExecutor, Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onDurabilityUse(PlayerItemDamageEvent event) {
 
-        if (Database.connection == null) return;
+        if (Database.connection == null)
+            return;
 
-        if (!enabledPlayers.contains(event.getPlayer())) return;
+        if (!enabledPlayers.contains(event.getPlayer()))
+            return;
 
         Damageable durability = (Damageable) event.getItem().getItemMeta();
         durability.setDamage(0);
@@ -109,15 +112,18 @@ public class AutoFix implements CommandExecutor, Listener {
         enabledPlayers.remove(event.getPlayer());
     }
 
-    //Caches a player from the database, if the player has autofix enabled adds them to the list, removes them otherwise
+    // Caches a player from the database, if the player has autofix enabled adds them to the list,
+    // removes them otherwise
     public static void cachePlayer(Player player) {
         try {
 
-            if (Database.connection == null) return;
+            if (Database.connection == null)
+                return;
 
             String statement = "SELECT autofix_enabled FROM users WHERE UUID = '" + player.getUniqueId() + "';";
             ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
-            if (!rs.next()) return;
+            if (!rs.next())
+                return;
 
             if (rs.getBoolean("autofix_enabled")) {
                 enabledPlayers.add(player);

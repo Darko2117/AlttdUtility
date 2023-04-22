@@ -2,9 +2,9 @@ package com.darko.main.darko.logging.logs;
 
 import com.darko.main.darko.logging.Logging;
 
-public class ChatWithLocationLog extends Log{
+public class ChatWithLocationLog extends Log {
 
-    public ChatWithLocationLog(){
+    public ChatWithLocationLog() {
 
         super();
         super.setName("ChatWithLocationLog");

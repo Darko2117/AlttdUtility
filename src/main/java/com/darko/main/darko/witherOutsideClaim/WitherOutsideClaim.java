@@ -48,7 +48,7 @@ public class WitherOutsideClaim implements Listener {
         if (!(event.getDamager().getType().equals(EntityType.WITHER_SKULL) || event.getDamager().getType().equals(EntityType.WITHER)))
             return;
 
-        if(APIs.isGriefPreventionFound()){
+        if (APIs.isGriefPreventionFound()) {
             Claim claim = GriefPrevention.instance.dataStore.getClaimAt(event.getEntity().getLocation(), true, null);
             if (claim != null) {
                 return;

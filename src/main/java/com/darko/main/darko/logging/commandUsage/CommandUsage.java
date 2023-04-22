@@ -60,11 +60,11 @@ public class CommandUsage implements CommandExecutor {
 
                     LoggingSearch.clearTemporaryFiles();
 
-                    //Getting a list of all the log files.
+                    // Getting a list of all the log files.
                     String logsDirectoryPath = new File(".").getAbsolutePath() + "/logs/";
                     List<File> filesToRead = new ArrayList<>(Arrays.asList(new File(logsDirectoryPath).listFiles()));
 
-                    //Removing from that list all the ones that aren't in the defined time limit.
+                    // Removing from that list all the ones that aren't in the defined time limit.
                     List<File> filesToRemove = new ArrayList<>();
                     for (File file : filesToRead) {
                         try {
@@ -88,7 +88,8 @@ public class CommandUsage implements CommandExecutor {
                     }
                     filesToRead.removeAll(filesToRemove);
 
-                    //Copying all the files that need to be read to /temporary-files/. Uncompressing the compressed ones.
+                    // Copying all the files that need to be read to /temporary-files/. Uncompressing the compressed
+                    // ones.
                     for (File f : filesToRead) {
                         try {
 
@@ -105,7 +106,7 @@ public class CommandUsage implements CommandExecutor {
                         }
                     }
 
-                    //Reloading the list of files that need to be read with the files from /temporary-files/.
+                    // Reloading the list of files that need to be read with the files from /temporary-files/.
                     filesToRead.clear();
                     filesToRead.addAll(Arrays.asList(new File(AlttdUtility.getInstance().getDataFolder() + "/temporary-files").listFiles()));
                     filesToRead.sort(Comparator.naturalOrder());
@@ -119,7 +120,8 @@ public class CommandUsage implements CommandExecutor {
                         serverName = "unknownServerName";
                     }
 
-                    //The file is first written to /temporary-files/. It'll get moved after the whole search is completed.
+                    // The file is first written to /temporary-files/. It'll get moved after the whole search is
+                    // completed.
                     String outputFilePath = "";
                     outputFilePath = outputFilePath.concat(AlttdUtility.getInstance().getDataFolder() + "/temporary-files/");
                     outputFilePath = outputFilePath.concat("/");
@@ -133,12 +135,12 @@ public class CommandUsage implements CommandExecutor {
                     outputFilePath = outputFilePath.concat("-silent");
                     outputFilePath = outputFilePath.concat(".txt");
 
-                    //Searching through the files for the arguments.
+                    // Searching through the files for the arguments.
                     File outputFile = new File(outputFilePath);
                     FileWriter writer = new FileWriter(outputFile, true);
                     writer.write("");
 
-                    //HashMap<CommandName, NumberOfUses>
+                    // HashMap<CommandName, NumberOfUses>
                     HashMap<String, Integer> results = new HashMap<>();
 
                     for (File f : filesToRead) {
@@ -147,15 +149,16 @@ public class CommandUsage implements CommandExecutor {
                             BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
                             String line;
 
-                            lineReader:
-                            while ((line = bufferedReader.readLine()) != null) {
+                            lineReader: while ((line = bufferedReader.readLine()) != null) {
 
-                                if (!line.contains(" issued server command: ")) continue lineReader;
+                                if (!line.contains(" issued server command: "))
+                                    continue lineReader;
 
                                 String lineUser = line;
                                 lineUser = lineUser.substring(0, lineUser.indexOf(" issued server command: "));
                                 lineUser = lineUser.substring(lineUser.lastIndexOf(" ") + 1);
-                                if (!lineUser.equalsIgnoreCase(username)) continue lineReader;
+                                if (!lineUser.equalsIgnoreCase(username))
+                                    continue lineReader;
 
                                 String lineCommand = line;
                                 lineCommand = lineCommand.substring(lineCommand.indexOf(" issued server command: ") + 24);
@@ -175,7 +178,7 @@ public class CommandUsage implements CommandExecutor {
                         }
                     }
 
-                    //Sorting the HashMap by values
+                    // Sorting the HashMap by values
                     List<Map.Entry<String, Integer>> list = new LinkedList<>(results.entrySet());
                     list.sort(Map.Entry.comparingByValue());
                     List<Map.Entry<String, Integer>> list1 = new LinkedList<>();
@@ -195,7 +198,8 @@ public class CommandUsage implements CommandExecutor {
 
                     writer.close();
 
-                    //The file with all the results is copied to the defined output path and all the other files are removed.
+                    // The file with all the results is copied to the defined output path and all the other files are
+                    // removed.
                     String tempOutputFilePathString = outputFile.getAbsolutePath().replace("\\", "/");
                     tempOutputFilePathString = tempOutputFilePathString.substring(tempOutputFilePathString.lastIndexOf("/") + 1);
                     tempOutputFilePathString = AlttdUtility.getInstance().getConfig().getString("SearchLogs.OutputPath") + "/" + tempOutputFilePathString;

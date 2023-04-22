@@ -39,29 +39,32 @@ public class LavaSponge implements Listener {
         if (!spongeBlock.getType().equals(Material.SPONGE) && !spongeBlock.getType().equals(Material.WET_SPONGE))
             return;
 
-        if (!checkOneBlockAroundSponge(spongeBlock)) return;
+        if (!checkOneBlockAroundSponge(spongeBlock))
+            return;
 
         String typeDryWet;
 
         if (spongeBlock.getType().equals(Material.SPONGE))
             typeDryWet = "dry";
-        else typeDryWet = "wet";
+        else
+            typeDryWet = "wet";
 
         Integer radius;
         Integer absorbLimit;
 
         if (typeDryWet.equals("dry"))
             radius = AlttdUtility.getInstance().getConfig().getInt("LavaSponge.DrySpongeRange");
-        else radius = AlttdUtility.getInstance().getConfig().getInt("LavaSponge.WetSpongeRange");
+        else
+            radius = AlttdUtility.getInstance().getConfig().getInt("LavaSponge.WetSpongeRange");
 
         if (typeDryWet.equals("dry"))
             absorbLimit = AlttdUtility.getInstance().getConfig().getInt("LavaSponge.DrySpongeAbsorbLimit");
-        else absorbLimit = AlttdUtility.getInstance().getConfig().getInt("LavaSponge.WetSpongeAbsorbLimit");
+        else
+            absorbLimit = AlttdUtility.getInstance().getConfig().getInt("LavaSponge.WetSpongeAbsorbLimit");
 
         List<Block> blocksToDelete = new ArrayList<>();
 
-        loop:
-        for (Integer i = 1; i <= radius; i++) {
+        loop: for (Integer i = 1; i <= radius; i++) {
 
             for (Integer x = -i; x <= i; x++) {
                 for (Integer y = -i; y <= i; y++) {
@@ -69,12 +72,14 @@ public class LavaSponge implements Listener {
 
                         Block lavaBlock = spongeBlock.getWorld().getBlockAt(spongeBlock.getLocation().clone().add(x, y, z));
 
-                        if (!checkBlock(spongeBlock, lavaBlock, player)) continue;
+                        if (!checkBlock(spongeBlock, lavaBlock, player))
+                            continue;
 
                         if (!blocksToDelete.contains(lavaBlock))
                             blocksToDelete.add(lavaBlock);
 
-                        if (blocksToDelete.size() >= absorbLimit) break loop;
+                        if (blocksToDelete.size() >= absorbLimit)
+                            break loop;
 
                     }
                 }
@@ -148,11 +153,14 @@ public class LavaSponge implements Listener {
     Boolean checkBlock(Block spongeBlock, Block lavaBlock, Player player) {
 
 
-        if (!lavaBlock.getType().equals(Material.LAVA)) return false;
+        if (!lavaBlock.getType().equals(Material.LAVA))
+            return false;
 
-        if (!claimCheck(lavaBlock, player)) return false;
+        if (!claimCheck(lavaBlock, player))
+            return false;
 
-        if (!regionCheck(lavaBlock, player)) return false;
+        if (!regionCheck(lavaBlock, player))
+            return false;
 
         Location lavaBlockCenter = lavaBlock.getLocation().clone().add(0.5, 0.5, 0.5);
         Location spongeBlockCenter = spongeBlock.getLocation().clone().add(0.5, 0.5, 0.5);
@@ -161,8 +169,10 @@ public class LavaSponge implements Listener {
 
         RayTraceResult result = lavaBlock.getWorld().rayTraceBlocks(lavaBlockCenter, vectorBetweenPoints, 100, FluidCollisionMode.NEVER, false);
 
-        if (result == null) return false;
-        if (result.getHitPosition() == null) return false;
+        if (result == null)
+            return false;
+        if (result.getHitPosition() == null)
+            return false;
         return !(result.getHitPosition().toLocation(lavaBlock.getWorld()).distance(spongeBlockCenter) > 1);
 
     }
@@ -175,7 +185,8 @@ public class LavaSponge implements Listener {
 
         Claim claim = GriefPrevention.instance.dataStore.getClaimAt(block.getLocation(), false, null);
 
-        if (claim == null) return true;
+        if (claim == null)
+            return true;
 
         return claim.allowBuild(player, block.getType()) == null;
 

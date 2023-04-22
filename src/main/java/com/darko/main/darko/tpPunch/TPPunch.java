@@ -29,7 +29,8 @@ public class TPPunch implements CommandExecutor, Listener, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.TPPunchCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.TPPunchCommand"))
+            return true;
 
         if (!(commandSender instanceof Player)) {
             new Methods().sendConfigMessage(commandSender, "Messages.PlayerOnlyCommandMessage");
@@ -80,12 +81,15 @@ public class TPPunch implements CommandExecutor, Listener, TabCompleter {
     @EventHandler(ignoreCancelled = false, priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
 
-        if (!(event.getDamager() instanceof Player)) return;
-        if (((Player) event.getDamager()).getInventory().getItemInMainHand().getType() != Material.AIR) return;
+        if (!(event.getDamager() instanceof Player))
+            return;
+        if (((Player) event.getDamager()).getInventory().getItemInMainHand().getType() != Material.AIR)
+            return;
 
         Player player = (Player) event.getDamager();
 
-        if (!playerTPLocationHashMap.containsKey(player.getUniqueId())) return;
+        if (!playerTPLocationHashMap.containsKey(player.getUniqueId()))
+            return;
 
         Entity entity = event.getEntity();
 
@@ -112,9 +116,11 @@ public class TPPunch implements CommandExecutor, Listener, TabCompleter {
     @EventHandler(ignoreCancelled = false, priority = EventPriority.HIGHEST)
     public void onPlayerInteract2(PlayerInteractEvent event) {
 
-        if (!event.getAction().equals(Action.LEFT_CLICK_BLOCK)) return;
+        if (!event.getAction().equals(Action.LEFT_CLICK_BLOCK))
+            return;
 
-        if (cancelPlayerTPPunch(event.getPlayer())) event.setCancelled(true);
+        if (cancelPlayerTPPunch(event.getPlayer()))
+            event.setCancelled(true);
 
     }
 
@@ -127,7 +133,8 @@ public class TPPunch implements CommandExecutor, Listener, TabCompleter {
 
     Boolean cancelPlayerTPPunch(Player player) {
 
-        if (!playerTPLocationHashMap.containsKey(player.getUniqueId())) return false;
+        if (!playerTPLocationHashMap.containsKey(player.getUniqueId()))
+            return false;
 
         playerTPLocationHashMap.remove(player.getUniqueId());
 
@@ -140,7 +147,8 @@ public class TPPunch implements CommandExecutor, Listener, TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
-        if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.TPPunchCommand")) return null;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.TPPunchCommand"))
+            return null;
 
         if (strings.length == 4) {
 

@@ -17,7 +17,8 @@ public class ViewSavedItems implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ViewSavedItemsCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ViewSavedItemsCommand"))
+            return true;
 
         if (!(commandSender instanceof Player player)) {
             new Methods().sendConfigMessage(commandSender, "Messages.PlayerOnlyCommandMessage");
@@ -39,7 +40,8 @@ public class ViewSavedItems implements CommandExecutor {
 
         int inventorySlotIndex = 0;
         for (int i = startingIndex; i < startingIndex + 54; i++) {
-            if (savedItems.size() <= i) break;
+            if (savedItems.size() <= i)
+                break;
             inventory.setItem(inventorySlotIndex, savedItems.get(i).getItemStack());
             inventorySlotIndex++;
         }

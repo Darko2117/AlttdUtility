@@ -31,7 +31,8 @@ public class LoggingMyPet implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onMyPetPickupItemEvent(MyPetPickupItemEvent event) {
 
-        if (!Logging.getCachedLogFromName("MyPetItemPickupLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("MyPetItemPickupLog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -57,25 +58,31 @@ public class LoggingMyPet implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerDeathEvent1(PlayerDeathEvent event) {
 
-        if (!Logging.getCachedLogFromName("DroppedItemsOnDeathLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("DroppedItemsOnDeathLog").isEnabled())
+            return;
 
         MyPetPlayer myPetPlayer = MyPetApi.getPlayerManager().getMyPetPlayer(event.getPlayer());
 
-        if (!myPetPlayer.hasMyPet()) return;
+        if (!myPetPlayer.hasMyPet())
+            return;
 
         MyPet myPet = myPetPlayer.getMyPet();
 
-        if (!myPetPlayer.getMyPet().getStatus().equals(MyPet.PetState.Here)) return;
+        if (!myPetPlayer.getMyPet().getStatus().equals(MyPet.PetState.Here))
+            return;
 
-        if (!Configuration.Skilltree.Skill.Backpack.DROP_WHEN_OWNER_DIES) return;
+        if (!Configuration.Skilltree.Skill.Backpack.DROP_WHEN_OWNER_DIES)
+            return;
 
-        if (!myPet.getSkills().isActive(BackpackImpl.class)) return;
+        if (!myPet.getSkills().isActive(BackpackImpl.class))
+            return;
 
         CustomInventory customInventory = myPet.getSkills().get(BackpackImpl.class).getInventory();
 
         List<String> items = new ArrayList<>();
         for (ItemStack item : customInventory.getBukkitInventory().getContents()) {
-            if (item == null) continue;
+            if (item == null)
+                continue;
             items.add(item.toString());
         }
 

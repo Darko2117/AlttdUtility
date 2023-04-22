@@ -42,8 +42,10 @@ public class ClaimPatrol implements CommandExecutor, TabCompleter {
                 }
 
                 PatrolMode mode = null;
-                if (args[0].equals("owner")) mode = PatrolMode.OWNER;
-                else if (args[0].equals("trust")) mode = PatrolMode.TRUST;
+                if (args[0].equals("owner"))
+                    mode = PatrolMode.OWNER;
+                else if (args[0].equals("trust"))
+                    mode = PatrolMode.TRUST;
                 if (mode == null) {
                     new Methods().sendConfigMessage(sender, "Messages.InvalidUsageClaimPatrolCommand");
                     return;
@@ -88,7 +90,8 @@ public class ClaimPatrol implements CommandExecutor, TabCompleter {
 
                 Location centerOfClaim = new Location(lesserCorner.getWorld(), middleX, middleY, middleZ);
 
-                if (centerOfClaim.getY() <= 0) centerOfClaim.setY(1);
+                if (centerOfClaim.getY() <= 0)
+                    centerOfClaim.setY(1);
                 while (!Bukkit.getWorld(centerOfClaim.getWorld().getName()).getBlockAt(centerOfClaim).getBlockData().getMaterial().isAir()) {
                     centerOfClaim.setY(centerOfClaim.getY() + 1);
                 }
@@ -116,13 +119,15 @@ public class ClaimPatrol implements CommandExecutor, TabCompleter {
 
     private PatrolObject getNextClaimToPatrol(Player searchingPlayer, OfflinePlayer searchedPlayer, PatrolMode mode, Integer optionalClaimIndex) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ClaimPatrolCommand")) return null;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ClaimPatrolCommand"))
+            return null;
 
         List<YamlConfiguration> claimsYamlConfigurationList = new ArrayList<>();
 
         for (File file : new File(AlttdUtility.getInstance().getConfig().getString("NumberOfClaimsFlag.ClaimDataDirectory")).listFiles()) {
 
-            if (!file.getName().contains(".yml")) continue;
+            if (!file.getName().contains(".yml"))
+                continue;
 
             YamlConfiguration claimYamlConfiguration = YamlConfiguration.loadConfiguration(file);
 
@@ -130,7 +135,8 @@ public class ClaimPatrol implements CommandExecutor, TabCompleter {
 
                 String ownerUUID = claimYamlConfiguration.getString("Owner");
 
-                if (ownerUUID.isEmpty()) continue;
+                if (ownerUUID.isEmpty())
+                    continue;
 
                 if (ownerUUID.equals(searchedPlayer.getUniqueId().toString()))
                     claimsYamlConfigurationList.add(claimYamlConfiguration);
@@ -144,7 +150,8 @@ public class ClaimPatrol implements CommandExecutor, TabCompleter {
                 trustedUUIDs.addAll(claimYamlConfiguration.getStringList("Accessors"));
                 trustedUUIDs.addAll(claimYamlConfiguration.getStringList("Managers"));
 
-                if (!trustedUUIDs.contains(searchedPlayer.getUniqueId().toString())) continue;
+                if (!trustedUUIDs.contains(searchedPlayer.getUniqueId().toString()))
+                    continue;
 
                 claimsYamlConfigurationList.add(claimYamlConfiguration);
 
@@ -154,9 +161,12 @@ public class ClaimPatrol implements CommandExecutor, TabCompleter {
 
         for (PatrolObject patrolObject : cachedPatrolObjects) {
 
-            if (!patrolObject.getMode().equals(mode)) continue;
-            if (!patrolObject.getSearchingPlayer().equals(searchingPlayer)) continue;
-            if (!patrolObject.getSearchedPlayer().equals(searchedPlayer)) continue;
+            if (!patrolObject.getMode().equals(mode))
+                continue;
+            if (!patrolObject.getSearchingPlayer().equals(searchingPlayer))
+                continue;
+            if (!patrolObject.getSearchedPlayer().equals(searchedPlayer))
+                continue;
 
             if (optionalClaimIndex == -1) {
                 if (patrolObject.getLastVisitedClaimIndex() + 1 < patrolObject.getClaims().size()) {
@@ -168,7 +178,8 @@ public class ClaimPatrol implements CommandExecutor, TabCompleter {
                 optionalClaimIndex--;
                 if (!(optionalClaimIndex > -1 && optionalClaimIndex < patrolObject.getClaims().size()))
                     patrolObject.setLastVisitedClaimIndex(0);
-                else patrolObject.setLastVisitedClaimIndex(optionalClaimIndex);
+                else
+                    patrolObject.setLastVisitedClaimIndex(optionalClaimIndex);
             }
 
             patrolObject.setClaims(claimsYamlConfigurationList);
@@ -216,7 +227,8 @@ public class ClaimPatrol implements CommandExecutor, TabCompleter {
             for (Integer i = 1; i <= 9; i++) {
                 completions.add(i.toString());
             }
-            if (!args[2].isEmpty()) completions.clear();
+            if (!args[2].isEmpty())
+                completions.clear();
         }
 
         return completions;
@@ -283,8 +295,7 @@ public class ClaimPatrol implements CommandExecutor, TabCompleter {
 
     enum PatrolMode {
 
-        OWNER,
-        TRUST
+        OWNER, TRUST
 
     }
 

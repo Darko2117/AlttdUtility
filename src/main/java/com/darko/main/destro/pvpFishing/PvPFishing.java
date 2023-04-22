@@ -14,9 +14,9 @@ public class PvPFishing implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerFish(PlayerFishEvent event) {
-        if(event.getCaught() instanceof Player) {
+        if (event.getCaught() instanceof Player) {
             PvPlayer pvplayer = PvPlayer.get((Player) event.getCaught());
-            if(!pvplayer.hasPvPEnabled()) {
+            if (!pvplayer.hasPvPEnabled()) {
                 event.setCancelled(true);
                 event.getHook().remove();
                 return;

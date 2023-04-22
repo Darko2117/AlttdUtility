@@ -19,18 +19,23 @@ public class ChorusFruitInClaim implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onProjectileHit(ProjectileHitEvent event) {
 
-        if (event.getHitBlock() == null) return;
-        if (!event.getHitBlock().getType().equals(Material.CHORUS_FLOWER)) return;
+        if (event.getHitBlock() == null)
+            return;
+        if (!event.getHitBlock().getType().equals(Material.CHORUS_FLOWER))
+            return;
 
         Projectile arrow = event.getEntity();
-        if (!(arrow.getShooter() instanceof Player)) return;
+        if (!(arrow.getShooter() instanceof Player))
+            return;
         Player shooter = (Player) arrow.getShooter();
         Block chorus = event.getHitBlock();
 
         Claim claim = GriefPrevention.instance.dataStore.getClaimAt(chorus.getLocation(), true, null);
-        if (claim == null) return;
+        if (claim == null)
+            return;
 
-        if (claim.allowBuild(shooter, chorus.getType()) == null) return;
+        if (claim.allowBuild(shooter, chorus.getType()) == null)
+            return;
 
         arrow.remove();
         chorus.setType(Material.AIR);
@@ -42,7 +47,8 @@ public class ChorusFruitInClaim implements Listener {
                 shooter.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.GriefPreventionNoBuildPermMessage").replace("%player%", claim.getOwnerName())));
             }
         }.runTaskLater(AlttdUtility.getInstance(), 0);
-        //I know it's disgusting but cancelling the event is not built in, this is the quickest effective fix I came up with
+        // I know it's disgusting but cancelling the event is not built in, this is the quickest effective
+        // fix I came up with
 
     }
 

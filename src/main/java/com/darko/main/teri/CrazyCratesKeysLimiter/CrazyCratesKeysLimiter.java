@@ -14,13 +14,15 @@ public class CrazyCratesKeysLimiter implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
     public void onPlayerReceiveKeyEvent(PlayerReceiveKeyEvent event) {
 
-        if (event.getPlayer().hasPermission("utility.bypass-key-limit")) return;
+        if (event.getPlayer().hasPermission("utility.bypass-key-limit"))
+            return;
 
         Crate crate = event.getCrate();
         Player player = event.getPlayer();
 
         int keyLimit = AlttdUtility.getInstance().getConfig().getInt("CrazyCratesKeysLimiter." + crate.getName() + ".KeyLimit");
-        if (keyLimit == 0) return;
+        if (keyLimit == 0)
+            return;
 
         int playerKeysAfterEvent = com.badbones69.crazycrates.api.CrazyManager.getInstance().getVirtualKeys(player, crate) + event.getAmount();
 

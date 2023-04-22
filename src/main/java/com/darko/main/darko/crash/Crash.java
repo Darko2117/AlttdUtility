@@ -16,7 +16,8 @@ public class Crash implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CrashCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CrashCommand"))
+            return true;
 
         if (args.length == 0) {
             new Methods().sendConfigMessage(sender, "Messages.CrashCommandInvalidUsage");
@@ -53,7 +54,8 @@ public class Crash implements CommandExecutor {
                     } catch (Throwable ignored) {
                     }
 
-                    if(amountOfParticles >= 1000000000) break;
+                    if (amountOfParticles >= 1000000000)
+                        break;
 
                 }
 

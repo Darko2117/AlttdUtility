@@ -27,14 +27,16 @@ public class SpawnLimiterCheck implements Listener {
                 break;
             }
         }
-        if (spawnLimiter == null) return;
+        if (spawnLimiter == null)
+            return;
 
         Location location = event.getLocation();
 
         int alreadySpawned = 0;
 
         for (Location loc : spawnLimiter.getSpawnLocations()) {
-            if (!location.getWorld().equals(loc.getWorld())) continue;
+            if (!location.getWorld().equals(loc.getWorld()))
+                continue;
             if (location.distance(loc) <= spawnLimiter.getRadiusLimit()) {
                 alreadySpawned++;
             }
@@ -66,12 +68,15 @@ public class SpawnLimiterCheck implements Listener {
 
         for (String entityTypeString : AlttdUtility.getInstance().getConfig().getKeys(true)) {
 
-            if (!entityTypeString.startsWith("SpawnLimiter.")) continue;
+            if (!entityTypeString.startsWith("SpawnLimiter."))
+                continue;
 
             entityTypeString = entityTypeString.substring(13);
 
-            if (entityTypeString.contains(".")) continue;
-            if (entityTypeString.isEmpty()) continue;
+            if (entityTypeString.contains("."))
+                continue;
+            if (entityTypeString.isEmpty())
+                continue;
 
             EntityType entityType = EntityType.valueOf(entityTypeString);
             int radiusLimit = AlttdUtility.getInstance().getConfig().getInt("SpawnLimiter." + entityTypeString + ".RadiusLimit");

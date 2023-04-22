@@ -53,9 +53,10 @@ public class Database implements Listener {
                 createCommandOnJoinTable();
                 createFreezeMessageTable();
                 createVillagerShopLogTable();
-                //createMoneyLogTable();
+                // createMoneyLogTable();
 
-                for (String message : logConfirmationMessages) AlttdUtility.getInstance().getLogger().info(message);
+                for (String message : logConfirmationMessages)
+                    AlttdUtility.getInstance().getLogger().info(message);
 
                 Database.reloadAllCaches();
 
@@ -68,7 +69,8 @@ public class Database implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerJoin_TablesUpdate(PlayerJoinEvent event) {
 
-        if (Database.connection == null) return;
+        if (Database.connection == null)
+            return;
 
         new BukkitRunnable() {
             @Override
@@ -80,7 +82,7 @@ public class Database implements Listener {
 
                 String statement;
 
-                //Users table
+                // Users table
 
                 try {
 
@@ -89,15 +91,7 @@ public class Database implements Listener {
 
                     if (!rs.next()) {
 
-                        statement = "INSERT INTO users(UUID, Username, autofix_enabled, block_item_pickup_enabled, god_mode_enabled, pet_god_mode_enabled, magnet_enabled) VALUES("
-                                + "'" + uuid + "', "
-                                + "'" + username + "', "
-                                + "false" + ", "
-                                + "false" + ", "
-                                + "false" + ", "
-                                + "false" + ", "
-                                + "false"
-                                + ");";
+                        statement = "INSERT INTO users(UUID, Username, autofix_enabled, block_item_pickup_enabled, god_mode_enabled, pet_god_mode_enabled, magnet_enabled) VALUES(" + "'" + uuid + "', " + "'" + username + "', " + "false" + ", " + "false" + ", " + "false" + ", " + "false" + ", " + "false" + ");";
                         Database.connection.prepareStatement(statement).executeUpdate();
 
                         AlttdUtility.getInstance().getLogger().info(username + " was not in the database, adding them now.");
@@ -121,7 +115,7 @@ public class Database implements Listener {
                     throwable.printStackTrace();
                 }
 
-                //Custom command macro table
+                // Custom command macro table
 
                 try {
 
@@ -143,7 +137,7 @@ public class Database implements Listener {
                     throwable.printStackTrace();
                 }
 
-                //Villager shop log table
+                // Villager shop log table
 
                 try {
 
@@ -185,9 +179,7 @@ public class Database implements Listener {
     private static void createUsersTable() {
 
         try {
-            String usersTableQuery = "CREATE TABLE IF NOT EXISTS users("
-                    + "ID INT NOT NULL AUTO_INCREMENT,"
-                    + "PRIMARY KEY (ID))";
+            String usersTableQuery = "CREATE TABLE IF NOT EXISTS users(" + "ID INT NOT NULL AUTO_INCREMENT," + "PRIMARY KEY (ID))";
             connection.prepareStatement(usersTableQuery).executeUpdate();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
@@ -214,9 +206,7 @@ public class Database implements Listener {
     private static void createCustomCommandMacroTable() {
 
         try {
-            String customChatMessageTableQuery = "CREATE TABLE IF NOT EXISTS custom_command_macro("
-                    + "ID INT NOT NULL AUTO_INCREMENT,"
-                    + "PRIMARY KEY (ID))";
+            String customChatMessageTableQuery = "CREATE TABLE IF NOT EXISTS custom_command_macro(" + "ID INT NOT NULL AUTO_INCREMENT," + "PRIMARY KEY (ID))";
             connection.prepareStatement(customChatMessageTableQuery).executeUpdate();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
@@ -240,9 +230,7 @@ public class Database implements Listener {
     private static void createCommandOnJoinTable() {
 
         try {
-            String commandOnJoinTableQuery = "CREATE TABLE IF NOT EXISTS command_on_join("
-                    + "ID INT NOT NULL AUTO_INCREMENT,"
-                    + "PRIMARY KEY (ID))";
+            String commandOnJoinTableQuery = "CREATE TABLE IF NOT EXISTS command_on_join(" + "ID INT NOT NULL AUTO_INCREMENT," + "PRIMARY KEY (ID))";
             connection.prepareStatement(commandOnJoinTableQuery).executeUpdate();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
@@ -264,9 +252,7 @@ public class Database implements Listener {
     private static void createFreezeMessageTable() {
 
         try {
-            String freezeMessageTableQuery = "CREATE TABLE IF NOT EXISTS freeze_message("
-                    + "Id int NOT NULL AUTO_INCREMENT, "
-                    + "PRIMARY KEY (Id))";
+            String freezeMessageTableQuery = "CREATE TABLE IF NOT EXISTS freeze_message(" + "Id int NOT NULL AUTO_INCREMENT, " + "PRIMARY KEY (Id))";
             connection.prepareStatement(freezeMessageTableQuery).executeUpdate();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
@@ -289,9 +275,7 @@ public class Database implements Listener {
     private static void createVillagerShopLogTable() {
 
         try {
-            String villagerShopLogTableQuery = "CREATE TABLE IF NOT EXISTS villager_shop_log("
-                    + "ID INT NOT NULL AUTO_INCREMENT,"
-                    + "PRIMARY KEY (ID))";
+            String villagerShopLogTableQuery = "CREATE TABLE IF NOT EXISTS villager_shop_log(" + "ID INT NOT NULL AUTO_INCREMENT," + "PRIMARY KEY (ID))";
             connection.prepareStatement(villagerShopLogTableQuery).executeUpdate();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
@@ -314,33 +298,33 @@ public class Database implements Listener {
 
     }
 
-//    private static void createMoneyLogTable() {
-//
-//        try {
-//            String moneyLogTableQuery = "CREATE TABLE IF NOT EXISTS money_log("
-//                    + "ID INT NOT NULL AUTO_INCREMENT,"
-//                    + "PRIMARY KEY (ID))";
-//            connection.prepareStatement(moneyLogTableQuery).executeUpdate();
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
-//
-//        List<String> columns = new ArrayList<>();
-//        columns.add("ALTER TABLE money_log ADD user_UUID TEXT NOT NULL");
-//        columns.add("ALTER TABLE money_log ADD user_username TEXT NOT NULL");
-//        columns.add("ALTER TABLE money_log ADD source_UUID TEXT");
-//        columns.add("ALTER TABLE money_log ADD source_username TEXT");
-//        columns.add("ALTER TABLE money_log ADD from_balance DOUBLE NOT NULL");
-//        columns.add("ALTER TABLE money_log ADD to_balance DOUBLE NOT NULL");
-//        columns.add("ALTER TABLE money_log ADD action_type TEXT NOT NULL");
-//        for (String string : columns) {
-//            try {
-//                connection.prepareStatement(string).executeUpdate();
-//                logConfirmationMessages.add(string + " executed!");
-//            } catch (Throwable ignored) {
-//            }
-//        }
-//
-//    }
+    // private static void createMoneyLogTable() {
+    //
+    // try {
+    // String moneyLogTableQuery = "CREATE TABLE IF NOT EXISTS money_log("
+    // + "ID INT NOT NULL AUTO_INCREMENT,"
+    // + "PRIMARY KEY (ID))";
+    // connection.prepareStatement(moneyLogTableQuery).executeUpdate();
+    // } catch (Throwable throwable) {
+    // throwable.printStackTrace();
+    // }
+    //
+    // List<String> columns = new ArrayList<>();
+    // columns.add("ALTER TABLE money_log ADD user_UUID TEXT NOT NULL");
+    // columns.add("ALTER TABLE money_log ADD user_username TEXT NOT NULL");
+    // columns.add("ALTER TABLE money_log ADD source_UUID TEXT");
+    // columns.add("ALTER TABLE money_log ADD source_username TEXT");
+    // columns.add("ALTER TABLE money_log ADD from_balance DOUBLE NOT NULL");
+    // columns.add("ALTER TABLE money_log ADD to_balance DOUBLE NOT NULL");
+    // columns.add("ALTER TABLE money_log ADD action_type TEXT NOT NULL");
+    // for (String string : columns) {
+    // try {
+    // connection.prepareStatement(string).executeUpdate();
+    // logConfirmationMessages.add(string + " executed!");
+    // } catch (Throwable ignored) {
+    // }
+    // }
+    //
+    // }
 
 }

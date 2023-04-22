@@ -14,7 +14,8 @@ public class LoggingVillagerShopUI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onSpawnShopEvent(SpawnShopEvent event) {
 
-        if (!Logging.getCachedLogFromName("VillagerShopUILog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("VillagerShopUILog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 

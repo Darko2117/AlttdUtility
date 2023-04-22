@@ -13,9 +13,12 @@ public class PreventChannelingWhenPvPOff implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent entityDamageByEntityEvent) {
 
-        if (!(entityDamageByEntityEvent.getEntity() instanceof Player player)) return;
-        if (!(entityDamageByEntityEvent.getDamager() instanceof LightningStrike lightningStrike)) return;
-        if (lightningStrike.getCausingEntity() == null) return;
+        if (!(entityDamageByEntityEvent.getEntity() instanceof Player player))
+            return;
+        if (!(entityDamageByEntityEvent.getDamager() instanceof LightningStrike lightningStrike))
+            return;
+        if (lightningStrike.getCausingEntity() == null)
+            return;
 
         PvPlayer attacked = PvPlayer.get(player);
         PvPlayer attacker = PvPlayer.get((Player) lightningStrike.getCausingEntity());

@@ -10,7 +10,10 @@ import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
 
-enum Status {AVAILABLE, AWAITING_TELEPORT, ON_COOLDOWN}
+enum Status {
+    AVAILABLE, AWAITING_TELEPORT, ON_COOLDOWN
+}
+
 
 public class TrappedObject {
 
@@ -52,8 +55,10 @@ public class TrappedObject {
             Double totalTime = secondsToTeleport.doubleValue();
             Double passedTime = Double.parseDouble((String.valueOf((teleportTimestamp - System.currentTimeMillis()) / 1000d)));
             Double progress = passedTime / totalTime;
-            if (progress < 0d) progress = 0d;
-            if (progress > 1d) progress = 1d;
+            if (progress < 0d)
+                progress = 0d;
+            if (progress > 1d)
+                progress = 1d;
             bossBar.setProgress(progress);
             bossBar.setTitle(ChatColor.DARK_RED + "" + ChatColor.BOLD + "TELEPORTING IN " + getSecondsUntilTeleportString() + "!");
         }
@@ -74,7 +79,8 @@ public class TrappedObject {
 
         Double seconds = Double.parseDouble(String.valueOf((teleportTimestamp - System.currentTimeMillis()) / 1000d));
 
-        if (seconds < 0d) seconds = 0d;
+        if (seconds < 0d)
+            seconds = 0d;
 
         return new DecimalFormat("0.0").format(seconds);
 
@@ -84,7 +90,8 @@ public class TrappedObject {
 
         Integer cooldown = Integer.parseInt(String.valueOf(cooldownTimestamp - System.currentTimeMillis())) / 1000;
 
-        if (cooldown < 0) cooldown = 0;
+        if (cooldown < 0)
+            cooldown = 0;
 
         return cooldown;
 

@@ -5,7 +5,7 @@ import com.darko.main.common.API.APIs;
 import com.darko.main.darko.balanceStats.balStats.BalStatsCommand;
 import com.darko.main.darko.blockBlockPlace.BlockBlockPlace;
 import com.darko.main.darko.chorusFruitInClaim.ChorusFruitInClaim;
-//import com.darko.main.darko.chorusFruitOnPlot.ChorusFruitOnPlot;
+// import com.darko.main.darko.chorusFruitOnPlot.ChorusFruitOnPlot;
 import com.darko.main.darko.claimPatrol.ClaimPatrol;
 import com.darko.main.darko.balanceStats.databaseLogs.DatabaseVillagerShopLog;
 import com.darko.main.darko.eggThrowingInClaims.EggThrowingInClaims;
@@ -15,7 +15,7 @@ import com.darko.main.darko.invisibleItemFrame.InvisibleItemFrame;
 import com.darko.main.darko.invsaveOnPlayerQuit.InvsaveOnPlayerQuit;
 import com.darko.main.darko.joinLimiter.JoinLimiter;
 import com.darko.main.darko.joinNotifications.CMIJoinNotifications;
-//import com.darko.main.darko.joinNotifications.GriefPreventionJoinNotifications;
+// import com.darko.main.darko.joinNotifications.GriefPreventionJoinNotifications;
 import com.darko.main.darko.logging.commandUsage.CommandUsage;
 import com.darko.main.darko.logging.listeners.LoggingChatPlugin;
 import com.darko.main.darko.logging.listeners.LoggingCrazyCrates;
@@ -216,9 +216,9 @@ public class Register extends JavaPlugin {
                 registerEvents(new WitherOutsideClaim());
             }
 
-//            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.JoinNotifications")) {
-//                registerEvents(new GriefPreventionJoinNotifications());
-//            }
+            // if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.JoinNotifications")) {
+            // registerEvents(new GriefPreventionJoinNotifications());
+            // }
 
             if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.NumberOfClaimsLimiter")) {
                 registerEvents(new NumberOfClaimsLimiter());
@@ -265,9 +265,9 @@ public class Register extends JavaPlugin {
                 registerEvents(new CMIJoinNotifications());
             }
 
-//            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.DatabaseMoneyLog")) {
-//                registerEvents(new DatabaseMoneyLog());
-//            }
+            // if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.DatabaseMoneyLog")) {
+            // registerEvents(new DatabaseMoneyLog());
+            // }
 
         }
 

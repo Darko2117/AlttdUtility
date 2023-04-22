@@ -32,7 +32,8 @@ public class BlockBlockPlace implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onBlockPlace(BlockPlaceEvent event) {
 
-        if (event.getPlayer().hasPermission("utility.blockedblocksbypass")) return;
+        if (event.getPlayer().hasPermission("utility.blockedblocksbypass"))
+            return;
 
         if (blockedMaterials.contains(event.getBlockPlaced().getType())) {
             event.setCancelled(true);

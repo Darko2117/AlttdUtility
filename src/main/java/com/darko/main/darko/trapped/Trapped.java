@@ -26,7 +26,8 @@ public class Trapped implements CommandExecutor, Listener {
             @Override
             public void run() {
 
-                if (trappedObjects.isEmpty()) return;
+                if (trappedObjects.isEmpty())
+                    return;
 
                 List<TrappedObject> toRemove = new ArrayList<>();
 
@@ -51,9 +52,11 @@ public class Trapped implements CommandExecutor, Listener {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.TrappedCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.TrappedCommand"))
+            return true;
 
-        if (!(commandSender instanceof Player)) return true;
+        if (!(commandSender instanceof Player))
+            return true;
 
         Player player = (Player) commandSender;
 
@@ -81,7 +84,8 @@ public class Trapped implements CommandExecutor, Listener {
     private TrappedObject getTrappedObjectFromPlayer(Player player) {
 
         for (TrappedObject trappedObject : trappedObjects) {
-            if (trappedObject.getPlayer().getUniqueId().equals(player.getUniqueId())) return trappedObject;
+            if (trappedObject.getPlayer().getUniqueId().equals(player.getUniqueId()))
+                return trappedObject;
         }
 
         return null;
@@ -107,7 +111,8 @@ public class Trapped implements CommandExecutor, Listener {
 
         TrappedObject trappedObject = getTrappedObjectFromPlayer(event.getEntity());
 
-        if (trappedObject == null) return;
+        if (trappedObject == null)
+            return;
 
         trappedObject.setStatus(Status.ON_COOLDOWN);
 
@@ -118,37 +123,13 @@ public class Trapped implements CommandExecutor, Listener {
 
         TrappedObject trappedObject = getTrappedObjectFromPlayer(event.getPlayer());
 
-        if (trappedObject == null) return;
+        if (trappedObject == null)
+            return;
 
         trappedObject.setStatus(Status.ON_COOLDOWN);
 
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

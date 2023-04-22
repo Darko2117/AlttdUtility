@@ -16,13 +16,15 @@ public class RavagerInClaim implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onRavagerGriefEvent(EntityChangeBlockEvent event) {
 
-        if (!event.getEntityType().equals(EntityType.RAVAGER)) return;
+        if (!event.getEntityType().equals(EntityType.RAVAGER))
+            return;
 
         Location location = event.getBlock().getLocation();
 
         Claim claim = GriefPrevention.instance.dataStore.getClaimAt(location, true, null);
 
-        if (claim == null) return;
+        if (claim == null)
+            return;
 
         event.setCancelled(true);
         ParticleBuilder particleBuilder = new ParticleBuilder(Particle.REDSTONE);

@@ -17,21 +17,27 @@ public class StorePetOnPVP implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerTogglePvPEvent(PlayerTogglePvPEvent event) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.StorePetOnPVP")) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.StorePetOnPVP"))
+            return;
 
-        if (!event.getPvPState()) return;
+        if (!event.getPvPState())
+            return;
 
         MyPetPlayer myPetPlayer = MyPetApi.getPlayerManager().getMyPetPlayer(event.getPlayer());
 
-        if (!myPetPlayer.hasMyPet()) return;
+        if (!myPetPlayer.hasMyPet())
+            return;
 
         MyPet myPet = myPetPlayer.getMyPet();
 
-        if (!myPetPlayer.getMyPet().getStatus().equals(MyPet.PetState.Here)) return;
+        if (!myPetPlayer.getMyPet().getStatus().equals(MyPet.PetState.Here))
+            return;
 
-        if (!Configuration.Skilltree.Skill.Backpack.DROP_WHEN_OWNER_DIES) return;
+        if (!Configuration.Skilltree.Skill.Backpack.DROP_WHEN_OWNER_DIES)
+            return;
 
-        if (!myPet.getSkills().isActive(BackpackImpl.class)) return;
+        if (!myPet.getSkills().isActive(BackpackImpl.class))
+            return;
 
         myPet.removePet();
         new Methods().sendConfigMessage(event.getPlayer(), "Messages.StorePetOnPVPPetStored");

@@ -2,9 +2,9 @@ package com.darko.main.darko.logging.logs;
 
 import com.darko.main.darko.logging.Logging;
 
-public class NicknamesLog extends Log{
+public class NicknamesLog extends Log {
 
-    public NicknamesLog(){
+    public NicknamesLog() {
 
         super();
         super.setName("NicknamesLog");

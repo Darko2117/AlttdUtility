@@ -23,10 +23,11 @@ public class Methods {
     }
 
     /*
-     * I don't remember exactly why I made this, but I'm pretty sure that in some cases where a value in the config is not set properly
-     * it can cause the whole config to reset to default. This tries loading it before the plugin itself does, if it fails it disables
-     * the plugin and stops it from resetting it.
-     * */
+     * I don't remember exactly why I made this, but I'm pretty sure that in some cases where a value in
+     * the config is not set properly it can cause the whole config to reset to default. This tries
+     * loading it before the plugin itself does, if it fails it disables the plugin and stops it from
+     * resetting it.
+     */
     public void checkConfig() {
         try {
             AlttdUtility.getInstance().saveDefaultConfig();
@@ -92,9 +93,9 @@ public class Methods {
 
         Integer[] values = new Integer[3];
 
-        values[0] = Integer.valueOf(dateString.substring(0, 2)); //day
-        values[1] = Integer.valueOf(dateString.substring(3, 5)); //month
-        values[2] = Integer.valueOf(dateString.substring(6, 10)); //year
+        values[0] = Integer.valueOf(dateString.substring(0, 2)); // day
+        values[1] = Integer.valueOf(dateString.substring(3, 5)); // month
+        values[2] = Integer.valueOf(dateString.substring(6, 10)); // year
 
         return values;
 
@@ -104,9 +105,9 @@ public class Methods {
 
         Integer[] values = new Integer[3];
 
-        values[0] = Integer.valueOf(dateString.substring(8, 10)); //day
-        values[1] = Integer.valueOf(dateString.substring(5, 7)); //month
-        values[2] = Integer.valueOf(dateString.substring(0, 4)); //year
+        values[0] = Integer.valueOf(dateString.substring(8, 10)); // day
+        values[1] = Integer.valueOf(dateString.substring(5, 7)); // month
+        values[2] = Integer.valueOf(dateString.substring(0, 4)); // year
 
         return values;
 

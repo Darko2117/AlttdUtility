@@ -16,7 +16,8 @@ public class DisablePvpOnLeave implements Listener {
         Player player = Bukkit.getPlayerExact(event.getPlayer().getName());
         PvPlayer pvplayer = PvPlayer.get(player);
 
-        if(pvplayer.hasPvPEnabled()) pvplayer.setPvP(false);
+        if (pvplayer.hasPvPEnabled())
+            pvplayer.setPvP(false);
 
     }
 

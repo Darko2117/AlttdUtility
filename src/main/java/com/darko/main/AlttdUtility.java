@@ -20,7 +20,8 @@ public class AlttdUtility extends JavaPlugin {
         instance = this;
 
         APIs.connectWorldGuardAPI();
-        if (APIs.isWorldGuardFound()) Flags.FlagsEnable();
+        if (APIs.isWorldGuardFound())
+            Flags.FlagsEnable();
 
     }
 

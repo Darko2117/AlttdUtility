@@ -18,7 +18,8 @@ public class LoggingFarmLimiter implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onFarmLimitEvent(FarmLimitEvent event) {
 
-        if (!Logging.getCachedLogFromName("FarmLimiterLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("FarmLimiterLog").isEnabled())
+            return;
 
         for (Entity entityToRemove : event.getEntitiesToRemove()) {
 
@@ -31,7 +32,8 @@ public class LoggingFarmLimiter implements Listener {
             String claimOwner = "";
             if (APIs.isGriefPreventionFound()) {
                 Claim claim = GriefPrevention.instance.dataStore.getClaimAt(entityToRemove.getLocation(), true, null);
-                if (claim != null) claimOwner = claim.getOwnerName();
+                if (claim != null)
+                    claimOwner = claim.getOwnerName();
             }
 
             FarmLimiterLog log = new FarmLimiterLog();

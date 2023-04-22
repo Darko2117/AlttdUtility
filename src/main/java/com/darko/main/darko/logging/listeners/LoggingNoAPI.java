@@ -70,7 +70,8 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerEggThrowEvent(PlayerEggThrowEvent event) {
 
-        if (!Logging.getCachedLogFromName("EggsThrownLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("EggsThrownLog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -81,7 +82,8 @@ public class LoggingNoAPI implements Listener {
         String claimOwner = "";
         if (APIs.isGriefPreventionFound()) {
             Claim claim = GriefPrevention.instance.dataStore.getClaimAt(event.getEgg().getLocation(), true, null);
-            if (claim != null) claimOwner = claim.getOwnerName();
+            if (claim != null)
+                claimOwner = claim.getOwnerName();
         }
 
         EggsThrownLog log = new EggsThrownLog();
@@ -97,7 +99,8 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerDropItemEvent(PlayerDropItemEvent event) {
 
-        if (!Logging.getCachedLogFromName("DroppedItemsLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("DroppedItemsLog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -120,11 +123,15 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerInteractEntityEvent(PlayerInteractEntityEvent event) {
 
-        if (!Logging.getCachedLogFromName("ItemsPlacedInItemFramesLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("ItemsPlacedInItemFramesLog").isEnabled())
+            return;
 
-        if (!(event.getRightClicked() instanceof ItemFrame)) return;
-        if (!((ItemFrame) event.getRightClicked()).getItem().getType().equals(Material.AIR)) return;
-        if (event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR)) return;
+        if (!(event.getRightClicked() instanceof ItemFrame))
+            return;
+        if (!((ItemFrame) event.getRightClicked()).getItem().getType().equals(Material.AIR))
+            return;
+        if (event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR))
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -147,10 +154,13 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
 
-        if (!Logging.getCachedLogFromName("ItemsTakenOutOfItemFramesLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("ItemsTakenOutOfItemFramesLog").isEnabled())
+            return;
 
-        if (!(event.getEntity() instanceof ItemFrame)) return;
-        if (((ItemFrame) event.getEntity()).getItem().getType().equals(Material.AIR)) return;
+        if (!(event.getEntity() instanceof ItemFrame))
+            return;
+        if (((ItemFrame) event.getEntity()).getItem().getType().equals(Material.AIR))
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -173,12 +183,17 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerInteractEvent(PlayerInteractEvent event) {
 
-        if (!Logging.getCachedLogFromName("MCMMORepairUseLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("MCMMORepairUseLog").isEnabled())
+            return;
 
-        if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
-        if (!event.getHand().equals(EquipmentSlot.HAND)) return;
-        if (!event.getClickedBlock().getType().equals(Material.IRON_BLOCK)) return;
-        if (event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR)) return;
+        if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK))
+            return;
+        if (!event.getHand().equals(EquipmentSlot.HAND))
+            return;
+        if (!event.getClickedBlock().getType().equals(Material.IRON_BLOCK))
+            return;
+        if (event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR))
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -198,9 +213,11 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityPickupItem(EntityPickupItemEvent event) {
 
-        if (!Logging.getCachedLogFromName("PickedUpItemsLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("PickedUpItemsLog").isEnabled())
+            return;
 
-        if (!(event.getEntity() instanceof Player)) return;
+        if (!(event.getEntity() instanceof Player))
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -223,7 +240,8 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onInventoryClickEvent(InventoryClickEvent event) {
 
-        if (!Logging.getCachedLogFromName("UIClicksLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("UIClicksLog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -251,7 +269,8 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerItemBreakEvent(PlayerItemBreakEvent event) {
 
-        if (!Logging.getCachedLogFromName("ItemsBrokenLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("ItemsBrokenLog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -274,7 +293,8 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onItemDespawnEvent(ItemDespawnEvent event) {
 
-        if (!Logging.getCachedLogFromName("ItemsDespawnedLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("ItemsDespawnedLog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -294,11 +314,15 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityDamageEvent(EntityDamageEvent event) {
 
-        if (!Logging.getCachedLogFromName("ItemsDestroyedLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("ItemsDestroyedLog").isEnabled())
+            return;
 
-        if (!(event.getEntity() instanceof Item)) return;
-        if (((Item) event.getEntity()).getItemStack().getType().equals(Material.CACTUS)) return;
-        if (((Item) event.getEntity()).getItemStack().getType().equals(Material.COBBLESTONE)) return;
+        if (!(event.getEntity() instanceof Item))
+            return;
+        if (((Item) event.getEntity()).getItemStack().getType().equals(Material.CACTUS))
+            return;
+        if (((Item) event.getEntity()).getItemStack().getType().equals(Material.COBBLESTONE))
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -321,7 +345,8 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent event) {
 
-        if (!Logging.getCachedLogFromName("CommandsWithLocationLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("CommandsWithLocationLog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -344,7 +369,8 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerDeathEvent(PlayerDeathEvent event) {
 
-        if (!Logging.getCachedLogFromName("DroppedItemsOnDeathLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("DroppedItemsOnDeathLog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -381,7 +407,8 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onVehicleDestroyEvent(VehicleDestroyEvent event) {
 
-        if (!Logging.getCachedLogFromName("MinecartsDestroyedLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("MinecartsDestroyedLog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -396,7 +423,8 @@ public class LoggingNoAPI implements Listener {
         String claimOwner = "";
         if (APIs.isGriefPreventionFound()) {
             Claim claim = GriefPrevention.instance.dataStore.getClaimAt(event.getVehicle().getLocation(), true, null);
-            if (claim != null) claimOwner = claim.getOwnerName();
+            if (claim != null)
+                claimOwner = claim.getOwnerName();
         }
 
         MinecartsDestroyedLog log = new MinecartsDestroyedLog();
@@ -412,7 +440,8 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onLightningStrikeEvent(LightningStrikeEvent event) {
 
-        if (!Logging.getCachedLogFromName("LightningStrikesLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("LightningStrikesLog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -432,9 +461,11 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onProjectileLaunchEvent(ProjectileLaunchEvent event) {
 
-        if (!Logging.getCachedLogFromName("TridentsLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("TridentsLog").isEnabled())
+            return;
 
-        if (!event.getEntity().getType().equals(EntityType.TRIDENT)) return;
+        if (!event.getEntity().getType().equals(EntityType.TRIDENT))
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -468,9 +499,11 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerPickupArrowEvent(PlayerPickupArrowEvent event) {
 
-        if (!Logging.getCachedLogFromName("TridentsLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("TridentsLog").isEnabled())
+            return;
 
-        if (!event.getArrow().getType().equals(EntityType.TRIDENT)) return;
+        if (!event.getArrow().getType().equals(EntityType.TRIDENT))
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -499,9 +532,11 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityDamageByEntityEvent1(EntityDamageByEntityEvent event) {
 
-        if (!Logging.getCachedLogFromName("TridentsLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("TridentsLog").isEnabled())
+            return;
 
-        if (!event.getDamager().getType().equals(EntityType.TRIDENT)) return;
+        if (!event.getDamager().getType().equals(EntityType.TRIDENT))
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -546,7 +581,8 @@ public class LoggingNoAPI implements Listener {
             @Override
             public void run() {
 
-                if (!Logging.getCachedLogFromName("PlayerLocationLog").isEnabled()) return;
+                if (!Logging.getCachedLogFromName("PlayerLocationLog").isEnabled())
+                    return;
 
                 for (Player player : Bukkit.getOnlinePlayers()) {
 
@@ -571,7 +607,8 @@ public class LoggingNoAPI implements Listener {
 
     public static void logCancelledSpawn(EntitySpawnEvent event) {
 
-        if (!Logging.getCachedLogFromName("SpawnLimiterLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("SpawnLimiterLog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -582,7 +619,8 @@ public class LoggingNoAPI implements Listener {
         String claimOwner = "";
         if (APIs.isGriefPreventionFound()) {
             Claim claim = GriefPrevention.instance.dataStore.getClaimAt(event.getLocation(), true, null);
-            if (claim != null) claimOwner = claim.getOwnerName();
+            if (claim != null)
+                claimOwner = claim.getOwnerName();
         }
 
         SpawnLimiterLog log = new SpawnLimiterLog();
@@ -597,7 +635,8 @@ public class LoggingNoAPI implements Listener {
 
     public static void logIllegalItems(ItemStack itemStack, ItemStack replacedWithItem, Player player, Event event) {
 
-        if (!Logging.getCachedLogFromName("IllegalItemsLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("IllegalItemsLog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -626,7 +665,8 @@ public class LoggingNoAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onAsyncChatEvent(AsyncChatEvent event) {
 
-        if (!Logging.getCachedLogFromName("ChatWithLocationLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("ChatWithLocationLog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 

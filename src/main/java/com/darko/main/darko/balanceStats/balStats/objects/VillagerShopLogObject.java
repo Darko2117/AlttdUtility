@@ -4,7 +4,7 @@ import lombok.Data;
 import org.bukkit.Material;
 
 @Data
-public class VillagerShopLogObject{
+public class VillagerShopLogObject {
 
     private Material itemMaterial;
     private int itemAmount;

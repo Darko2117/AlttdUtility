@@ -15,20 +15,25 @@ public class NumberOfClaimsLimiter implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onClaimCreatedEvent(ClaimCreatedEvent event) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.NumberOfClaimsLimiter")) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.NumberOfClaimsLimiter"))
+            return;
 
-        if (!(event.getCreator() instanceof Player player)) return;
+        if (!(event.getCreator() instanceof Player player))
+            return;
 
-        if (player.hasPermission("utility.claim-limit.bypass")) return;
+        if (player.hasPermission("utility.claim-limit.bypass"))
+            return;
 
-        if (event.getClaim().parent != null) return;
+        if (event.getClaim().parent != null)
+            return;
 
         int numberOfClaimsAfterEvent = GriefPrevention.instance.dataStore.getPlayerData(player.getUniqueId()).getClaims().size() + 1;
         int claimLimitFromPermission = -1;
 
         for (PermissionAttachmentInfo permissionAttachmentInfo : player.getEffectivePermissions()) {
 
-            if (!permissionAttachmentInfo.getPermission().startsWith("utility.claim-limit.")) continue;
+            if (!permissionAttachmentInfo.getPermission().startsWith("utility.claim-limit."))
+                continue;
 
             try {
                 int claimLimitFromPermissionTemp = Integer.parseInt(permissionAttachmentInfo.getPermission().substring(20));

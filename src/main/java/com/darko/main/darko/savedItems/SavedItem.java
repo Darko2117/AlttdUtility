@@ -26,7 +26,8 @@ public class SavedItem {
 
         for (String string : AlttdUtility.getInstance().getConfig().getKeys(true)) {
 
-            if (!string.startsWith("SavedItems.")) continue;
+            if (!string.startsWith("SavedItems."))
+                continue;
 
             int ID;
             try {
@@ -37,7 +38,8 @@ public class SavedItem {
             }
 
             ItemStack itemStack = AlttdUtility.getInstance().getConfig().getItemStack(string);
-            if (itemStack == null) continue;
+            if (itemStack == null)
+                continue;
 
             savedItems.add(new SavedItem(ID, itemStack));
 
@@ -50,7 +52,8 @@ public class SavedItem {
 
     public static SavedItem getSavedItemByID(int ID) {
         for (SavedItem savedItem : savedItems) {
-            if (savedItem.getID() == ID) return savedItem;
+            if (savedItem.getID() == ID)
+                return savedItem;
         }
         return null;
     }

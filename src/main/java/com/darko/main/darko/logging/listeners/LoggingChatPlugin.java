@@ -14,7 +14,8 @@ public class LoggingChatPlugin implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public static void onNickEvent(NickEvent event) {
 
-        if (!Logging.getCachedLogFromName("NicknamesLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("NicknamesLog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 

@@ -16,7 +16,8 @@ public class LoggingCrazyCrates implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerPrizeEvent(PlayerPrizeEvent event) {
 
-        if (!Logging.getCachedLogFromName("CratePrizesLog").isEnabled()) return;
+        if (!Logging.getCachedLogFromName("CratePrizesLog").isEnabled())
+            return;
 
         String time = new Date(System.currentTimeMillis()).toString();
 
@@ -32,7 +33,8 @@ public class LoggingCrazyCrates implements Listener {
                 String itemMaterial = item.getMaterial().toString();
                 String itemDisplayName = item.getName();
 
-                if (!itemsStringBuilder.toString().isEmpty()) itemsStringBuilder.append(", ");
+                if (!itemsStringBuilder.toString().isEmpty())
+                    itemsStringBuilder.append(", ");
 
                 itemsStringBuilder.append(amount).append("X").append(" ").append(itemMaterial).append(" (").append(itemDisplayName).append(")");
 
@@ -46,7 +48,8 @@ public class LoggingCrazyCrates implements Listener {
         if (commandsList.size() != 0) {
             for (String command : commandsList) {
 
-                if (!commandsStringBuilder.toString().isEmpty()) commandsStringBuilder.append(", ");
+                if (!commandsStringBuilder.toString().isEmpty())
+                    commandsStringBuilder.append(", ");
 
                 commandsStringBuilder.append(command);
 

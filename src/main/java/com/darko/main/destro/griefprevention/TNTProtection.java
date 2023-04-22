@@ -17,11 +17,11 @@ public class TNTProtection implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onTNTPrime(TNTPrimeEvent event) {
-        if(event.getReason() == TNTPrimeEvent.PrimeReason.PROJECTILE) {
+        if (event.getReason() == TNTPrimeEvent.PrimeReason.PROJECTILE) {
             Entity entity = event.getPrimerEntity();
-            if(entity instanceof Arrow) {
+            if (entity instanceof Arrow) {
                 Arrow arrow = (Arrow) entity;
-                if(arrow.getShooter() instanceof Player) {
+                if (arrow.getShooter() instanceof Player) {
                     Player player = (Player) arrow.getShooter();
                     Claim claim = GriefPrevention.instance.dataStore.getClaimAt(event.getBlock().getLocation(), true, null);
                     if (claim != null) {

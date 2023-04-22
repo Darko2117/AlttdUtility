@@ -34,17 +34,19 @@ public class FreezeMailPlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
 
-        //Delayed by 20 ticks because the query loading it from the database is async
+        // Delayed by 20 ticks because the query loading it from the database is async
 
         new BukkitRunnable() {
             @Override
             public void run() {
 
-                if (!on) return;
+                if (!on)
+                    return;
 
                 Player player = event.getPlayer();
 
-                if (!unreadFreezemailPlayers.contains(player)) return;
+                if (!unreadFreezemailPlayers.contains(player))
+                    return;
 
                 resendFreezeMailTitle(player);
                 resendFreezeMailMessage(player);
@@ -57,15 +59,15 @@ public class FreezeMailPlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerMove(PlayerMoveEvent event) {
 
-        if (!on) return;
+        if (!on)
+            return;
 
         Player player = event.getPlayer();
 
-        if (!unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player))
+            return;
 
-        if (event.getFrom().getX() != event.getTo().getX()
-                || event.getFrom().getY() != event.getTo().getY()
-                || event.getFrom().getZ() != event.getTo().getZ()) {
+        if (event.getFrom().getX() != event.getTo().getX() || event.getFrom().getY() != event.getTo().getY() || event.getFrom().getZ() != event.getTo().getZ()) {
             event.setCancelled(true);
         }
 
@@ -74,11 +76,13 @@ public class FreezeMailPlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onBlockPlaceEvent(BlockPlaceEvent event) {
 
-        if (!on) return;
+        if (!on)
+            return;
 
         Player player = event.getPlayer();
 
-        if (!unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player))
+            return;
 
         event.setCancelled(true);
 
@@ -88,11 +92,13 @@ public class FreezeMailPlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onBlockBreakEvent(BlockBreakEvent event) {
 
-        if (!on) return;
+        if (!on)
+            return;
 
         Player player = event.getPlayer();
 
-        if (!unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player))
+            return;
 
         event.setCancelled(true);
 
@@ -101,13 +107,16 @@ public class FreezeMailPlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
 
-        if (!on) return;
+        if (!on)
+            return;
 
-        if (!(event.getDamager() instanceof Player)) return;
+        if (!(event.getDamager() instanceof Player))
+            return;
 
         Player player = (Player) event.getDamager();
 
-        if (!unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player))
+            return;
 
         event.setCancelled(true);
 
@@ -116,13 +125,16 @@ public class FreezeMailPlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDamage(EntityDamageEvent event) {
 
-        if (!on) return;
+        if (!on)
+            return;
 
-        if (!(event.getEntity() instanceof Player)) return;
+        if (!(event.getEntity() instanceof Player))
+            return;
 
         Player player = (Player) event.getEntity();
 
-        if (!unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player))
+            return;
 
         event.setCancelled(true);
 
@@ -131,11 +143,13 @@ public class FreezeMailPlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
 
-        if (!on) return;
+        if (!on)
+            return;
 
         Player player = event.getPlayer();
 
-        if (!unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player))
+            return;
 
         event.setCancelled(true);
 
@@ -144,11 +158,13 @@ public class FreezeMailPlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerDropItem(PlayerDropItemEvent event) {
 
-        if (!on) return;
+        if (!on)
+            return;
 
         Player player = event.getPlayer();
 
-        if (!unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player))
+            return;
 
         event.setCancelled(true);
 
@@ -157,11 +173,13 @@ public class FreezeMailPlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerAttemptPickupItem(PlayerAttemptPickupItemEvent event) {
 
-        if (!on) return;
+        if (!on)
+            return;
 
         Player player = event.getPlayer();
 
-        if (!unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player))
+            return;
 
         event.setCancelled(true);
 
@@ -170,11 +188,13 @@ public class FreezeMailPlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent event) {
 
-        if (!on) return;
+        if (!on)
+            return;
 
         Player player = event.getPlayer();
 
-        if (!unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player))
+            return;
 
         event.setCancelled(true);
 
@@ -183,13 +203,16 @@ public class FreezeMailPlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
 
-        if (!on) return;
+        if (!on)
+            return;
 
-        if (!(event.getEntity().getShooter() instanceof Player)) return;
+        if (!(event.getEntity().getShooter() instanceof Player))
+            return;
 
         Player player = (Player) event.getEntity().getShooter();
 
-        if (!unreadFreezemailPlayers.contains(player)) return;
+        if (!unreadFreezemailPlayers.contains(player))
+            return;
 
         event.setCancelled(true);
 
@@ -198,7 +221,8 @@ public class FreezeMailPlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerChatEvent(AsyncPlayerChatEvent event) {
 
-        if (!on) return;
+        if (!on)
+            return;
 
         Player player = event.getPlayer();
 
@@ -221,7 +245,8 @@ public class FreezeMailPlayerListener implements Listener {
 
         ArrayList<String> playerMail = getPlayerMail(player);
 
-        if (playerMail.isEmpty()) return;
+        if (playerMail.isEmpty())
+            return;
 
         StringBuilder finalMessage = new StringBuilder();
 
@@ -311,11 +336,13 @@ public class FreezeMailPlayerListener implements Listener {
         unreadFreezemailPlayers.remove(event.getPlayer());
     }
 
-    //Caches a player from the database, if the player has IsRead = 0 adds them to the list, removes them otherwise
+    // Caches a player from the database, if the player has IsRead = 0 adds them to the list, removes
+    // them otherwise
     public static void cachePlayer(Player player) {
         try {
 
-            if (Database.connection == null) return;
+            if (Database.connection == null)
+                return;
 
             String statement = "SELECT IsRead FROM freeze_message WHERE UUID = '" + player.getUniqueId() + "' AND IsRead = 0;";
             ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();

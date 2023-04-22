@@ -21,7 +21,8 @@ public class TimedTips {
 
     public static void initiate() {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.TimedTips")) return;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.TimedTips"))
+            return;
 
         tips.clear();
         delay = AlttdUtility.getInstance().getConfig().getInt("TimedTips.Delay") * 1000;
@@ -33,9 +34,11 @@ public class TimedTips {
             @Override
             public void run() {
 
-                if (System.currentTimeMillis() < lastSentTip + delay) return;
+                if (System.currentTimeMillis() < lastSentTip + delay)
+                    return;
 
-                if (tips.isEmpty()) tips.addAll(AlttdUtility.getInstance().getConfig().getStringList("TimedTips.Tips"));
+                if (tips.isEmpty())
+                    tips.addAll(AlttdUtility.getInstance().getConfig().getStringList("TimedTips.Tips"));
 
                 int tipIndex = ThreadLocalRandom.current().nextInt(tips.size());
 
@@ -51,7 +54,8 @@ public class TimedTips {
 
                 for (Player player : Bukkit.getOnlinePlayers()) {
 
-                    if (!player.hasPermission("utility.seetimedtips")) continue;
+                    if (!player.hasPermission("utility.seetimedtips"))
+                        continue;
                     player.sendMessage(tip);
 
                 }

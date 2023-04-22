@@ -23,9 +23,11 @@ public class RebootWhitelist implements CommandExecutor, TabCompleter, Listener 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerLogin(PlayerLoginEvent event) {
 
-        if (!event.getResult().equals(PlayerLoginEvent.Result.ALLOWED)) return;
+        if (!event.getResult().equals(PlayerLoginEvent.Result.ALLOWED))
+            return;
 
-        if (!enabled) return;
+        if (!enabled)
+            return;
 
         event.setResult(PlayerLoginEvent.Result.KICK_OTHER);
         event.setKickMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.RebootWhitelistKickMessage")));
@@ -53,12 +55,15 @@ public class RebootWhitelist implements CommandExecutor, TabCompleter, Listener 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.RebootWhitelist")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.RebootWhitelist"))
+            return true;
 
         if (args.length == 0)
             enabled = !enabled;
-        else if (args[0].toLowerCase().equals("on")) enabled = true;
-        else if (args[0].toLowerCase().equals("off")) enabled = false;
+        else if (args[0].toLowerCase().equals("on"))
+            enabled = true;
+        else if (args[0].toLowerCase().equals("off"))
+            enabled = false;
 
         if (enabled) {
 
@@ -81,7 +86,8 @@ public class RebootWhitelist implements CommandExecutor, TabCompleter, Listener 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 
-        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.RebootWhitelist")) return null;
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.RebootWhitelist"))
+            return null;
 
         if (args.length == 1) {
 

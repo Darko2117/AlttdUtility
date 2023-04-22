@@ -58,15 +58,19 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
 
             for (int i = 2; i < args.length; i++) {
                 commandString = commandString.concat(args[i]);
-                if (i < args.length - 1) commandString = commandString.concat(" ");
+                if (i < args.length - 1)
+                    commandString = commandString.concat(" ");
             }
-            if (!commandString.startsWith("/")) commandString = "/" + commandString;
+            if (!commandString.startsWith("/"))
+                commandString = "/" + commandString;
 
-            //Blacklisted commands check
+            // Blacklisted commands check
             {
                 String commandName = commandString.substring(1);
-                while (commandName.contains("/")) commandName = commandName.substring(1);
-                if (commandName.contains(" ")) commandName = commandName.substring(0, commandName.indexOf(" "));
+                while (commandName.contains("/"))
+                    commandName = commandName.substring(1);
+                if (commandName.contains(" "))
+                    commandName = commandName.substring(0, commandName.indexOf(" "));
 
                 List<String> blacklistedCommands = AlttdUtility.getInstance().getConfig().getStringList("CustomCommandMacro.BlacklistedCommands");
                 if (blacklistedCommands.contains(commandName)) {
@@ -85,17 +89,12 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
                 @Override
                 public void run() {
 
-                    String statement = "INSERT INTO custom_command_macro(UUID, Username, MacroName, Command) VALUES("
-                            + "'" + UUID + "', "
-                            + "'" + username + "', "
-                            + "'" + macroName + "', "
-                            + "'" + finalCommandString + "');";
+                    String statement = "INSERT INTO custom_command_macro(UUID, Username, MacroName, Command) VALUES(" + "'" + UUID + "', " + "'" + username + "', " + "'" + macroName + "', " + "'" + finalCommandString + "');";
 
                     try {
 
                         Database.connection.prepareStatement(statement).executeUpdate();
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
-                                .getString("Messages.CustomCommandMacroSavedMessage").replace("%macroName%", macroName).replace("%command%", finalCommandString)));
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.CustomCommandMacroSavedMessage").replace("%macroName%", macroName).replace("%command%", finalCommandString)));
 
                         cachePlayer(player);
 
@@ -157,9 +156,11 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
 
             for (Integer i = 2; i < args.length; i++) {
                 commandString = commandString.concat(args[i]);
-                if (i < args.length - 1) commandString = commandString.concat(" ");
+                if (i < args.length - 1)
+                    commandString = commandString.concat(" ");
             }
-            if (!commandString.startsWith("/")) commandString = "/" + commandString;
+            if (!commandString.startsWith("/"))
+                commandString = "/" + commandString;
 
             String finalCommandString = commandString;
             new BukkitRunnable() {
@@ -191,7 +192,8 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
 
             for (int i = 1; i < commandArgs.length; i++) {
 
-                if (!(commandArgs[i].startsWith("{") && commandArgs[i].endsWith("}"))) continue;
+                if (!(commandArgs[i].startsWith("{") && commandArgs[i].endsWith("}")))
+                    continue;
 
                 try {
                     commandArgs[i] = args[variableIndex];
@@ -225,7 +227,8 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
         if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CustomCommandMacroCommand"))
             return null;
 
-        if (!(sender instanceof Player player)) return null;
+        if (!(sender instanceof Player player))
+            return null;
 
         if (args.length == 1) {
 
@@ -325,7 +328,8 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
 
         List<String> results = new ArrayList<>();
 
-        if (!cachedMacros.containsKey(player)) return results;
+        if (!cachedMacros.containsKey(player))
+            return results;
 
         for (CustomCommandMacro customCommandMacro : cachedMacros.get(player)) {
             results.add(customCommandMacro.getMacroName());
@@ -337,7 +341,8 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
 
     public static CustomCommandMacro getMacroForPlayer(Player player, String macroName) {
 
-        if (!getMacroNamesForPlayer(player).contains(macroName)) return null;
+        if (!getMacroNamesForPlayer(player).contains(macroName))
+            return null;
 
         for (CustomCommandMacro customCommandMacro : cachedMacros.get(player)) {
             if (customCommandMacro.getMacroName().equals(macroName)) {

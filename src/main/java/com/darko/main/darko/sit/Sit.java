@@ -46,7 +46,8 @@ public class Sit implements CommandExecutor, Listener {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Sit"))
+            return true;
 
         if (!(sender instanceof Player player)) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
@@ -77,7 +78,7 @@ public class Sit implements CommandExecutor, Listener {
             new Methods().sendConfigMessage(player, "Messages.SeatInvalidBlock");
             return true;
         }
-//        //if (!claimCheck(player, block)) return true;
+        // //if (!claimCheck(player, block)) return true;
         if (!regionCheck(player, block)) {
             new Methods().sendConfigMessage(player, "Messages.SeatNoRegionPerm");
             return false;
@@ -133,8 +134,10 @@ public class Sit implements CommandExecutor, Listener {
         Entity dismounted = event.getDismounted();
         Entity entity = event.getEntity();
 
-        if (dismounted.getCustomName() == null) return;
-        if (!dismounted.getCustomName().equals(seatName)) return;
+        if (dismounted.getCustomName() == null)
+            return;
+        if (!dismounted.getCustomName().equals(seatName))
+            return;
 
         for (Map.Entry<Location, Entity> entry : aliveSeats.entrySet()) {
             if (entry.getValue().equals(dismounted)) {
@@ -161,9 +164,11 @@ public class Sit implements CommandExecutor, Listener {
 
         Player player = event.getPlayer();
 
-        if (!player.isInsideVehicle()) return;
+        if (!player.isInsideVehicle())
+            return;
 
-        if (player.getVehicle().getCustomName() == null) return;
+        if (player.getVehicle().getCustomName() == null)
+            return;
 
         if (player.getVehicle().getCustomName().equals(seatName)) {
             player.getVehicle().eject();
@@ -185,26 +190,27 @@ public class Sit implements CommandExecutor, Listener {
 
     }
 
-//    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
-//    public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
-//
-//        Player player = event.getPlayer();
-//
-//        if (!player.isInsideVehicle()) return;
-//        if (player.getVehicle().getCustomName() == null) return;
-//        if (!player.getVehicle().getCustomName().equals(seatName)) return;
-//
-//        String command = event.getMessage();
-//        String[] tpCommands = {"/tp", "/ptp", "/spawn", "/warp", "/home", "/back"};
-//
-//        for (String tpCommand : tpCommands) {
-//            if (command.startsWith(tpCommand)) {
-//                event.setCancelled(true);
-//                player.sendMessage(ChatColor.WHITE + "You " + ChatColor.RED + "can't" + ChatColor.WHITE + " teleport while sitting.");
-//            }
-//        }
-//
-//    }
+    // @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+    // public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
+    //
+    // Player player = event.getPlayer();
+    //
+    // if (!player.isInsideVehicle()) return;
+    // if (player.getVehicle().getCustomName() == null) return;
+    // if (!player.getVehicle().getCustomName().equals(seatName)) return;
+    //
+    // String command = event.getMessage();
+    // String[] tpCommands = {"/tp", "/ptp", "/spawn", "/warp", "/home", "/back"};
+    //
+    // for (String tpCommand : tpCommands) {
+    // if (command.startsWith(tpCommand)) {
+    // event.setCancelled(true);
+    // player.sendMessage(ChatColor.WHITE + "You " + ChatColor.RED + "can't" + ChatColor.WHITE + "
+    // teleport while sitting.");
+    // }
+    // }
+    //
+    // }
 
     boolean blockAboveCheck(Block block) {
 
@@ -240,13 +246,13 @@ public class Sit implements CommandExecutor, Listener {
 
         Claim claim = GriefPrevention.instance.dataStore.getClaimAt(block.getLocation(), true, null);
 
-        if (claim == null) return true;
+        if (claim == null)
+            return true;
 
         if (claim.allowAccess(player) == null) {
             return true;
         } else {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
-                    .getString("Messages.SeatNoClaimPerm").replace("%player%", claim.getOwnerName())));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.SeatNoClaimPerm").replace("%player%", claim.getOwnerName())));
             return false;
         }
 
@@ -294,8 +300,10 @@ public class Sit implements CommandExecutor, Listener {
         double smallest = -1;
 
         for (double point : points) {
-            if (smallest == -1) smallest = point;
-            if (point < smallest) smallest = point;
+            if (smallest == -1)
+                smallest = point;
+            if (point < smallest)
+                smallest = point;
         }
 
         return smallest;
@@ -307,13 +315,17 @@ public class Sit implements CommandExecutor, Listener {
             @Override
             public void run() {
 
-                if (aliveSeats.isEmpty()) return;
+                if (aliveSeats.isEmpty())
+                    return;
 
                 for (Player player : Bukkit.getOnlinePlayers()) {
 
-                    if (!player.isInsideVehicle()) continue;
-                    if (player.getVehicle().getCustomName() == null) continue;
-                    if (!player.getVehicle().getCustomName().equals(seatName)) continue;
+                    if (!player.isInsideVehicle())
+                        continue;
+                    if (player.getVehicle().getCustomName() == null)
+                        continue;
+                    if (!player.getVehicle().getCustomName().equals(seatName))
+                        continue;
 
                     ArmorStand seat = (ArmorStand) player.getVehicle();
 

@@ -25,7 +25,8 @@ public class CommandOnJoin implements CommandExecutor, Listener, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CommandOnJoin")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CommandOnJoin"))
+            return true;
 
         if (args.length < 2) {
             new Methods().sendConfigMessage(sender, "Messages.InvalidUsageCommandOnJoinMessage");
@@ -38,20 +39,17 @@ public class CommandOnJoin implements CommandExecutor, Listener, TabCompleter {
         for (Integer i = 1; i < args.length; i++) {
 
             commandToSet = commandToSet.concat(args[i]);
-            if (i < args.length - 1) commandToSet = commandToSet.concat(" ");
+            if (i < args.length - 1)
+                commandToSet = commandToSet.concat(" ");
 
         }
 
-        String statement = "INSERT INTO command_on_join(Username, Command) VALUES("
-                + "'" + playerName + "', "
-                + "'" + commandToSet + "'"
-                + ");";
+        String statement = "INSERT INTO command_on_join(Username, Command) VALUES(" + "'" + playerName + "', " + "'" + commandToSet + "'" + ");";
 
         try {
 
             Database.connection.prepareStatement(statement).executeUpdate();
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
-                    .getString("Messages.CommandOnJoinSetMessage").replace("%player%", playerName).replace("%command%", commandToSet)));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.CommandOnJoinSetMessage").replace("%player%", playerName).replace("%command%", commandToSet)));
 
         } catch (Throwable throwable) {
             throwable.printStackTrace();
@@ -68,7 +66,8 @@ public class CommandOnJoin implements CommandExecutor, Listener, TabCompleter {
             @Override
             public void run() {
 
-                if (Database.connection == null) return;
+                if (Database.connection == null)
+                    return;
 
                 String playerName = event.getPlayer().getName();
 
@@ -105,7 +104,8 @@ public class CommandOnJoin implements CommandExecutor, Listener, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CommandOnJoin")) return null;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CommandOnJoin"))
+            return null;
 
         if (args.length == 1) {
 

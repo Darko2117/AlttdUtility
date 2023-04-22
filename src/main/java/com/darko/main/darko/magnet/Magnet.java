@@ -37,7 +37,8 @@ public class Magnet implements CommandExecutor, Listener {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.MagnetCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.MagnetCommand"))
+            return true;
 
         if (!(sender instanceof Player)) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
@@ -92,15 +93,18 @@ public class Magnet implements CommandExecutor, Listener {
             @Override
             public void run() {
 
-                if (Database.connection == null) return;
+                if (Database.connection == null)
+                    return;
 
                 for (Player player : enabledPlayers) {
 
-                    if (player.getGameMode().equals(GameMode.SPECTATOR)) continue;
+                    if (player.getGameMode().equals(GameMode.SPECTATOR))
+                        continue;
 
                     for (Entity entity : player.getNearbyEntities(10, 10, 10)) {
 
-                        if (!(entity instanceof Item)) continue;
+                        if (!(entity instanceof Item))
+                            continue;
 
                         int originalAmount = ((Item) entity).getItemStack().getAmount();
 
@@ -130,7 +134,8 @@ public class Magnet implements CommandExecutor, Listener {
 
                             player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, new Random().nextFloat(0F, 1F), new Random().nextFloat(0F, 10F));
 
-                        } else continue;
+                        } else
+                            continue;
 
                         ParticleBuilder particleBuilder = new ParticleBuilder(Particle.REDSTONE);
                         particleBuilder.location(entity.getLocation());
@@ -164,15 +169,18 @@ public class Magnet implements CommandExecutor, Listener {
         enabledPlayers.remove(event.getPlayer());
     }
 
-    //Caches a player from the database, if the player has magnet enabled adds them to the list, removes them otherwise
+    // Caches a player from the database, if the player has magnet enabled adds them to the list,
+    // removes them otherwise
     public static void cachePlayer(Player player) {
         try {
 
-            if (Database.connection == null) return;
+            if (Database.connection == null)
+                return;
 
             String statement = "SELECT magnet_enabled FROM users WHERE UUID = '" + player.getUniqueId() + "';";
             ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
-            if (!rs.next()) return;
+            if (!rs.next())
+                return;
 
             if (rs.getBoolean("magnet_enabled")) {
                 enabledPlayers.add(player);

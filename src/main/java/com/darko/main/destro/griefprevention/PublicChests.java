@@ -13,8 +13,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.InventoryHolder;
 
 /**
- * https://discordapp.com/channels/141644560005595136/677219092717109289/788689097064579083
- * adapted to be for all chests, barrels and shulkers
+ * https://discordapp.com/channels/141644560005595136/677219092717109289/788689097064579083 adapted
+ * to be for all chests, barrels and shulkers
  */
 public class PublicChests implements Listener {
 
@@ -27,12 +27,14 @@ public class PublicChests implements Listener {
             /*
              * This should cover all chests, enderchests, barrels, furnacetypes, lectern, ....
              */
-            if(block.getState() instanceof InventoryHolder) {
+            if (block.getState() instanceof InventoryHolder) {
                 if (block.getState() instanceof Nameable) {
                     Nameable nameable = (Nameable) block.getState();
-                    if(nameable.getCustomName() == null) return;
+                    if (nameable.getCustomName() == null)
+                        return;
                     if (ChatColor.stripColor(nameable.getCustomName()).equalsIgnoreCase("public")) {
-                        // Do we need to check for claims? i assume it's cancelled because of no permission as we only continue if the event is canceled
+                        // Do we need to check for claims? i assume it's cancelled because of no permission as we only
+                        // continue if the event is canceled
                         // we don't need to check for worldguard regions either as spawn should also be claimed?
                         Claim claim = GriefPrevention.instance.dataStore.getClaimAt(block.getLocation(), true, null);
                         if (claim != null) {

@@ -33,16 +33,21 @@ public class BalStatsCommand implements CommandExecutor {
             public void run() {
                 try {
 
-                    if (!(commandSender instanceof Player player)) return;
+                    if (!(commandSender instanceof Player player))
+                        return;
 
-                    if (Database.connection == null) return;
+                    if (Database.connection == null)
+                        return;
 
                     int numberOfDays = 7;
-                    if (strings.length != 0) numberOfDays = Integer.parseInt(strings[0]);
-                    if (numberOfDays < 0) numberOfDays = 0;
-                    else if (numberOfDays > 60) numberOfDays = 60;
+                    if (strings.length != 0)
+                        numberOfDays = Integer.parseInt(strings[0]);
+                    if (numberOfDays < 0)
+                        numberOfDays = 0;
+                    else if (numberOfDays > 60)
+                        numberOfDays = 60;
 
-                    //1 day = 86400000 ms
+                    // 1 day = 86400000 ms
                     long earliestAllowedTimestamp = System.currentTimeMillis() - ((numberOfDays + 1) * 86400000L);
 
                     String statement = "SELECT * FROM villager_shop_log WHERE user_UUID = '" + player.getUniqueId() + "' AND time >= " + earliestAllowedTimestamp;
@@ -157,7 +162,8 @@ public class BalStatsCommand implements CommandExecutor {
 
         for (VillagerShopLogObject villagerShopLogObject : villagerShopLogObjectList) {
 
-            if (villagerShopLogObject.getBalanceChange() < 0) continue;
+            if (villagerShopLogObject.getBalanceChange() < 0)
+                continue;
 
             Material material = villagerShopLogObject.getItemMaterial();
             Double balanceChange = villagerShopLogObject.getBalanceChange();
@@ -193,7 +199,8 @@ public class BalStatsCommand implements CommandExecutor {
 
         for (VillagerShopLogObject villagerShopLogObject : villagerShopLogObjectList) {
 
-            if (villagerShopLogObject.getBalanceChange() > 0) continue;
+            if (villagerShopLogObject.getBalanceChange() > 0)
+                continue;
 
             Material material = villagerShopLogObject.getItemMaterial();
             Double balanceChange = villagerShopLogObject.getBalanceChange() * -1;
@@ -275,8 +282,10 @@ public class BalStatsCommand implements CommandExecutor {
             }
         }
 
-        if (totalBuy == 0) return totalBuy;
-        else return totalBuy * -1;
+        if (totalBuy == 0)
+            return totalBuy;
+        else
+            return totalBuy * -1;
 
     }
 
@@ -285,7 +294,8 @@ public class BalStatsCommand implements CommandExecutor {
         List<VillagerShopLogObject> villagerShopLogObjectList1 = new ArrayList<>();
 
         for (VillagerShopLogObject villagerShopLogObject : villagerShopLogObjectList)
-            if (villagerShopLogObject.getDaysAgo() == daysAgo) villagerShopLogObjectList1.add(villagerShopLogObject);
+            if (villagerShopLogObject.getDaysAgo() == daysAgo)
+                villagerShopLogObjectList1.add(villagerShopLogObject);
 
         return villagerShopLogObjectList1;
 

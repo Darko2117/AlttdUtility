@@ -96,7 +96,8 @@ public class Logging {
 
             File log = new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "logs" + File.separator + logName);
 
-            if (log.getName().startsWith(new Methods().getDateStringYYYYMMDD())) continue;
+            if (log.getName().startsWith(new Methods().getDateStringYYYYMMDD()))
+                continue;
 
             try {
                 if (new Methods().compressFile(log.getAbsolutePath(), log.getAbsolutePath().replace(File.separator + "logs" + File.separator, File.separator + "compressed-logs" + File.separator).concat(".gz"))) {
@@ -130,9 +131,11 @@ public class Logging {
 
                 int numberOfLogsToKeepFromConfig = Logging.getCachedLogFromName(fileNameWithoutDate).getDaysOfLogsToKeep();
 
-                if (numberOfLogsToKeepFromConfig == -1) numberOfLogsToKeepFromConfig = 999999999;
+                if (numberOfLogsToKeepFromConfig == -1)
+                    numberOfLogsToKeepFromConfig = 999999999;
 
-                if (numberOfLogsToKeepFromConfig == 0) throw new Throwable();
+                if (numberOfLogsToKeepFromConfig == 0)
+                    throw new Throwable();
 
                 int day = new Methods().getDateValuesFromStringYYYYMMDD(logName.substring(0, 10))[0];
                 int month = new Methods().getDateValuesFromStringYYYYMMDD(logName.substring(0, 10))[1];
@@ -164,11 +167,13 @@ public class Logging {
             public void run() {
                 try {
 
-                    if (isCompressing) return;
+                    if (isCompressing)
+                        return;
 
                     int dayNow = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 
-                    if (cachedDayOfMonth == dayNow) return;
+                    if (cachedDayOfMonth == dayNow)
+                        return;
 
                     isCompressing = true;
 
@@ -244,14 +249,15 @@ public class Logging {
 
     }
 
-    //TODO: try making this not a task
+    // TODO: try making this not a task
     private static void initializeLogWriting() {
         BukkitTasksCache.addTask(new BukkitRunnable() {
             @Override
             public void run() {
                 try {
 
-                    if (isWritingLogs) return;
+                    if (isWritingLogs)
+                        return;
 
                     isWritingLogs = true;
 
@@ -333,7 +339,8 @@ public class Logging {
 
     public static List<Log> getCachedLogs() {
 
-        if (cachedLogs.isEmpty()) cacheDefaultLogs();
+        if (cachedLogs.isEmpty())
+            cacheDefaultLogs();
 
         return cachedLogs;
     }

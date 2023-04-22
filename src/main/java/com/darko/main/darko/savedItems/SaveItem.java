@@ -15,7 +15,8 @@ public class SaveItem implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.SaveItemCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.SaveItemCommand"))
+            return true;
 
         if (!(commandSender instanceof Player player)) {
             new Methods().sendConfigMessage(commandSender, "Messages.PlayerOnlyCommandMessage");
@@ -28,9 +29,11 @@ public class SaveItem implements CommandExecutor {
         }
 
         int ID = 0;
-        while (AlttdUtility.getInstance().getConfig().contains("SavedItems." + ID)) ID++;
+        while (AlttdUtility.getInstance().getConfig().contains("SavedItems." + ID))
+            ID++;
 
-        //AlttdUtility.getInstance().getConfig().set("SavedItems." + ID, new Methods().serializeItemStack(player.getInventory().getItemInMainHand()));
+        // AlttdUtility.getInstance().getConfig().set("SavedItems." + ID, new
+        // Methods().serializeItemStack(player.getInventory().getItemInMainHand()));
         AlttdUtility.getInstance().getConfig().set("SavedItems." + ID, player.getInventory().getItemInMainHand());
         AlttdUtility.getInstance().saveConfig();
 

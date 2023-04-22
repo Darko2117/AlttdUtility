@@ -22,10 +22,12 @@ public class NamedMobClaimDamage implements Listener {
 
         Entity entity = event.getEntity();
 
-        if (entity.getCustomName() == null) return;
-        if (!checkIfNameIsProtected(entity.getCustomName())) return;
+        if (entity.getCustomName() == null)
+            return;
+        if (!checkIfNameIsProtected(entity.getCustomName()))
+            return;
 
-        //Player
+        // Player
 
         if (event.getDamager() instanceof Player) {
 
@@ -33,8 +35,7 @@ public class NamedMobClaimDamage implements Listener {
 
             if (claimCheck(damagerPlayer, entity.getLocation()) != null) {
 
-                damagerPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
-                        .getString("Messages.GriefPreventionThatBelongsToMessage").replace("%player%", claimCheck(damagerPlayer, entity.getLocation()))));
+                damagerPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.GriefPreventionThatBelongsToMessage").replace("%player%", claimCheck(damagerPlayer, entity.getLocation()))));
 
                 event.setCancelled(true);
 
@@ -42,20 +43,20 @@ public class NamedMobClaimDamage implements Listener {
 
         }
 
-        //Arrow
+        // Arrow
 
         if (event.getDamager() instanceof Arrow) {
 
             Arrow damagerArrow = (Arrow) event.getDamager();
 
-            if (!(damagerArrow.getShooter() instanceof Player)) return;
+            if (!(damagerArrow.getShooter() instanceof Player))
+                return;
 
             Player damagerPlayer = (Player) damagerArrow.getShooter();
 
             if (claimCheck(damagerPlayer, entity.getLocation()) != null) {
 
-                damagerPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
-                        .getString("Messages.GriefPreventionThatBelongsToMessage").replace("%player%", claimCheck(damagerPlayer, entity.getLocation()))));
+                damagerPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.GriefPreventionThatBelongsToMessage").replace("%player%", claimCheck(damagerPlayer, entity.getLocation()))));
 
                 event.setCancelled(true);
 
@@ -63,20 +64,20 @@ public class NamedMobClaimDamage implements Listener {
 
         }
 
-        //CraftAreaEffectCloud
+        // CraftAreaEffectCloud
 
         if (event.getDamager() instanceof AreaEffectCloud) {
 
             AreaEffectCloud damagerAreaEffectCloud = (AreaEffectCloud) event.getDamager();
 
-            if (!(damagerAreaEffectCloud.getSource() instanceof Player)) return;
+            if (!(damagerAreaEffectCloud.getSource() instanceof Player))
+                return;
 
             Player damagerPlayer = (Player) damagerAreaEffectCloud.getSource();
 
             if (claimCheck(damagerPlayer, entity.getLocation()) != null) {
 
-                damagerPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
-                        .getString("Messages.GriefPreventionThatBelongsToMessage").replace("%player%", claimCheck(damagerPlayer, entity.getLocation()))));
+                damagerPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.GriefPreventionThatBelongsToMessage").replace("%player%", claimCheck(damagerPlayer, entity.getLocation()))));
 
                 event.setCancelled(true);
 
@@ -84,20 +85,20 @@ public class NamedMobClaimDamage implements Listener {
 
         }
 
-        //Fireworks
+        // Fireworks
 
         if (event.getDamager() instanceof Firework) {
 
             Firework damagerFirework = (Firework) event.getDamager();
 
-            if (!(damagerFirework.getShooter() instanceof Player)) return;
+            if (!(damagerFirework.getShooter() instanceof Player))
+                return;
 
             Player damagerPlayer = (Player) damagerFirework.getShooter();
 
             if (claimCheck(damagerPlayer, entity.getLocation()) != null) {
 
-                damagerPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
-                        .getString("Messages.GriefPreventionThatBelongsToMessage").replace("%player%", claimCheck(damagerPlayer, entity.getLocation()))));
+                damagerPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.GriefPreventionThatBelongsToMessage").replace("%player%", claimCheck(damagerPlayer, entity.getLocation()))));
 
                 event.setCancelled(true);
 
@@ -110,23 +111,25 @@ public class NamedMobClaimDamage implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPotionSplash(PotionSplashEvent event) {
 
-        //PotionSplash
+        // PotionSplash
 
         ThrownPotion potion = event.getEntity();
 
-        if (!(potion.getShooter() instanceof Player)) return;
+        if (!(potion.getShooter() instanceof Player))
+            return;
 
         Player potionThrower = (Player) potion.getShooter();
 
         for (Entity entity : event.getAffectedEntities()) {
 
-            if (entity.getCustomName() == null) continue;
-            if (!checkIfNameIsProtected(entity.getCustomName())) continue;
+            if (entity.getCustomName() == null)
+                continue;
+            if (!checkIfNameIsProtected(entity.getCustomName()))
+                continue;
 
             if (claimCheck(potionThrower, entity.getLocation()) != null) {
 
-                potionThrower.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
-                        .getString("Messages.GriefPreventionThatBelongsToMessage").replace("%player%", claimCheck(potionThrower, entity.getLocation()))));
+                potionThrower.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.GriefPreventionThatBelongsToMessage").replace("%player%", claimCheck(potionThrower, entity.getLocation()))));
 
                 event.setCancelled(true);
 
@@ -139,9 +142,11 @@ public class NamedMobClaimDamage implements Listener {
     String claimCheck(Player player, Location location) {
 
         Claim claim = GriefPrevention.instance.dataStore.getClaimAt(location, true, null);
-        if (claim == null) return null;
+        if (claim == null)
+            return null;
 
-        if (claim.allowBuild(player, Material.STONE) != null) return claim.getOwnerName();
+        if (claim.allowBuild(player, Material.STONE) != null)
+            return claim.getOwnerName();
 
         return null;
 
@@ -153,7 +158,8 @@ public class NamedMobClaimDamage implements Listener {
 
         for (String s : protectedNames) {
 
-            if (s.toLowerCase().equals(name.toLowerCase())) return true;
+            if (s.toLowerCase().equals(name.toLowerCase()))
+                return true;
 
         }
 

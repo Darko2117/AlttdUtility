@@ -23,7 +23,8 @@ public class Cooldown implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CooldownCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CooldownCommand"))
+            return true;
 
         if (!(sender instanceof Player)) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
@@ -36,7 +37,8 @@ public class Cooldown implements CommandExecutor, TabCompleter {
             for (String permissionName : getCooldownCommandInfo().values()) {
                 sendCooldownMessage(player, permissionName);
             }
-        else sendCooldownMessage(player, args[0]);
+        else
+            sendCooldownMessage(player, args[0]);
 
         return true;
 
@@ -45,7 +47,8 @@ public class Cooldown implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CooldownCommand")) return null;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CooldownCommand"))
+            return null;
 
         if (args.length == 1) {
 
@@ -112,7 +115,8 @@ public class Cooldown implements CommandExecutor, TabCompleter {
         HashMap<String, String> resultsHashMap = new HashMap<>();
 
         List<String> resultsList = AlttdUtility.getInstance().getConfig().getStringList("CooldownCommandPermissions");
-        if (resultsList == null) return resultsHashMap;
+        if (resultsList == null)
+            return resultsHashMap;
 
         for (String string : resultsList) {
 

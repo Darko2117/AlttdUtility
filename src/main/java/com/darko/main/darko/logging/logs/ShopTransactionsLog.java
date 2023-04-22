@@ -2,7 +2,7 @@ package com.darko.main.darko.logging.logs;
 
 import com.darko.main.darko.logging.Logging;
 
-public class ShopTransactionsLog extends Log{
+public class ShopTransactionsLog extends Log {
 
     public ShopTransactionsLog() {
 

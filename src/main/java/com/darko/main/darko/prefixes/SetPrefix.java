@@ -14,7 +14,8 @@ public class SetPrefix implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.SetPrefixCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.SetPrefixCommand"))
+            return true;
 
         Player player = (Player) sender;
 
@@ -45,8 +46,7 @@ public class SetPrefix implements CommandExecutor {
                     if (actedPlayer.hasPermission("group." + group)) {
 
                         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + actedPlayer.getName() + " meta setprefix 100 " + prefix);
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
-                                .getString("Messages.PrefixSetConfirmedMessage").replace("%prefix%", prefix).replace("%player%", actedPlayer.getName())));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.PrefixSetConfirmedMessage").replace("%prefix%", prefix).replace("%player%", actedPlayer.getName())));
 
                     }
 

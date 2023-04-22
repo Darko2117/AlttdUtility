@@ -15,7 +15,8 @@ public class Hat implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Hat")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.Hat"))
+            return true;
 
         if (!(sender instanceof Player)) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");

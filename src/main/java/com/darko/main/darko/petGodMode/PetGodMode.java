@@ -29,7 +29,8 @@ public class PetGodMode implements CommandExecutor, Listener {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.PetGodModeCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.PetGodModeCommand"))
+            return true;
 
         if (!(sender instanceof Player)) {
             new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
@@ -82,12 +83,15 @@ public class PetGodMode implements CommandExecutor, Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDamage(EntityDamageEvent event) {
 
-        if (Database.connection == null) return;
+        if (Database.connection == null)
+            return;
 
-        if (!(event.getEntity() instanceof MyPetBukkitEntity craftMyPet)) return;
+        if (!(event.getEntity() instanceof MyPetBukkitEntity craftMyPet))
+            return;
         MyPet myPet = craftMyPet.getMyPet();
 
-        if (!enabledPlayers.contains(myPet.getOwner().getPlayer())) return;
+        if (!enabledPlayers.contains(myPet.getOwner().getPlayer()))
+            return;
 
         event.setCancelled(true);
         myPet.setHealth(myPet.getMaxHealth());
@@ -109,15 +113,18 @@ public class PetGodMode implements CommandExecutor, Listener {
         enabledPlayers.remove(event.getPlayer());
     }
 
-    //Caches a player from the database, if the player has pet_god_mode enabled adds them to the list, removes them otherwise
+    // Caches a player from the database, if the player has pet_god_mode enabled adds them to the list,
+    // removes them otherwise
     public static void cachePlayer(Player player) {
         try {
 
-            if (Database.connection == null) return;
+            if (Database.connection == null)
+                return;
 
             String statement = "SELECT pet_god_mode_enabled FROM users WHERE UUID = '" + player.getUniqueId() + "';";
             ResultSet rs = Database.connection.prepareStatement(statement).executeQuery();
-            if (!rs.next()) return;
+            if (!rs.next())
+                return;
 
             if (rs.getBoolean("pet_god_mode_enabled")) {
                 enabledPlayers.add(player);

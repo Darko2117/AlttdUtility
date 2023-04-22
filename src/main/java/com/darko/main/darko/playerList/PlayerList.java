@@ -23,7 +23,8 @@ public class PlayerList implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.PlayerListCommand")) return true;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.PlayerListCommand"))
+            return true;
 
         if (args.length == 0) {
 
@@ -116,9 +117,7 @@ public class PlayerList implements CommandExecutor, TabCompleter {
 
                     User user = api.getUserManager().getUser(players.getUniqueId());
 
-                    Set<String> userGroups = user.getNodes().stream().filter(NodeType.INHERITANCE::matches)
-                            .map(NodeType.INHERITANCE::cast).map(InheritanceNode::getGroupName)
-                            .collect(Collectors.toSet());
+                    Set<String> userGroups = user.getNodes().stream().filter(NodeType.INHERITANCE::matches).map(NodeType.INHERITANCE::cast).map(InheritanceNode::getGroupName).collect(Collectors.toSet());
 
                     if (userGroups.contains(group)) {
                         message.append(players.getName() + ", ");
@@ -129,8 +128,7 @@ public class PlayerList implements CommandExecutor, TabCompleter {
                 if (message.length() != 0) {
 
                     message.delete(message.length() - 2, message.length());
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig()
-                            .getString("Messages.ListGroup").replace("%group%", group)));
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.ListGroup").replace("%group%", group)));
                     sender.sendMessage(message.toString());
 
                 } else {
@@ -154,11 +152,12 @@ public class PlayerList implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 
-        if(!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.PlayerListCommand")) return null;
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.PlayerListCommand"))
+            return null;
 
         if (args.length == 1) {
 
-            if(sender.hasPermission("utility.list.specific")){
+            if (sender.hasPermission("utility.list.specific")) {
 
                 List<String> completions = new ArrayList<>();
 
@@ -188,8 +187,7 @@ public class PlayerList implements CommandExecutor, TabCompleter {
         for (Player player : Bukkit.getOnlinePlayers()) {
 
             User user = api.getUserManager().getUser(player.getUniqueId());
-            Set<String> groupsTemp = user.getNodes().stream().filter(NodeType.INHERITANCE::matches)
-                    .map(NodeType.INHERITANCE::cast).map(InheritanceNode::getGroupName).collect(Collectors.toSet());
+            Set<String> groupsTemp = user.getNodes().stream().filter(NodeType.INHERITANCE::matches).map(NodeType.INHERITANCE::cast).map(InheritanceNode::getGroupName).collect(Collectors.toSet());
             groups.addAll(groupsTemp);
 
         }

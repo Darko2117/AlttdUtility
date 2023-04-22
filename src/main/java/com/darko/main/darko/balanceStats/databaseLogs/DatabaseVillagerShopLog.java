@@ -13,7 +13,8 @@ public class DatabaseVillagerShopLog implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onSpawnShopEvent(SpawnShopEvent spawnShopEvent) {
 
-        if (Database.connection == null) return;
+        if (Database.connection == null)
+            return;
 
         String userUUID = spawnShopEvent.player().getUniqueId().toString();
 
@@ -22,20 +23,16 @@ public class DatabaseVillagerShopLog implements Listener {
         String item = spawnShopEvent.item().toString();
 
         int itemAmount = spawnShopEvent.amount();
-        if (itemAmount == 0) return;
+        if (itemAmount == 0)
+            return;
 
         double balanceChange = spawnShopEvent.price();
-        if (spawnShopEvent.buy()) balanceChange *= -1;
+        if (spawnShopEvent.buy())
+            balanceChange *= -1;
 
         long time = System.currentTimeMillis();
 
-        String statement = "INSERT INTO villager_shop_log(user_UUID, user_username, item, item_amount, balance_change, time) VALUES("
-                + "'" + userUUID + "', "
-                + "'" + userUsername + "', "
-                + "'" + item + "', "
-                + itemAmount + ", "
-                + balanceChange + ", "
-                + time + ");";
+        String statement = "INSERT INTO villager_shop_log(user_UUID, user_username, item, item_amount, balance_change, time) VALUES(" + "'" + userUUID + "', " + "'" + userUsername + "', " + "'" + item + "', " + itemAmount + ", " + balanceChange + ", " + time + ");";
 
         new BukkitRunnable() {
             @Override

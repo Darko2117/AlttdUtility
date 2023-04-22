@@ -12,7 +12,8 @@ public class DatabaseMoneyLog implements Listener {
     @EventHandler
     public void onCMIUserBalanceChange(CMIUserBalanceChangeEvent cmiUserBalanceChangeEvent) {
 
-        if (Database.connection == null) return;
+        if (Database.connection == null)
+            return;
 
         String userUUID = cmiUserBalanceChangeEvent.getUser().getPlayer().getUniqueId().toString();
         String userUsername = cmiUserBalanceChangeEvent.getUser().getPlayer().getName();
@@ -29,14 +30,7 @@ public class DatabaseMoneyLog implements Listener {
 
         String actionType = cmiUserBalanceChangeEvent.getActionType();
 
-        String statement = "INSERT INTO money_log(user_UUID, user_username, source_UUID, source_username, from_balance, to_balance, action_type) VALUES("
-                + "'" + userUUID + "', "
-                + "'" + userUsername + "', "
-                + "'" + sourceUUID + "', "
-                + "'" + sourceUsername + "', "
-                + fromBalance + ", "
-                + toBalance + ", "
-                + "'" + actionType + "');";
+        String statement = "INSERT INTO money_log(user_UUID, user_username, source_UUID, source_username, from_balance, to_balance, action_type) VALUES(" + "'" + userUUID + "', " + "'" + userUsername + "', " + "'" + sourceUUID + "', " + "'" + sourceUsername + "', " + fromBalance + ", " + toBalance + ", " + "'" + actionType + "');";
 
         new BukkitRunnable() {
             @Override

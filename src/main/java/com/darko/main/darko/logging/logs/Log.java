@@ -13,8 +13,7 @@ public class Log {
     private int daysOfLogsToKeep;
     private LinkedHashMap<String, String> arguments = new LinkedHashMap<>();
 
-    public Log() {
-    }
+    public Log() {}
 
     public String getName() {
         return name;
@@ -53,9 +52,11 @@ public class Log {
     }
 
     public void addArgumentValue(String argumentValue) {
-        if(argumentValue.isEmpty()) argumentValue = "-";
+        if (argumentValue.isEmpty())
+            argumentValue = "-";
         for (Map.Entry<String, String> entry : arguments.entrySet()) {
-            if (!entry.getValue().isEmpty()) continue;
+            if (!entry.getValue().isEmpty())
+                continue;
             entry.setValue(argumentValue);
             break;
         }
