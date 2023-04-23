@@ -62,7 +62,7 @@ import com.darko.main.darko.disablePvpOnLeave.DisablePvpOnLeave;
 import com.darko.main.darko.ravagerInClaim.RavagerInClaim;
 import com.darko.main.darko.rebootWhitelist.RebootWhitelist;
 import com.darko.main.darko.reloadCommand.ReloadCommand;
-import com.darko.main.darko.spawnLimiter.SpawnLimiterCheck;
+import com.darko.main.darko.spawnLimiter.SpawnLimiter;
 import com.darko.main.teri.CrazyCratesKeysLimiter.CrazyCratesKeysLimiter;
 import com.darko.main.teri.FreezeMail.FreezeMail;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
@@ -95,7 +95,7 @@ public class Register extends JavaPlugin {
             registerEvents(new AutoFix());
 
         if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.SpawnLimiter"))
-            registerEvents(new SpawnLimiterCheck());
+            registerEvents(new SpawnLimiter());
 
         if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.ItemPickupCommand"))
             registerEvents(new ItemPickup());

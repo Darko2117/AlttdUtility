@@ -15,7 +15,7 @@ import com.darko.main.darko.magnet.Magnet;
 import com.darko.main.darko.rebootWhitelist.RebootWhitelist;
 import com.darko.main.darko.savedItems.SavedItem;
 import com.darko.main.darko.sit.Sit;
-import com.darko.main.darko.spawnLimiter.SpawnLimiterCheck;
+import com.darko.main.darko.spawnLimiter.SpawnLimiter;
 import com.darko.main.darko.timedTips.TimedTips;
 import com.darko.main.darko.trapped.Trapped;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
@@ -51,7 +51,7 @@ public class Reload {
 
         Trapped.initiate(); // Reads from the config, needs to be after Config.configSetup()
 
-        SpawnLimiterCheck.reload(); // Reads from the config, needs to be after Config.configSetup()
+        SpawnLimiter.reload(); // Reads from the config, needs to be after Config.configSetup()
 
         Sit.startCheckingSeats();
 
