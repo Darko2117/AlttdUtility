@@ -24,7 +24,11 @@ public class Logging {
 
     private static final ConcurrentLinkedQueue<Log> logQueue = new ConcurrentLinkedQueue<>();
 
-    private static boolean isWritingLogs = false;
+    private static Thread logWritingThread = null;
+
+    public static volatile boolean isShuttingDown = false;
+    public static volatile boolean logWritingIsDone = false;
+
     private static boolean isCompressing = false;
 
     private static final HashMap<String, Log> cachedLogs = new HashMap<>();
@@ -162,32 +166,33 @@ public class Logging {
         }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 0, 20));
     }
 
-    // TODO: try making this not a task
     private static void initializeLogWriting() {
-        BukkitTasksCache.addTask(new BukkitRunnable() {
+
+        if (logWritingThread != null)
+            return;
+
+        logWritingThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
 
-                    if (isWritingLogs)
-                        return;
+                while (!isShuttingDown) {
 
-                    isWritingLogs = true;
-
-                    while (logQueue.peek() != null) {
-
-                        writeToFile(logQueue.poll());
-
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException ignored) {
                     }
 
-                    isWritingLogs = false;
+                    while (logQueue.peek() != null)
+                        writeToFile(logQueue.poll());
 
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                    isWritingLogs = false;
                 }
+
+                logWritingIsDone = true;
+
             }
-        }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 1, 1));
+        });
+        logWritingThread.start();
+
     }
 
     public static void addToLogWriteQueue(Log log) {
