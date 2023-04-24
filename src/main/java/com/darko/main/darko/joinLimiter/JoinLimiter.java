@@ -39,7 +39,7 @@ public class JoinLimiter implements Listener {
             return;
         }
 
-        String timeString = new Methods().getTimeStringFromIntSeconds(Integer.parseInt(String.valueOf(joinLimiterObject.getRemainingWaitTime() / 1000)));
+        String timeString = Methods.getTimeStringFromIntSeconds(Integer.parseInt(String.valueOf(joinLimiterObject.getRemainingWaitTime() / 1000)));
 
         if (joinLimiterObject.getNumberOfRecentJoins() >= AlttdUtility.getInstance().getConfig().getInt("JoinLimiter.JoinLimit")) {
             event.setResult(PlayerLoginEvent.Result.KICK_OTHER);

@@ -18,7 +18,7 @@ public class DeathMessage implements Listener {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    new Methods().sendConfigMessage(event.getEntity(), "Messages.DeathMessage");
+                    Methods.sendConfigMessage(event.getEntity(), "Messages.DeathMessage");
                 }
             }.runTaskLater(AlttdUtility.getInstance(), 40);
         }

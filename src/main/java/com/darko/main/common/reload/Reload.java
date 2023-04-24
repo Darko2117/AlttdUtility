@@ -24,7 +24,7 @@ public class Reload {
 
     public static void reload(ReloadType reloadType) {
 
-        new Methods().checkConfig(); // Needs to be called before loading the config
+        Methods.checkConfig(); // Needs to be called before loading the config
 
         Config.configSetup();
 

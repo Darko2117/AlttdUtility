@@ -21,7 +21,7 @@ public class ViewSavedItems implements CommandExecutor {
             return true;
 
         if (!(commandSender instanceof Player player)) {
-            new Methods().sendConfigMessage(commandSender, "Messages.PlayerOnlyCommandMessage");
+            Methods.sendConfigMessage(commandSender, "Messages.PlayerOnlyCommandMessage");
             return true;
         }
 

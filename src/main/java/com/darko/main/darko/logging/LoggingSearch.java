@@ -43,12 +43,12 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (args.length == 0 || !(args[0].equals("normal") || args[0].equals("special") || args[0].equals("additional"))) {
-            new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchLogsCommand");
+            Methods.sendConfigMessage(sender, "Messages.IncorrectUsageSearchLogsCommand");
             return true;
         }
 
         if (!sender.hasPermission("utility.searchlogs." + args[0])) {
-            new Methods().sendConfigMessage(sender, "Messages.NoPermission");
+            Methods.sendConfigMessage(sender, "Messages.NoPermission");
             return true;
         }
 
@@ -103,7 +103,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             clearTemporaryFiles();
 
             if (args.length < 3) {
-                new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchNormalLogsCommand");
+                Methods.sendConfigMessage(sender, "Messages.IncorrectUsageSearchNormalLogsCommand");
                 inUse = false;
                 return;
             }
@@ -112,7 +112,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             try {
                 days = Integer.parseInt(args[1]);
             } catch (Throwable throwable) {
-                new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchNormalLogsCommand");
+                Methods.sendConfigMessage(sender, "Messages.IncorrectUsageSearchNormalLogsCommand");
                 inUse = false;
                 return;
             }
@@ -146,9 +146,9 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             for (File file : filesToRead) {
                 try {
 
-                    int day = new Methods().getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[0];
-                    int month = new Methods().getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[1];
-                    int year = new Methods().getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[2];
+                    int day = Methods.getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[0];
+                    int month = Methods.getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[1];
+                    int year = Methods.getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[2];
                     LocalDate fileDateLD = LocalDate.of(year, month, day);
 
                     int epochDayOfFileCreation = Math.toIntExact(fileDateLD.toEpochDay());
@@ -186,10 +186,10 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
                     if (f.getName().contains(".gz")) {
                         String outputPath = AlttdUtility.getInstance().getDataFolder() + File.separator + "temporary-files" + File.separator + f.getName().replace(".gz", "");
-                        if (!new Methods().uncompressFileGZIP(f.getAbsolutePath(), outputPath))
+                        if (!Methods.uncompressFileGZIP(f.getAbsolutePath(), outputPath))
                             AlttdUtility.getInstance().getLogger().warning("Something failed during extraction of the file " + f.getAbsolutePath());
                     } else {
-                        new Methods().copyPasteFile(new File(f.getAbsolutePath()), new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "temporary-files" + File.separator + f.getName()));
+                        Methods.copyPasteFile(new File(f.getAbsolutePath()), new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "temporary-files" + File.separator + f.getName()));
                     }
 
                 } catch (Throwable throwable) {
@@ -313,7 +313,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             // If the file is bigger than the defined limit, it gets compressed.
             if (outputFile.length() > maxFileSizeWithoutCompression) {
 
-                new Methods().compressFile(outputFile.getAbsolutePath(), outputFile.getAbsolutePath().concat(".gz"));
+                Methods.compressFile(outputFile.getAbsolutePath(), outputFile.getAbsolutePath().concat(".gz"));
 
                 outputFile = new File(outputFile.getAbsolutePath().concat(".gz"));
 
@@ -326,7 +326,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             tempOutputFilePathString = AlttdUtility.getInstance().getConfig().getString("SearchLogs.OutputPath") + File.separator + tempOutputFilePathString;
 
             if (outputFile.length() != 0)
-                new Methods().copyPasteFile(outputFile, (new File(tempOutputFilePathString)));
+                Methods.copyPasteFile(outputFile, (new File(tempOutputFilePathString)));
             else {
                 sender.sendMessage(ChatColor.RED + "The results file is empty, not sending it.");
             }
@@ -349,7 +349,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             inUse = false;
 
         } catch (Throwable throwable) {
-            new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchNormalLogsCommand");
+            Methods.sendConfigMessage(sender, "Messages.IncorrectUsageSearchNormalLogsCommand");
             throwable.printStackTrace();
             clearTemporaryFiles();
             inUse = false;
@@ -370,7 +370,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             clearTemporaryFiles();
 
             if (args.length < 5) {
-                new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchSpecialLogsCommand");
+                Methods.sendConfigMessage(sender, "Messages.IncorrectUsageSearchSpecialLogsCommand");
                 inUse = false;
                 return;
             }
@@ -378,7 +378,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             String[] logNames = args[1].split(",");
             for (String logName : logNames) {
                 if (Logging.getCachedLogFromName(logName) == null) {
-                    new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchSpecialLogsCommand");
+                    Methods.sendConfigMessage(sender, "Messages.IncorrectUsageSearchSpecialLogsCommand");
                     inUse = false;
                     return;
                 }
@@ -388,7 +388,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             try {
                 days = Integer.parseInt(args[2]);
             } catch (Throwable throwable) {
-                new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchSpecialLogsCommand");
+                Methods.sendConfigMessage(sender, "Messages.IncorrectUsageSearchSpecialLogsCommand");
                 inUse = false;
                 return;
             }
@@ -475,9 +475,9 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             for (File file : filesToRead) {
                 try {
 
-                    int day = new Methods().getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[0];
-                    int month = new Methods().getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[1];
-                    int year = new Methods().getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[2];
+                    int day = Methods.getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[0];
+                    int month = Methods.getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[1];
+                    int year = Methods.getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[2];
                     LocalDate fileDateLD = LocalDate.of(year, month, day);
 
                     int epochDayOfFileCreation = Math.toIntExact(fileDateLD.toEpochDay());
@@ -514,10 +514,10 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
 
                     if (f.getName().contains(".gz")) {
                         String outputPath = AlttdUtility.getInstance().getDataFolder() + File.separator + "temporary-files";
-                        if (!new Methods().uncompressFile(f.getAbsolutePath(), outputPath))
+                        if (!Methods.uncompressFile(f.getAbsolutePath(), outputPath))
                             AlttdUtility.getInstance().getLogger().warning("Something failed during extraction of the file " + f.getAbsolutePath());
                     } else {
-                        new Methods().copyPasteFile(new File(f.getAbsolutePath()), new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "temporary-files" + File.separator + f.getName()));
+                        Methods.copyPasteFile(new File(f.getAbsolutePath()), new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "temporary-files" + File.separator + f.getName()));
                     }
 
                 } catch (Throwable throwable) {
@@ -751,7 +751,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             // If the file is bigger than the defined limit, it gets compressed.
             if (outputFile.length() > maxFileSizeWithoutCompression) {
 
-                new Methods().compressFile(outputFile.getAbsolutePath(), outputFile.getAbsolutePath().concat(".gz"));
+                Methods.compressFile(outputFile.getAbsolutePath(), outputFile.getAbsolutePath().concat(".gz"));
 
                 outputFile = new File(outputFile.getAbsolutePath().concat(".gz"));
 
@@ -764,7 +764,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             tempOutputFilePathString = AlttdUtility.getInstance().getConfig().getString("SearchLogs.OutputPath") + File.separator + tempOutputFilePathString;
 
             if (outputFile.length() != 0)
-                new Methods().copyPasteFile(outputFile, (new File(tempOutputFilePathString)));
+                Methods.copyPasteFile(outputFile, (new File(tempOutputFilePathString)));
             else {
                 sender.sendMessage(ChatColor.RED + "The results file is empty, not sending it.");
             }
@@ -787,7 +787,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             inUse = false;
 
         } catch (Throwable throwable) {
-            new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchSpecialLogsCommand");
+            Methods.sendConfigMessage(sender, "Messages.IncorrectUsageSearchSpecialLogsCommand");
             throwable.printStackTrace();
             clearTemporaryFiles();
             inUse = false;
@@ -808,7 +808,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             clearTemporaryFiles();
 
             if (args.length < 4) {
-                new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchAdditionalLogsCommand");
+                Methods.sendConfigMessage(sender, "Messages.IncorrectUsageSearchAdditionalLogsCommand");
                 inUse = false;
                 return;
             }
@@ -816,7 +816,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             String logName = args[1];
 
             if (!Logging.getAdditionalLogNames().contains(logName)) {
-                new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchAdditionalLogsCommand");
+                Methods.sendConfigMessage(sender, "Messages.IncorrectUsageSearchAdditionalLogsCommand");
                 inUse = false;
                 return;
             }
@@ -825,7 +825,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             try {
                 days = Integer.parseInt(args[2]);
             } catch (Throwable throwable) {
-                new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchSpecialLogsCommand");
+                Methods.sendConfigMessage(sender, "Messages.IncorrectUsageSearchSpecialLogsCommand");
                 inUse = false;
                 return;
             }
@@ -857,7 +857,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             }
 
             if (logsDirectoryPath == null) {
-                new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchSpecialLogsCommand");
+                Methods.sendConfigMessage(sender, "Messages.IncorrectUsageSearchSpecialLogsCommand");
                 inUse = false;
                 return;
             }
@@ -870,9 +870,9 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             for (File file : filesToRead) {
                 try {
 
-                    int day = new Methods().getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[0];
-                    int month = new Methods().getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[1];
-                    int year = new Methods().getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[2];
+                    int day = Methods.getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[0];
+                    int month = Methods.getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[1];
+                    int year = Methods.getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[2];
                     LocalDate fileDateLD = LocalDate.of(year, month, day);
 
                     int epochDayOfFileCreation = Math.toIntExact(fileDateLD.toEpochDay());
@@ -905,7 +905,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                     bossBarProgress = copyingPercentage / 2 / 100;
                 }
 
-                new Methods().copyPasteFile(new File(f.getAbsolutePath()), new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "temporary-files" + File.separator + f.getName()));
+                Methods.copyPasteFile(new File(f.getAbsolutePath()), new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "temporary-files" + File.separator + f.getName()));
 
             }
 
@@ -1018,7 +1018,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             // If the file is bigger than the defined limit, it gets compressed.
             if (outputFile.length() > maxFileSizeWithoutCompression) {
 
-                new Methods().compressFile(outputFile.getAbsolutePath(), outputFile.getAbsolutePath().concat(".gz"));
+                Methods.compressFile(outputFile.getAbsolutePath(), outputFile.getAbsolutePath().concat(".gz"));
 
                 outputFile = new File(outputFile.getAbsolutePath().concat(".gz"));
 
@@ -1031,7 +1031,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             tempOutputFilePathString = AlttdUtility.getInstance().getConfig().getString("SearchLogs.OutputPath") + File.separator + tempOutputFilePathString;
 
             if (outputFile.length() != 0)
-                new Methods().copyPasteFile(outputFile, (new File(tempOutputFilePathString)));
+                Methods.copyPasteFile(outputFile, (new File(tempOutputFilePathString)));
             else {
                 sender.sendMessage(ChatColor.RED + "The results file is empty, not sending it.");
             }
@@ -1054,7 +1054,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
             inUse = false;
 
         } catch (Throwable throwable) {
-            new Methods().sendConfigMessage(sender, "Messages.IncorrectUsageSearchNormalLogsCommand");
+            Methods.sendConfigMessage(sender, "Messages.IncorrectUsageSearchNormalLogsCommand");
             throwable.printStackTrace();
             clearTemporaryFiles();
             inUse = false;

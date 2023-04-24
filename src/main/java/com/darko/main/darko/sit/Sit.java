@@ -50,7 +50,7 @@ public class Sit implements CommandExecutor, Listener {
             return true;
 
         if (!(sender instanceof Player player)) {
-            new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
+            Methods.sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
             return true;
         }
 
@@ -59,28 +59,28 @@ public class Sit implements CommandExecutor, Listener {
         Block block = playerLocation.getWorld().getBlockAt(playerLocation.subtract(0, 0.00001, 0));
 
         if (!blockAboveCheck(block)) {
-            new Methods().sendConfigMessage(player, "Messages.SeatInvalidBlockAbove");
+            Methods.sendConfigMessage(player, "Messages.SeatInvalidBlockAbove");
             return true;
         }
         if (!blockBelowCheck(block)) {
-            new Methods().sendConfigMessage(player, "Messages.SeatInvalidBlockBelow");
+            Methods.sendConfigMessage(player, "Messages.SeatInvalidBlockBelow");
             return true;
         }
         if (!((Entity) player).isOnGround()) {
-            new Methods().sendConfigMessage(player, "Messages.SitCommandNotOnGroundMessage");
+            Methods.sendConfigMessage(player, "Messages.SitCommandNotOnGroundMessage");
             return true;
         }
         if (!occupiedCheck(player)) {
-            new Methods().sendConfigMessage(player, "Messages.SeatOccupiedMessage");
+            Methods.sendConfigMessage(player, "Messages.SeatOccupiedMessage");
             return false;
         }
         if (getSmallestNearCenterBlockHeight(block) == -1) {
-            new Methods().sendConfigMessage(player, "Messages.SeatInvalidBlock");
+            Methods.sendConfigMessage(player, "Messages.SeatInvalidBlock");
             return true;
         }
         // //if (!claimCheck(player, block)) return true;
         if (!regionCheck(player, block)) {
-            new Methods().sendConfigMessage(player, "Messages.SeatNoRegionPerm");
+            Methods.sendConfigMessage(player, "Messages.SeatNoRegionPerm");
             return false;
         }
 

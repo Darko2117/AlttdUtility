@@ -33,14 +33,14 @@ public class TPPunch implements CommandExecutor, Listener, TabCompleter {
             return true;
 
         if (!(commandSender instanceof Player)) {
-            new Methods().sendConfigMessage(commandSender, "Messages.PlayerOnlyCommandMessage");
+            Methods.sendConfigMessage(commandSender, "Messages.PlayerOnlyCommandMessage");
             return true;
         }
 
         Player player = (Player) commandSender;
 
         if (strings.length < 3) {
-            new Methods().sendConfigMessage(player, "Messages.InvalidUsageTPPunchCommand");
+            Methods.sendConfigMessage(player, "Messages.InvalidUsageTPPunchCommand");
             return true;
         }
 
@@ -50,7 +50,7 @@ public class TPPunch implements CommandExecutor, Listener, TabCompleter {
             Y = Double.parseDouble(strings[1]);
             Z = Double.parseDouble(strings[2]);
         } catch (Throwable throwable) {
-            new Methods().sendConfigMessage(player, "Messages.InvalidUsageTPPunchCommand");
+            Methods.sendConfigMessage(player, "Messages.InvalidUsageTPPunchCommand");
             return true;
         }
 
@@ -58,7 +58,7 @@ public class TPPunch implements CommandExecutor, Listener, TabCompleter {
         if (strings.length >= 4) {
             dimension = Bukkit.getWorld(strings[3]);
             if (dimension == null) {
-                new Methods().sendConfigMessage(player, "Messages.InvalidUsageTPPunchCommand");
+                Methods.sendConfigMessage(player, "Messages.InvalidUsageTPPunchCommand");
                 return true;
             }
         }
@@ -138,7 +138,7 @@ public class TPPunch implements CommandExecutor, Listener, TabCompleter {
 
         playerTPLocationHashMap.remove(player.getUniqueId());
 
-        new Methods().sendConfigMessage(player, "Messages.TPPunchCancelled");
+        Methods.sendConfigMessage(player, "Messages.TPPunchCancelled");
 
         return true;
 

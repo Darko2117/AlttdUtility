@@ -133,13 +133,13 @@ public class PlayerList implements CommandExecutor, TabCompleter {
 
                 } else {
 
-                    new Methods().sendConfigMessage(sender, "Messages.GroupNotFound");
+                    Methods.sendConfigMessage(sender, "Messages.GroupNotFound");
 
                 }
 
             } else {
 
-                new Methods().sendConfigMessage(sender, "Messages.NoPermission");
+                Methods.sendConfigMessage(sender, "Messages.NoPermission");
 
             }
 

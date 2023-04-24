@@ -32,7 +32,7 @@ public abstract class Log {
     }
 
     public String getPath() {
-        return File.separator + "logs" + File.separator + new Methods().getDateStringYYYYMMDD() + "-" + name + ".txt";
+        return File.separator + "logs" + File.separator + Methods.getDateStringYYYYMMDD() + "-" + name + ".txt";
     }
 
     public String getLogArgumentsString() {

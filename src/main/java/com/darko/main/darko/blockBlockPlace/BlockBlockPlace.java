@@ -37,7 +37,7 @@ public class BlockBlockPlace implements Listener {
 
         if (blockedMaterials.contains(event.getBlockPlaced().getType())) {
             event.setCancelled(true);
-            new Methods().sendConfigMessage(event.getPlayer(), "Messages.BlockedBlocksCantPlace");
+            Methods.sendConfigMessage(event.getPlayer(), "Messages.BlockedBlocksCantPlace");
         }
 
     }

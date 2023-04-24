@@ -20,14 +20,14 @@ public class Crash implements CommandExecutor {
             return true;
 
         if (args.length == 0) {
-            new Methods().sendConfigMessage(sender, "Messages.CrashCommandInvalidUsage");
+            Methods.sendConfigMessage(sender, "Messages.CrashCommandInvalidUsage");
             return true;
         }
 
         Player player = Bukkit.getPlayer(args[0]);
 
         if (!Bukkit.getOnlinePlayers().contains(player)) {
-            new Methods().sendConfigMessage(sender, "Messages.CrashCommandOfflinePlayer");
+            Methods.sendConfigMessage(sender, "Messages.CrashCommandOfflinePlayer");
             return true;
         }
 

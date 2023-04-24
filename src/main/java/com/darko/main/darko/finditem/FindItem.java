@@ -88,7 +88,7 @@ public class FindItem implements CommandExecutor, TabCompleter {
             return true;
 
         if (!(commandSender instanceof Player player)) {
-            new Methods().sendConfigMessage(commandSender, "Messages.PlayerOnlyCommandMessage");
+            Methods.sendConfigMessage(commandSender, "Messages.PlayerOnlyCommandMessage");
             return true;
         }
 
@@ -109,14 +109,14 @@ public class FindItem implements CommandExecutor, TabCompleter {
         lastTimeUsedCommand.put(player, System.currentTimeMillis());
 
         if (strings.length < 1) {
-            new Methods().sendConfigMessage(commandSender, "Messages.InvalidUsageFindItemCommand");
+            Methods.sendConfigMessage(commandSender, "Messages.InvalidUsageFindItemCommand");
             return true;
         }
 
         List<Material> searchedMaterials = getMaterialsList(strings[0]);
 
         if (searchedMaterials.isEmpty()) {
-            new Methods().sendConfigMessage(commandSender, "Messages.FindItemCommandInvalidItem");
+            Methods.sendConfigMessage(commandSender, "Messages.FindItemCommandInvalidItem");
             return true;
         }
 
@@ -133,7 +133,7 @@ public class FindItem implements CommandExecutor, TabCompleter {
             return null;
 
         if (!(commandSender instanceof Player)) {
-            new Methods().sendConfigMessage(commandSender, "Messages.PlayerOnlyCommandMessage");
+            Methods.sendConfigMessage(commandSender, "Messages.PlayerOnlyCommandMessage");
             return null;
         }
 

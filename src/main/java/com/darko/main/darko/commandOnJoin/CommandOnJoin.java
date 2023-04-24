@@ -29,7 +29,7 @@ public class CommandOnJoin implements CommandExecutor, Listener, TabCompleter {
             return true;
 
         if (args.length < 2) {
-            new Methods().sendConfigMessage(sender, "Messages.InvalidUsageCommandOnJoinMessage");
+            Methods.sendConfigMessage(sender, "Messages.InvalidUsageCommandOnJoinMessage");
             return true;
         }
 

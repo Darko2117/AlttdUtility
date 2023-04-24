@@ -40,7 +40,7 @@ public class StorePetOnPVP implements Listener {
             return;
 
         myPet.removePet();
-        new Methods().sendConfigMessage(event.getPlayer(), "Messages.StorePetOnPVPPetStored");
+        Methods.sendConfigMessage(event.getPlayer(), "Messages.StorePetOnPVPPetStored");
 
     }
 

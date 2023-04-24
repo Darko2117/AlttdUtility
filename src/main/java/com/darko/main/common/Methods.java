@@ -17,7 +17,7 @@ import java.util.zip.*;
 
 public class Methods {
 
-    public void sendConfigMessage(CommandSender receiver, String path) {
+    public static void sendConfigMessage(CommandSender receiver, String path) {
 
         receiver.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString(path)));
 
@@ -29,7 +29,7 @@ public class Methods {
      * loading it before the plugin itself does, if it fails it disables the plugin and stops it from
      * resetting it.
      */
-    public void checkConfig() {
+    public static void checkConfig() {
         try {
             AlttdUtility.getInstance().saveDefaultConfig();
             new Yaml().load(new FileInputStream(AlttdUtility.getInstance().getDataFolder() + "/config.yml"));
@@ -41,7 +41,7 @@ public class Methods {
         }
     }
 
-    public String getDateStringDDMMYYYY() {
+    public static String getDateStringDDMMYYYY() {
 
         Integer day = LocalDate.now().getDayOfMonth();
         Integer month = LocalDate.now().getMonthValue();
@@ -64,7 +64,7 @@ public class Methods {
 
     }
 
-    public String getDateStringYYYYMMDD() {
+    public static String getDateStringYYYYMMDD() {
 
         Integer day = LocalDate.now().getDayOfMonth();
         Integer month = LocalDate.now().getMonthValue();
@@ -90,7 +90,7 @@ public class Methods {
 
     }
 
-    public Integer[] getDateValuesFromStringDDMMYYYY(String dateString) {
+    public static Integer[] getDateValuesFromStringDDMMYYYY(String dateString) {
 
         Integer[] values = new Integer[3];
 
@@ -102,7 +102,7 @@ public class Methods {
 
     }
 
-    public Integer[] getDateValuesFromStringYYYYMMDD(String dateString) {
+    public static Integer[] getDateValuesFromStringYYYYMMDD(String dateString) {
 
         Integer[] values = new Integer[3];
 
@@ -114,7 +114,7 @@ public class Methods {
 
     }
 
-    public Boolean compressFile(String inputPath, String outputPath) throws Throwable {
+    public static Boolean compressFile(String inputPath, String outputPath) throws Throwable {
 
         FileOutputStream fos = new FileOutputStream(outputPath);
         ZipOutputStream zipOut = new ZipOutputStream(fos);
@@ -135,7 +135,7 @@ public class Methods {
 
     }
 
-    public Boolean uncompressFile(String inputPath, String outputPath) throws Throwable {
+    public static Boolean uncompressFile(String inputPath, String outputPath) throws Throwable {
 
         File destDir = new File(outputPath);
         byte[] buffer = new byte[1024];
@@ -167,7 +167,7 @@ public class Methods {
 
     }
 
-    public Boolean uncompressFileGZIP(String inputPath, String outputPath) throws Throwable {
+    public static Boolean uncompressFileGZIP(String inputPath, String outputPath) throws Throwable {
 
         byte[] buffer = new byte[1024];
 
@@ -191,7 +191,7 @@ public class Methods {
 
     }
 
-    public void copyPasteFile(File file, File destination) throws Throwable {
+    public static void copyPasteFile(File file, File destination) throws Throwable {
 
         try (InputStream is = new FileInputStream(file); OutputStream os = new FileOutputStream(destination)) {
             byte[] buffer = new byte[1024];
@@ -203,7 +203,7 @@ public class Methods {
 
     }
 
-    public String getServerJarPath() {
+    public static String getServerJarPath() {
 
         String path = new File(".").getAbsolutePath();
         path = path.substring(0, path.length() - 1);
@@ -211,7 +211,7 @@ public class Methods {
 
     }
 
-    public String serializeItemStack(ItemStack itemStack) {
+    public static String serializeItemStack(ItemStack itemStack) {
 
         try {
 
@@ -234,7 +234,7 @@ public class Methods {
 
     }
 
-    public ItemStack deserializeItemStack(String string) {
+    public static ItemStack deserializeItemStack(String string) {
 
         try {
 
@@ -258,7 +258,7 @@ public class Methods {
 
     }
 
-    public String getTimeStringFromIntSeconds(Integer time) {
+    public static String getTimeStringFromIntSeconds(Integer time) {
 
         Integer hours = time / 3600;
         Integer minutes = time % 3600 / 60;
@@ -295,45 +295,45 @@ public class Methods {
     }
 
     public static Location getLocationFromBetterLocationString(String string) {
-    
+
         string = string.substring(7);
-    
+
         String worldName = string.substring(0, string.indexOf(" "));
-    
+
         string = string.substring(string.indexOf(" ") + 1);
         string = string.substring(12);
-    
+
         String dimension = string.substring(0, string.indexOf(" "));
-    
+
         string = string.substring(string.indexOf(" ") + 1);
         string = string.substring(2);
-    
+
         String X = string.substring(0, string.indexOf(" "));
-    
+
         string = string.substring(string.indexOf(" ") + 1);
         string = string.substring(2);
-    
+
         String Y = string.substring(0, string.indexOf(" "));
-    
+
         string = string.substring(string.indexOf(" ") + 1);
         string = string.substring(2);
-    
+
         String Z = string;
-    
+
         return new Location(Bukkit.getWorld(worldName), Double.parseDouble(X), Double.parseDouble(Y), Double.parseDouble(Z));
-    
+
     }
 
     public static String getBetterLocationString(Location location) {
-    
+
         String worldName = location.getWorld().getName();
-    
+
         String dimension = location.getWorld().getEnvironment().toString();
-    
+
         String X = String.valueOf(location.getBlockX());
         String Y = String.valueOf(location.getBlockY());
         String Z = String.valueOf(location.getBlockZ());
-    
+
         String message = "";
         message = message.concat("World: ");
         message = message.concat(worldName);
@@ -345,9 +345,9 @@ public class Methods {
         message = message.concat(Y);
         message = message.concat(" Z:");
         message = message.concat(Z);
-    
+
         return message;
-    
+
     }
 
 }

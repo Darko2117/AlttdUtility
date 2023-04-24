@@ -34,7 +34,7 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
             return true;
 
         if (!(sender instanceof Player player)) {
-            new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
+            Methods.sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
             return true;
         }
 
@@ -42,14 +42,14 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
         String username = player.getName();
 
         if (args.length == 0) {
-            new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroUsage");
+            Methods.sendConfigMessage(sender, "Messages.CustomCommandMacroUsage");
             return true;
         }
 
         if (args[0].equals("add")) {
 
             if (args.length < 3) {
-                new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroUsage");
+                Methods.sendConfigMessage(sender, "Messages.CustomCommandMacroUsage");
                 return true;
             }
 
@@ -74,13 +74,13 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
 
                 List<String> blacklistedCommands = AlttdUtility.getInstance().getConfig().getStringList("CustomCommandMacro.BlacklistedCommands");
                 if (blacklistedCommands.contains(commandName)) {
-                    new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroBlacklistedCommand");
+                    Methods.sendConfigMessage(sender, "Messages.CustomCommandMacroBlacklistedCommand");
                     return true;
                 }
             }
 
             if (getMacroNamesForPlayer(player).contains(macroName)) {
-                new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroAlreadyExists");
+                Methods.sendConfigMessage(sender, "Messages.CustomCommandMacroAlreadyExists");
                 return true;
             }
 
@@ -108,14 +108,14 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
         } else if (args[0].equals("remove")) {
 
             if (args.length < 2) {
-                new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroUsage");
+                Methods.sendConfigMessage(sender, "Messages.CustomCommandMacroUsage");
                 return true;
             }
 
             String macroName = args[1].toLowerCase();
 
             if (!getMacroNamesForPlayer(player).contains(macroName)) {
-                new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroDoesntExist");
+                Methods.sendConfigMessage(sender, "Messages.CustomCommandMacroDoesntExist");
                 return true;
             }
 
@@ -128,7 +128,7 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
                     try {
 
                         Database.connection.prepareStatement(statement).executeUpdate();
-                        new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroRemovedMessage");
+                        Methods.sendConfigMessage(sender, "Messages.CustomCommandMacroRemovedMessage");
 
                         cachePlayer(player);
 
@@ -142,7 +142,7 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
         } else if (args[0].equals("edit")) {
 
             if (args.length < 3) {
-                new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroUsage");
+                Methods.sendConfigMessage(sender, "Messages.CustomCommandMacroUsage");
                 return true;
             }
 
@@ -150,7 +150,7 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
             String commandString = "";
 
             if (!getMacroNamesForPlayer(player).contains(macroName)) {
-                new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroDoesntExist");
+                Methods.sendConfigMessage(sender, "Messages.CustomCommandMacroDoesntExist");
                 return true;
             }
 
@@ -172,7 +172,7 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
                     try {
 
                         Database.connection.prepareStatement(statement).executeUpdate();
-                        new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroEdited");
+                        Methods.sendConfigMessage(sender, "Messages.CustomCommandMacroEdited");
 
                         cachePlayer(player);
 
@@ -214,7 +214,7 @@ public class CustomCommandMacroCommand implements CommandExecutor, TabCompleter,
             player.chat(commandStringBuilder.toString());
 
         } else {
-            new Methods().sendConfigMessage(sender, "Messages.CustomCommandMacroDoesntExist");
+            Methods.sendConfigMessage(sender, "Messages.CustomCommandMacroDoesntExist");
         }
 
         return true;

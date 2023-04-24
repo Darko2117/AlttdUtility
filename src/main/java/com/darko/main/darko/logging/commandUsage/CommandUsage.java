@@ -31,7 +31,7 @@ public class CommandUsage implements CommandExecutor {
                         return;
 
                     if (strings.length != 2) {
-                        new Methods().sendConfigMessage(commandSender, "Messages.InvalidUsageCommandUsageCommand");
+                        Methods.sendConfigMessage(commandSender, "Messages.InvalidUsageCommandUsageCommand");
                         return;
                     }
 
@@ -41,7 +41,7 @@ public class CommandUsage implements CommandExecutor {
                     try {
                         numberOfDays = Integer.parseInt(strings[1]);
                     } catch (Throwable throwable) {
-                        new Methods().sendConfigMessage(commandSender, "Messages.InvalidUsageCommandUsageCommand");
+                        Methods.sendConfigMessage(commandSender, "Messages.InvalidUsageCommandUsageCommand");
                         return;
                     }
 
@@ -69,9 +69,9 @@ public class CommandUsage implements CommandExecutor {
                     for (File file : filesToRead) {
                         try {
 
-                            Integer day = new Methods().getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[0];
-                            Integer month = new Methods().getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[1];
-                            Integer year = new Methods().getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[2];
+                            Integer day = Methods.getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[0];
+                            Integer month = Methods.getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[1];
+                            Integer year = Methods.getDateValuesFromStringYYYYMMDD(file.getName().substring(0, 10))[2];
                             LocalDate fileDateLD = LocalDate.of(year, month, day);
 
                             Integer epochDayOfFileCreation = Math.toIntExact(fileDateLD.toEpochDay());
@@ -95,10 +95,10 @@ public class CommandUsage implements CommandExecutor {
 
                             if (f.getName().contains(".gz")) {
                                 String outputPath = AlttdUtility.getInstance().getDataFolder() + "/temporary-files/" + f.getName().replace(".gz", "");
-                                if (!new Methods().uncompressFileGZIP(f.getAbsolutePath(), outputPath))
+                                if (!Methods.uncompressFileGZIP(f.getAbsolutePath(), outputPath))
                                     AlttdUtility.getInstance().getLogger().warning("Something failed during extraction of the file " + f.getAbsolutePath());
                             } else {
-                                new Methods().copyPasteFile(new File(f.getAbsolutePath()), new File(AlttdUtility.getInstance().getDataFolder() + "/temporary-files/" + f.getName()));
+                                Methods.copyPasteFile(new File(f.getAbsolutePath()), new File(AlttdUtility.getInstance().getDataFolder() + "/temporary-files/" + f.getName()));
                             }
 
                         } catch (Throwable throwable) {
@@ -205,7 +205,7 @@ public class CommandUsage implements CommandExecutor {
                     tempOutputFilePathString = AlttdUtility.getInstance().getConfig().getString("SearchLogs.OutputPath") + "/" + tempOutputFilePathString;
 
                     if (outputFile.length() != 0)
-                        new Methods().copyPasteFile(outputFile, (new File(tempOutputFilePathString)));
+                        Methods.copyPasteFile(outputFile, (new File(tempOutputFilePathString)));
                     else {
                         commandSender.sendMessage(ChatColor.RED + "The results file is empty, not sending it.");
                     }

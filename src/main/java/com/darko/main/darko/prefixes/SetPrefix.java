@@ -36,7 +36,7 @@ public class SetPrefix implements CommandExecutor {
 
                 if (actedPlayer == null) {
 
-                    new Methods().sendConfigMessage(player, "Messages.PlayerNotFound");
+                    Methods.sendConfigMessage(player, "Messages.PlayerNotFound");
                     return true;
 
                 }
@@ -54,7 +54,7 @@ public class SetPrefix implements CommandExecutor {
 
             } else {
 
-                new Methods().sendConfigMessage(player, "Messages.InvalidPrefixLengthMessage");
+                Methods.sendConfigMessage(player, "Messages.InvalidPrefixLengthMessage");
 
             }
 

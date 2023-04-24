@@ -34,12 +34,12 @@ public class AutoFix implements CommandExecutor, Listener {
             return true;
 
         if (!(sender instanceof Player)) {
-            new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
+            Methods.sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
             return true;
         }
 
         if (Database.connection == null) {
-            new Methods().sendConfigMessage(sender, "Messages.NoDatabaseConnectionMessage");
+            Methods.sendConfigMessage(sender, "Messages.NoDatabaseConnectionMessage");
             return true;
         }
 
@@ -59,13 +59,13 @@ public class AutoFix implements CommandExecutor, Listener {
 
                         statement = "UPDATE users SET autofix_enabled = true WHERE UUID = '" + uuid + "';";
                         Database.connection.prepareStatement(statement).executeUpdate();
-                        new Methods().sendConfigMessage(player, "Messages.AutofixEnabled");
+                        Methods.sendConfigMessage(player, "Messages.AutofixEnabled");
 
                     } else {
 
                         statement = "UPDATE users SET autofix_enabled = false WHERE UUID = '" + uuid + "';";
                         Database.connection.prepareStatement(statement).executeUpdate();
-                        new Methods().sendConfigMessage(player, "Messages.AutofixDisabled");
+                        Methods.sendConfigMessage(player, "Messages.AutofixDisabled");
 
                     }
 

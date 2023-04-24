@@ -347,7 +347,7 @@ public class Config {
             List<String> logNamesAndPaths = new ArrayList<>();
 
             String moneyLogName = "Money";
-            String moneyLogPath = new Methods().getServerJarPath() + "plugins/CMI/moneyLog";
+            String moneyLogPath = Methods.getServerJarPath() + "plugins/CMI/moneyLog";
             logNamesAndPaths.add("Name:" + moneyLogName + " " + "Path:" + moneyLogPath);
 
             config.set("AdditionalLogs", logNamesAndPaths);

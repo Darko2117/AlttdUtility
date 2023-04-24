@@ -50,9 +50,9 @@ public class NumberOfClaimsLimiter implements Listener {
         }
 
         if (numberOfClaimsAfterEvent == claimLimitFromPermission) {
-            new Methods().sendConfigMessage(player, "Messages.NumberOfClaimsLimiterAtLimit");
+            Methods.sendConfigMessage(player, "Messages.NumberOfClaimsLimiterAtLimit");
         } else if (numberOfClaimsAfterEvent > claimLimitFromPermission) {
-            new Methods().sendConfigMessage(player, "Messages.NumberOfClaimsLimiterOverLimit");
+            Methods.sendConfigMessage(player, "Messages.NumberOfClaimsLimiterOverLimit");
             event.setCancelled(true);
         }
 

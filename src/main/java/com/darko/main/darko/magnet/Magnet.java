@@ -41,12 +41,12 @@ public class Magnet implements CommandExecutor, Listener {
             return true;
 
         if (!(sender instanceof Player)) {
-            new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
+            Methods.sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
             return true;
         }
 
         if (Database.connection == null) {
-            new Methods().sendConfigMessage(sender, "Messages.NoDatabaseConnectionMessage");
+            Methods.sendConfigMessage(sender, "Messages.NoDatabaseConnectionMessage");
             return true;
         }
 
@@ -66,13 +66,13 @@ public class Magnet implements CommandExecutor, Listener {
 
                         statement = "UPDATE users SET magnet_enabled = true WHERE UUID = '" + uuid + "';";
                         Database.connection.prepareStatement(statement).executeUpdate();
-                        new Methods().sendConfigMessage(player, "Messages.MagnetEnabled");
+                        Methods.sendConfigMessage(player, "Messages.MagnetEnabled");
 
                     } else {
 
                         statement = "UPDATE users SET magnet_enabled = false WHERE UUID = '" + uuid + "';";
                         Database.connection.prepareStatement(statement).executeUpdate();
-                        new Methods().sendConfigMessage(player, "Messages.MagnetDisabled");
+                        Methods.sendConfigMessage(player, "Messages.MagnetDisabled");
 
                     }
 

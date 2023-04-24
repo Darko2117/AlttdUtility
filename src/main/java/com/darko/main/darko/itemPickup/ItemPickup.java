@@ -31,12 +31,12 @@ public class ItemPickup implements CommandExecutor, Listener {
             return true;
 
         if (!(sender instanceof Player)) {
-            new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
+            Methods.sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
             return true;
         }
 
         if (Database.connection == null) {
-            new Methods().sendConfigMessage(sender, "Messages.NoDatabaseConnectionMessage");
+            Methods.sendConfigMessage(sender, "Messages.NoDatabaseConnectionMessage");
             return true;
         }
 
@@ -56,13 +56,13 @@ public class ItemPickup implements CommandExecutor, Listener {
 
                         statement = "UPDATE users SET block_item_pickup_enabled = true WHERE UUID = '" + uuid + "';";
                         Database.connection.prepareStatement(statement).executeUpdate();
-                        new Methods().sendConfigMessage(player, "Messages.BlockItemPickupEnabledMessage");
+                        Methods.sendConfigMessage(player, "Messages.BlockItemPickupEnabledMessage");
 
                     } else {
 
                         statement = "UPDATE users SET block_item_pickup_enabled = false WHERE UUID = '" + uuid + "';";
                         Database.connection.prepareStatement(statement).executeUpdate();
-                        new Methods().sendConfigMessage(player, "Messages.BlockItemPickupDisabledMessage");
+                        Methods.sendConfigMessage(player, "Messages.BlockItemPickupDisabledMessage");
 
                     }
 

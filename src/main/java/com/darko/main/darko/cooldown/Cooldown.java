@@ -27,7 +27,7 @@ public class Cooldown implements CommandExecutor, TabCompleter {
             return true;
 
         if (!(sender instanceof Player)) {
-            new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
+            Methods.sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
             return true;
         }
 
@@ -104,7 +104,7 @@ public class Cooldown implements CommandExecutor, TabCompleter {
             return;
         }
 
-        String timeString = new Methods().getTimeStringFromIntSeconds(seconds);
+        String timeString = Methods.getTimeStringFromIntSeconds(seconds);
 
         player.sendMessage(ChatColor.GREEN + "Your cooldown on " + permissionName + " is " + timeString + ".");
 

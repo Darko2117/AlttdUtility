@@ -33,7 +33,7 @@ public class RemovePrefix implements CommandExecutor {
 
             if (actedPlayer == null) {
 
-                new Methods().sendConfigMessage(player, "Messages.PlayerNotFound");
+                Methods.sendConfigMessage(player, "Messages.PlayerNotFound");
                 return true;
 
             }
@@ -45,7 +45,7 @@ public class RemovePrefix implements CommandExecutor {
 
         } else {
 
-            new Methods().sendConfigMessage(player, "Messages.PlayerNotFound");
+            Methods.sendConfigMessage(player, "Messages.PlayerNotFound");
 
         }
 

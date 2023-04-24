@@ -27,11 +27,11 @@ public class CrazyCratesKeysLimiter implements Listener {
         int playerKeysAfterEvent = com.badbones69.crazycrates.api.CrazyManager.getInstance().getVirtualKeys(player, crate) + event.getAmount();
 
         if (playerKeysAfterEvent == keyLimit - 1) {
-            new Methods().sendConfigMessage(player, "Messages.CrazyCratesKeysLimiterAtLimitMinusOne");
+            Methods.sendConfigMessage(player, "Messages.CrazyCratesKeysLimiterAtLimitMinusOne");
         } else if (playerKeysAfterEvent == keyLimit) {
-            new Methods().sendConfigMessage(player, "Messages.CrazyCratesKeysLimiterAtLimit");
+            Methods.sendConfigMessage(player, "Messages.CrazyCratesKeysLimiterAtLimit");
         } else if (playerKeysAfterEvent > keyLimit) {
-            new Methods().sendConfigMessage(player, "Messages.CrazyCratesKeysLimiterOverLimit");
+            Methods.sendConfigMessage(player, "Messages.CrazyCratesKeysLimiterOverLimit");
             event.setCancelled(true);
         }
 

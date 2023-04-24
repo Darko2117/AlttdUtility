@@ -65,11 +65,11 @@ public class Logging {
 
             File log = new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "logs" + File.separator + logName);
 
-            if (log.getName().startsWith(new Methods().getDateStringYYYYMMDD()))
+            if (log.getName().startsWith(Methods.getDateStringYYYYMMDD()))
                 continue;
 
             try {
-                if (new Methods().compressFile(log.getAbsolutePath(), log.getAbsolutePath().replace(File.separator + "logs" + File.separator, File.separator + "compressed-logs" + File.separator).concat(".gz"))) {
+                if (Methods.compressFile(log.getAbsolutePath(), log.getAbsolutePath().replace(File.separator + "logs" + File.separator, File.separator + "compressed-logs" + File.separator).concat(".gz"))) {
                     if (!log.delete())
                         AlttdUtility.getInstance().getLogger().warning("Something failed during deletion of the file " + log.getAbsolutePath());
                 } else {
@@ -106,9 +106,9 @@ public class Logging {
                 if (numberOfLogsToKeepFromConfig == 0)
                     throw new Throwable();
 
-                int day = new Methods().getDateValuesFromStringYYYYMMDD(logName.substring(0, 10))[0];
-                int month = new Methods().getDateValuesFromStringYYYYMMDD(logName.substring(0, 10))[1];
-                int year = new Methods().getDateValuesFromStringYYYYMMDD(logName.substring(0, 10))[2];
+                int day = Methods.getDateValuesFromStringYYYYMMDD(logName.substring(0, 10))[0];
+                int month = Methods.getDateValuesFromStringYYYYMMDD(logName.substring(0, 10))[1];
+                int year = Methods.getDateValuesFromStringYYYYMMDD(logName.substring(0, 10))[2];
                 LocalDate fileDateLD = LocalDate.of(year, month, day);
 
                 int epochDayOfFileCreation = Math.toIntExact(fileDateLD.toEpochDay());

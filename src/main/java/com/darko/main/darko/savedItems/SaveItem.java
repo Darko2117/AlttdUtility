@@ -19,12 +19,12 @@ public class SaveItem implements CommandExecutor {
             return true;
 
         if (!(commandSender instanceof Player player)) {
-            new Methods().sendConfigMessage(commandSender, "Messages.PlayerOnlyCommandMessage");
+            Methods.sendConfigMessage(commandSender, "Messages.PlayerOnlyCommandMessage");
             return true;
         }
 
         if (player.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
-            new Methods().sendConfigMessage(commandSender, "Messages.SaveItemEmptyHand");
+            Methods.sendConfigMessage(commandSender, "Messages.SaveItemEmptyHand");
             return true;
         }
 

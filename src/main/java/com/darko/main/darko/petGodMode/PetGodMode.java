@@ -33,12 +33,12 @@ public class PetGodMode implements CommandExecutor, Listener {
             return true;
 
         if (!(sender instanceof Player)) {
-            new Methods().sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
+            Methods.sendConfigMessage(sender, "Messages.PlayerOnlyCommandMessage");
             return true;
         }
 
         if (Database.connection == null) {
-            new Methods().sendConfigMessage(sender, "Messages.NoDatabaseConnectionMessage");
+            Methods.sendConfigMessage(sender, "Messages.NoDatabaseConnectionMessage");
             return true;
         }
 
@@ -58,13 +58,13 @@ public class PetGodMode implements CommandExecutor, Listener {
 
                         statement = "UPDATE users SET pet_god_mode_enabled = true WHERE UUID = '" + uuid + "';";
                         Database.connection.prepareStatement(statement).executeUpdate();
-                        new Methods().sendConfigMessage(player, "Messages.PetGodModeEnabled");
+                        Methods.sendConfigMessage(player, "Messages.PetGodModeEnabled");
 
                     } else {
 
                         statement = "UPDATE users SET pet_god_mode_enabled = false WHERE UUID = '" + uuid + "';";
                         Database.connection.prepareStatement(statement).executeUpdate();
-                        new Methods().sendConfigMessage(player, "Messages.PetGodModeDisabled");
+                        Methods.sendConfigMessage(player, "Messages.PetGodModeDisabled");
 
                     }
 

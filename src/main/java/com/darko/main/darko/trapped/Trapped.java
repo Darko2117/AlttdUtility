@@ -69,7 +69,7 @@ public class Trapped implements CommandExecutor, Listener {
 
                 Integer seconds = trappedObject.getRemainingCooldownSeconds();
 
-                String timeString = new Methods().getTimeStringFromIntSeconds(seconds);
+                String timeString = Methods.getTimeStringFromIntSeconds(seconds);
 
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', AlttdUtility.getInstance().getConfig().getString("Messages.TrappedCommandOnCooldown")).replace("%time%", timeString));
 
