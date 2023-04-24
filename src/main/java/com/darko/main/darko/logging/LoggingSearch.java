@@ -665,7 +665,7 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                                     lineCopy = lineCopy.substring(lineCopy.indexOf("Location:") + 9);
                                     lineCopy = lineCopy.substring(0, lineCopy.indexOf("|"));
 
-                                    Location location = Logging.getLocationFromBetterLocationString(lineCopy);
+                                    Location location = Methods.getLocationFromBetterLocationString(lineCopy);
 
                                     if (!player.getLocation().getWorld().equals(location.getWorld()))
                                         continue lineReader;
@@ -685,8 +685,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                                     lineCopy = lineCopy.substring(lineCopy.indexOf("Area:") + 5);
                                     lineCopy = lineCopy.substring(0, lineCopy.indexOf("|"));
 
-                                    Location lesserCornerClaim = Logging.getLocationFromBetterLocationString(lineCopy.substring(0, lineCopy.indexOf(" - ")));
-                                    Location greaterCornerClaim = Logging.getLocationFromBetterLocationString(lineCopy.substring(lineCopy.indexOf(" - ") + 3));
+                                    Location lesserCornerClaim = Methods.getLocationFromBetterLocationString(lineCopy.substring(0, lineCopy.indexOf(" - ")));
+                                    Location greaterCornerClaim = Methods.getLocationFromBetterLocationString(lineCopy.substring(lineCopy.indexOf(" - ") + 3));
                                     greaterCornerClaim.setY(255);
 
                                     Location lesserCornerPlayer = player.getLocation();

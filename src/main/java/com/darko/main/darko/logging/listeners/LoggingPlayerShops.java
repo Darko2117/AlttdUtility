@@ -2,6 +2,7 @@ package com.darko.main.darko.logging.listeners;
 
 import com.alttd.playershops.events.PlayerExchangeShopEvent;
 import com.alttd.playershops.shop.PlayerShop;
+import com.darko.main.common.Methods;
 import com.darko.main.darko.logging.Logging;
 import com.darko.main.darko.logging.logs.ShopTransactionsLog;
 import org.bukkit.event.EventHandler;
@@ -28,7 +29,7 @@ public class LoggingPlayerShops implements Listener {
 
         String shopType = playerShop.getType().toString();
 
-        String location = Logging.getBetterLocationString(playerShop.getSignLocation());
+        String location = Methods.getBetterLocationString(playerShop.getSignLocation());
 
         int amount = playerShop.getAmount();
         if (playerExchangeShopEvent.getPlayer().isSneaking())

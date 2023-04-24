@@ -3,6 +3,7 @@ package com.darko.main.darko.logging.listeners;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.API.APIs;
 import com.darko.main.common.BukkitTasksCache;
+import com.darko.main.common.Methods;
 import com.darko.main.darko.logging.Logging;
 import com.darko.main.darko.logging.logs.ChatWithLocationLog;
 import com.darko.main.darko.logging.logs.CommandsWithLocationLog;
@@ -77,7 +78,7 @@ public class LoggingNoAPI implements Listener {
 
         String user = event.getPlayer().getName();
 
-        String location = Logging.getBetterLocationString(event.getEgg().getLocation());
+        String location = Methods.getBetterLocationString(event.getEgg().getLocation());
 
         String claimOwner = "";
         if (APIs.isGriefPreventionFound()) {
@@ -108,7 +109,7 @@ public class LoggingNoAPI implements Listener {
 
         String item = event.getItemDrop().getItemStack().toString();
 
-        String location = Logging.getBetterLocationString(event.getItemDrop().getLocation());
+        String location = Methods.getBetterLocationString(event.getItemDrop().getLocation());
 
         DroppedItemsLog log = new DroppedItemsLog();
         log.addArgumentValue(time);
@@ -139,7 +140,7 @@ public class LoggingNoAPI implements Listener {
 
         String item = event.getPlayer().getInventory().getItemInMainHand().toString();
 
-        String location = Logging.getBetterLocationString(event.getRightClicked().getLocation());
+        String location = Methods.getBetterLocationString(event.getRightClicked().getLocation());
 
         ItemsPlacedInItemFramesLog log = new ItemsPlacedInItemFramesLog();
         log.addArgumentValue(time);
@@ -168,7 +169,7 @@ public class LoggingNoAPI implements Listener {
 
         String item = ((ItemFrame) event.getEntity()).getItem().toString();
 
-        String location = Logging.getBetterLocationString(event.getEntity().getLocation());
+        String location = Methods.getBetterLocationString(event.getEntity().getLocation());
 
         ItemsTakenOutOfItemFramesLog log = new ItemsTakenOutOfItemFramesLog();
         log.addArgumentValue(time);
@@ -225,7 +226,7 @@ public class LoggingNoAPI implements Listener {
 
         String item = event.getItem().getItemStack().toString();
 
-        String location = Logging.getBetterLocationString(event.getItem().getLocation());
+        String location = Methods.getBetterLocationString(event.getItem().getLocation());
 
         PickedUpItemsLog log = new PickedUpItemsLog();
         log.addArgumentValue(time);
@@ -253,7 +254,7 @@ public class LoggingNoAPI implements Listener {
         if (event.getCurrentItem() != null && !event.getCurrentItem().getType().equals(Material.AIR))
             clickedItem = event.getCurrentItem().toString();
 
-        String location = Logging.getBetterLocationString(event.getWhoClicked().getLocation());
+        String location = Methods.getBetterLocationString(event.getWhoClicked().getLocation());
 
         UIClicksLog log = new UIClicksLog();
         log.addArgumentValue(time);
@@ -278,7 +279,7 @@ public class LoggingNoAPI implements Listener {
 
         String item = event.getBrokenItem().toString();
 
-        String location = Logging.getBetterLocationString(event.getPlayer().getLocation());
+        String location = Methods.getBetterLocationString(event.getPlayer().getLocation());
 
         ItemsBrokenLog log = new ItemsBrokenLog();
         log.addArgumentValue(time);
@@ -300,7 +301,7 @@ public class LoggingNoAPI implements Listener {
 
         String item = event.getEntity().getItemStack().toString();
 
-        String location = Logging.getBetterLocationString(event.getLocation());
+        String location = Methods.getBetterLocationString(event.getLocation());
 
         ItemsDespawnedLog log = new ItemsDespawnedLog();
         log.addArgumentValue(time);
@@ -328,7 +329,7 @@ public class LoggingNoAPI implements Listener {
 
         String item = ((Item) event.getEntity()).getItemStack().toString();
 
-        String location = Logging.getBetterLocationString(event.getEntity().getLocation());
+        String location = Methods.getBetterLocationString(event.getEntity().getLocation());
 
         String cause = event.getCause().toString();
 
@@ -354,7 +355,7 @@ public class LoggingNoAPI implements Listener {
 
         String command = event.getMessage();
 
-        String location = Logging.getBetterLocationString(event.getPlayer().getLocation());
+        String location = Methods.getBetterLocationString(event.getPlayer().getLocation());
 
         CommandsWithLocationLog log = new CommandsWithLocationLog();
         log.addArgumentValue(time);
@@ -387,7 +388,7 @@ public class LoggingNoAPI implements Listener {
             items.add(item.toString());
         }
 
-        String location = Logging.getBetterLocationString(event.getEntity().getLocation());
+        String location = Methods.getBetterLocationString(event.getEntity().getLocation());
 
         for (String item : items) {
 
@@ -418,7 +419,7 @@ public class LoggingNoAPI implements Listener {
         } catch (Throwable ignored) {
         }
 
-        String location = Logging.getBetterLocationString(event.getVehicle().getLocation());
+        String location = Methods.getBetterLocationString(event.getVehicle().getLocation());
 
         String claimOwner = "";
         if (APIs.isGriefPreventionFound()) {
@@ -445,7 +446,7 @@ public class LoggingNoAPI implements Listener {
 
         String time = new Date(System.currentTimeMillis()).toString();
 
-        String location = Logging.getBetterLocationString(event.getLightning().getLocation());
+        String location = Methods.getBetterLocationString(event.getLightning().getLocation());
 
         String cause = event.getCause().toString();
 
@@ -478,7 +479,7 @@ public class LoggingNoAPI implements Listener {
 
         String trident = ((Trident) event.getEntity()).getItem().toString();
 
-        String location = Logging.getBetterLocationString(event.getEntity().getLocation());
+        String location = Methods.getBetterLocationString(event.getEntity().getLocation());
 
         String action = "THROW";
 
@@ -511,7 +512,7 @@ public class LoggingNoAPI implements Listener {
 
         String trident = event.getItem().getItemStack().toString();
 
-        String location = Logging.getBetterLocationString(event.getArrow().getLocation());
+        String location = Methods.getBetterLocationString(event.getArrow().getLocation());
 
         String action = "PICKUP";
 
@@ -549,7 +550,7 @@ public class LoggingNoAPI implements Listener {
 
         String trident = ((Trident) event.getDamager()).getItem().toString();
 
-        String location = Logging.getBetterLocationString(event.getEntity().getLocation());
+        String location = Methods.getBetterLocationString(event.getEntity().getLocation());
 
         String action = "HIT";
 
@@ -590,7 +591,7 @@ public class LoggingNoAPI implements Listener {
 
                     String playerName = player.getName();
 
-                    String location = Logging.getBetterLocationString(player.getLocation());
+                    String location = Methods.getBetterLocationString(player.getLocation());
 
                     PlayerLocationLog log = new PlayerLocationLog();
                     log.addArgumentValue(time);
@@ -614,7 +615,7 @@ public class LoggingNoAPI implements Listener {
 
         String entityType = event.getEntityType().toString();
 
-        String location = Logging.getBetterLocationString(event.getLocation());
+        String location = Methods.getBetterLocationString(event.getLocation());
 
         String claimOwner = "";
         if (APIs.isGriefPreventionFound()) {
@@ -646,7 +647,7 @@ public class LoggingNoAPI implements Listener {
 
         String replacedWithItemString = replacedWithItem.toString();
 
-        String location = Logging.getBetterLocationString(player.getLocation());
+        String location = Methods.getBetterLocationString(player.getLocation());
 
         String eventName = event.getEventName();
 
@@ -684,7 +685,7 @@ public class LoggingNoAPI implements Listener {
 
         String originalMessageString = messageIsJustContent ? "" : event.originalMessage().toString();
 
-        String location = Logging.getBetterLocationString(event.getPlayer().getLocation());
+        String location = Methods.getBetterLocationString(event.getPlayer().getLocation());
 
         ChatWithLocationLog log = new ChatWithLocationLog();
         log.addArgumentValue(time);

@@ -5,8 +5,6 @@ import com.darko.main.common.BukkitTasksCache;
 import com.darko.main.common.Methods;
 import com.darko.main.darko.logging.listeners.LoggingNoAPI;
 import com.darko.main.darko.logging.logs.Log;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.reflections.Reflections;
 import java.io.File;
@@ -162,62 +160,6 @@ public class Logging {
                 }
             }
         }.runTaskTimerAsynchronously(AlttdUtility.getInstance(), 0, 20));
-    }
-
-    public static String getBetterLocationString(Location location) {
-
-        String worldName = location.getWorld().getName();
-
-        String dimension = location.getWorld().getEnvironment().toString();
-
-        String X = String.valueOf(location.getBlockX());
-        String Y = String.valueOf(location.getBlockY());
-        String Z = String.valueOf(location.getBlockZ());
-
-        String message = "";
-        message = message.concat("World: ");
-        message = message.concat(worldName);
-        message = message.concat(" Dimension: ");
-        message = message.concat(dimension);
-        message = message.concat(" X:");
-        message = message.concat(X);
-        message = message.concat(" Y:");
-        message = message.concat(Y);
-        message = message.concat(" Z:");
-        message = message.concat(Z);
-
-        return message;
-
-    }
-
-    public static Location getLocationFromBetterLocationString(String string) {
-
-        string = string.substring(7);
-
-        String worldName = string.substring(0, string.indexOf(" "));
-
-        string = string.substring(string.indexOf(" ") + 1);
-        string = string.substring(12);
-
-        String dimension = string.substring(0, string.indexOf(" "));
-
-        string = string.substring(string.indexOf(" ") + 1);
-        string = string.substring(2);
-
-        String X = string.substring(0, string.indexOf(" "));
-
-        string = string.substring(string.indexOf(" ") + 1);
-        string = string.substring(2);
-
-        String Y = string.substring(0, string.indexOf(" "));
-
-        string = string.substring(string.indexOf(" ") + 1);
-        string = string.substring(2);
-
-        String Z = string;
-
-        return new Location(Bukkit.getWorld(worldName), Double.parseDouble(X), Double.parseDouble(Y), Double.parseDouble(Z));
-
     }
 
     // TODO: try making this not a task

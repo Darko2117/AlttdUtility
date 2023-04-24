@@ -1,5 +1,6 @@
 package com.darko.main.darko.logging.listeners;
 
+import com.darko.main.common.Methods;
 import com.darko.main.common.API.APIs;
 import com.darko.main.darko.logging.Logging;
 import com.darko.main.darko.logging.logs.FarmLimiterLog;
@@ -27,7 +28,7 @@ public class LoggingFarmLimiter implements Listener {
 
             String entity = entityToRemove.getType().toString();
 
-            String location = Logging.getBetterLocationString(entityToRemove.getLocation());
+            String location = Methods.getBetterLocationString(entityToRemove.getLocation());
 
             String claimOwner = "";
             if (APIs.isGriefPreventionFound()) {

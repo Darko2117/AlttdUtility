@@ -1,6 +1,7 @@
 package com.darko.main.darko.logging.listeners;
 
 import com.darko.main.AlttdUtility;
+import com.darko.main.common.Methods;
 import com.darko.main.darko.logging.Logging;
 import com.darko.main.darko.logging.logs.DroppedItemsOnDeathLog;
 import com.darko.main.darko.logging.logs.MyPetItemPickupLog;
@@ -42,7 +43,7 @@ public class LoggingMyPet implements Listener {
 
         String item = event.getItem().getItemStack().toString();
 
-        String location = Logging.getBetterLocationString(event.getPet().getLocation().get());
+        String location = Methods.getBetterLocationString(event.getPet().getLocation().get());
 
         MyPetItemPickupLog log = new MyPetItemPickupLog();
         log.addArgumentValue(time);
@@ -96,7 +97,7 @@ public class LoggingMyPet implements Listener {
         } catch (Throwable ignored) {
         }
 
-        String location = Logging.getBetterLocationString(event.getEntity().getLocation());
+        String location = Methods.getBetterLocationString(event.getEntity().getLocation());
 
         String finalKiller = killer;
         new BukkitRunnable() {

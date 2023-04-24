@@ -1,5 +1,6 @@
 package com.darko.main.darko.logging.listeners;
 
+import com.darko.main.common.Methods;
 import com.darko.main.darko.logging.Logging;
 import com.darko.main.darko.logging.logs.ClaimsCreatedLog;
 import com.darko.main.darko.logging.logs.ClaimsDeletedLog;
@@ -29,8 +30,8 @@ public class LoggingGriefPrevention implements Listener {
 
         String lowestY = String.valueOf(event.getClaim().getLesserBoundaryCorner().getBlockY());
 
-        String firstCorner = Logging.getBetterLocationString(event.getClaim().getLesserBoundaryCorner());
-        String secondCorner = Logging.getBetterLocationString(event.getClaim().getGreaterBoundaryCorner());
+        String firstCorner = Methods.getBetterLocationString(event.getClaim().getLesserBoundaryCorner());
+        String secondCorner = Methods.getBetterLocationString(event.getClaim().getGreaterBoundaryCorner());
         String area = firstCorner.concat(" - ").concat(secondCorner);
 
         ClaimsCreatedLog log = new ClaimsCreatedLog();
@@ -55,8 +56,8 @@ public class LoggingGriefPrevention implements Listener {
 
         String lowestY = String.valueOf(event.getClaim().getLesserBoundaryCorner().getBlockY());
 
-        String firstCorner = Logging.getBetterLocationString(event.getClaim().getLesserBoundaryCorner());
-        String secondCorner = Logging.getBetterLocationString(event.getClaim().getGreaterBoundaryCorner());
+        String firstCorner = Methods.getBetterLocationString(event.getClaim().getLesserBoundaryCorner());
+        String secondCorner = Methods.getBetterLocationString(event.getClaim().getGreaterBoundaryCorner());
         String area = firstCorner.concat(" - ").concat(secondCorner);
 
         ClaimsDeletedLog log = new ClaimsDeletedLog();
@@ -81,8 +82,8 @@ public class LoggingGriefPrevention implements Listener {
 
         String lowestY = String.valueOf(event.getClaim().getLesserBoundaryCorner().getBlockY());
 
-        String firstCorner = Logging.getBetterLocationString(event.getClaim().getLesserBoundaryCorner());
-        String secondCorner = Logging.getBetterLocationString(event.getClaim().getGreaterBoundaryCorner());
+        String firstCorner = Methods.getBetterLocationString(event.getClaim().getLesserBoundaryCorner());
+        String secondCorner = Methods.getBetterLocationString(event.getClaim().getGreaterBoundaryCorner());
         String area = firstCorner.concat(" - ").concat(secondCorner);
 
         ClaimsModifiedLog log = new ClaimsModifiedLog();
@@ -107,8 +108,8 @@ public class LoggingGriefPrevention implements Listener {
 
         String lowestY = String.valueOf(event.getClaim().getLesserBoundaryCorner().getBlockY());
 
-        String firstCorner = Logging.getBetterLocationString(event.getClaim().getLesserBoundaryCorner());
-        String secondCorner = Logging.getBetterLocationString(event.getClaim().getGreaterBoundaryCorner());
+        String firstCorner = Methods.getBetterLocationString(event.getClaim().getLesserBoundaryCorner());
+        String secondCorner = Methods.getBetterLocationString(event.getClaim().getGreaterBoundaryCorner());
         String area = firstCorner.concat(" - ").concat(secondCorner);
 
         ClaimsExpiredLog log = new ClaimsExpiredLog();
