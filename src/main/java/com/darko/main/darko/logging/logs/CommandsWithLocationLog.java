@@ -1,19 +1,19 @@
 package com.darko.main.darko.logging.logs;
 
-import com.darko.main.darko.logging.Logging;
+import java.util.LinkedHashMap;
 
 public class CommandsWithLocationLog extends Log {
 
     public CommandsWithLocationLog() {
 
-        super();
-        super.setName("CommandsWithLocationLog");
-        super.setEnabled(true);
-        super.setDaysOfLogsToKeep(Logging.defaultDaysOfLogsToKeep);
-        super.addArgument("Time", "");
-        super.addArgument("User", "");
-        super.addArgument("Command", "");
-        super.addArgument("Location", "");
+        super(new LinkedHashMap<>() {
+            {
+                put("Time", "");
+                put("User", "");
+                put("Command", "");
+                put("Location", "");
+            }
+        });
 
     }
 

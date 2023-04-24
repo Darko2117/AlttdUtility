@@ -1,19 +1,19 @@
 package com.darko.main.darko.logging.logs;
 
-import com.darko.main.darko.logging.Logging;
+import java.util.LinkedHashMap;
 
 public class MinecartsDestroyedLog extends Log {
 
     public MinecartsDestroyedLog() {
 
-        super();
-        super.setName("MinecartsDestroyedLog");
-        super.setEnabled(true);
-        super.setDaysOfLogsToKeep(Logging.defaultDaysOfLogsToKeep);
-        super.addArgument("Time", "");
-        super.addArgument("Attacker", "");
-        super.addArgument("Location", "");
-        super.addArgument("ClaimOwner", "");
+        super(new LinkedHashMap<>() {
+            {
+                put("Time", "");
+                put("Attacker", "");
+                put("Location", "");
+                put("ClaimOwner", "");
+            }
+        });
 
     }
 

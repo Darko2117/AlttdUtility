@@ -1,20 +1,20 @@
 package com.darko.main.darko.logging.logs;
 
-import com.darko.main.darko.logging.Logging;
+import java.util.LinkedHashMap;
 
 public class DroppedItemsOnDeathLog extends Log {
 
     public DroppedItemsOnDeathLog() {
 
-        super();
-        super.setName("DroppedItemsOnDeathLog");
-        super.setEnabled(true);
-        super.setDaysOfLogsToKeep(Logging.defaultDaysOfLogsToKeep);
-        super.addArgument("Time", "");
-        super.addArgument("User", "");
-        super.addArgument("Killer", "");
-        super.addArgument("Item", "");
-        super.addArgument("Location", "");
+        super(new LinkedHashMap<>() {
+            {
+                put("Time", "");
+                put("User", "");
+                put("Killer", "");
+                put("Item", "");
+                put("Location", "");
+            }
+        });
 
     }
 

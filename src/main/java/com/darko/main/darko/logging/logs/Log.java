@@ -1,54 +1,23 @@
 package com.darko.main.darko.logging.logs;
 
 import com.darko.main.common.Methods;
-
+import lombok.Getter;
+import lombok.Setter;
 import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class Log {
+@Getter
+@Setter
+public abstract class Log {
 
-    private String name;
-    private boolean enabled;
-    private int daysOfLogsToKeep;
-    private LinkedHashMap<String, String> arguments = new LinkedHashMap<>();
+    private String name = this.getClass().getSimpleName();
+    private boolean enabled = true;
+    private int daysOfLogsToKeep = 60;
+    private LinkedHashMap<String, String> arguments;
 
-    public Log() {}
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public int getDaysOfLogsToKeep() {
-        return daysOfLogsToKeep;
-    }
-
-    public void setDaysOfLogsToKeep(int daysOfLogsToKeep) {
-        this.daysOfLogsToKeep = daysOfLogsToKeep;
-    }
-
-    public LinkedHashMap<String, String> getArguments() {
-        return arguments;
-    }
-
-    public void setArguments(LinkedHashMap<String, String> arguments) {
+    public Log(LinkedHashMap<String, String> arguments) {
         this.arguments = arguments;
-    }
-
-    public void addArgument(String argumentName, String argumentValue) {
-        this.arguments.put(argumentName, argumentValue);
     }
 
     public void addArgumentValue(String argumentValue) {
@@ -68,9 +37,9 @@ public class Log {
 
     public String getLogArgumentsString() {
 
-        StringBuilder string = new StringBuilder();
+        StringBuilder string = new StringBuilder("|");
         for (Map.Entry<String, String> entry : arguments.entrySet()) {
-            string.append("|").append(entry.getKey()).append(":").append(entry.getValue());
+            string.append(entry.getKey()).append(":").append(entry.getValue());
         }
         string.append("|");
 

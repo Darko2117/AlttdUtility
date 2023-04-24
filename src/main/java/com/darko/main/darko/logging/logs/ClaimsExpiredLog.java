@@ -1,19 +1,19 @@
 package com.darko.main.darko.logging.logs;
 
-import com.darko.main.darko.logging.Logging;
+import java.util.LinkedHashMap;
 
 public class ClaimsExpiredLog extends Log {
 
     public ClaimsExpiredLog() {
 
-        super();
-        super.setName("ClaimsExpiredLog");
-        super.setEnabled(true);
-        super.setDaysOfLogsToKeep(Logging.defaultDaysOfLogsToKeep);
-        super.addArgument("Time", "");
-        super.addArgument("User", "");
-        super.addArgument("LowestY", "");
-        super.addArgument("Area", "");
+        super(new LinkedHashMap<>() {
+            {
+                put("Time", "");
+                put("User", "");
+                put("LowestY", "");
+                put("Area", "");
+            }
+        });
 
     }
 

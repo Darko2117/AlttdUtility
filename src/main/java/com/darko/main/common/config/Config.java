@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Config {
 
@@ -242,15 +243,15 @@ public class Config {
 
         // Logging
 
-        for (Log cachedLog : Logging.getCachedLogs()) {
-            String checkedPath = "Logging." + cachedLog.getName() + ".Enabled";
+        for (Map.Entry<String, Log> entry : Logging.getCachedLogs().entrySet()) {
+            String checkedPath = "Logging." + entry.getValue().getName() + ".Enabled";
             if (!config.contains(checkedPath)) {
-                config.set(checkedPath, cachedLog.isEnabled());
+                config.set(checkedPath, entry.getValue().isEnabled());
                 notFoundInConfigMessage(checkedPath);
             }
-            checkedPath = "Logging." + cachedLog.getName() + ".DaysOfLogsToKeep";
+            checkedPath = "Logging." + entry.getValue().getName() + ".DaysOfLogsToKeep";
             if (!config.contains(checkedPath)) {
-                config.set(checkedPath, cachedLog.getDaysOfLogsToKeep());
+                config.set(checkedPath, entry.getValue().getDaysOfLogsToKeep());
                 notFoundInConfigMessage(checkedPath);
             }
         }

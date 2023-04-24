@@ -1,20 +1,20 @@
 package com.darko.main.darko.logging.logs;
 
-import com.darko.main.darko.logging.Logging;
+import java.util.LinkedHashMap;
 
 public class UIClicksLog extends Log {
 
     public UIClicksLog() {
 
-        super();
-        super.setName("UIClicksLog");
-        super.setEnabled(true);
-        super.setDaysOfLogsToKeep(Logging.defaultDaysOfLogsToKeep);
-        super.addArgument("Time", "");
-        super.addArgument("User", "");
-        super.addArgument("InventoryName", "");
-        super.addArgument("ClickedItem", "");
-        super.addArgument("Location", "");
+        super(new LinkedHashMap<>() {
+            {
+                put("Time", "");
+                put("User", "");
+                put("InventoryName", "");
+                put("ClickedItem", "");
+                put("Location", "");
+            }
+        });
 
     }
 

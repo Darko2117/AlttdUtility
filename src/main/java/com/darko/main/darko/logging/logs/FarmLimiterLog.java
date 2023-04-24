@@ -1,19 +1,19 @@
 package com.darko.main.darko.logging.logs;
 
-import com.darko.main.darko.logging.Logging;
+import java.util.LinkedHashMap;
 
 public class FarmLimiterLog extends Log {
 
     public FarmLimiterLog() {
 
-        super();
-        super.setName("FarmLimiterLog");
-        super.setEnabled(true);
-        super.setDaysOfLogsToKeep(Logging.defaultDaysOfLogsToKeep);
-        super.addArgument("Time", "");
-        super.addArgument("Entity", "");
-        super.addArgument("Location", "");
-        super.addArgument("ClaimOwner", "");
+        super(new LinkedHashMap<>() {
+            {
+                put("Time", "");
+                put("Entity", "");
+                put("Location", "");
+                put("ClaimOwner", "");
+            }
+        });
 
     }
 

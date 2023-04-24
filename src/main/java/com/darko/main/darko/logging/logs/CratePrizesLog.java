@@ -1,20 +1,20 @@
 package com.darko.main.darko.logging.logs;
 
-import com.darko.main.darko.logging.Logging;
+import java.util.LinkedHashMap;
 
 public class CratePrizesLog extends Log {
 
     public CratePrizesLog() {
 
-        super();
-        super.setName("CratePrizesLog");
-        super.setEnabled(true);
-        super.setDaysOfLogsToKeep(Logging.defaultDaysOfLogsToKeep);
-        super.addArgument("Time", "");
-        super.addArgument("User", "");
-        super.addArgument("Items", "");
-        super.addArgument("Commands", "");
-        super.addArgument("Crate", "");
+        super(new LinkedHashMap<>() {
+            {
+                put("Time", "");
+                put("User", "");
+                put("Items", "");
+                put("Commands", "");
+                put("Crate", "");
+            }
+        });
 
     }
 

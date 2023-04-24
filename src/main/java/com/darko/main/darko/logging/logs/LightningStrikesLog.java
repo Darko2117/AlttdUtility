@@ -1,18 +1,18 @@
 package com.darko.main.darko.logging.logs;
 
-import com.darko.main.darko.logging.Logging;
+import java.util.LinkedHashMap;
 
 public class LightningStrikesLog extends Log {
 
     public LightningStrikesLog() {
 
-        super();
-        super.setName("LightningStrikesLog");
-        super.setEnabled(true);
-        super.setDaysOfLogsToKeep(Logging.defaultDaysOfLogsToKeep);
-        super.addArgument("Time", "");
-        super.addArgument("Cause", "");
-        super.addArgument("Location", "");
+        super(new LinkedHashMap<>() {
+            {
+                put("Time", "");
+                put("Cause", "");
+                put("Location", "");
+            }
+        });
 
     }
 

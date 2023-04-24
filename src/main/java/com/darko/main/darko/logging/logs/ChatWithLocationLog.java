@@ -1,20 +1,20 @@
 package com.darko.main.darko.logging.logs;
 
-import com.darko.main.darko.logging.Logging;
+import java.util.LinkedHashMap;
 
 public class ChatWithLocationLog extends Log {
 
     public ChatWithLocationLog() {
 
-        super();
-        super.setName("ChatWithLocationLog");
-        super.setEnabled(true);
-        super.setDaysOfLogsToKeep(Logging.defaultDaysOfLogsToKeep);
-        super.addArgument("Time", "");
-        super.addArgument("User", "");
-        super.addArgument("Message", "");
-        super.addArgument("OriginalMessage", "");
-        super.addArgument("Location", "");
+        super(new LinkedHashMap<>() {
+            {
+                put("Time", "");
+                put("User", "");
+                put("Message", "");
+                put("OriginalMessage", "");
+                put("Location", "");
+            }
+        });
 
     }
 

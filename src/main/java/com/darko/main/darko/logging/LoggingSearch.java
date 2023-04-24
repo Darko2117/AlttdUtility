@@ -1147,8 +1147,8 @@ public class LoggingSearch implements CommandExecutor, TabCompleter {
                         argument = argument.substring(argument.lastIndexOf(",") + 1);
 
                     List<String> logNames = new ArrayList<>();
-                    for (Log log : Logging.getCachedLogs()) {
-                        logNames.add(log.getName());
+                    for (Map.Entry<String, Log> entry : Logging.getCachedLogs().entrySet()) {
+                        logNames.add(entry.getValue().getName());
                     }
 
                     List<String> completions = new ArrayList<>();

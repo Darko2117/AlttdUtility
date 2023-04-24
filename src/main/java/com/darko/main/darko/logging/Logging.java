@@ -4,52 +4,23 @@ import com.darko.main.AlttdUtility;
 import com.darko.main.common.BukkitTasksCache;
 import com.darko.main.common.Methods;
 import com.darko.main.darko.logging.listeners.LoggingNoAPI;
-import com.darko.main.darko.logging.logs.ChatWithLocationLog;
-import com.darko.main.darko.logging.logs.ClaimsCreatedLog;
-import com.darko.main.darko.logging.logs.ClaimsDeletedLog;
-import com.darko.main.darko.logging.logs.ClaimsExpiredLog;
-import com.darko.main.darko.logging.logs.ClaimsModifiedLog;
-import com.darko.main.darko.logging.logs.CommandsWithLocationLog;
-import com.darko.main.darko.logging.logs.CratePrizesLog;
-import com.darko.main.darko.logging.logs.DroppedItemsLog;
-import com.darko.main.darko.logging.logs.DroppedItemsOnDeathLog;
-import com.darko.main.darko.logging.logs.EggsThrownLog;
-import com.darko.main.darko.logging.logs.FarmLimiterLog;
-import com.darko.main.darko.logging.logs.IllegalItemsLog;
-import com.darko.main.darko.logging.logs.ItemsBrokenLog;
-import com.darko.main.darko.logging.logs.ItemsDespawnedLog;
-import com.darko.main.darko.logging.logs.ItemsDestroyedLog;
-import com.darko.main.darko.logging.logs.ItemsPlacedInItemFramesLog;
-import com.darko.main.darko.logging.logs.ItemsTakenOutOfItemFramesLog;
-import com.darko.main.darko.logging.logs.LightningStrikesLog;
 import com.darko.main.darko.logging.logs.Log;
-import com.darko.main.darko.logging.logs.MCMMORepairUseLog;
-import com.darko.main.darko.logging.logs.MinecartsDestroyedLog;
-import com.darko.main.darko.logging.logs.MyPetItemPickupLog;
-import com.darko.main.darko.logging.logs.NicknamesLog;
-import com.darko.main.darko.logging.logs.PickedUpItemsLog;
-import com.darko.main.darko.logging.logs.PlayerLocationLog;
-import com.darko.main.darko.logging.logs.ShopTransactionsLog;
-import com.darko.main.darko.logging.logs.SpawnLimiterLog;
-import com.darko.main.darko.logging.logs.TridentsLog;
-import com.darko.main.darko.logging.logs.UIClicksLog;
-import com.darko.main.darko.logging.logs.VillagerShopUILog;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
-
+import org.reflections.Reflections;
 import java.io.File;
 import java.io.FileWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Logging {
-
-    public static final int defaultDaysOfLogsToKeep = 60;
 
     private static int cachedDayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 
@@ -58,7 +29,7 @@ public class Logging {
     private static boolean isWritingLogs = false;
     private static boolean isCompressing = false;
 
-    private static final List<Log> cachedLogs = new ArrayList<>();
+    private static final HashMap<String, Log> cachedLogs = new HashMap<>();
 
     public static void initiate() {
 
@@ -79,8 +50,8 @@ public class Logging {
 
     private static void createAllBlankLogFiles() {
 
-        for (Log cachedLog : getCachedLogs()) {
-            Logging.addToLogWriteQueue(cachedLog);
+        for (Map.Entry<String, Log> entry : getCachedLogs().entrySet()) {
+            Logging.addToLogWriteQueue(entry.getValue());
         }
 
     }
@@ -286,11 +257,11 @@ public class Logging {
     public static void writeToFile(Log log) {
         try {
 
-            boolean logArgumentsAreEmpty = log.getArguments().entrySet().iterator().next().getValue().isEmpty();
             String logMessage = log.getLogArgumentsString();
 
             logMessage = logMessage.replace("\n", "\\n");
-            if (!logArgumentsAreEmpty) {
+
+            if (!log.getArguments().entrySet().iterator().next().getValue().isEmpty()) {
                 logMessage = logMessage.concat("\n");
             } else {
                 logMessage = "";
@@ -337,7 +308,7 @@ public class Logging {
 
     }
 
-    public static List<Log> getCachedLogs() {
+    public static HashMap<String, Log> getCachedLogs() {
 
         if (cachedLogs.isEmpty())
             cacheDefaultLogs();
@@ -348,52 +319,32 @@ public class Logging {
     public static void cacheDefaultLogs() {
 
         cachedLogs.clear();
-        cachedLogs.add(new ClaimsCreatedLog());
-        cachedLogs.add(new ClaimsDeletedLog());
-        cachedLogs.add(new ClaimsExpiredLog());
-        cachedLogs.add(new ClaimsModifiedLog());
-        cachedLogs.add(new CommandsWithLocationLog());
-        cachedLogs.add(new CratePrizesLog());
-        cachedLogs.add(new DroppedItemsLog());
-        cachedLogs.add(new DroppedItemsOnDeathLog());
-        cachedLogs.add(new EggsThrownLog());
-        cachedLogs.add(new FarmLimiterLog());
-        cachedLogs.add(new ItemsBrokenLog());
-        cachedLogs.add(new ItemsDespawnedLog());
-        cachedLogs.add(new ItemsDestroyedLog());
-        cachedLogs.add(new ItemsPlacedInItemFramesLog());
-        cachedLogs.add(new ItemsTakenOutOfItemFramesLog());
-        cachedLogs.add(new LightningStrikesLog());
-        cachedLogs.add(new MCMMORepairUseLog());
-        cachedLogs.add(new MinecartsDestroyedLog());
-        cachedLogs.add(new MyPetItemPickupLog());
-        cachedLogs.add(new PickedUpItemsLog());
-        cachedLogs.add(new PlayerLocationLog());
-        cachedLogs.add(new TridentsLog());
-        cachedLogs.add(new UIClicksLog());
-        cachedLogs.add(new VillagerShopUILog());
-        cachedLogs.add(new SpawnLimiterLog());
-        cachedLogs.add(new NicknamesLog());
-        cachedLogs.add(new IllegalItemsLog());
-        cachedLogs.add(new ChatWithLocationLog());
-        cachedLogs.add(new ShopTransactionsLog());
+
+        for (Class<? extends Log> log : new Reflections("com.darko.main.darko.logging.logs").getSubTypesOf(Log.class)) {
+
+            Log logTemp = null;
+            try {
+                logTemp = log.getDeclaredConstructor().newInstance();
+            } catch (Exception exception) {
+                exception.printStackTrace();
+                continue;
+            }
+
+            cachedLogs.put(logTemp.getName(), logTemp);
+
+        }
 
     }
 
     public static Log getCachedLogFromName(String logName) {
-        for (Log log : getCachedLogs()) {
-            if (log.getName().equals(logName)) {
-                return log;
-            }
-        }
-        return null;
+        return cachedLogs.get(logName);
     }
 
     public static void updateCachedLogsFromConfig() {
 
-        for (Log cachedLog : getCachedLogs()) {
-            cachedLog.setEnabled(AlttdUtility.getInstance().getConfig().getBoolean("Logging." + cachedLog.getName() + ".Enabled"));
-            cachedLog.setDaysOfLogsToKeep(AlttdUtility.getInstance().getConfig().getInt("Logging." + cachedLog.getName() + ".DaysOfLogsToKeep"));
+        for (Map.Entry<String, Log> entry : getCachedLogs().entrySet()) {
+            entry.getValue().setEnabled(AlttdUtility.getInstance().getConfig().getBoolean("Logging." + entry.getValue().getName() + ".Enabled"));
+            entry.getValue().setDaysOfLogsToKeep(AlttdUtility.getInstance().getConfig().getInt("Logging." + entry.getValue().getName() + ".DaysOfLogsToKeep"));
         }
 
     }

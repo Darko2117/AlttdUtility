@@ -1,20 +1,20 @@
 package com.darko.main.darko.logging.logs;
 
-import com.darko.main.darko.logging.Logging;
+import java.util.LinkedHashMap;
 
 public class MyPetItemPickupLog extends Log {
 
     public MyPetItemPickupLog() {
 
-        super();
-        super.setName("MyPetItemPickupLog");
-        super.setEnabled(true);
-        super.setDaysOfLogsToKeep(Logging.defaultDaysOfLogsToKeep);
-        super.addArgument("Time", "");
-        super.addArgument("Pet", "");
-        super.addArgument("Owner", "");
-        super.addArgument("Item", "");
-        super.addArgument("Location", "");
+        super(new LinkedHashMap<>() {
+            {
+                put("Time", "");
+                put("Pet", "");
+                put("Owner", "");
+                put("Item", "");
+                put("Location", "");
+            }
+        });
 
     }
 

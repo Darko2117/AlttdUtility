@@ -1,20 +1,20 @@
 package com.darko.main.darko.logging.logs;
 
-import com.darko.main.darko.logging.Logging;
+import java.util.LinkedHashMap;
 
 public class NicknamesLog extends Log {
 
     public NicknamesLog() {
 
-        super();
-        super.setName("NicknamesLog");
-        super.setEnabled(true);
-        super.setDaysOfLogsToKeep(Logging.defaultDaysOfLogsToKeep);
-        super.addArgument("Time", "");
-        super.addArgument("User", "");
-        super.addArgument("Nickname", "");
-        super.addArgument("WhoResponded", "");
-        super.addArgument("Action", "");
+        super(new LinkedHashMap<>() {
+            {
+                put("Time", "");
+                put("User", "");
+                put("Nickname", "");
+                put("WhoResponded", "");
+                put("Action", "");
+            }
+        });
 
     }
 

@@ -1,19 +1,19 @@
 package com.darko.main.darko.logging.logs;
 
-import com.darko.main.darko.logging.Logging;
+import java.util.LinkedHashMap;
 
 public class EggsThrownLog extends Log {
 
     public EggsThrownLog() {
 
-        super();
-        super.setName("EggsThrownLog");
-        super.setEnabled(true);
-        super.setDaysOfLogsToKeep(Logging.defaultDaysOfLogsToKeep);
-        super.addArgument("Time", "");
-        super.addArgument("User", "");
-        super.addArgument("Location", "");
-        super.addArgument("ClaimOwner", "");
+        super(new LinkedHashMap<>() {
+            {
+                put("Time", "");
+                put("User", "");
+                put("Location", "");
+                put("ClaimOwner", "");
+            }
+        });
 
     }
 

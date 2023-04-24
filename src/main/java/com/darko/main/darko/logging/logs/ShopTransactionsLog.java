@@ -1,24 +1,24 @@
 package com.darko.main.darko.logging.logs;
 
-import com.darko.main.darko.logging.Logging;
+import java.util.LinkedHashMap;
 
 public class ShopTransactionsLog extends Log {
 
     public ShopTransactionsLog() {
 
-        super();
-        super.setName("ShopTransactionsLog");
-        super.setEnabled(true);
-        super.setDaysOfLogsToKeep(Logging.defaultDaysOfLogsToKeep);
-        super.addArgument("Time", "");
-        super.addArgument("OwnerName", "");
-        super.addArgument("CustomerName", "");
-        super.addArgument("ShopType", "");
-        super.addArgument("Location", "");
-        super.addArgument("Amount", "");
-        super.addArgument("Price", "");
-        super.addArgument("Item", "");
-        super.addArgument("ShopBalance", "");
+        super(new LinkedHashMap<>() {
+            {
+                put("Time", "");
+                put("OwnerName", "");
+                put("CustomerName", "");
+                put("ShopType", "");
+                put("Location", "");
+                put("Amount", "");
+                put("Price", "");
+                put("Item", "");
+                put("ShopBalance", "");
+            }
+        });
 
     }
 

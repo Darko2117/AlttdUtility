@@ -1,19 +1,19 @@
 package com.darko.main.darko.logging.logs;
 
-import com.darko.main.darko.logging.Logging;
+import java.util.LinkedHashMap;
 
 public class ClaimsDeletedLog extends Log {
 
     public ClaimsDeletedLog() {
 
-        super();
-        super.setName("ClaimsDeletedLog");
-        super.setEnabled(true);
-        super.setDaysOfLogsToKeep(Logging.defaultDaysOfLogsToKeep);
-        super.addArgument("Time", "");
-        super.addArgument("User", "");
-        super.addArgument("LowestY", "");
-        super.addArgument("Area", "");
+        super(new LinkedHashMap<>() {
+            {
+                put("Time", "");
+                put("User", "");
+                put("LowestY", "");
+                put("Area", "");
+            }
+        });
 
     }
 
