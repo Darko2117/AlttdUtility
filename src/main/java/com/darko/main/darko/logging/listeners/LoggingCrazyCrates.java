@@ -7,7 +7,7 @@ import com.darko.main.darko.logging.logs.CratePrizesLog;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-
+import org.bukkit.inventory.ItemStack;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +40,21 @@ public class LoggingCrazyCrates implements Listener {
 
             }
         }
+        if (!event.getPrize().getItems().isEmpty()) {
+            for (ItemStack item : event.getPrize().getItems()) {
+
+                String amount = String.valueOf(item.getAmount());
+                String itemMaterial = item.getType().toString();
+                String itemDisplayName = item.getItemMeta().getDisplayName();
+
+                if (!itemsStringBuilder.toString().isEmpty())
+                    itemsStringBuilder.append(", ");
+
+                itemsStringBuilder.append(amount).append("X").append(" ").append(itemMaterial).append(" (").append(itemDisplayName).append(")");
+
+            }
+        }
+
         items = itemsStringBuilder.toString();
 
         String commands;
