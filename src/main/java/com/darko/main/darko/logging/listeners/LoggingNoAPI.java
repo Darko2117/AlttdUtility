@@ -64,9 +64,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 public class LoggingNoAPI implements Listener {
+
+    private static final HashSet<Item> damagedItemsDestroyedItemsLog = new HashSet<>();
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerEggThrowEvent(PlayerEggThrowEvent event) {
@@ -325,21 +328,36 @@ public class LoggingNoAPI implements Listener {
         if (((Item) event.getEntity()).getItemStack().getType().equals(Material.COBBLESTONE))
             return;
 
-        String time = new Date(System.currentTimeMillis()).toString();
+        Item itemEntity = (Item) event.getEntity();
 
-        String item = ((Item) event.getEntity()).getItemStack().toString();
+        damagedItemsDestroyedItemsLog.add(itemEntity);
 
-        String location = Methods.getBetterLocationString(event.getEntity().getLocation());
+        new BukkitRunnable() {
+            public void run() {
 
-        String cause = event.getCause().toString();
+                if (!itemEntity.isDead() || !damagedItemsDestroyedItemsLog.contains(itemEntity))
+                    return;
 
-        ItemsDestroyedLog log = new ItemsDestroyedLog();
-        log.addArgumentValue(time);
-        log.addArgumentValue(item);
-        log.addArgumentValue(location);
-        log.addArgumentValue(cause);
+                damagedItemsDestroyedItemsLog.remove(itemEntity);
 
-        Logging.addToLogWriteQueue(log);
+                String time = new Date(System.currentTimeMillis()).toString();
+
+                String item = itemEntity.getItemStack().toString();
+
+                String location = Methods.getBetterLocationString(itemEntity.getLocation());
+
+                String cause = event.getCause().toString();
+
+                ItemsDestroyedLog log = new ItemsDestroyedLog();
+                log.addArgumentValue(time);
+                log.addArgumentValue(item);
+                log.addArgumentValue(location);
+                log.addArgumentValue(cause);
+
+                Logging.addToLogWriteQueue(log);
+
+            }
+        }.runTaskLater(AlttdUtility.getInstance(), 1);
 
     }
 
