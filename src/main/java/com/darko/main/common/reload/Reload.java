@@ -20,6 +20,7 @@ import com.darko.main.darko.spawnLimiter.SpawnLimiter;
 import com.darko.main.darko.timedTips.TimedTips;
 import com.darko.main.darko.trapped.Trapped;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
+import com.darko.main.fairy.GodModeReminderCMI;
 
 public class Reload {
 
@@ -68,7 +69,7 @@ public class Reload {
 
         AprilFools.initiate();
 
-        GodModeReminder.initiate();
+        GodModeReminderCMI.initiate();
 
         Database.initiate();
 
