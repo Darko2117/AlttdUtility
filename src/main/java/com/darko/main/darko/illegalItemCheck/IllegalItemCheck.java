@@ -50,6 +50,7 @@ public class IllegalItemCheck implements Listener {
             replacedWithItem = new ItemStack(Material.AIR);
         } else {
             replacedWithItem = SavedItem.getSavedItemByID(itemStatus).getItemStack();
+            replacedWithItem.setAmount(item.getAmount());
         }
 
         inventoryClickEvent.setCancelled(true);
@@ -85,6 +86,7 @@ public class IllegalItemCheck implements Listener {
             replacedWithItem = new ItemStack(Material.AIR);
         } else {
             replacedWithItem = SavedItem.getSavedItemByID(itemStatus).getItemStack();
+            replacedWithItem.setAmount(item.getAmount());
         }
 
         ItemStack itemCloneForLog = item.clone();
@@ -121,6 +123,7 @@ public class IllegalItemCheck implements Listener {
             replacedWithItem = new ItemStack(Material.AIR);
         } else {
             replacedWithItem = SavedItem.getSavedItemByID(itemStatus).getItemStack();
+            replacedWithItem.setAmount(item.getAmount());
         }
 
         ItemStack itemCloneForLog = item.clone();
@@ -160,6 +163,7 @@ public class IllegalItemCheck implements Listener {
                 replacedWithItem = new ItemStack(Material.AIR);
             } else {
                 replacedWithItem = SavedItem.getSavedItemByID(itemStatus).getItemStack();
+                replacedWithItem.setAmount(item.getAmount());
             }
 
             ItemStack itemCloneForLog = item.clone();
@@ -187,6 +191,7 @@ public class IllegalItemCheck implements Listener {
                         replacedWithItem = new ItemStack(Material.AIR);
                     } else {
                         replacedWithItem = SavedItem.getSavedItemByID(itemStatus).getItemStack();
+                        replacedWithItem.setAmount(item.getAmount());
                     }
 
                     ItemStack itemCloneForLog = item.clone();
