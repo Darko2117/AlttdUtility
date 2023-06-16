@@ -9,7 +9,7 @@ public class CommandsWithLocationLog extends Log {
         super(new LinkedHashMap<>() {
             {
                 put("Time", "");
-                put("User", "");
+                put("Player", "");
                 put("Command", "");
                 put("Location", "");
             }

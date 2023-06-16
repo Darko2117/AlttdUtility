@@ -9,8 +9,8 @@ public class MyPetItemPickupLog extends Log {
         super(new LinkedHashMap<>() {
             {
                 put("Time", "");
+                put("Player", "");
                 put("Pet", "");
-                put("Owner", "");
                 put("Item", "");
                 put("Location", "");
             }

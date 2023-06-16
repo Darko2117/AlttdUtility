@@ -37,9 +37,9 @@ public class LoggingMyPet implements Listener {
 
         String time = new Date(System.currentTimeMillis()).toString();
 
-        String pet = event.getPet().toString();
-
         String owner = event.getOwner().getPlayer().getName();
+
+        String pet = event.getPet().toString();
 
         String item = event.getItem().getItemStack().toString();
 
@@ -47,8 +47,8 @@ public class LoggingMyPet implements Listener {
 
         MyPetItemPickupLog log = new MyPetItemPickupLog();
         log.addArgumentValue(time);
-        log.addArgumentValue(pet);
         log.addArgumentValue(owner);
+        log.addArgumentValue(pet);
         log.addArgumentValue(item);
         log.addArgumentValue(location);
 
@@ -91,15 +91,10 @@ public class LoggingMyPet implements Listener {
 
         String user = event.getEntity().getName() + "'s Mypet " + myPet.getPetName();
 
-        String killer = "Not a player";
-        try {
-            killer = event.getEntity().getKiller().getName();
-        } catch (Throwable ignored) {
-        }
+        String deathMessage = event.getDeathMessage();
 
         String location = Methods.getBetterLocationString(event.getEntity().getLocation());
 
-        String finalKiller = killer;
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -109,7 +104,7 @@ public class LoggingMyPet implements Listener {
                     DroppedItemsOnDeathLog log = new DroppedItemsOnDeathLog();
                     log.addArgumentValue(time);
                     log.addArgumentValue(user);
-                    log.addArgumentValue(finalKiller);
+                    log.addArgumentValue(deathMessage);
                     log.addArgumentValue(item);
                     log.addArgumentValue(location);
 

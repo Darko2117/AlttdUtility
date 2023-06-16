@@ -9,9 +9,9 @@ public class UIClicksLog extends Log {
         super(new LinkedHashMap<>() {
             {
                 put("Time", "");
-                put("User", "");
+                put("Player", "");
                 put("InventoryName", "");
-                put("ClickedItem", "");
+                put("Item", "");
                 put("Location", "");
             }
         });

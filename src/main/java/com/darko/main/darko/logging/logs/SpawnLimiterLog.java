@@ -9,7 +9,7 @@ public class SpawnLimiterLog extends Log {
         super(new LinkedHashMap<>() {
             {
                 put("Time", "");
-                put("EntityType", "");
+                put("Entity", "");
                 put("Location", "");
                 put("ClaimOwner", "");
             }

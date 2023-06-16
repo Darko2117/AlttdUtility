@@ -395,11 +395,7 @@ public class LoggingNoAPI implements Listener {
 
         String user = event.getEntity().getName();
 
-        String killer = "Not a player";
-        try {
-            killer = event.getEntity().getKiller().getName();
-        } catch (Throwable ignored) {
-        }
+        String deathMessage = event.getDeathMessage();
 
         List<String> items = new ArrayList<>();
         for (ItemStack item : event.getDrops()) {
@@ -413,7 +409,7 @@ public class LoggingNoAPI implements Listener {
             DroppedItemsOnDeathLog log = new DroppedItemsOnDeathLog();
             log.addArgumentValue(time);
             log.addArgumentValue(user);
-            log.addArgumentValue(killer);
+            log.addArgumentValue(deathMessage);
             log.addArgumentValue(item);
             log.addArgumentValue(location);
 

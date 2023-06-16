@@ -9,7 +9,7 @@ public class ItemsTakenOutOfItemFramesLog extends Log {
         super(new LinkedHashMap<>() {
             {
                 put("Time", "");
-                put("User", "");
+                put("Player", "");
                 put("Item", "");
                 put("Location", "");
             }

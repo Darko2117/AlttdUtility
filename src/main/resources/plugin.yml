@@ -3,7 +3,7 @@ name: AlttdUtility
 description: A group of utilities made for Altitude
 author: Daki
 main: com.darko.main.AlttdUtility
-api-version: 1.18
+api-version: 1.19
 softdepend: [GriefPrevention, WorldGuard, LuckPerms, MyPet, CrazyCrates, mcMMO, FarmLimiter, PvPManager, CMI, VillagerShopUI, ProtocolLib]
 commands:
   hat:

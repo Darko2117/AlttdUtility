@@ -2,14 +2,14 @@ package com.darko.main.darko.logging.logs;
 
 import java.util.LinkedHashMap;
 
-public class ClaimsModifiedLog extends Log {
+public class ClaimsResizedLog extends Log {
 
-    public ClaimsModifiedLog() {
+    public ClaimsResizedLog() {
 
         super(new LinkedHashMap<>() {
             {
                 put("Time", "");
-                put("User", "");
+                put("Player", "");
                 put("LowestY", "");
                 put("Area", "");
             }

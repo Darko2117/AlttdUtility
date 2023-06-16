@@ -9,7 +9,7 @@ public class VillagerShopUILog extends Log {
         super(new LinkedHashMap<>() {
             {
                 put("Time", "");
-                put("User", "");
+                put("Player", "");
                 put("Amount", "");
                 put("Price", "");
                 put("Item", "");

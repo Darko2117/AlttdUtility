@@ -9,8 +9,8 @@ public class DroppedItemsOnDeathLog extends Log {
         super(new LinkedHashMap<>() {
             {
                 put("Time", "");
-                put("User", "");
-                put("Killer", "");
+                put("Player", "");
+                put("DeathMessage", "");
                 put("Item", "");
                 put("Location", "");
             }

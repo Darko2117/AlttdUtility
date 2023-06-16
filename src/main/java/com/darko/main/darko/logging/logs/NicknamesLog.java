@@ -9,7 +9,7 @@ public class NicknamesLog extends Log {
         super(new LinkedHashMap<>() {
             {
                 put("Time", "");
-                put("User", "");
+                put("Player", "");
                 put("Nickname", "");
                 put("WhoResponded", "");
                 put("Action", "");

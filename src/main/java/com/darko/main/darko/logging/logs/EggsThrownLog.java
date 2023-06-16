@@ -9,7 +9,7 @@ public class EggsThrownLog extends Log {
         super(new LinkedHashMap<>() {
             {
                 put("Time", "");
-                put("User", "");
+                put("Player", "");
                 put("Location", "");
                 put("ClaimOwner", "");
             }

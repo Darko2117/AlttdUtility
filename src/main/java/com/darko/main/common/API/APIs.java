@@ -135,9 +135,9 @@ public class APIs extends JavaPlugin {
     private static void sendFoundMessage(String pluginName, boolean found) {
 
         if (found)
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + pluginName + " found!");
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.BLUE_BRIGHT + pluginName + " found!" + ConsoleColors.RESET);
         else
-            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + pluginName + " not found!");
+            AlttdUtility.getInstance().getLogger().info(ConsoleColors.RED + pluginName + " not found!" + ConsoleColors.RESET);
 
     }
 
