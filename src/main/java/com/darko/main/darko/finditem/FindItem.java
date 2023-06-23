@@ -218,15 +218,13 @@ public class FindItem implements CommandExecutor, TabCompleter {
             for (; stepZeroYMin <= stepZeroYMax; stepZeroYMin++, stepZeroZMin = playerEyeLocation.getBlockZ() - radius) {
                 for (; stepZeroZMin <= stepZeroZMax; stepZeroZMin++) {
 
+                    if (outOfThisTickTime())
+                        return;
+
                     Block block = playerEyeLocation.getWorld().getBlockAt(stepZeroXMin, stepZeroYMin, stepZeroZMin);
 
                     if (block.getState() instanceof Container container)
                         containers.add(container);
-
-                    if (outOfThisTickTime()) {
-                        stepZeroZMin++;
-                        return;
-                    }
 
                 }
             }
@@ -239,6 +237,9 @@ public class FindItem implements CommandExecutor, TabCompleter {
     private void removeUnseeableContainers() {
 
         for (; stepOneLastCheckedIndex < containers.size(); stepOneLastCheckedIndex++) {
+
+            if (outOfThisTickTime())
+                return;
 
             Container container = containers.get(stepOneLastCheckedIndex);
 
@@ -278,9 +279,6 @@ public class FindItem implements CommandExecutor, TabCompleter {
                 stepOneToRemove.add(container);
             }
 
-            if (outOfThisTickTime())
-                return;
-
         }
 
         containers.removeAll(stepOneToRemove);
@@ -292,6 +290,9 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
         for (; stepTwoLastCheckedIndex < containers.size(); stepTwoLastCheckedIndex++) {
 
+            if (outOfThisTickTime())
+                return;
+
             Container container = containers.get(stepTwoLastCheckedIndex);
 
             PlayerInteractEvent playerInteractEvent = new PlayerInteractEvent(player, Action.RIGHT_CLICK_BLOCK, new ItemStack(Material.AIR), container.getBlock(), BlockFace.UP, EquipmentSlot.HAND);
@@ -300,9 +301,6 @@ public class FindItem implements CommandExecutor, TabCompleter {
             if (playerInteractEvent.useInteractedBlock().equals(Event.Result.DENY) || playerInteractEvent.isCancelled()) {
                 stepTwoToRemove.add(container);
             }
-
-            if (outOfThisTickTime())
-                return;
 
         }
 
@@ -315,11 +313,14 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
         for (; stepThreeLastCheckedIndex < containers.size(); stepThreeLastCheckedIndex++) {
 
+            if (outOfThisTickTime())
+                return;
+
             Container container = containers.get(stepThreeLastCheckedIndex);
 
             boolean itemFound = false;
 
-            for (ItemStack itemStack : container.getInventory()) {
+            inventoryLoop: for (ItemStack itemStack : container.getInventory()) {
 
                 if (itemStack == null)
                     continue;
@@ -327,6 +328,7 @@ public class FindItem implements CommandExecutor, TabCompleter {
                 for (Material material : searchedMaterials) {
                     if (itemStack.getType().equals(material)) {
                         itemFound = true;
+                        break inventoryLoop;
                     }
                 }
 
@@ -337,6 +339,7 @@ public class FindItem implements CommandExecutor, TabCompleter {
                         for (Material material : searchedMaterials) {
                             if (itemStackInShulker.getType().equals(material)) {
                                 itemFound = true;
+                                break inventoryLoop;
                             }
                         }
                     }
@@ -347,9 +350,6 @@ public class FindItem implements CommandExecutor, TabCompleter {
             if (!itemFound) {
                 stepThreeToRemove.add(container);
             }
-
-            if (outOfThisTickTime())
-                return;
 
         }
 
