@@ -31,6 +31,7 @@ import org.jetbrains.annotations.Nullable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class FindItem implements CommandExecutor, TabCompleter {
@@ -41,11 +42,11 @@ public class FindItem implements CommandExecutor, TabCompleter {
     private final int allowedMilisecondsPerTick = AlttdUtility.getInstance().getConfig().getInt("FindItem.AllowedMilisecondsPerTick");
 
     private Player player = null;
-    private List<Material> searchedMaterials = null;
+    private HashSet<Material> searchedMaterials = null;
 
     private Location playerEyeLocation = null;
 
-    private final List<Container> containers = new ArrayList<>();
+    private final ArrayList<Container> containers = new ArrayList<>();
 
     private int processStepCount = 0;
     private long thisTickStartTime;
@@ -55,22 +56,22 @@ public class FindItem implements CommandExecutor, TabCompleter {
     private int stepZeroXMin, stepZeroYMin, stepZeroZMin, stepZeroXMax, stepZeroYMax, stepZeroZMax;
 
     // Step 1 - remove unseeable containers
-    private final List<Container> stepOneToRemove = new ArrayList<>();
+    private final ArrayList<Container> stepOneToRemove = new ArrayList<>();
     private int stepOneLastCheckedIndex = 0;
 
     // Step 2 - remove unopenable containers
-    private final List<Container> stepTwoToRemove = new ArrayList<>();
+    private final ArrayList<Container> stepTwoToRemove = new ArrayList<>();
     private int stepTwoLastCheckedIndex = 0;
 
     // Step 3 - remove not containing containers
-    private final List<Container> stepThreeToRemove = new ArrayList<>();
+    private final ArrayList<Container> stepThreeToRemove = new ArrayList<>();
     private int stepThreeLastCheckedIndex = 0;
 
     // Step 4 - searching done, finish up
 
     public FindItem() {}
 
-    public FindItem(Player player, List<Material> searchedMaterials) {
+    public FindItem(Player player, HashSet<Material> searchedMaterials) {
 
         this.player = player;
         this.searchedMaterials = searchedMaterials;
@@ -113,7 +114,7 @@ public class FindItem implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        List<Material> searchedMaterials = getMaterialsList(strings[0]);
+        HashSet<Material> searchedMaterials = new HashSet<>(getMaterialsList(strings[0]));
 
         if (searchedMaterials.isEmpty()) {
             Methods.sendConfigMessage(commandSender, "Messages.FindItemCommandInvalidItem");
@@ -325,23 +326,22 @@ public class FindItem implements CommandExecutor, TabCompleter {
                 if (itemStack == null)
                     continue;
 
-                for (Material material : searchedMaterials) {
-                    if (itemStack.getType().equals(material)) {
-                        itemFound = true;
-                        break inventoryLoop;
-                    }
+                if (searchedMaterials.contains(itemStack.getType())) {
+                    itemFound = true;
+                    break inventoryLoop;
                 }
 
                 if (itemStack.getItemMeta() instanceof BlockStateMeta blockStateMeta && blockStateMeta.getBlockState() instanceof ShulkerBox shulkerBox) {
                     for (ItemStack itemStackInShulker : shulkerBox.getInventory()) {
+
                         if (itemStackInShulker == null)
                             continue;
-                        for (Material material : searchedMaterials) {
-                            if (itemStackInShulker.getType().equals(material)) {
-                                itemFound = true;
-                                break inventoryLoop;
-                            }
+
+                        if (searchedMaterials.contains(itemStackInShulker.getType())) {
+                            itemFound = true;
+                            break inventoryLoop;
                         }
+
                     }
                 }
 
@@ -431,7 +431,7 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
     }
 
-    private String getMaterialsString(List<Material> materials) {
+    private String getMaterialsString(HashSet<Material> materials) {
 
         StringBuilder string = new StringBuilder();
 
