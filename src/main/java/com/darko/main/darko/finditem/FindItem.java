@@ -343,7 +343,7 @@ public class FindItem implements CommandExecutor, TabCompleter {
                             continue;
 
                         if (searchedMaterials.contains(itemStackInShulker.getType())) {
-                            totalItemsFound += itemStack.getAmount();
+                            totalItemsFound += itemStackInShulker.getAmount();
                             itemFound = true;
                         }
 
@@ -366,9 +366,8 @@ public class FindItem implements CommandExecutor, TabCompleter {
     private void finishUp() {
 
         String containerOrContainers = (containers.size() == 1) ? "container" : "containers";
-        String itemOrItems = (totalItemsFound == 1) ? "item" : "items";
 
-        player.sendMessage(ChatColor.YELLOW + "Found " + ChatColor.GOLD + totalItemsFound + ChatColor.YELLOW + " " + itemOrItems + " in " + ChatColor.GOLD + containers.size() + ChatColor.YELLOW + " " + containerOrContainers + " containing " + ChatColor.GOLD + getMaterialsString(searchedMaterials) + ChatColor.YELLOW + " in a radius of " + ChatColor.GOLD + radius + ChatColor.YELLOW + " blocks.");
+        player.sendMessage(ChatColor.YELLOW + "Found " + ChatColor.GOLD + totalItemsFound + " " + getMaterialsString(searchedMaterials) + ChatColor.YELLOW + " in " + ChatColor.GOLD + containers.size() + ChatColor.YELLOW + " " + containerOrContainers + " in a radius of " + ChatColor.GOLD + radius + ChatColor.YELLOW + " blocks.");
 
         ParticleBuilder particleBuilder = new ParticleBuilder(Particle.REDSTONE);
         particleBuilder.color(255, 255, 255);
