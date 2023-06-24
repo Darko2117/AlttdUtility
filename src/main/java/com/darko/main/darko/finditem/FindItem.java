@@ -373,7 +373,7 @@ public class FindItem implements CommandExecutor, TabCompleter {
         ParticleBuilder particleBuilder = new ParticleBuilder(Particle.REDSTONE);
         particleBuilder.color(255, 255, 255);
         particleBuilder.receivers(player);
-        particleBuilder.count(3);
+        particleBuilder.count(1);
 
         for (int i = 0; i < 10; i++) {
             new BukkitRunnable() {
@@ -386,17 +386,77 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
                         Location centerOfBlock = block.getLocation().clone().toCenterLocation();
 
-                        Location[] cornersOfBlock = new Location[8];
-                        cornersOfBlock[0] = centerOfBlock.clone().add(0.5, 0.5, 0.5);
-                        cornersOfBlock[1] = centerOfBlock.clone().add(0.5, 0.5, -0.5);
-                        cornersOfBlock[2] = centerOfBlock.clone().add(-0.5, 0.5, 0.5);
-                        cornersOfBlock[3] = centerOfBlock.clone().add(-0.5, 0.5, -0.5);
-                        cornersOfBlock[4] = centerOfBlock.clone().add(0.5, -0.5, 0.5);
-                        cornersOfBlock[5] = centerOfBlock.clone().add(0.5, -0.5, -0.5);
-                        cornersOfBlock[6] = centerOfBlock.clone().add(-0.5, -0.5, 0.5);
-                        cornersOfBlock[7] = centerOfBlock.clone().add(-0.5, -0.5, -0.5);
+                        // Corners
 
-                        for (Location location : cornersOfBlock) {
+                        ArrayList<Location> particleCorners = new ArrayList<>();
+
+                        particleCorners.add(centerOfBlock.clone().add(0.5, 0.5, 0.5));
+                        particleCorners.add(centerOfBlock.clone().add(0.5, 0.5, -0.5));
+                        particleCorners.add(centerOfBlock.clone().add(-0.5, 0.5, 0.5));
+                        particleCorners.add(centerOfBlock.clone().add(-0.5, 0.5, -0.5));
+                        particleCorners.add(centerOfBlock.clone().add(0.5, -0.5, 0.5));
+                        particleCorners.add(centerOfBlock.clone().add(0.5, -0.5, -0.5));
+                        particleCorners.add(centerOfBlock.clone().add(-0.5, -0.5, 0.5));
+                        particleCorners.add(centerOfBlock.clone().add(-0.5, -0.5, -0.5));
+
+                        // Sides centers
+
+                        ArrayList<Location> particleFaceCenters = new ArrayList<>();
+
+                        Location upFace = centerOfBlock.clone().add(0, 0.5, 0);
+                        Location downFace = centerOfBlock.clone().add(0, -0.5, 0);
+                        Location northFace = centerOfBlock.clone().add(0, 0, -0.5);
+                        Location southFace = centerOfBlock.clone().add(0, 0, 0.5);
+                        Location westFace = centerOfBlock.clone().add(-0.5, 0, 0);
+                        Location eastFace = centerOfBlock.clone().add(0.5, 0, 0);
+
+                        particleFaceCenters.add(upFace);
+                        particleFaceCenters.add(downFace);
+                        particleFaceCenters.add(northFace);
+                        particleFaceCenters.add(southFace);
+                        particleFaceCenters.add(westFace);
+                        particleFaceCenters.add(eastFace);
+
+                        // 8 around centers
+
+                        ArrayList<Location> particleAroundFaceCenters = new ArrayList<>();
+
+                        for (double x = -0.25; x <= 0.25; x += 0.25) {
+                            for (double z = -0.25; z <= 0.25; z += 0.25) {
+                                particleAroundFaceCenters.add(upFace.clone().add(x, 0.05, z));
+                            }
+                        }
+                        for (double x = -0.25; x <= 0.25; x += 0.25) {
+                            for (double z = -0.25; z <= 0.25; z += 0.25) {
+                                particleAroundFaceCenters.add(downFace.clone().add(x, -0.05, z));
+                            }
+                        }
+                        for (double x = -0.25; x <= 0.25; x += 0.25) {
+                            for (double y = -0.25; y <= 0.25; y += 0.25) {
+                                particleAroundFaceCenters.add(northFace.clone().add(x, y, -0.05));
+                            }
+                        }
+                        for (double x = -0.25; x <= 0.25; x += 0.25) {
+                            for (double y = -0.25; y <= 0.25; y += 0.25) {
+                                particleAroundFaceCenters.add(southFace.clone().add(x, y, 0.05));
+                            }
+                        }
+                        for (double y = -0.25; y <= 0.25; y += 0.25) {
+                            for (double z = -0.25; z <= 0.25; z += 0.25) {
+                                particleAroundFaceCenters.add(westFace.clone().add(-0.05, y, z));
+                            }
+                        }
+                        for (double y = -0.25; y <= 0.25; y += 0.25) {
+                            for (double z = -0.25; z <= 0.25; z += 0.25) {
+                                particleAroundFaceCenters.add(eastFace.clone().add(0.05, y, z));
+                            }
+                        }
+
+                        for (Location location : particleCorners) {
+                            particleBuilder.location(location);
+                            particleBuilder.spawn();
+                        }
+                        for (Location location : particleAroundFaceCenters) {
                             particleBuilder.location(location);
                             particleBuilder.spawn();
                         }
