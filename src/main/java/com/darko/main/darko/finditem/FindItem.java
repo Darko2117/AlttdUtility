@@ -386,22 +386,20 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
                         Location centerOfBlock = block.getLocation().clone().toCenterLocation();
 
+                        ArrayList<Location> particleLocations = new ArrayList<>();
+
                         // Corners
 
-                        ArrayList<Location> particleCorners = new ArrayList<>();
+                        particleLocations.add(centerOfBlock.clone().add(0.5, 0.5, 0.5));
+                        particleLocations.add(centerOfBlock.clone().add(0.5, 0.5, -0.5));
+                        particleLocations.add(centerOfBlock.clone().add(-0.5, 0.5, 0.5));
+                        particleLocations.add(centerOfBlock.clone().add(-0.5, 0.5, -0.5));
+                        particleLocations.add(centerOfBlock.clone().add(0.5, -0.5, 0.5));
+                        particleLocations.add(centerOfBlock.clone().add(0.5, -0.5, -0.5));
+                        particleLocations.add(centerOfBlock.clone().add(-0.5, -0.5, 0.5));
+                        particleLocations.add(centerOfBlock.clone().add(-0.5, -0.5, -0.5));
 
-                        particleCorners.add(centerOfBlock.clone().add(0.5, 0.5, 0.5));
-                        particleCorners.add(centerOfBlock.clone().add(0.5, 0.5, -0.5));
-                        particleCorners.add(centerOfBlock.clone().add(-0.5, 0.5, 0.5));
-                        particleCorners.add(centerOfBlock.clone().add(-0.5, 0.5, -0.5));
-                        particleCorners.add(centerOfBlock.clone().add(0.5, -0.5, 0.5));
-                        particleCorners.add(centerOfBlock.clone().add(0.5, -0.5, -0.5));
-                        particleCorners.add(centerOfBlock.clone().add(-0.5, -0.5, 0.5));
-                        particleCorners.add(centerOfBlock.clone().add(-0.5, -0.5, -0.5));
-
-                        // Sides centers
-
-                        ArrayList<Location> particleFaceCenters = new ArrayList<>();
+                        // Face centers
 
                         Location upFace = centerOfBlock.clone().add(0, 0.5, 0);
                         Location downFace = centerOfBlock.clone().add(0, -0.5, 0);
@@ -410,53 +408,40 @@ public class FindItem implements CommandExecutor, TabCompleter {
                         Location westFace = centerOfBlock.clone().add(-0.5, 0, 0);
                         Location eastFace = centerOfBlock.clone().add(0.5, 0, 0);
 
-                        particleFaceCenters.add(upFace);
-                        particleFaceCenters.add(downFace);
-                        particleFaceCenters.add(northFace);
-                        particleFaceCenters.add(southFace);
-                        particleFaceCenters.add(westFace);
-                        particleFaceCenters.add(eastFace);
-
-                        // 8 around centers
-
-                        ArrayList<Location> particleAroundFaceCenters = new ArrayList<>();
+                        // 9 on faces
 
                         for (double x = -0.25; x <= 0.25; x += 0.25) {
                             for (double z = -0.25; z <= 0.25; z += 0.25) {
-                                particleAroundFaceCenters.add(upFace.clone().add(x, 0.05, z));
+                                particleLocations.add(upFace.clone().add(x, 0.05, z));
                             }
                         }
                         for (double x = -0.25; x <= 0.25; x += 0.25) {
                             for (double z = -0.25; z <= 0.25; z += 0.25) {
-                                particleAroundFaceCenters.add(downFace.clone().add(x, -0.05, z));
+                                particleLocations.add(downFace.clone().add(x, -0.05, z));
                             }
                         }
                         for (double x = -0.25; x <= 0.25; x += 0.25) {
                             for (double y = -0.25; y <= 0.25; y += 0.25) {
-                                particleAroundFaceCenters.add(northFace.clone().add(x, y, -0.05));
+                                particleLocations.add(northFace.clone().add(x, y, -0.05));
                             }
                         }
                         for (double x = -0.25; x <= 0.25; x += 0.25) {
                             for (double y = -0.25; y <= 0.25; y += 0.25) {
-                                particleAroundFaceCenters.add(southFace.clone().add(x, y, 0.05));
+                                particleLocations.add(southFace.clone().add(x, y, 0.05));
                             }
                         }
                         for (double y = -0.25; y <= 0.25; y += 0.25) {
                             for (double z = -0.25; z <= 0.25; z += 0.25) {
-                                particleAroundFaceCenters.add(westFace.clone().add(-0.05, y, z));
+                                particleLocations.add(westFace.clone().add(-0.05, y, z));
                             }
                         }
                         for (double y = -0.25; y <= 0.25; y += 0.25) {
                             for (double z = -0.25; z <= 0.25; z += 0.25) {
-                                particleAroundFaceCenters.add(eastFace.clone().add(0.05, y, z));
+                                particleLocations.add(eastFace.clone().add(0.05, y, z));
                             }
                         }
 
-                        for (Location location : particleCorners) {
-                            particleBuilder.location(location);
-                            particleBuilder.spawn();
-                        }
-                        for (Location location : particleAroundFaceCenters) {
+                        for (Location location : particleLocations) {
                             particleBuilder.location(location);
                             particleBuilder.spawn();
                         }
