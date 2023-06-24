@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Container;
@@ -39,7 +40,7 @@ public class FindItem implements CommandExecutor, TabCompleter {
     private static final HashMap<Player, Long> lastTimeUsedCommand = new HashMap<>();
 
     private final int radius = AlttdUtility.getInstance().getConfig().getInt("FindItem.Radius");
-    private final int allowedMilisecondsPerTick = AlttdUtility.getInstance().getConfig().getInt("FindItem.AllowedMilisecondsPerTick");
+    private final long allowedNanosecondsPerTick = AlttdUtility.getInstance().getConfig().getInt("FindItem.AllowedMilisecondsPerTick") * 1000000;
 
     private Player player = null;
     private HashSet<Material> searchedMaterials = null;
@@ -168,7 +169,7 @@ public class FindItem implements CommandExecutor, TabCompleter {
             @Override
             public void run() {
 
-                thisTickStartTime = System.currentTimeMillis();
+                thisTickStartTime = System.nanoTime();
 
                 if (processStepCount == 0) {
                     findAreaContainers();
@@ -199,7 +200,7 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
     private boolean outOfThisTickTime() {
 
-        return thisTickStartTime + allowedMilisecondsPerTick < System.currentTimeMillis();
+        return thisTickStartTime + allowedNanosecondsPerTick < System.nanoTime();
 
     }
 
@@ -215,6 +216,8 @@ public class FindItem implements CommandExecutor, TabCompleter {
             stepZeroFirstRun = false;
         }
 
+        World world = playerEyeLocation.getWorld();
+
         for (; stepZeroXMin <= stepZeroXMax; stepZeroXMin++, stepZeroYMin = playerEyeLocation.getBlockY() - radius) {
             for (; stepZeroYMin <= stepZeroYMax; stepZeroYMin++, stepZeroZMin = playerEyeLocation.getBlockZ() - radius) {
                 for (; stepZeroZMin <= stepZeroZMax; stepZeroZMin++) {
@@ -222,9 +225,9 @@ public class FindItem implements CommandExecutor, TabCompleter {
                     if (outOfThisTickTime())
                         return;
 
-                    Block block = playerEyeLocation.getWorld().getBlockAt(stepZeroXMin, stepZeroYMin, stepZeroZMin);
+                    Block block = world.getBlockAt(stepZeroXMin, stepZeroYMin, stepZeroZMin);
 
-                    if (block.getState() instanceof Container container)
+                    if (!block.getType().equals(Material.AIR) && block.getState() instanceof Container container)
                         containers.add(container);
 
                 }
