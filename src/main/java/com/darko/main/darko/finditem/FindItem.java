@@ -52,6 +52,8 @@ public class FindItem implements CommandExecutor, TabCompleter {
     private int processStepCount = 0;
     private long thisTickStartTime;
 
+    private int totalItemsFound = 0;
+
     // Step 0 - finding all containers in area
     private boolean stepZeroFirstRun = true;
     private int stepZeroXMin, stepZeroYMin, stepZeroZMin, stepZeroXMax, stepZeroYMax, stepZeroZMax;
@@ -324,14 +326,14 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
             boolean itemFound = false;
 
-            inventoryLoop: for (ItemStack itemStack : container.getInventory()) {
+            for (ItemStack itemStack : container.getInventory()) {
 
                 if (itemStack == null)
                     continue;
 
                 if (searchedMaterials.contains(itemStack.getType())) {
+                    totalItemsFound += itemStack.getAmount();
                     itemFound = true;
-                    break inventoryLoop;
                 }
 
                 if (itemStack.getItemMeta() instanceof BlockStateMeta blockStateMeta && blockStateMeta.getBlockState() instanceof ShulkerBox shulkerBox) {
@@ -341,8 +343,8 @@ public class FindItem implements CommandExecutor, TabCompleter {
                             continue;
 
                         if (searchedMaterials.contains(itemStackInShulker.getType())) {
+                            totalItemsFound += itemStack.getAmount();
                             itemFound = true;
-                            break inventoryLoop;
                         }
 
                     }
@@ -364,7 +366,9 @@ public class FindItem implements CommandExecutor, TabCompleter {
     private void finishUp() {
 
         String containerOrContainers = (containers.size() == 1) ? "container" : "containers";
-        player.sendMessage(ChatColor.YELLOW + "Found " + ChatColor.GOLD + containers.size() + ChatColor.YELLOW + " " + containerOrContainers + " containing " + ChatColor.GOLD + getMaterialsString(searchedMaterials) + ChatColor.YELLOW + " in a radius of " + ChatColor.GOLD + radius + ChatColor.YELLOW + " blocks.");
+        String itemOrItems = (totalItemsFound == 1) ? "item" : "items";
+
+        player.sendMessage(ChatColor.YELLOW + "Found " + ChatColor.GOLD + totalItemsFound + ChatColor.YELLOW + " " + itemOrItems + " in " + ChatColor.GOLD + containers.size() + ChatColor.YELLOW + " " + containerOrContainers + " containing " + ChatColor.GOLD + getMaterialsString(searchedMaterials) + ChatColor.YELLOW + " in a radius of " + ChatColor.GOLD + radius + ChatColor.YELLOW + " blocks.");
 
         ParticleBuilder particleBuilder = new ParticleBuilder(Particle.REDSTONE);
         particleBuilder.color(255, 255, 255);
