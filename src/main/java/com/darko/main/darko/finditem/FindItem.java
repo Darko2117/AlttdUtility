@@ -39,7 +39,8 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
     private static final HashMap<Player, Long> lastTimeUsedCommand = new HashMap<>();
 
-    private int radius = AlttdUtility.getInstance().getConfig().getInt("FindItem.Radius");
+    private final int defaultRadius = AlttdUtility.getInstance().getConfig().getInt("FindItem.Radius");
+    private int radius;
     private final long allowedNanosecondsPerTick = AlttdUtility.getInstance().getConfig().getInt("FindItem.AllowedMilisecondsPerTick") * 1000000;
 
     private Player player = null;
@@ -125,7 +126,7 @@ public class FindItem implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        int radius = this.radius;
+        int radius = defaultRadius;
 
         if (commandSender.hasPermission("utility.finditem-customradius")) {
 
@@ -256,6 +257,11 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
     private void removeUnseeableContainers() {
 
+        if (radius != defaultRadius) {
+            processStepCount++;
+            return;
+        }
+
         for (; stepOneLastCheckedIndex < containers.size(); stepOneLastCheckedIndex++) {
 
             if (outOfThisTickTime())
@@ -307,6 +313,11 @@ public class FindItem implements CommandExecutor, TabCompleter {
     }
 
     private void removeUnopenableContainers() {
+
+        if (radius != defaultRadius) {
+            processStepCount++;
+            return;
+        }
 
         for (; stepTwoLastCheckedIndex < containers.size(); stepTwoLastCheckedIndex++) {
 
