@@ -39,7 +39,7 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
     private static final HashMap<Player, Long> lastTimeUsedCommand = new HashMap<>();
 
-    private final int radius = AlttdUtility.getInstance().getConfig().getInt("FindItem.Radius");
+    private int radius = AlttdUtility.getInstance().getConfig().getInt("FindItem.Radius");
     private final long allowedNanosecondsPerTick = AlttdUtility.getInstance().getConfig().getInt("FindItem.AllowedMilisecondsPerTick") * 1000000;
 
     private Player player = null;
@@ -74,10 +74,11 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
     public FindItem() {}
 
-    public FindItem(Player player, HashSet<Material> searchedMaterials) {
+    public FindItem(Player player, HashSet<Material> searchedMaterials, int radius) {
 
         this.player = player;
         this.searchedMaterials = searchedMaterials;
+        this.radius = radius;
 
         this.playerEyeLocation = player.getEyeLocation().clone();
 
@@ -124,7 +125,20 @@ public class FindItem implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        new FindItem(player, searchedMaterials);
+        int radius = this.radius;
+
+        if (commandSender.hasPermission("utility.finditem-customradius")) {
+
+            try {
+
+                radius = Math.max(1, Math.min(Integer.parseInt(strings[1]), 100));
+
+            } catch (Throwable ignored) {
+            }
+
+        }
+
+        new FindItem(player, searchedMaterials, radius);
 
         return true;
 
