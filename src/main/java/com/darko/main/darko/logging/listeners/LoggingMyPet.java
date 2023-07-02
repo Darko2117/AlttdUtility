@@ -64,7 +64,7 @@ public class LoggingMyPet implements Listener {
 
         MyPetPlayer myPetPlayer = MyPetApi.getPlayerManager().getMyPetPlayer(event.getPlayer());
 
-        if (!myPetPlayer.hasMyPet())
+        if (myPetPlayer == null || !myPetPlayer.hasMyPet())
             return;
 
         MyPet myPet = myPetPlayer.getMyPet();
