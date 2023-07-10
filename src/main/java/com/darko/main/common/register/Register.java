@@ -63,6 +63,7 @@ import com.darko.main.darko.ravagerInClaim.RavagerInClaim;
 import com.darko.main.darko.rebootWhitelist.RebootWhitelist;
 import com.darko.main.darko.reloadCommand.ReloadCommand;
 import com.darko.main.darko.spawnLimiter.SpawnLimiter;
+import com.darko.main.fairy.GlowBerryEffect;
 import com.darko.main.teri.CrazyCratesKeysLimiter.CrazyCratesKeysLimiter;
 import com.darko.main.teri.FreezeMail.FreezeMail;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
@@ -149,6 +150,10 @@ public class Register extends JavaPlugin {
 
         if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.InvsaveOnPlayerQuit")) {
             registerEvents(new InvsaveOnPlayerQuit());
+        }
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.GlowBerryEffect")) {
+            registerEvents(new GlowBerryEffect());
         }
 
         if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.MagnetCommand")) {
