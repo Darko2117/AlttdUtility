@@ -14,6 +14,9 @@ public class GodModeReminderCMI {
 
     public static void initiate() {
 
+        if (!AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.GodModeReminder"))
+            return;
+
         CMI cmiAPI = APIs.getCMIAPI();
 
         BukkitTasksCache.addTask(new BukkitRunnable() {
