@@ -8,6 +8,7 @@ import com.darko.main.common.database.Database;
 import com.darko.main.common.register.Register;
 import com.darko.main.darko.aprilfools.AprilFools;
 import com.darko.main.darko.blockBlockPlace.BlockBlockPlace;
+import com.darko.main.fairy.GodModeReminderCMI;
 import com.darko.main.darko.illegalItemCheck.IllegalItemCheck;
 import com.darko.main.darko.logging.Logging;
 import com.darko.main.darko.logging.LoggingSearch;
@@ -67,6 +68,7 @@ public class Reload {
 
         AprilFools.initiate();
 
+        GodModeReminderCMI.initiate();
 
         Database.initiate();
 
