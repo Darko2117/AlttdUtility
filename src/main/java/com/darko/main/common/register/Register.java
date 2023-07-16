@@ -64,6 +64,7 @@ import com.darko.main.darko.rebootWhitelist.RebootWhitelist;
 import com.darko.main.darko.reloadCommand.ReloadCommand;
 import com.darko.main.darko.spawnLimiter.SpawnLimiter;
 import com.darko.main.fairy.GlowBerryEffect;
+import com.darko.main.fairy.GodModeReminderCMI;
 import com.darko.main.teri.CrazyCratesKeysLimiter.CrazyCratesKeysLimiter;
 import com.darko.main.teri.FreezeMail.FreezeMail;
 import com.darko.main.teri.FreezeMail.FreezeMailPlayerListener;
@@ -273,6 +274,10 @@ public class Register extends JavaPlugin {
             // if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.DatabaseMoneyLog")) {
             // registerEvents(new DatabaseMoneyLog());
             // }
+
+            if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.GodModeReminder")) {
+                registerEvents(new GodModeReminderCMI());
+            }
 
         }
 
