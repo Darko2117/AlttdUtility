@@ -102,6 +102,7 @@ public class Config {
         // toggles.add("DatabaseMoneyLog");
         toggles.add("BalStatsCommand");
         toggles.add("StorePetOnPVP");
+        toggles.add("GlowBerryEffect");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {
@@ -502,6 +503,16 @@ public class Config {
         }
         if (!config.contains("FindItem.AllowedMilisecondsPerTick")) {
             config.set("FindItem.AllowedMilisecondsPerTick", 10);
+        }
+
+        // ----------------------------------------------------------------------------------------------------
+
+        // GlowBerryEffectDuration
+
+        if (!config.contains("GlowBerryEffectDuration")) {
+
+            config.set("GlowBerryEffectDuration", 1200);
+
         }
 
         // ----------------------------------------------------------------------------------------------------
