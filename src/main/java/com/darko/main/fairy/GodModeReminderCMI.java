@@ -64,6 +64,7 @@ public class GodModeReminderCMI implements Listener {
 
             }
         }.runTaskTimer(AlttdUtility.getInstance(), 200, 200));
+        
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
