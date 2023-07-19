@@ -104,6 +104,7 @@ public class Config {
         toggles.add("StorePetOnPVP");
         toggles.add("GlowBerryEffect");
         toggles.add("GodModeReminder");
+        toggles.add("CancelItemFrameRotation");
 
         for (String string : toggles) {
             if (!config.contains("FeatureToggles." + string)) {

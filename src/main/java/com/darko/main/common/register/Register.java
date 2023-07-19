@@ -4,6 +4,7 @@ package com.darko.main.common.register;
 import com.darko.main.common.API.APIs;
 import com.darko.main.darko.balanceStats.balStats.BalStatsCommand;
 import com.darko.main.darko.blockBlockPlace.BlockBlockPlace;
+import com.darko.main.darko.cancelItemFrameRotation.CancelItemFrameRotation;
 import com.darko.main.darko.chorusFruitInClaim.ChorusFruitInClaim;
 // import com.darko.main.darko.chorusFruitOnPlot.ChorusFruitOnPlot;
 import com.darko.main.darko.claimPatrol.ClaimPatrol;
@@ -159,6 +160,10 @@ public class Register extends JavaPlugin {
 
         if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.MagnetCommand")) {
             registerEvents(new Magnet());
+        }
+
+        if (AlttdUtility.getInstance().getConfig().getBoolean("FeatureToggles.CancelItemFrameRotation")) {
+            registerEvents(new CancelItemFrameRotation());
         }
 
         if (APIs.isMyPetFound()) {
