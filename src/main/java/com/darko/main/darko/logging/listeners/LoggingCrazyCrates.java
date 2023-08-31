@@ -1,7 +1,7 @@
 package com.darko.main.darko.logging.listeners;
 
-import com.badbones69.crazycrates.api.events.PlayerPrizeEvent;
-import com.badbones69.crazycrates.api.objects.ItemBuilder;
+import com.badbones69.crazycrates.paper.api.events.PlayerPrizeEvent;
+import com.badbones69.crazycrates.paper.api.objects.ItemBuilder;
 import com.darko.main.darko.logging.Logging;
 import com.darko.main.darko.logging.logs.CratePrizesLog;
 import org.bukkit.event.EventHandler;

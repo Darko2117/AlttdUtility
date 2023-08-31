@@ -1,8 +1,8 @@
 package com.darko.main.teri.CrazyCratesKeysLimiter;
 
-import com.badbones69.crazycrates.CrazyCrates;
-import com.badbones69.crazycrates.api.events.PlayerReceiveKeyEvent;
-import com.badbones69.crazycrates.api.objects.Crate;
+import com.badbones69.crazycrates.paper.CrazyCrates;
+import com.badbones69.crazycrates.paper.api.events.PlayerReceiveKeyEvent;
+import com.badbones69.crazycrates.paper.api.objects.Crate;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.Methods;
 import org.bukkit.entity.Player;

@@ -4,6 +4,7 @@ import com.Zrips.CMI.CMI;
 import com.alttd.VillagerUI;
 import com.alttd.chat.ChatAPI;
 import com.alttd.playershops.PlayerShops;
+import com.badbones69.crazycrates.paper.CrazyCrates;
 import com.comphenix.protocol.ProtocolLib;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.ConsoleColors;
@@ -197,11 +198,11 @@ public class APIs extends JavaPlugin {
         }
     }
 
-    public static com.badbones69.crazycrates.CrazyCrates getCrazyCratesAPI() {
+    public static CrazyCrates getCrazyCratesAPI() {
         try {
             Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CrazyCrates");
-            if (plugin instanceof com.badbones69.crazycrates.CrazyCrates) {
-                return (com.badbones69.crazycrates.CrazyCrates) plugin;
+            if (plugin instanceof CrazyCrates) {
+                return (CrazyCrates) plugin;
             } else {
                 return null;
             }
