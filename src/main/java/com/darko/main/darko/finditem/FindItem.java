@@ -359,11 +359,8 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
                 if (searchedMaterials.contains(itemStack.getType())) {
 
-                    totalItemsFound += itemStack.getAmount();
-
-                    if (isDoubleChest && checkedDoubleChests.contains(doubleChestLocationString)) {
-                        totalItemsFound -= itemStack.getAmount();
-                    }
+                    if (!isDoubleChest || !checkedDoubleChests.contains(doubleChestLocationString))
+                        totalItemsFound += itemStack.getAmount();
 
                     itemFound = true;
 
@@ -377,11 +374,8 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
                         if (searchedMaterials.contains(itemStackInShulker.getType())) {
 
-                            totalItemsFound += itemStackInShulker.getAmount();
-
-                            if (isDoubleChest && checkedDoubleChests.contains(doubleChestLocationString)) {
-                                totalItemsFound -= itemStackInShulker.getAmount();
-                            }
+                            if (!isDoubleChest || !checkedDoubleChests.contains(doubleChestLocationString))
+                                totalItemsFound += itemStackInShulker.getAmount();
 
                             itemFound = true;
 
