@@ -20,6 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.DoubleChestInventory;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
@@ -67,6 +68,7 @@ public class FindItem implements CommandExecutor, TabCompleter {
     // Step 2 - remove unopenable containers
 
     // Step 3 - remove not containing containers
+    private HashSet<String> checkedDoubleChests = new HashSet<>();
 
     // Step 4 - searching done, finish up
 
@@ -338,6 +340,16 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
             Container container = containers.get(processProgressTracker);
 
+            boolean isDoubleChest = container.getInventory() instanceof DoubleChestInventory;
+
+            String doubleChestLocationString = null;
+
+            if (isDoubleChest) {
+
+                doubleChestLocationString = ((DoubleChestInventory) container.getInventory()).getHolder().getLocation().toString();
+
+            }
+
             boolean itemFound = false;
 
             for (ItemStack itemStack : container.getInventory()) {
@@ -346,8 +358,15 @@ public class FindItem implements CommandExecutor, TabCompleter {
                     continue;
 
                 if (searchedMaterials.contains(itemStack.getType())) {
+
                     totalItemsFound += itemStack.getAmount();
+
+                    if (isDoubleChest && checkedDoubleChests.contains(doubleChestLocationString)) {
+                        totalItemsFound -= itemStack.getAmount();
+                    }
+
                     itemFound = true;
+
                 }
 
                 if (itemStack.getItemMeta() instanceof BlockStateMeta blockStateMeta && blockStateMeta.getBlockState() instanceof ShulkerBox shulkerBox) {
@@ -357,13 +376,24 @@ public class FindItem implements CommandExecutor, TabCompleter {
                             continue;
 
                         if (searchedMaterials.contains(itemStackInShulker.getType())) {
+
                             totalItemsFound += itemStackInShulker.getAmount();
+
+                            if (isDoubleChest && checkedDoubleChests.contains(doubleChestLocationString)) {
+                                totalItemsFound -= itemStackInShulker.getAmount();
+                            }
+
                             itemFound = true;
+
                         }
 
                     }
                 }
 
+            }
+
+            if (isDoubleChest) {
+                checkedDoubleChests.add(doubleChestLocationString);
             }
 
             if (!itemFound) {
