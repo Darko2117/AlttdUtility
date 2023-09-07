@@ -39,7 +39,13 @@ public abstract class Log {
 
         StringBuilder string = new StringBuilder("|");
         for (Map.Entry<String, String> entry : arguments.entrySet()) {
-            string.append(entry.getKey()).append(":").append(entry.getValue()).append("|");
+
+            String argumentValue = entry.getValue();
+
+            argumentValue = argumentValue.replaceAll("\n", " ");
+            argumentValue = argumentValue.replaceAll("\\|", " ");
+
+            string.append(entry.getKey()).append(":").append(argumentValue).append("|");
         }
 
         return string.toString();

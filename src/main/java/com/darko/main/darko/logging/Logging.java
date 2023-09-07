@@ -206,8 +206,6 @@ public class Logging {
 
             String logMessage = log.getLogArgumentsString();
 
-            logMessage = logMessage.replace("\n", "\\n");
-
             if (!log.getArguments().entrySet().iterator().next().getValue().isEmpty()) {
                 logMessage = logMessage.concat("\n");
             } else {
