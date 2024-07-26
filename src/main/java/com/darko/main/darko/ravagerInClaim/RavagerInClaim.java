@@ -27,7 +27,7 @@ public class RavagerInClaim implements Listener {
             return;
 
         event.setCancelled(true);
-        ParticleBuilder particleBuilder = new ParticleBuilder(Particle.REDSTONE);
+        ParticleBuilder particleBuilder = new ParticleBuilder(Particle.DUST);
         particleBuilder.color(74, 74, 74);
         particleBuilder.count(10);
         particleBuilder.location(location.add(0.5, 0.5, 0.5));

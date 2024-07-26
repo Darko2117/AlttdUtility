@@ -1,8 +1,8 @@
 package com.darko.main.teri.CrazyCratesKeysLimiter;
 
-import com.badbones69.crazycrates.paper.CrazyCrates;
-import com.badbones69.crazycrates.paper.api.events.PlayerReceiveKeyEvent;
-import com.badbones69.crazycrates.paper.api.objects.Crate;
+import com.badbones69.crazycrates.CrazyCrates;
+import com.badbones69.crazycrates.api.events.PlayerReceiveKeyEvent;
+import com.badbones69.crazycrates.api.objects.Crate;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.Methods;
 import org.bukkit.entity.Player;
@@ -25,7 +25,7 @@ public class CrazyCratesKeysLimiter implements Listener {
         if (keyLimit == 0)
             return;
 
-        int playerKeysAfterEvent = CrazyCrates.getPlugin().getStarter().getCrazyManager().getVirtualKeys(player, crate) + event.getAmount();
+        int playerKeysAfterEvent = CrazyCrates.getPlugin(CrazyCrates.class).getUserManager().getVirtualKeys(player.getUniqueId(), crate.getName()) + event.getAmount();
 
         if (playerKeysAfterEvent == keyLimit - 1) {
             Methods.sendConfigMessage(player, "Messages.CrazyCratesKeysLimiterAtLimitMinusOne");

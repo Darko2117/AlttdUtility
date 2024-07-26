@@ -137,7 +137,7 @@ public class Magnet implements CommandExecutor, Listener {
                         } else
                             continue;
 
-                        ParticleBuilder particleBuilder = new ParticleBuilder(Particle.REDSTONE);
+                        ParticleBuilder particleBuilder = new ParticleBuilder(Particle.DUST);
                         particleBuilder.location(entity.getLocation());
                         particleBuilder.location().setY(particleBuilder.location().getY() + 0.25);
                         particleBuilder.offset(0.1, 0.1, 0.1);

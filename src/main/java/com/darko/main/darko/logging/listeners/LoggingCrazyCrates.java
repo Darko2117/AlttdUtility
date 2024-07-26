@@ -1,9 +1,12 @@
 package com.darko.main.darko.logging.listeners;
 
-import com.badbones69.crazycrates.paper.api.events.PlayerPrizeEvent;
-import com.badbones69.crazycrates.paper.api.objects.ItemBuilder;
+import com.badbones69.crazycrates.api.events.PlayerPrizeEvent;
 import com.darko.main.darko.logging.Logging;
 import com.darko.main.darko.logging.logs.CratePrizesLog;
+import libs.com.ryderbelserion.vital.paper.builders.items.ItemBuilder;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import scala.util.control.Exception;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -25,27 +28,14 @@ public class LoggingCrazyCrates implements Listener {
 
         String items;
         StringBuilder itemsStringBuilder = new StringBuilder();
+
         List<ItemBuilder> itemsItemBuilder = event.getPrize().getItemBuilders();
         if (itemsItemBuilder.size() != 0) {
             for (ItemBuilder item : itemsItemBuilder) {
 
-                String amount = item.getAmount().toString();
-                String itemMaterial = item.getMaterial().toString();
-                String itemDisplayName = item.getName();
-
-                if (!itemsStringBuilder.toString().isEmpty())
-                    itemsStringBuilder.append(", ");
-
-                itemsStringBuilder.append(amount).append("X").append(" ").append(itemMaterial).append(" (").append(itemDisplayName).append(")");
-
-            }
-        }
-        if (!event.getPrize().getItems().isEmpty()) {
-            for (ItemStack item : event.getPrize().getItems()) {
-
-                String amount = String.valueOf(item.getAmount());
+                String amount = String.valueOf(item.getStack().getAmount());
                 String itemMaterial = item.getType().toString();
-                String itemDisplayName = item.getItemMeta().getDisplayName();
+                String itemDisplayName = item.getDisplayName();
 
                 if (!itemsStringBuilder.toString().isEmpty())
                     itemsStringBuilder.append(", ");
@@ -53,6 +43,19 @@ public class LoggingCrazyCrates implements Listener {
                 itemsStringBuilder.append(amount).append("X").append(" ").append(itemMaterial).append(" (").append(itemDisplayName).append(")");
 
             }
+        } else {
+
+            ItemStack item = event.getPrize().getPrizeItem().getStack();
+
+            String amount = String.valueOf(item.getAmount());
+            String itemMaterial = item.getType().toString();
+            String itemDisplayName = PlainTextComponentSerializer.plainText().serialize(item.displayName());
+
+            if (!itemsStringBuilder.toString().isEmpty())
+                itemsStringBuilder.append(", ");
+
+            itemsStringBuilder.append(amount).append("X").append(" ").append(itemMaterial).append(" (").append(itemDisplayName).append(")");
+
         }
 
         items = itemsStringBuilder.toString();

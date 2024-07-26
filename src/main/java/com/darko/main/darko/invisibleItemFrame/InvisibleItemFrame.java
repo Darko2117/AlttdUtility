@@ -68,7 +68,7 @@ public class InvisibleItemFrame implements Listener, CommandExecutor {
                     @Override
                     public void run() {
 
-                        ParticleBuilder particleBuilder = new ParticleBuilder(Particle.REDSTONE);
+                        ParticleBuilder particleBuilder = new ParticleBuilder(Particle.DUST);
                         particleBuilder.receivers(player);
                         particleBuilder.color(new Random().nextInt(256), new Random().nextInt(256), new Random().nextInt(256));
                         particleBuilder.location(itemFrame.getLocation());

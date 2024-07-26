@@ -39,7 +39,7 @@ public class Crash implements CommandExecutor {
 
                 while (player.isOnline()) {
 
-                    ParticleBuilder particleBuilder = new ParticleBuilder(Particle.REDSTONE);
+                    ParticleBuilder particleBuilder = new ParticleBuilder(Particle.DUST);
                     particleBuilder.receivers(player);
                     particleBuilder.count(amountOfParticles);
                     particleBuilder.location(player.getLocation().clone().subtract(0, 10, 0));

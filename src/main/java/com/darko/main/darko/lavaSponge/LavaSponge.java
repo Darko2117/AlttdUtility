@@ -97,7 +97,7 @@ public class LavaSponge implements Listener {
                 @Override
                 public void run() {
 
-                    ParticleBuilder particleBuilderSmoke = new ParticleBuilder(Particle.REDSTONE);
+                    ParticleBuilder particleBuilderSmoke = new ParticleBuilder(Particle.DUST);
                     particleBuilderSmoke.color(59, 65, 74);
                     for (Integer i = 0; i < 20; i++) {
                         particleBuilderSmoke.location(block.getLocation().clone().add(getRandomParticleOffset() + 0.5d, getRandomParticleOffset() + 0.5d, getRandomParticleOffset() + 0.5d));
@@ -106,7 +106,7 @@ public class LavaSponge implements Listener {
                     }
 
 
-                    ParticleBuilder particleBuilderBlockCrack = new ParticleBuilder(Particle.BLOCK_CRACK);
+                    ParticleBuilder particleBuilderBlockCrack = new ParticleBuilder(Particle.BLOCK);
                     particleBuilderBlockCrack.data(blockDataCopy);
                     for (Integer i = 0; i < 10; i++) {
                         particleBuilderBlockCrack.location(block.getLocation().clone().add(getRandomParticleOffset() + 0.5d, getRandomParticleOffset() + 0.5d, getRandomParticleOffset() + 0.5d));

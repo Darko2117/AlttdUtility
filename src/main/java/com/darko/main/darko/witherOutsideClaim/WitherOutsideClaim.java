@@ -55,7 +55,7 @@ public class WitherOutsideClaim implements Listener {
             }
         }
 
-        if (!(event.getEntity().getType().equals(EntityType.PLAYER) || event.getEntity().getType().equals(EntityType.DROPPED_ITEM))) {
+        if (!(event.getEntity().getType().equals(EntityType.PLAYER) || event.getEntity().getType().equals(EntityType.ITEM))) {
             if (!APIs.isMyPetFound()) {
                 event.setCancelled(true);
                 return;

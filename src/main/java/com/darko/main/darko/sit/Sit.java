@@ -1,7 +1,7 @@
 package com.darko.main.darko.sit;
 
-import com.Zrips.CMI.events.CMIPlayerTeleportEvent;
 import com.darko.main.common.API.APIs;
+import com.Zrips.CMI.events.CMIAsyncPlayerTeleportEvent;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.BukkitTasksCache;
 import com.darko.main.common.Methods;
@@ -26,12 +26,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.entity.EntityDismountEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-import org.spigotmc.event.entity.EntityDismountEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,7 +85,7 @@ public class Sit implements CommandExecutor, Listener {
         }
 
         Location location = block.getLocation().add(0.5, 0, 0.5);
-        location.setY(getSmallestNearCenterBlockHeight(block) - 1.75);
+        location.setY(getSmallestNearCenterBlockHeight(block) - 1.95);
 
         location.setYaw(player.getLocation().getYaw());
 
@@ -103,6 +103,32 @@ public class Sit implements CommandExecutor, Listener {
         aliveSeats.put(seat.getWorld().getBlockAt(seat.getLocation().clone().add(-0.5, 1.75 - 0.00001, -0.5)).getLocation(), seat);
 
         return true;
+
+    }
+
+    // Deleting seats if they don't get properly deleted when dismounting
+    @EventHandler
+    public void onChunkLoad(ChunkLoadEvent event) {
+
+        Chunk chunk = event.getChunk();
+
+        for (Entity entity : chunk.getEntities()) {
+
+            if (entity instanceof ArmorStand) {
+
+                ArmorStand armorStand = (ArmorStand) entity;
+
+                if (armorStand.getCustomName() != null && armorStand.getCustomName().equals(seatName)) {
+
+                    armorStand.remove();
+
+                    AlttdUtility.getInstance().getLogger().info("Bugged armorstand from /sit removed when chunk loading at " + armorStand.getLocation());
+
+                }
+
+            }
+
+        }
 
     }
 
@@ -128,7 +154,7 @@ public class Sit implements CommandExecutor, Listener {
 
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = false, priority = EventPriority.HIGHEST)
     public void onEntityDismount(EntityDismountEvent event) {
 
         Entity dismounted = event.getDismounted();
@@ -151,7 +177,7 @@ public class Sit implements CommandExecutor, Listener {
             public void run() {
                 if (entity.getVehicle() == null) {
                     Location dismountLocation = entity.getLocation();
-                    dismountLocation.setY(dismounted.getLocation().getY() + 1.75);
+                    dismountLocation.setY(dismounted.getLocation().getY() + 1.95);
                     entity.teleport(dismountLocation);
                 }
             }
@@ -177,13 +203,13 @@ public class Sit implements CommandExecutor, Listener {
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    public void onCMIPlayerTeleportEvent(CMIPlayerTeleportEvent cmiPlayerTeleportEvent) {
+    public void onCMIPlayerTeleportEvent(CMIAsyncPlayerTeleportEvent cmiAsyncPlayerTeleportEvent) {
 
-        Player player = cmiPlayerTeleportEvent.getPlayer();
+        Player player = cmiAsyncPlayerTeleportEvent.getPlayer();
 
         if (player.isInsideVehicle()) {
 
-            cmiPlayerTeleportEvent.setCancelled(true);
+            cmiAsyncPlayerTeleportEvent.setCancelled(true);
             player.sendMessage(ChatColor.WHITE + "You " + ChatColor.RED + "can't" + ChatColor.WHITE + " teleport while sitting.");
 
         }

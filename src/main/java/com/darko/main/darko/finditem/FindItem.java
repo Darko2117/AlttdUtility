@@ -406,7 +406,7 @@ public class FindItem implements CommandExecutor, TabCompleter {
 
         player.sendMessage(ChatColor.YELLOW + "Found " + ChatColor.GOLD + totalItemsFound + " " + getMaterialsString(searchedMaterials) + ChatColor.YELLOW + " in " + ChatColor.GOLD + containers.size() + ChatColor.YELLOW + " " + containerOrContainers + " in a radius of " + ChatColor.GOLD + radius + ChatColor.YELLOW + " blocks.");
 
-        ParticleBuilder particleBuilder = new ParticleBuilder(Particle.REDSTONE);
+        ParticleBuilder particleBuilder = new ParticleBuilder(Particle.DUST);
         particleBuilder.color(255, 255, 255);
         particleBuilder.receivers(player);
         particleBuilder.count(1);

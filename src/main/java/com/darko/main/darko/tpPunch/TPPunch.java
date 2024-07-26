@@ -93,7 +93,7 @@ public class TPPunch implements CommandExecutor, Listener, TabCompleter {
 
         Entity entity = event.getEntity();
 
-        ParticleBuilder particleBuilder = new ParticleBuilder(Particle.REDSTONE);
+        ParticleBuilder particleBuilder = new ParticleBuilder(Particle.DUST);
         particleBuilder.count(500);
         particleBuilder.location(entity.getBoundingBox().getCenter().toLocation(entity.getWorld()));
         particleBuilder.offset(entity.getBoundingBox().getWidthX() / 2, entity.getBoundingBox().getHeight() / 3, entity.getBoundingBox().getWidthZ() / 2);

@@ -58,7 +58,7 @@ public class Logging {
 
     }
 
-    private static void checkAndCompress() {
+    public static void checkAndCompress() {
 
         String[] logsNames = new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "logs").list();
         if (logsNames == null || logsNames.length == 0) {
@@ -87,7 +87,7 @@ public class Logging {
 
     }
 
-    private static void checkAndDeleteOld() {
+    public static void checkAndDeleteOld() {
 
         String[] logsNames = new File(AlttdUtility.getInstance().getDataFolder() + File.separator + "compressed-logs").list();
         if (logsNames == null || logsNames.length == 0) {

@@ -35,6 +35,9 @@ public class Reload {
 
         Logging.updateCachedLogsFromConfig(); // Reads from the config, needs to be called after Config.configSetup()
 
+        Logging.checkAndCompress(); // Needs to be after Logging.updateCachedLogsFromConfig()
+        Logging.checkAndDeleteOld(); // Needs to be after Logging.updateCachedLogsFromConfig()
+
         LoggingSearch.startProgressBossBarTask();
 
         APIs.APIConnect();
