@@ -157,7 +157,7 @@
         <dependency>
             <groupId>me.badbones69</groupId>
             <artifactId>crazycrates-plugin</artifactId>
-            <version>3.5.8</version>
+            <version>4.10.5</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/CrazyCrates.jar</systemPath>
         </dependency>
