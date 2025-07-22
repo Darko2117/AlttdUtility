@@ -16,9 +16,11 @@ import com.darko.main.darko.logging.logs.ItemsDespawnedLog;
 import com.darko.main.darko.logging.logs.ItemsDestroyedLog;
 import com.darko.main.darko.logging.logs.ItemsPlacedInItemFramesLog;
 import com.darko.main.darko.logging.logs.ItemsTakenOutOfItemFramesLog;
+import com.darko.main.darko.logging.logs.LeadUsageLog;
 import com.darko.main.darko.logging.logs.LightningStrikesLog;
 import com.darko.main.darko.logging.logs.MCMMORepairUseLog;
 import com.darko.main.darko.logging.logs.MinecartsDestroyedLog;
+import com.darko.main.darko.logging.logs.MountingLog;
 import com.darko.main.darko.logging.logs.PickedUpItemsLog;
 import com.darko.main.darko.logging.logs.PlayerLocationLog;
 import com.darko.main.darko.logging.logs.SpawnLimiterLog;
@@ -31,9 +33,11 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.ItemFrame;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Trident;
 import org.bukkit.event.Event;
@@ -45,8 +49,10 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.event.entity.EntityUnleashEvent;
 import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.PlayerLeashEntityEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -61,7 +67,8 @@ import org.bukkit.event.weather.LightningStrikeEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-
+import org.spigotmc.event.entity.EntityDismountEvent;
+import org.spigotmc.event.entity.EntityMountEvent;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -710,6 +717,147 @@ public class LoggingNoAPI implements Listener {
 
         Logging.addToLogWriteQueue(log);
 
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onEntityMount(EntityMountEvent event) {
+        if (!(event.getEntity() instanceof Player))
+            return;
+
+        Player player = (Player) event.getEntity();
+        Entity mount = event.getMount();
+
+        String time = new Date().toString();
+        String user = player.getName();
+        String mountType = mount.getType().toString();
+        String location = Methods.getBetterLocationString(mount.getLocation());
+
+        MountingLog log = new MountingLog();
+        log.addArgumentValue(time);
+        log.addArgumentValue(user);
+        log.addArgumentValue(mountType);
+        log.addArgumentValue("MOUNT");
+        log.addArgumentValue(location);
+
+        Logging.addToLogWriteQueue(log);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onEntityDismount(EntityDismountEvent event) {
+        if (!(event.getEntity() instanceof Player))
+            return;
+
+        Player player = (Player) event.getEntity();
+        Entity dismounted = event.getDismounted();
+
+        String time = new Date().toString();
+        String user = player.getName();
+        String dismountedType = dismounted.getType().toString();
+        String location = Methods.getBetterLocationString(dismounted.getLocation());
+
+        MountingLog log = new MountingLog();
+        log.addArgumentValue(time);
+        log.addArgumentValue(user);
+        log.addArgumentValue(dismountedType);
+        log.addArgumentValue("DISMOUNT");
+        log.addArgumentValue(location);
+
+        Logging.addToLogWriteQueue(log);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerLeashEntityEvent(PlayerLeashEntityEvent event) {
+
+        if (!Logging.getCachedLogFromName("LeadUsageLog").isEnabled())
+            return;
+
+        String time = new Date(System.currentTimeMillis()).toString();
+        String user = event.getPlayer().getName();
+        String entity = event.getEntity().getType().toString();
+        String location = Methods.getBetterLocationString(event.getEntity().getLocation());
+
+        String action;
+        if (!event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.LEAD)) {
+            action = "TIED_TO_FENCE";
+        } else {
+            action = "LEASHED";
+        }
+
+        LeadUsageLog log = new LeadUsageLog();
+        log.addArgumentValue(time);
+        log.addArgumentValue(user);
+        log.addArgumentValue(entity);
+        log.addArgumentValue(action);
+        log.addArgumentValue(location);
+
+        Logging.addToLogWriteQueue(log);
+    }
+
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onLeadTiedToFence(PlayerInteractEvent event) {
+
+        if (!Logging.getCachedLogFromName("LeadUsageLog").isEnabled())
+            return;
+
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        if (event.getClickedBlock() == null || !event.getClickedBlock().getType().name().contains("FENCE"))
+            return;
+
+        Player player = event.getPlayer();
+        if (player.getInventory().getItemInMainHand().getType() != Material.LEAD)
+            return;
+
+        List<String> entityTypes = new ArrayList<>();
+        for (LivingEntity entity : player.getWorld().getLivingEntities()) {
+            if (entity.isLeashed() && player.equals(entity.getLeashHolder())) {
+                entityTypes.add(entity.getType().toString());
+            }
+        }
+
+        if (entityTypes.isEmpty())
+            return;
+
+        String time = new Date(System.currentTimeMillis()).toString();
+        String user = player.getName();
+        String action = "TIED_TO_FENCE";
+        String location = Methods.getBetterLocationString(event.getClickedBlock().getLocation());
+
+        for (String entityType : entityTypes) {
+            LeadUsageLog log = new LeadUsageLog();
+            log.addArgumentValue(time);
+            log.addArgumentValue(user);
+            log.addArgumentValue(entityType);
+            log.addArgumentValue(action);
+            log.addArgumentValue(location);
+
+            Logging.addToLogWriteQueue(log);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onEntityUnleashed(EntityUnleashEvent event) {
+
+        if (!Logging.getCachedLogFromName("LeadUsageLog").isEnabled())
+            return;
+
+        if (event.getReason() != EntityUnleashEvent.UnleashReason.PLAYER_UNLEASH)
+            return;
+
+        String time = new Date(System.currentTimeMillis()).toString();
+        String entity = event.getEntity().getType().toString();
+        String location = Methods.getBetterLocationString(event.getEntity().getLocation());
+
+        LeadUsageLog log = new LeadUsageLog();
+        log.addArgumentValue(time);
+        log.addArgumentValue("UNKNOWN");
+        log.addArgumentValue(entity);
+        log.addArgumentValue("UNLEASHED");
+        log.addArgumentValue(location);
+
+        Logging.addToLogWriteQueue(log);
     }
 
 }
