@@ -1,6 +1,6 @@
 package com.darko.main.darko.disablePvpOnLeave;
 
-import me.NoChance.PvPManager.PvPlayer;
+import me.chancesd.pvpmanager.player.CombatPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,7 +14,10 @@ public class DisablePvpOnLeave implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
 
         Player player = Bukkit.getPlayerExact(event.getPlayer().getName());
-        PvPlayer pvplayer = PvPlayer.get(player);
+        if (player == null) return;
+        CombatPlayer pvplayer = CombatPlayer.get(player);
+
+        if (pvplayer == null) return;
 
         if (pvplayer.hasPvPEnabled())
             pvplayer.setPvP(false);

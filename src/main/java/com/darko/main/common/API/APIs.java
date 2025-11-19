@@ -10,7 +10,7 @@ import com.darko.main.common.ConsoleColors;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import de.Keyle.MyPet.MyPetPlugin;
 import lombok.Getter;
-import me.NoChance.PvPManager.PvPManager;
+import me.chancesd.pvpmanager.PvPManager;
 import me.filoghost.farmlimiter.FarmLimiter;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import net.luckperms.api.LuckPerms;

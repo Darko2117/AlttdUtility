@@ -1,6 +1,6 @@
 package com.darko.main.darko.preventChannelingWhenPvPOff;
 
-import me.NoChance.PvPManager.PvPlayer;
+import me.chancesd.pvpmanager.player.CombatPlayer;
 import org.bukkit.entity.LightningStrike;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,9 +20,11 @@ public class PreventChannelingWhenPvPOff implements Listener {
         if (lightningStrike.getCausingEntity() == null)
             return;
 
-        PvPlayer attacked = PvPlayer.get(player);
-        PvPlayer attacker = PvPlayer.get((Player) lightningStrike.getCausingEntity());
+        CombatPlayer attacked = CombatPlayer.get(player);
+        CombatPlayer attacker = CombatPlayer.get((Player) lightningStrike.getCausingEntity());
 
+        if (attacked == null || attacker == null) return;
+        
         if (!(attacked.hasPvPEnabled() && attacker.hasPvPEnabled())) {
             entityDamageByEntityEvent.setCancelled(true);
         }

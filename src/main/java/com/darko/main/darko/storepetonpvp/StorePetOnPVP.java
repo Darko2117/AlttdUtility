@@ -7,7 +7,7 @@ import de.Keyle.MyPet.api.Configuration;
 import de.Keyle.MyPet.api.entity.MyPet;
 import de.Keyle.MyPet.api.player.MyPetPlayer;
 import de.Keyle.MyPet.skill.skills.BackpackImpl;
-import me.NoChance.PvPManager.Events.PlayerTogglePvPEvent;
+import me.chancesd.pvpmanager.event.PlayerTogglePvPEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
