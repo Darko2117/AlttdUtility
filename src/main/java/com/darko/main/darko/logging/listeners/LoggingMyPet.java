@@ -7,12 +7,9 @@ import com.darko.main.darko.logging.logs.DroppedItemsOnDeathLog;
 import com.darko.main.darko.logging.logs.MyPetItemPickupLog;
 import de.Keyle.MyPet.MyPetApi;
 import de.Keyle.MyPet.api.Configuration;
-import de.Keyle.MyPet.api.entity.MyPet;
-import de.Keyle.MyPet.api.entity.MyPetType;
-import de.Keyle.MyPet.api.event.MyPetInventoryActionEvent;
-import de.Keyle.MyPet.api.event.MyPetPickupItemEvent;
+import de.Keyle.MyPet.api.entity.Pet;
+import de.Keyle.MyPet.api.event.PetPickupItemEvent;
 import de.Keyle.MyPet.api.player.MyPetPlayer;
-import de.Keyle.MyPet.api.skill.skills.Backpack;
 import de.Keyle.MyPet.api.util.inventory.CustomInventory;
 import de.Keyle.MyPet.skill.skills.BackpackImpl;
 import org.bukkit.event.EventHandler;
@@ -23,14 +20,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 public class LoggingMyPet implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public void onMyPetPickupItemEvent(MyPetPickupItemEvent event) {
+    public void onMyPetPickupItemEvent(PetPickupItemEvent event) {
 
         if (!Logging.getCachedLogFromName("MyPetItemPickupLog").isEnabled())
             return;
@@ -64,12 +60,12 @@ public class LoggingMyPet implements Listener {
 
         MyPetPlayer myPetPlayer = MyPetApi.getPlayerManager().getMyPetPlayer(event.getPlayer());
 
-        if (myPetPlayer == null || !myPetPlayer.hasMyPet())
+        if (myPetPlayer == null || !myPetPlayer.hasPet())
             return;
 
-        MyPet myPet = myPetPlayer.getMyPet();
+        Pet myPet = myPetPlayer.getPet();
 
-        if (!myPetPlayer.getMyPet().getStatus().equals(MyPet.PetState.Here))
+        if (!myPetPlayer.getPet().getStatus().equals(Pet.PetState.Here))
             return;
 
         if (!Configuration.Skilltree.Skill.Backpack.DROP_WHEN_OWNER_DIES)

@@ -1,7 +1,8 @@
 package com.darko.main.darko.witherOutsideClaim;
 
 import com.darko.main.common.API.APIs;
-import de.Keyle.MyPet.api.entity.MyPetBukkitEntity;
+import de.Keyle.MyPet.MyPetApi;
+import de.Keyle.MyPet.api.entity.Pet;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.block.Block;
@@ -60,7 +61,8 @@ public class WitherOutsideClaim implements Listener {
                 event.setCancelled(true);
                 return;
             }
-            if (!(event.getEntity() instanceof MyPetBukkitEntity)) {
+            Pet pet = MyPetApi.getPetManager().getPetFromEntity(event.getEntity());
+            if (pet == null) {
                 event.setCancelled(true);
                 return;
             }

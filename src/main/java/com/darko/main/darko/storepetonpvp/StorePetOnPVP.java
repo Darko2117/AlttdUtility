@@ -4,7 +4,7 @@ import com.darko.main.AlttdUtility;
 import com.darko.main.common.Methods;
 import de.Keyle.MyPet.MyPetApi;
 import de.Keyle.MyPet.api.Configuration;
-import de.Keyle.MyPet.api.entity.MyPet;
+import de.Keyle.MyPet.api.entity.Pet;
 import de.Keyle.MyPet.api.player.MyPetPlayer;
 import de.Keyle.MyPet.skill.skills.BackpackImpl;
 import me.chancesd.pvpmanager.event.PlayerTogglePvPEvent;
@@ -25,12 +25,12 @@ public class StorePetOnPVP implements Listener {
 
         MyPetPlayer myPetPlayer = MyPetApi.getPlayerManager().getMyPetPlayer(event.getPlayer());
 
-        if (!myPetPlayer.hasMyPet())
+        if (!myPetPlayer.hasPet())
             return;
 
-        MyPet myPet = myPetPlayer.getMyPet();
+        Pet myPet = myPetPlayer.getPet();
 
-        if (!myPetPlayer.getMyPet().getStatus().equals(MyPet.PetState.Here))
+        if (!myPetPlayer.getPet().getStatus().equals(Pet.PetState.Here))
             return;
 
         if (!Configuration.Skilltree.Skill.Backpack.DROP_WHEN_OWNER_DIES)

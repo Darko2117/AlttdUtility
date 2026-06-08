@@ -3,8 +3,8 @@ package com.darko.main.darko.petGodMode;
 import com.darko.main.AlttdUtility;
 import com.darko.main.common.database.Database;
 import com.darko.main.common.Methods;
-import de.Keyle.MyPet.api.entity.MyPet;
-import de.Keyle.MyPet.api.entity.MyPetBukkitEntity;
+import de.Keyle.MyPet.MyPetApi;
+import de.Keyle.MyPet.api.entity.Pet;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -86,9 +86,9 @@ public class PetGodMode implements CommandExecutor, Listener {
         if (Database.connection == null)
             return;
 
-        if (!(event.getEntity() instanceof MyPetBukkitEntity craftMyPet))
+        Pet myPet = MyPetApi.getPetManager().getPetFromEntity(event.getEntity());
+        if (myPet == null)
             return;
-        MyPet myPet = craftMyPet.getMyPet();
 
         if (!enabledPlayers.contains(myPet.getOwner().getPlayer()))
             return;
